@@ -1,0 +1,63 @@
+<div class="toolbar-container">
+  <div class="toolbar-search-row">
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        type="search"
+        matInput
+        [formField]="searchForm.searchText"
+        placeholder="Search nodes"
+      />
+      @if (searchForm.searchText().value()) {
+        <button
+          class="close-button"
+          matSuffix
+          mat-icon-button
+          (click)="searchForm.searchText().value.set('')"
+          aria-label="Clear search"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+      @if (searchForm.searchText().touched() && searchForm.searchText().invalid()) {
+        @for (error of searchForm.searchText().errors(); track error) {
+          <mat-error>
+            {{ error.message }}
+          </mat-error>
+        }
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="toolbar-button-row">
+    <button
+      mat-flat-button
+      (click)="addOrEditNode(true)"
+      [disabled]="!rootNode() || !!selectedNode() ? null : 'disabled'"
+      aria-label="Add new node"
+    >
+      <mat-icon>add</mat-icon>
+      Add
+    </button>
+
+    <button
+      mat-flat-button
+      (click)="addOrEditNode(false)"
+      [disabled]="!!selectedNode() ? null : 'disabled'"
+      aria-label="Edit selected node"
+    >
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+
+    <button
+      mat-flat-button
+      (click)="deleteNode()"
+      [disabled]="selectedNode()?.parentId != null ? null : 'disabled'"
+      aria-label="Delete selected node"
+    >
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
+</div>

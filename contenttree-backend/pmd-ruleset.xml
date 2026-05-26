@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<ruleset name="Content Tree App Ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+	<description>
+		PMD ruleset tailored for the Content Tree App.
+		Remove specific rule refs or excludes as you test.
+	</description>
+
+	<rule ref="category/java/bestpractices.xml"/>
+	<rule ref="category/java/bestpractices.xml/GuardLogStatement">
+		<properties>
+			<property name="logLevels" value="trace,debug,log,finest,finer,fine"/>
+		</properties>
+	</rule>
+
+	<rule ref="category/java/codestyle.xml">
+		<!-- Overly defensive. We should treat every argument as final, ideally with linter -->
+		<!-- support on accidental constructions. -->
+		<exclude name="MethodArgumentCouldBeFinal"/>
+		<!-- Largely obsolete for Spring Boot apps. -->
+		<exclude name="AtLeastOneConstructor"/>
+		<!-- Hard to make good judgment on variable name lengths automatically. -->
+		<exclude name="ShortVariable"/>
+		<exclude name="LongVariable"/>
+		<!-- Outdated and conflicts with modern Java development practices. -->
+		<exclude name="UseExplicitTypes"/>
+		<!-- Early returns (guard clauses) can make code more readable. -->
+		<exclude name="OnlyOneReturn"/>
+	</rule>
+	<rule ref="category/java/codestyle.xml/FieldNamingConventions">
+		<properties>
+			<property name="exclusions" value="logger"/>
+		</properties>
+	</rule>
+
+	<rule ref="category/java/design.xml">
+		<!-- Could be reintroduced when needed. -->
+		<exclude name="LoosePackageCoupling"/>
+	</rule>
+
+	<rule ref="category/java/errorprone.xml">
+		<!-- Largely irrelevant for modern Spring Boot applications (data transfer is handled via JSON). -->
+		<exclude name="MissingSerialVersionUID"/>
+	</rule>
+	<rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+		<properties>
+			<!-- Well-known SuppressWarnings value -->
+			<property name="exceptionList" value="unused"/>
+		</properties>
+	</rule>
+
+	<rule ref="category/java/security.xml"/>
+
+	<rule ref="category/java/performance.xml"/>
+
+	<!-- Mostly generated code. -->
+	<exclude-pattern>.*/dto/.*</exclude-pattern>
+	<exclude-pattern>.*/model/.*</exclude-pattern>
+
+</ruleset>

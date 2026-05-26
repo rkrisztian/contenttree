@@ -1,0 +1,13 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+      - org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+
+logging:
+  level:
+    web: debug
+
+server:
+  error:
+    include-stacktrace: always

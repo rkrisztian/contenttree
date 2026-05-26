@@ -1,0 +1,62 @@
+spring:
+  docker:
+    compose:
+      enabled: true
+  config:
+    import: [ "file:.env[.properties]", "optional:file:.env.local[.properties" ]
+  devtools:
+    add-properties: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-dev.yaml
+
+springdoc:
+  api-docs:
+    enabled: true
+    version: OPENAPI_3_1
+  swagger-ui:
+    enabled: true
+
+logging:
+  level:
+    web: debug
+
+server:
+  error:
+    include-stacktrace: always
+
+app:
+  cors:
+    allowed-origins: http://localhost:4200
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans,configprops,env,health,threaddump,heapdump,loggers,mappings,metrics
+  endpoint:
+    beans:
+      enabled: true
+    configprops:
+      enabled: true
+    env:
+      enabled: true
+    health:
+      show-details: always
+    threaddump:
+      enabled: true
+    heapdump:
+      enabled: true
+    loggers:
+      enabled: true
+    mappings:
+      enabled: true
+    metrics:
+      enabled: true
+  server:
+    port: 8081
+    address: 127.0.0.1

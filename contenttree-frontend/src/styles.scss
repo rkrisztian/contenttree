@@ -1,0 +1,89 @@
+@use '@angular/material' as mat;
+@use 'pkg:@fontsource/roboto/latin-300.css' as RobotoLight;
+@use 'pkg:@fontsource/roboto/latin-400.css' as RobotoNormal;
+@use 'pkg:@fontsource/roboto/latin-500.css' as RobotoMedium;
+@use 'pkg:@fontsource/material-icons/index.css';
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+  @include mat.system-classes();
+
+  @include mat.menu-overrides(
+    (
+      container-shape: 0.75rem,
+      container-color: var(--mat-sys-primary-container),
+      item-label-text-color: var(--mat-sys-on-primary-container),
+      item-icon-color: var(--mat-sys-on-primary-container),
+    )
+  );
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--mat-sys-primary-container),
+    )
+  );
+}
+
+body {
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+  height: 100%;
+}
+
+// Copied for self-hosting from: https://fonts.googleapis.com/icon?family=Material+Icons
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root mat-divider {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content-tree-dialog {
+  width: 37.5rem;
+  overflow-y: auto;
+}
+.cdk-global-scrollblock {
+  overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--mat-sys-outline-variant);
+  border-radius: 0.188rem;
+
+  &:hover {
+    background-color: var(--mat-sys-outline);
+  }
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

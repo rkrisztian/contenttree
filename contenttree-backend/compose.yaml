@@ -1,0 +1,42 @@
+services:
+  db:
+    # see `.env` file
+    image: ${POSTGRES_IMAGE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: contenttree
+    networks:
+      - db-network
+
+  # Optional: A DB manager tool you can use if you don't have IntelliJ IDEA Ultimate subscription
+  dbgate:
+    profiles: [ debug ]
+    # version: 7.1.11-alpine, , OS arch: linux/amd64
+    image: dbgate/dbgate@sha256:2942a4cc4d4606237dfb96f7bfe54997d84fdcdb6e4a014330918c0a13963f69
+    ports:
+      - "5433:3000"
+    environment:
+      CONNECTIONS: pg
+
+      LABEL_pg: content-tree-db
+      SERVER_pg: db
+      USER_pg: postgres
+      PASSWORD_pg: secret
+      PORT_pg: 5432
+      ENGINE_pg: postgres@dbgate-plugin-postgres
+    networks:
+      - db-network
+
+volumes:
+  db-data:
+    driver:
+      local
+
+networks:
+  db-network:
+    driver: bridge

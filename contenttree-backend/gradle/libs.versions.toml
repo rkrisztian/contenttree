@@ -1,0 +1,16 @@
+[versions]
+mapstruct = "1.6.3"
+
+[plugins]
+springframeworkBoot = { id = "org.springframework.boot", version = "4.0.6" }
+springDependencyManagement = { id = "io.spring.dependency-management", version = "1.1.7" }
+openapiGradlePlugin = { id = "org.springdoc.openapi-gradle-plugin", version = "1.9.0" }
+netLtgt-errorprone = { id = "net.ltgt.errorprone", version = "5.1.0" }
+netLtgt-nullaway = { id = "net.ltgt.nullaway", version = "3.0.0" }
+
+[libraries]
+springdocOpenapiStarterWebmvcUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "3.0.2" }
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstructProcessor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.49.0" }
+nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.13.4" }

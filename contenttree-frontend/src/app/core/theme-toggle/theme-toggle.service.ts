@@ -1,0 +1,52 @@
+import { effect, inject, Injectable, Renderer2, RendererFactory2, signal } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ThemeToggleService {
+  static readonly STORAGE_KEY = 'docs-theme-storage-current-name';
+  private static readonly DEFAULT_MODE = 'light';
+
+  private readonly rendererFactory = inject(RendererFactory2);
+
+  private readonly renderer: Renderer2;
+  private _mode = signal<'light' | 'dark'>(ThemeToggleService.DEFAULT_MODE);
+  mode = this._mode.asReadonly();
+
+  constructor() {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+
+    effect(() => {
+      this.renderer.setStyle(document.documentElement, 'color-scheme', this._mode());
+    });
+  }
+
+  initializeTheme = () => {
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+
+    this._mode.set(this.getStoredMode() ?? (prefersDarkMode.matches ? 'dark' : 'light'));
+
+    prefersDarkMode.addEventListener('change', (event) => {
+      this._mode.set(event.matches ? 'dark' : 'light');
+    });
+  };
+
+  changeMode = () => {
+    this._mode.update((mode) => (mode === 'dark' ? 'light' : 'dark'));
+    this.storeMode(this._mode());
+  };
+
+  private storeMode = (mode: string) => {
+    localStorage.setItem(ThemeToggleService.STORAGE_KEY, mode);
+  };
+
+  private getStoredMode = (): 'light' | 'dark' | null => {
+    let storedMode = localStorage.getItem(ThemeToggleService.STORAGE_KEY);
+
+    if (storedMode && !['light', 'dark'].includes(storedMode)) {
+      storedMode = ThemeToggleService.DEFAULT_MODE;
+    }
+
+    return (storedMode as 'light' | 'dark') || null;
+  };
+}

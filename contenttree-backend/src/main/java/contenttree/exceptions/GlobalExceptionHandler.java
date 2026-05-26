@@ -1,0 +1,97 @@
+package contenttree.exceptions;
+
+import contenttree.config.TraceIdFilter;
+import jakarta.validation.ValidationException;
+import org.apache.commons.lang3.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+
+import java.lang.invoke.MethodHandles;
+import java.util.Objects;
+import java.util.UUID;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+	final private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+	@Autowired
+	private Environment environment;
+
+	@ExceptionHandler(ContentTreeServiceException.class)
+	@SuppressWarnings("unused")
+	public ResponseEntity<ContentTreeErrorResponse> handleBusinessException(
+			ContentTreeServiceException ex, WebRequest req) {
+		return handleException(
+				ex.getStatus(),
+				"Content tree service error",
+				ex.getMessage(),
+				ex,
+				req);
+	}
+
+	@ExceptionHandler(ValidationException.class)
+	@SuppressWarnings("unused")
+	public ResponseEntity<ContentTreeErrorResponse> handleValidationException(Exception ex, WebRequest req) {
+		return handleException(
+				HttpStatus.BAD_REQUEST.value(),
+				"Validation Error",
+				"Validation failed.",
+				ex,
+				req);
+	}
+
+	@ExceptionHandler(RuntimeException.class)
+	@SuppressWarnings("unused")
+	public ResponseEntity<ContentTreeErrorResponse> handleAllExceptions(Exception ex, WebRequest req) {
+		return handleException(
+				HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				"Internal Server Error",
+				"An internal server error occurred. Please try again later.",
+				ex,
+				req);
+	}
+
+	private ResponseEntity<ContentTreeErrorResponse> handleException(
+			int status, String error, String message, Exception ex, WebRequest req) {
+		final String traceId = getOrCreateTraceId();
+
+		logger.error("{}: {}", error, ex.getMessage(), ex);
+
+		return ResponseEntity
+				.status(status)
+				.body(new ContentTreeErrorResponse(
+						status,
+						error,
+						message,
+						extractPath(req),
+						traceId,
+						includeStacktrace() ? ex.getLocalizedMessage() : null));
+	}
+
+	private static String getOrCreateTraceId() {
+		final String traceId = MDC.get(TraceIdFilter.TRACE_ID_MDC_KEY);
+
+		return Objects.toString(traceId,
+				UUID.randomUUID().toString().replace("-", "").substring(0, 16));
+	}
+
+	private String extractPath(WebRequest request) {
+		return request.getDescription(false).replace("uri=", "");
+	}
+
+	private boolean includeStacktrace() {
+		return Strings.CI.equals(
+				environment.getProperty("server.error.include-stacktrace", "never"),
+				"always");
+	}
+
+}

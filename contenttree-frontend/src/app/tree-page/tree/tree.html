@@ -1,0 +1,47 @@
+<mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
+  <!-- Leaf nodes -->
+  <mat-tree-node
+    *matTreeNodeDef="let node"
+    matTreeNodePadding
+    [cdkTreeNodeTypeaheadLabel]="node.name"
+  >
+    @if (!hasChild(node)) {
+      <!-- Use a disabled button to provide padding for tree leaf. -->
+      <button matIconButton disabled>&nbsp;</button>
+    } @else {
+      <button matIconButton matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+    }
+
+    <span
+      class="node-label"
+      [class.mat-text-disabled]="hasSearchResults() && !isFound(node.id)"
+      [class.selected]="isSelected(node.id)"
+      [attr.aria-selected]="isSelected(node.id)"
+      tabindex="0"
+      (click)="toggleSelect(node)"
+      (keyup.enter)="toggleSelect(node)"
+      (keyup.space)="toggleSelect(node)"
+      draggable="true"
+      [class.dragging]="isDragging(node.id)"
+      [class.dragged-over]="isDraggedOver(node.id)"
+      (dragstart)="startDragging($event, node.id)"
+      (dragover)="startDragover($event, node.id)"
+      (dragend)="stopDragging()"
+      (drop)="stopDragover($event, node.id)"
+    >
+      <mat-icon class="node-icon">
+        @if (node.children.length) {
+          folder
+        } @else {
+          insert_drive_file
+        }
+      </mat-icon>
+
+      <span class="node-name">{{ node.name }}</span>
+    </span>
+  </mat-tree-node>
+</mat-tree>

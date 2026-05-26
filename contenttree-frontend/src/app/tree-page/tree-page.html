@@ -1,0 +1,30 @@
+<div class="page-layout">
+  <mat-card appearance="outlined" class="tree-panel">
+    <mat-card-header>
+      <app-tree-toolbar />
+    </mat-card-header>
+
+    <mat-divider />
+
+    <mat-card-content class="tree">
+      @if (flatNodes.isLoading()) {
+        <div class="loading-container">
+          <mat-spinner diameter="32"></mat-spinner>
+          <span>Loading tree...</span>
+        </div>
+      } @else {
+        @if (rootNode() == null) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">inbox</mat-icon>
+            <h3>Tree is Empty</h3>
+            <p>Add a root node to begin organizing your data.</p>
+          </div>
+        } @else {
+          <app-tree />
+        }
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <app-content-panel />
+</div>

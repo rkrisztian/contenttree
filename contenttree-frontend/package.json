@@ -1,0 +1,45 @@
+{
+  "name": "contenttree",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
+    "lint": "ng lint"
+  },
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/animations": "^21.2.11",
+    "@angular/cdk": "^21.2.9",
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/material": "^21.2.11",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@fontsource/material-icons": "^5.2.7",
+    "@fontsource/roboto": "^5.2.10",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.9",
+    "@angular/cli": "^21.2.9",
+    "@angular/compiler-cli": "^21.2.0",
+    "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^4.1.6",
+    "angular-eslint": "21.3.1",
+    "eslint": "^10.0.3",
+    "jsdom": "^28.0.0",
+    "openapi-typescript": "^7.13.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.56.1",
+    "vitest": "^4.0.8"
+  }
+}

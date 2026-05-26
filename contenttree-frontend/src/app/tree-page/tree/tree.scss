@@ -1,0 +1,35 @@
+.mat-tree-node {
+  overflow-wrap: normal;
+  white-space: nowrap;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+
+  .node-label {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0.25rem;
+
+    &.selected {
+      background-color: var(--mat-sys-primary-container);
+    }
+    &.selected:not(.mat-text-disabled) {
+      color: var(--mat-sys-on-primary-container);
+    }
+
+    &.dragging {
+      background-color: var(--mat-sys-surface-container-high);
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    &.dragged-over {
+      background-color: var(--mat-sys-surface-container);
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    .node-icon {
+      padding-right: 0.5rem;
+    }
+  }
+}

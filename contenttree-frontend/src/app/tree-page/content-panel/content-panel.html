@@ -1,0 +1,26 @@
+<mat-card appearance="outlined">
+  @if (selectedNode() != null) {
+    <mat-card-header>
+      <mat-card-title>
+        <h3>{{ selectedNode()!.name }}</h3>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider />
+  }
+
+  <mat-card-content>
+    @if (selectedNode() === null) {
+      <p class="node-not-selected">Select a node to view its content</p>
+    } @else {
+      @if (content.isLoading()) {
+        <div class="loading">
+          <mat-spinner diameter="32"></mat-spinner>
+          <span>Loading content...</span>
+        </div>
+      } @else if (!content.error()) {
+        <pre class="content-data">{{ content.value()?.data ?? '' }}</pre>
+      }
+    }
+  </mat-card-content>
+</mat-card>

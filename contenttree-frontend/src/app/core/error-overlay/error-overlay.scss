@@ -1,0 +1,75 @@
+@use '@angular/material' as mat;
+
+:host {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: block;
+
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--mat-sys-error-container),
+    )
+  );
+
+  .mat-mdc-card {
+    width: 24rem;
+    min-height: 4rem;
+    border-left: 0.25rem solid var(--mat-sys-error);
+    width: 100%;
+
+    .mat-mdc-card-title {
+      margin: 0.5rem 0.5rem 0 0.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .error-icon {
+        color: var(--mat-sys-error);
+        margin-top: 0.55rem;
+      }
+
+      .error-title {
+        font-weight: 500;
+        color: var(--mat-sys-error);
+        margin-top: 0.45rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .error-close-button {
+        color: var(--mat-sys-error);
+        margin-top: 0.15rem;
+      }
+    }
+
+    .mat-mdc-card-content {
+      margin-top: 0.25rem;
+      margin-bottom: 0.5rem;
+
+      .error-text {
+        flex: 1;
+
+        .error-message {
+          font-size: 0.875rem;
+          color: var(--mat-sys-error);
+        }
+      }
+    }
+
+    .mat-mdc-card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 0.5rem;
+      padding: 0;
+      margin: 0.25rem 0.5rem 0.25rem 0.5rem;
+
+      button {
+        background: var(--mat-sys-error);
+        color: var(--mat-sys-on-error);
+      }
+    }
+  }
+}

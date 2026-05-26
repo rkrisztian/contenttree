@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: contenttree
+  docker:
+    compose:
+      enabled: false
+  devtools:
+    add-properties: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  datasource:
+    hikari:
+      # See `001_init.sql` for reasoning.
+      connection-init-sql: "SET max_stack_depth = '5MB'"
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-prod.yaml
+  main:
+    banner-mode: off
+    lazy-initialization: true
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    web: info
+
+server:
+  error:
+    # This is the default, just making sure.
+    include-stacktrace: never
+
+app:
+  cors:
+    allowed-origins: https://example.domain
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+      show-details: never
+      show-components: always
+  server:
+    port: 8081
+    address: 127.0.0.1

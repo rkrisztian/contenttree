@@ -1,0 +1,57 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      @if (data.createMode) {
+        Add Node
+      } @else {
+        Edit Node
+      }
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput [formField]="nodeEditorForm.name" placeholder="Enter node name" />
+      @if (nodeEditorForm.name().touched() && nodeEditorForm.name().invalid()) {
+        @for (error of nodeEditorForm.name().errors(); track error) {
+          <mat-error>
+            {{ error.message }}
+          </mat-error>
+        }
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Content</mat-label>
+      <textarea
+        matInput
+        [formField]="nodeEditorForm.content"
+        placeholder="Enter node content"
+        rows="10"
+      ></textarea>
+      @if (nodeEditorForm.content().touched() && nodeEditorForm.content().invalid()) {
+        @for (error of nodeEditorForm.content().errors(); track error) {
+          <mat-error>
+            {{ error.message }}
+          </mat-error>
+        }
+      }
+    </mat-form-field>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-stroked-button (click)="close()">Cancel</button>
+    @if (data.createMode) {
+      <button mat-flat-button [disabled]="nodeEditorForm().invalid()" (click)="confirm()">
+        <mat-icon>add</mat-icon>
+        Add Node
+      </button>
+    } @else {
+      <button mat-flat-button [disabled]="nodeEditorForm().invalid()" (click)="confirm()">
+        <mat-icon>edit</mat-icon>
+        Edit Node
+      </button>
+    }
+  </mat-card-actions>
+</mat-card>

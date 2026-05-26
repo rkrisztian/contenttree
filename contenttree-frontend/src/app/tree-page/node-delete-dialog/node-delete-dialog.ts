@@ -1,0 +1,37 @@
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { TreeNodeData } from '../tree-page.service';
+import { NodeDeleteDialogService } from './node-delete-dialog.service';
+
+export interface NodeDeleteDialogData {
+  node: TreeNodeData;
+}
+
+@Component({
+  selector: 'app-node-delete-dialog',
+  imports: [MatButtonModule, MatIconModule, MatCardModule, MatDividerModule, MatIconModule],
+  templateUrl: './node-delete-dialog.html',
+  styleUrl: './node-delete-dialog.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class NodeDeleteDialog {
+  protected readonly data = inject(DIALOG_DATA) as NodeDeleteDialogData;
+  private readonly dialogRef = inject(DialogRef);
+  protected readonly nodeDeleteDialogService = inject(NodeDeleteDialogService);
+
+  protected readonly allNodesToDelete = this.nodeDeleteDialogService.calculateTreeAsList(
+    this.data.node,
+  );
+
+  protected cancel = () => {
+    this.dialogRef.close();
+  };
+
+  protected confirm = () => {
+    this.dialogRef.close(true);
+  };
+}

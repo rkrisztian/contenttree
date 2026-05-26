@@ -1,0 +1,50 @@
+spring:
+  autoconfigure:
+    # I found this the most effective way to ensure unneeded features are not loaded in this profile.
+    exclude:
+      - org.springframework.boot.jdbc.autoconfigure.health.DataSourceHealthContributorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.endpoint.jackson.Jackson2EndpointAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration
+      - org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
+      - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+      - org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+      - org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.actuate.endpoint.AvailabilityProbesAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointAutoConfiguration
+      - org.springframework.boot.tomcat.autoconfigure.actuate.web.server.TomcatServletManagementContextAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.application.AvailabilityHealthContributorAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.application.DiskSpaceHealthContributorAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.application.SslHealthContributorAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.contributor.HealthContributorAutoConfiguration
+      - org.springframework.boot.health.autoconfigure.registry.HealthContributorRegistryAutoConfiguration
+      - org.springframework.boot.micrometer.metrics.autoconfigure.CompositeMeterRegistryAutoConfiguration
+      - org.springframework.boot.micrometer.metrics.autoconfigure.MetricsAutoConfiguration
+      - org.springframework.boot.micrometer.observation.autoconfigure.ObservationAutoConfiguration
+      - org.springframework.boot.servlet.autoconfigure.actuate.web.ServletManagementContextAutoConfiguration
+      - org.springframework.boot.tomcat.autoconfigure.metrics.TomcatMetricsAutoConfiguration
+  docker:
+    compose:
+      enabled: false
+  config:
+    import: [ "file:.env[.properties]", "optional:file:.env.local[.properties" ]
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    web: debug
+
+server:
+  error:
+    include-stacktrace: always
