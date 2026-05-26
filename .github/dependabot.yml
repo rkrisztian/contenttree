@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: "/contentree-backend"
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: npm
+    directory: "/contenttree-frontend"
+    schedule:
+      interval: monthly

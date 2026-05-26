@@ -1,0 +1,89 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-backend:
+    name: Build Backend (Spring Boot)
+    if: |
+      contains(github.event.head_commit.modified_files, 'contentree-backend/') ||
+      contains(github.event.head_commit.added_files, 'contentree-backend/') ||
+      contains(github.event.head_commit.removed_files, 'contentree-backend/')
+    defaults:
+      run:
+        shell: bash
+        working-directory: contentree-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-java-version-file: '.java-version'
+          distribution: 'temurin'
+
+      - name: Cache .gradle
+        uses: burrunan/gradle-cache-action@4ac1d42c58fd81cd61bb9c2abcec6f24723b159a  # v3.0.2
+        with:
+          read-only: ${{ github.ref != 'refs/heads/main' }}
+          build-root-directory: contentree-backend
+
+      - name: Build Backend
+        run: ./gradlew build
+
+      - name: Configure dependency graph submission for next step (skipping pull requests)
+        id: set-dependency-graph-var
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "value=disabled" >> $GITHUB_OUTPUT
+          else
+            echo "value=generate-and-submit" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e  # v6.1.0
+        with:
+          dependency-graph: ${{ steps.set-dependency-graph-var.outputs.value }}
+          build-root-directory: contentree-backend
+
+  build-frontend:
+    name: Build Frontend (Angular)
+    if: |
+      contains(github.event.head_commit.modified_files, 'contentree-frontend/') ||
+      contains(github.event.head_commit.added_files, 'contentree-frontend/') ||
+      contains(github.event.head_commit.removed_files, 'contentree-frontend/')
+    defaults:
+      run:
+        shell: bash
+        working-directory: contentree-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: contenttree-frontend/.node_version
+          cache: 'npm'
+          cache-dependency-path: contenttree-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Build Frontend
+        run: npm run build
