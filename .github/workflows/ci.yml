@@ -1,0 +1,74 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-backend:
+    name: Build Backend (Spring Boot)
+    defaults:
+      run:
+        working-directory: contenttree-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version-file: 'contenttree-backend/.java-version'
+          distribution: 'temurin'
+
+      - name: Cache .gradle
+        uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca # v3
+        with:
+          read-only: ${{ github.ref != 'refs/heads/main' }}
+          build-root-directory: contenttree-backend
+
+      - name: Build Backend
+        run: ./gradlew build
+
+      - name: Generate and submit dependency graph
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: gradle/actions/dependency-submission@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e  # v6.1.0
+        with:
+          dependency-graph: generate-and-submit
+          build-root-directory: contenttree-backend
+
+  build-frontend:
+    name: Build Frontend (Angular)
+    defaults:
+      run:
+        working-directory: contenttree-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: contenttree-frontend/.node_version
+          cache: 'npm'
+          cache-dependency-path: contenttree-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Build Frontend
+        run: npm run build
