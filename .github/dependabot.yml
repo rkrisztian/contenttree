@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: "/contentree-backend"
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: npm
+    directory: "/contenttree-frontend"
+    schedule:
+      interval: monthly
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - angular-*
+          - typescript
+      eslint:
+        patterns:
+          - "@eslint/*"
+          - eslint
+    allow:
+      update-types:
+        - "version-update:semver-minor"
+        - "version-update:semver-patch"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
