@@ -19,6 +19,11 @@ plugins {
 group = "contenttree"
 version = "0.0.1-SNAPSHOT"
 
+tasks.named<Wrapper>("wrapper") {
+	retries = 3
+	retryBackOffMs = 1000
+}
+
 java {
 	toolchain {
 		languageVersion =
@@ -181,6 +186,7 @@ tasks.named("check") {
 @Suppress("UnstableApiUsage")
 reporting {
 	reports {
+		@Suppress("unused")
 		val codeCoverageReport by creating(JacocoCoverageReport::class) {
 			testSuiteName = "all"
 
