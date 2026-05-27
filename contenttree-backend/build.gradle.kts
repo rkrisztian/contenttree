@@ -14,6 +14,7 @@ plugins {
 	alias(libs.plugins.netLtgt.nullaway)
 	pmd
 	id("jacoco-report-aggregation")
+	alias(libs.plugins.sonarqube)
 }
 
 group = "contenttree"
@@ -64,19 +65,22 @@ dependencies {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-	options.compilerArgs = listOf(
-		"-Amapstruct.suppressGeneratorTimestamp=true",
-		"-Xlint:deprecation"
-	)
-	options.errorprone {
-		disableWarningsInGeneratedCode = true
-		nullaway {
-			error()
-			checkOptionalEmptiness = true
-			treatGeneratedAsUnannotated = true
-			warnOnGenericInferenceFailure = true
-			assertsEnabled = true
-			handleTestAssertionLibraries = true
+	with(options) {
+		encoding = "UTF-8"
+		compilerArgs = listOf(
+			"-Amapstruct.suppressGeneratorTimestamp=true",
+			"-Xlint:deprecation"
+		)
+		errorprone {
+			disableWarningsInGeneratedCode = true
+			nullaway {
+				error()
+				checkOptionalEmptiness = true
+				treatGeneratedAsUnannotated = true
+				warnOnGenericInferenceFailure = true
+				assertsEnabled = true
+				handleTestAssertionLibraries = true
+			}
 		}
 	}
 }
@@ -194,9 +198,8 @@ reporting {
 				// Workaround for not being able to use `executionData(tasks.withType(Test))`,
 				// see https://github.com/gradle/gradle/issues/23223 and https://github.com/gradle/gradle/issues/26668
 				executionData(provider {
-					files(tasks.named { it in arrayOf("test", "integrationTest") })
-						.filter { it.name.endsWith(".exec") && it.exists() }
-						.files
+					tasks.withType<Test>()
+						.map { it.extensions.getByType<JacocoTaskExtension>().destinationFile }
 				})
 
 				classDirectories.setFrom(
@@ -209,7 +212,7 @@ reporting {
 
 				reports {
 					html.required = true
-					xml.required = false
+					xml.required = true
 				}
 			}
 		}
@@ -219,6 +222,36 @@ reporting {
 pmd {
 	ruleSetFiles = files("pmd-ruleset.xml")
 	ruleSets = listOf()
+}
+
+sonar {
+	properties {
+		val testTasks = tasks.withType<Test>().map { it.name }
+
+		property("sonar.projectKey", "contenttree-backend")
+		property("sonar.organization", "rkrisztian")
+		property("sonar.projectName", "contenttree-backend")
+		property("sonar.coverage.exclusions", "**/DocsConfig.java")
+		property("sonar.tests", testTasks.flatMap { sourceSets[it].allSource.srcDirs }.toSet())
+		property(
+			"sonar.java.test.binaries",
+			testTasks.flatMap { sourceSets[it].output.classesDirs.files }.toSet()
+		)
+		property(
+			"sonar.java.test.libraries",
+			testTasks.flatMap { sourceSets[it].compileClasspath.files }.toSet()
+		)
+		property(
+			"sonar.junit.reportPaths",
+			testTasks.map {
+				tasks.named<Test>(it).get().reports.junitXml.outputLocation.get().asFile
+			})
+		property(
+			"sonar.coverage.jacoco.xmlReportPaths",
+			tasks.named<JacocoReport>("codeCoverageReport")
+				.get().reports.xml.outputLocation.get().asFile
+		)
+	}
 }
 
 listOf(
