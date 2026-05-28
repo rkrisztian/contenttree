@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-final public class ContenttreeApplication {
+public final class ContenttreeApplication {
 
 	private ContenttreeApplication() {
 		// This is the main class.

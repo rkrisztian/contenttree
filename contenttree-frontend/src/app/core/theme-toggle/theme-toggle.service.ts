@@ -10,8 +10,8 @@ export class ThemeToggleService {
   private readonly rendererFactory = inject(RendererFactory2);
 
   private readonly renderer: Renderer2;
-  private _mode = signal<'light' | 'dark'>(ThemeToggleService.DEFAULT_MODE);
-  mode = this._mode.asReadonly();
+  private readonly _mode = signal<'light' | 'dark'>(ThemeToggleService.DEFAULT_MODE);
+  readonly mode = this._mode.asReadonly();
 
   constructor() {
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -21,8 +21,8 @@ export class ThemeToggleService {
     });
   }
 
-  initializeTheme = () => {
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+  readonly initializeTheme = () => {
+    const prefersDarkMode = globalThis.matchMedia('(prefers-color-scheme: dark)');
 
     this._mode.set(this.getStoredMode() ?? (prefersDarkMode.matches ? 'dark' : 'light'));
 
@@ -31,16 +31,16 @@ export class ThemeToggleService {
     });
   };
 
-  changeMode = () => {
+  readonly changeMode = () => {
     this._mode.update((mode) => (mode === 'dark' ? 'light' : 'dark'));
     this.storeMode(this._mode());
   };
 
-  private storeMode = (mode: string) => {
+  private readonly storeMode = (mode: string) => {
     localStorage.setItem(ThemeToggleService.STORAGE_KEY, mode);
   };
 
-  private getStoredMode = (): 'light' | 'dark' | null => {
+  private readonly getStoredMode = (): 'light' | 'dark' | null => {
     let storedMode = localStorage.getItem(ThemeToggleService.STORAGE_KEY);
 
     if (storedMode && !['light', 'dark'].includes(storedMode)) {

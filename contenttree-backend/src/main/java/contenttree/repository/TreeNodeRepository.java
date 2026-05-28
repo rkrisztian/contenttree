@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface TreeNodeRepository extends JpaRepository<TreeNode, Long> {
 
+	@SuppressWarnings("java:S2479")  // Not an issue for SQL text blocks
 	@Modifying
 	@Transactional
 	@Query(value = """
@@ -30,6 +31,7 @@ public interface TreeNodeRepository extends JpaRepository<TreeNode, Long> {
 	 * Determines whether the node with ID {@code newParentId} is a descendant of that with ID
 	 * {@code nodeId}.
 	 */
+	@SuppressWarnings("java:S2479")  // Not an issue for SQL text blocks
 	@Query(value = """
 			WITH RECURSIVE descendants AS (
 			    SELECT id

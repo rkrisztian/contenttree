@@ -5,12 +5,12 @@ public abstract sealed class ContentTreeServiceException extends RuntimeExceptio
 		MoveNodeException {
 	private final int status;
 
-	public ContentTreeServiceException(String message, int status) {
+	protected ContentTreeServiceException(String message, int status) {
 		super(message);
 		this.status = status;
 	}
 
-	public ContentTreeServiceException(String message, int status, Throwable cause) {
+	protected ContentTreeServiceException(String message, int status, Throwable cause) {
 		super(message, cause);
 		this.status = status;
 	}

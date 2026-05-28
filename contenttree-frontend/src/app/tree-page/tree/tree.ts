@@ -23,7 +23,7 @@ import { TreeNodeData, TreePageService } from '../tree-page.service';
 })
 export class Tree {
   private readonly treePageService = inject(TreePageService);
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly rootNode = this.treePageService.rootNode;
   protected readonly dataSource = toObservable(computed(() => [this.rootNode()!]));
@@ -40,39 +40,41 @@ export class Tree {
     });
   }
 
-  protected childrenAccessor = (node: TreeNodeData) => node.children ?? [];
-  protected hasChild = (node: TreeNodeData) => !!node.children?.length;
+  protected readonly childrenAccessor = (node: TreeNodeData) => node.children ?? [];
+  protected readonly hasChild = (node: TreeNodeData) => !!node.children?.length;
 
-  protected isSelected = (nodeId: number) => this.treePageService.selectedNode()?.id === nodeId;
-  protected toggleSelect = this.treePageService.toggleSelect;
+  protected readonly isSelected = (nodeId: number) =>
+    this.treePageService.selectedNode()?.id === nodeId;
+  protected readonly toggleSelect = this.treePageService.toggleSelect;
 
-  protected hasSearchResults = () => this.treePageService.foundNodes() != null;
-  protected isFound = (nodeId: number) => this.treePageService.foundNodes()?.has(nodeId) ?? false;
+  protected readonly hasSearchResults = () => this.treePageService.foundNodes() != null;
+  protected readonly isFound = (nodeId: number) =>
+    this.treePageService.foundNodes()?.has(nodeId) ?? false;
 
-  protected isDragging = (nodeId: number) => this.draggedNodeId() === nodeId;
-  protected isDraggedOver = (nodeId: number) => this.dragoverNodeId() === nodeId;
+  protected readonly isDragging = (nodeId: number) => this.draggedNodeId() === nodeId;
+  protected readonly isDraggedOver = (nodeId: number) => this.dragoverNodeId() === nodeId;
 
-  protected startDragging = (event: DragEvent, nodeId: number): void => {
+  protected readonly startDragging = (event: DragEvent, nodeId: number): void => {
     if (!event.dataTransfer) return;
     event.dataTransfer.effectAllowed = 'move';
 
     this.draggedNodeId.set(nodeId);
   };
 
-  protected stopDragging = (): void => {
+  protected readonly stopDragging = (): void => {
     this.draggedNodeId.set(null);
     this.dragoverNodeId.set(null);
   };
 
-  protected startDragover = (event: DragEvent, dragoverNodeId: number): void => {
+  protected readonly startDragover = (event: DragEvent, dragoverNodeId: number): void => {
     event.preventDefault();
     if (!event.dataTransfer) return;
     event.dataTransfer.dropEffect = 'move';
 
-    this.dragoverNodeId.set(dragoverNodeId !== this.draggedNodeId() ? dragoverNodeId : null);
+    this.dragoverNodeId.set(dragoverNodeId === this.draggedNodeId() ? null : dragoverNodeId);
   };
 
-  protected stopDragover = (event: DragEvent, newParentId: number): void => {
+  protected readonly stopDragover = (event: DragEvent, newParentId: number): void => {
     event.preventDefault();
     if (!event.dataTransfer) return;
 

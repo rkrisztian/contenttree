@@ -29,9 +29,6 @@ public class BaseTreeNode<T extends BaseTreeNode<T>> {
 	@OneToMany(mappedBy = "parent", cascade = ALL, fetch = LAZY)
 	private List<T> children = new ArrayList<>();
 
-	public BaseTreeNode() {
-	}
-
 	public boolean isRoot() {
 		return parent == null;
 	}

@@ -41,16 +41,17 @@ val mockitoAgent by configurations.registering
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation(libs.springdocOpenapiStarterWebmvcUi)
+	implementation(libs.mapstruct)
+	implementation("org.springframework.boot:spring-boot-starter-liquibase")
+
+	annotationProcessor(libs.mapstructProcessor)
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat-runtime")
-	implementation(libs.mapstruct)
-	annotationProcessor(libs.mapstructProcessor)
-	implementation("org.springframework.boot:spring-boot-starter-liquibase")
+	runtimeOnly("org.postgresql:postgresql")
 	errorprone(libs.errorProneCore)
 	errorprone(libs.nullaway)
 
@@ -59,9 +60,14 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.testcontainers:testcontainers-junit-jupiter")
 	testImplementation("org.testcontainers:testcontainers-postgresql")
+	testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
+
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
-	testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
+}
+
+dependencyLocking {
+	lockAllConfigurations()
 }
 
 tasks.withType<JavaCompile>().configureEach {

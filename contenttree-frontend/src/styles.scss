@@ -12,7 +12,7 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: 'Roboto, sans-serif',
       density: 0,
     )
   );
@@ -43,7 +43,7 @@ body {
 
 // Copied for self-hosting from: https://fonts.googleapis.com/icon?family=Material+Icons
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons', system-ui;
   font-weight: normal;
   font-style: normal;
   font-size: 1.5rem;

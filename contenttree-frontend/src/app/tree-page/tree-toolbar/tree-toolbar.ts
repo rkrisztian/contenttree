@@ -35,8 +35,8 @@ export class Toolbar {
   private static readonly SEARCH_DELAY_IN_MS = 500;
 
   private readonly treePageService = inject(TreePageService);
-  private dialog = inject(Dialog);
-  private destroyRef = inject(DestroyRef);
+  private readonly dialog = inject(Dialog);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly selectedNode = this.treePageService.selectedNode;
   protected readonly rootNode = this.treePageService.rootNode;

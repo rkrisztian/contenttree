@@ -10,7 +10,7 @@ import { ThemeToggleService } from './theme-toggle.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggle {
-  private themeToggleService = inject(ThemeToggleService);
+  private readonly themeToggleService = inject(ThemeToggleService);
 
   protected mode = this.themeToggleService.mode;
 

@@ -29,7 +29,7 @@ class ContentTreeControllerTest {
 	ContentTreeService service;
 
 	@MockitoBean
-	ContentTreeMapper _mapper;
+	ContentTreeMapper mapper;
 
 	@Nested
 	class DeleteNodeTest {

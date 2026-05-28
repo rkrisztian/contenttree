@@ -12,6 +12,7 @@ public interface TreeNodeWithContentRepository extends JpaRepository<TreeNodeWit
 
 	boolean existsByParentId(@Nullable Long parentId);
 
+	@SuppressWarnings("java:S2479")  // Not an issue for SQL text blocks
 	@Query(value = """
 			SELECT id
 			FROM tree_node

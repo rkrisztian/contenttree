@@ -21,7 +21,7 @@ export interface TreeNodeData {
 @Injectable({ providedIn: 'root' })
 export class TreePageService {
   private readonly http = inject(HttpClient);
-  private errorService = inject(ErrorService);
+  private readonly errorService = inject(ErrorService);
 
   readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => environment.apiBaseUrl);
   private readonly nodesById = computed(() => {
@@ -32,9 +32,9 @@ export class TreePageService {
 
   readonly selectedNode = linkedSignal(() => this.rootNode());
   private readonly _contentForSelectedNode = httpResource<ContentRespDto>(() =>
-    this.selectedNode() != null
-      ? `${environment.apiBaseUrl}/content/${encodeURIComponent(this.selectedNode()!.id)}`
-      : undefined,
+    this.selectedNode() == null
+      ? undefined
+      : `${environment.apiBaseUrl}/content/${encodeURIComponent(this.selectedNode()!.id)}`,
   );
   readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
@@ -51,7 +51,7 @@ export class TreePageService {
     this._foundNodes.hasValue() ? new Set(this._foundNodes.value()?.ids) : undefined,
   );
 
-  private buildTree = (): TreeNodeData | null => {
+  private readonly buildTree = (): TreeNodeData | null => {
     const nodeDataById = new Map(
       Array.from(this.nodesById().entries()).map(([nodeId, node]) => [
         nodeId,
@@ -73,15 +73,15 @@ export class TreePageService {
     return root;
   };
 
-  toggleSelect = (newSelectedNode: TreeNodeData | null) => {
-    this.selectedNode.update((node) => (node?.id !== newSelectedNode?.id ? newSelectedNode : null));
+  readonly toggleSelect = (newSelectedNode: TreeNodeData | null) => {
+    this.selectedNode.update((node) => (node?.id === newSelectedNode?.id ? null : newSelectedNode));
   };
 
-  createNode = (node: CreateTreeNodeReqDTO) => {
+  readonly createNode = (node: CreateTreeNodeReqDTO) => {
     return this.http.put(environment.apiBaseUrl, node).pipe(tap(() => this.flatNodes.reload()));
   };
 
-  updateNode = (node: UpdateTreeNodeReqDTO) => {
+  readonly updateNode = (node: UpdateTreeNodeReqDTO) => {
     return this.http.post(environment.apiBaseUrl, node).pipe(
       tap(() => {
         this.flatNodes.reload();
@@ -93,7 +93,7 @@ export class TreePageService {
     );
   };
 
-  deleteNode = (id: number) =>
+  readonly deleteNode = (id: number) =>
     this.http.delete(`${environment.apiBaseUrl}/${encodeURIComponent(id)}`).pipe(
       tap(() => {
         this.flatNodes.reload();
@@ -101,7 +101,7 @@ export class TreePageService {
       }),
     );
 
-  moveNode = (nodeId: number, newParentId: number) => {
+  readonly moveNode = (nodeId: number, newParentId: number) => {
     if (
       nodeId === newParentId ||
       this.isRoot(nodeId) ||
@@ -131,15 +131,15 @@ export class TreePageService {
       );
   };
 
-  private isRoot = (nodeId: number): boolean => {
+  private readonly isRoot = (nodeId: number): boolean => {
     return this.rootNode()?.id === nodeId;
   };
 
-  private isParent = (newParentId: number, nodeId: number): boolean =>
+  private readonly isParent = (newParentId: number, nodeId: number): boolean =>
     this.nodesById().get(nodeId)?.parentId === newParentId;
 
   /** Checks if the node with ID `newParentId` is a descendant of that with `nodeId`. */
-  private isDescendant = (newParentId: number, nodeId: number): boolean => {
+  private readonly isDescendant = (newParentId: number, nodeId: number): boolean => {
     const nodesById = this.nodesById();
     let currentId: number | null = newParentId;
 

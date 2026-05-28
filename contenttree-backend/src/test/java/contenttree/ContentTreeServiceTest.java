@@ -122,6 +122,7 @@ class ContentTreeServiceTest {
 			then(treeNodeRepository).should().deleteByIdRecursively(rootNode.getId());
 		}
 
+		@SuppressWarnings("java:S5778")  // Trivial getter
 		@Test
 		void shouldNotDeleteNonExistingNode() {
 			given(treeNodeRepository.existsById(rootNode.getId())).willReturn(false);
@@ -149,6 +150,7 @@ class ContentTreeServiceTest {
 			assertThat(updatedChildNode.getParent().getId()).isEqualTo(childNode2.getId());
 		}
 
+		@SuppressWarnings("java:S5778")  // Trivial getter
 		@Test
 		void shouldNotMoveNodeToParentAsSelf() {
 			assertThatThrownBy(
@@ -156,6 +158,7 @@ class ContentTreeServiceTest {
 			).isInstanceOf(MoveNodeException.class);
 		}
 
+		@SuppressWarnings("java:S5778")  // Trivial getter
 		@Test
 		void shouldNotMoveNodeToMissingParent() {
 			given(treeNodeRepository.findById(grandchildNode.getId()))
@@ -166,6 +169,7 @@ class ContentTreeServiceTest {
 			).isInstanceOf(ParentNodeNotFoundException.class);
 		}
 
+		@SuppressWarnings("java:S5778")  // Trivial getter
 		@Test
 		void shouldNotMoveRootNode() {
 			given(treeNodeRepository.findById(rootNode.getId()))
@@ -176,6 +180,7 @@ class ContentTreeServiceTest {
 			).isInstanceOf(MoveNodeException.class);
 		}
 
+		@SuppressWarnings("java:S5778")  // Trivial getter
 		@Test
 		void shouldNotMoveNodeToSameParent() {
 			given(treeNodeRepository.findById(childNode.getId()))
