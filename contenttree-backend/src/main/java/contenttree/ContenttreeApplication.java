@@ -11,7 +11,7 @@ public final class ContenttreeApplication {
 	}
 
 	// PMD does not support the new Java 25 feature yet: https://github.com/pmd/pmd/issues/6117
-	@SuppressWarnings({"PMD.CommentDefaultAccessModifier", "PMD.UseVarargs"})
+	@SuppressWarnings({"PMD.CommentDefaultAccessModifier"})
 	static void main(String[] args) {
 		SpringApplication.run(ContenttreeApplication.class, args);
 	}

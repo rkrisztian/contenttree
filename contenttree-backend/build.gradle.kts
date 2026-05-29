@@ -66,6 +66,18 @@ dependencies {
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 }
 
+// Temporary fixes for vulnerabilities in transitive dependencies:
+configurations.all {
+	resolutionStrategy.eachDependency {
+		if (requested.group == "org.apache.tomcat.embed") {
+			useVersion("11.0.22")
+		}
+	}
+}
+
+// Temporary fixes for vulnerabilities in direct dependencies:
+extra["postgresql.version"] = "42.7.11"
+
 dependencyLocking {
 	lockAllConfigurations()
 }
@@ -224,6 +236,7 @@ reporting {
 }
 
 pmd {
+	toolVersion = libs.versions.pmd.get()
 	ruleSetFiles = files("pmd-ruleset.xml")
 	ruleSets = listOf()
 }

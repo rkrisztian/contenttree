@@ -116,3 +116,17 @@ The following IDEs are recommended for use:
 	- [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
 - **Frontend:**
 	- [Visual Studio Code](https://code.visualstudio.com/)
+
+### Backend
+
+#### Changing build dependencies
+
+You can change dependencies (e.g., update dependency versions) by running the following commands:
+
+```shell
+cd contenttree-backend
+gw --write-verification-metadata pgp,sha256 --export-keys
+gw dependencies --write-locks
+```
+
+Then review the changes in the verification metadata and the lock file.
