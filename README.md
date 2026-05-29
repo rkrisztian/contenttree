@@ -133,3 +133,20 @@ gw dependencies --write-locks
 ```
 
 Then review the changes in the verification metadata and the lock file.
+
+### Frontend
+
+#### API Schema Generation
+
+To generate the `schema.d.ts` file, run the following commands:
+
+```shell
+cd contenttree-backend
+gw generateOpenApiDocs
+
+cd ../contenttree-frontend
+npm run openapi:generate
+```
+
+**Note:** `generateOpenApiDocs` is a standalone task because it is incompatible with Gradle's
+configuration cache.
