@@ -1,7 +1,6 @@
 package contenttree;
 
 import contenttree.dto.CreateTreeNodeReqDTO;
-import contenttree.dto.SearchResultsRespDto;
 import contenttree.dto.TreeNodeRespDTO;
 import contenttree.dto.UpdateTreeNodeReqDTO;
 import contenttree.repository.TreeNodeRepository;
@@ -17,6 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
@@ -96,9 +96,10 @@ class ContentTreeControllerIntTest {
 							.content(mapper.writeValueAsString(
 									new UpdateTreeNodeReqDTO(node.getId(), "Updated Name",
 											"Updated Content"))))
-					.andExpectAll(
-							status().isOk(),
-							jsonPath("$.name").value("Updated Name"));
+					.andExpect(status().isOk());
+
+			assertThat(getAllTreeNodes()).extracting(TreeNodeRespDTO::getName)
+					.containsExactlyInAnyOrder("Updated Name");
 
 			mockMvc.perform(get("/api/tree/content/" + node.getId()))
 					.andExpectAll(
@@ -109,7 +110,7 @@ class ContentTreeControllerIntTest {
 	}
 
 	@Nested
-	class FindContentTest {
+	class FindNodeTest {
 
 		@Test
 		void shouldFindNodesByContentOrNameWhenMatching() throws Exception {
@@ -124,9 +125,10 @@ class ContentTreeControllerIntTest {
 					.andReturn()
 					.getResponse()
 					.getContentAsString();
-			var searchResult = mapper.readValue(json, SearchResultsRespDto.class);
+			List<Long> ids = mapper.readValue(json, new TypeReference<>() {
+			});
 
-			assertThat(searchResult.getIds()).containsExactlyInAnyOrder(node1.getId(), node3.getId());
+			assertThat(ids).containsExactlyInAnyOrder(node1.getId(), node3.getId());
 		}
 
 		@Test
@@ -140,7 +142,7 @@ class ContentTreeControllerIntTest {
 							.contentType(MediaType.APPLICATION_JSON))
 					.andExpectAll(
 							status().isOk(),
-							jsonPath("$.ids.length()").value(0));
+							jsonPath("$.length()").value(0));
 		}
 
 		@Test
@@ -153,7 +155,7 @@ class ContentTreeControllerIntTest {
 							.contentType(MediaType.APPLICATION_JSON))
 					.andExpectAll(
 							status().isOk(),
-							jsonPath("$.ids.length()").value(1));
+							jsonPath("$.length()").value(1));
 		}
 
 	}
@@ -216,7 +218,12 @@ class ContentTreeControllerIntTest {
 				.getResponse()
 				.getContentAsString();
 
-		return mapper.readValue(json, TreeNodeRespDTO.class);
+		var treeNode = new TreeNodeRespDTO();
+		treeNode.setId(Long.valueOf(json));
+		treeNode.setName(name);
+		treeNode.setParentId(parentId);
+
+		return treeNode;
 	}
 
 	private List<TreeNodeRespDTO> getAllTreeNodes() throws Exception {

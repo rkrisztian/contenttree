@@ -25,9 +25,6 @@ public interface ContentTreeMapper {
 	@Mapping(source = "parent.id", target = "parentId")
 	TreeNodeRespDTO toTreeNodeRespDTO(TreeNode node);
 
-	@Mapping(source = "parent.id", target = "parentId")
-	TreeNodeRespDTO toTreeNodeRespDTO(TreeNodeWithContent node);
-
 	@Named("mapParent")
 	default @Nullable TreeNodeWithContent mapParent(@Nullable Long parentId) {
 		if (parentId == null) {

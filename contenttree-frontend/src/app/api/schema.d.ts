@@ -48,7 +48,7 @@ export interface paths {
             cookie?: never;
         };
         /** Retrieves all nodes having a substring in name or content, ignoring case */
-        get: operations["findContent"];
+        get: operations["findNode"];
         put?: never;
         post?: never;
         delete?: never;
@@ -106,6 +106,17 @@ export interface components {
              */
             parentId?: number;
         };
+        UpdateTreeNodeReqDTO: {
+            /**
+             * Format: int64
+             * @example 1
+             */
+            id: number;
+            /** @example Example node */
+            name: string;
+            /** @example Example content */
+            content: string;
+        };
         TreeNodeRespDTO: {
             /**
              * Format: int64
@@ -119,27 +130,6 @@ export interface components {
              * @example 1
              */
             parentId?: number;
-        };
-        UpdateTreeNodeReqDTO: {
-            /**
-             * Format: int64
-             * @example 1
-             */
-            id: number;
-            /** @example Example node */
-            name: string;
-            /** @example Example content */
-            content: string;
-        };
-        SearchResultsRespDto: {
-            /**
-             * @example [
-             *       1,
-             *       2,
-             *       3
-             *     ]
-             */
-            ids: number[];
         };
         ContentRespDto: {
             /** @example Example content */
@@ -193,7 +183,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["TreeNodeRespDTO"];
+                    "*/*": number;
                 };
             };
         };
@@ -216,9 +206,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "*/*": components["schemas"]["TreeNodeRespDTO"];
-                };
+                content?: never;
             };
         };
     };
@@ -243,7 +231,7 @@ export interface operations {
             };
         };
     };
-    findContent: {
+    findNode: {
         parameters: {
             query: {
                 text: string;
@@ -260,7 +248,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SearchResultsRespDto"];
+                    "*/*": number[];
                 };
             };
         };

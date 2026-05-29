@@ -2,7 +2,6 @@ package contenttree;
 
 import contenttree.dto.ContentRespDto;
 import contenttree.dto.CreateTreeNodeReqDTO;
-import contenttree.dto.SearchResultsRespDto;
 import contenttree.dto.TreeNodeRespDTO;
 import contenttree.dto.UpdateTreeNodeReqDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,18 +36,17 @@ public class ContentTreeController {
 
 	@PutMapping
 	@Operation(summary = "Creates a new node with the given name and content")
-	public TreeNodeRespDTO createNode(@Valid @RequestBody CreateTreeNodeReqDTO dto) {
-		return mapper.toTreeNodeRespDTO(
-				service.createNode(
-						mapper.toTreeNodeWithContent(dto)));
+	public Long createNode(@Valid @RequestBody CreateTreeNodeReqDTO dto) {
+		return service.createNode(
+				mapper.toTreeNodeWithContent(dto)
+		).getId();
 	}
 
 	@PostMapping
 	@Operation(summary = "Updates an existing node with the given name and content")
-	public TreeNodeRespDTO updateNode(@Valid @RequestBody UpdateTreeNodeReqDTO dto) {
-		return mapper.toTreeNodeRespDTO(
-				service.updateNode(
-						mapper.toTreeNodeWithContent(dto)));
+	public void updateNode(@Valid @RequestBody UpdateTreeNodeReqDTO dto) {
+		service.updateNode(
+				mapper.toTreeNodeWithContent(dto));
 	}
 
 	@DeleteMapping("/{id}")
@@ -75,9 +73,8 @@ public class ContentTreeController {
 
 	@GetMapping("/search")
 	@Operation(summary = "Retrieves all nodes having a substring in name or content, ignoring case")
-	public SearchResultsRespDto findContent(@RequestParam("text") @NotBlank @Size(min = 3) String text) {
-		return new SearchResultsRespDto(
-				service.findText(text));
+	public List<Long> findNode(@RequestParam("text") @NotBlank @Size(min = 3) String text) {
+		return service.findText(text);
 	}
 
 	@PostMapping("/move")

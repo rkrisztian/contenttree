@@ -7,7 +7,6 @@ import { ErrorService } from '../core/error.service';
 
 export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
 export type ContentRespDto = components['schemas']['ContentRespDto'];
-export type SearchResultsRespDto = components['schemas']['SearchResultsRespDto'];
 export type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
 export type UpdateTreeNodeReqDTO = components['schemas']['UpdateTreeNodeReqDTO'];
 
@@ -39,7 +38,7 @@ export class TreePageService {
   readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
   readonly searchText = signal('');
-  private readonly _foundNodes = httpResource<SearchResultsRespDto>(() =>
+  private readonly _foundNodes = httpResource<number[]>(() =>
     this.searchText()
       ? {
           url: `${environment.apiBaseUrl}/search`,
@@ -48,7 +47,7 @@ export class TreePageService {
       : undefined,
   );
   readonly foundNodes = computed(() =>
-    this._foundNodes.hasValue() ? new Set(this._foundNodes.value()?.ids) : undefined,
+    this._foundNodes.hasValue() ? new Set(this._foundNodes.value()) : undefined,
   );
 
   private readonly buildTree = (): TreeNodeData | null => {
