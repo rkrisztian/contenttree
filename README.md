@@ -23,6 +23,9 @@ The app consists of a Spring Boot backend and an Angular frontend.
 	- [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
 	- [Angular Material](https://material.angular.dev/) (UI components)
     - [ESLint](https://eslint.org/) (code linting)
+- **CI/CD & Quality:**
+	- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
+	- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality & security analysis)
 
 ## Running the Application
 
