@@ -201,12 +201,10 @@ reporting {
 			testSuiteName = "all"
 
 			reportTask.configure {
-				// Workaround for not being able to use `executionData(tasks.withType(Test))`,
-				// see https://github.com/gradle/gradle/issues/23223 and https://github.com/gradle/gradle/issues/26668
-				executionData(provider {
+				executionData(
 					tasks.withType<Test>()
 						.map { it.extensions.getByType<JacocoTaskExtension>().destinationFile }
-				})
+				)
 
 				classDirectories.setFrom(
 					sourceSets.main.get().output.classesDirs.map { dir ->
