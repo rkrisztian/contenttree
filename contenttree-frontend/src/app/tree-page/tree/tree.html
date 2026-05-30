@@ -16,15 +16,13 @@
       </button>
     }
 
-    <span
+    <button
+      matButton
       class="node-label"
-      [class.mat-text-disabled]="hasSearchResults() && !isFound(node.id)"
+      [class.not-found]="hasSearchResults() && !isFound(node.id)"
       [class.selected]="isSelected(node.id)"
       [attr.aria-selected]="isSelected(node.id)"
-      tabindex="0"
       (click)="toggleSelect(node)"
-      (keyup.enter)="toggleSelect(node)"
-      (keyup.space)="toggleSelect(node)"
       draggable="true"
       [class.dragging]="isDragging(node.id)"
       [class.dragged-over]="isDraggedOver(node.id)"
@@ -33,7 +31,7 @@
       (dragend)="stopDragging()"
       (drop)="stopDragover($event, node.id)"
     >
-      <mat-icon class="node-icon">
+      <mat-icon matPrefix>
         @if (node.children.length) {
           folder
         } @else {
@@ -42,6 +40,6 @@
       </mat-icon>
 
       <span class="node-name">{{ node.name }}</span>
-    </span>
+    </button>
   </mat-tree-node>
 </mat-tree>
