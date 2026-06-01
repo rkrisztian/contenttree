@@ -10,5 +10,10 @@
   "editor.rulers": [100],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
-  }
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "rkrisztian",
+    "projectKey": "contenttree-frontend"
+  },
+  "sonarlint.disableTelemetry": true
 }

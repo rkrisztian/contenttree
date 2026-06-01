@@ -21,3 +21,4 @@ bin/
 ### IntelliJ IDEA ###
 !**/src/main/**/out/
 !**/src/test/**/out/
+!/.idea/sonarlint.xml
