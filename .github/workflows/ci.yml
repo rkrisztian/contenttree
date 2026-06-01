@@ -30,8 +30,10 @@ jobs:
           filters: |
             backend:
               - 'contenttree-backend/**'
+              - '.github/workflows/ci.yml'
             frontend:
               - 'contenttree-frontend/**'
+              - '.github/workflows/ci.yml'
 
   build-backend:
     name: Build Backend (Spring Boot)
@@ -46,6 +48,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: actions/setup-java@v5
@@ -87,6 +91,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
