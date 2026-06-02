@@ -31,7 +31,7 @@ interface SearchFormData {
   styleUrls: ['./tree-toolbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Toolbar {
+export class TreeToolbar {
   private static readonly SEARCH_DELAY_IN_MS = 500;
 
   private readonly treePageService = inject(TreePageService);
@@ -45,7 +45,7 @@ export class Toolbar {
     searchText: '',
   });
   protected readonly searchForm = form(this.searchModel, (schemaPath) => {
-    debounce(schemaPath.searchText, Toolbar.SEARCH_DELAY_IN_MS);
+    debounce(schemaPath.searchText, TreeToolbar.SEARCH_DELAY_IN_MS);
 
     minLength(schemaPath.searchText, 3, { message: 'At least 3 characters are required' });
   });

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ContentPanel } from './content-panel/content-panel';
 import { TreePageService } from './tree-page.service';
-import { Toolbar } from './tree-toolbar/tree-toolbar';
+import { TreeToolbar } from './tree-toolbar/tree-toolbar';
 import { Tree } from './tree/tree';
 
 @Component({
@@ -15,8 +15,8 @@ import { Tree } from './tree/tree';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     Tree,
+    TreeToolbar,
     ContentPanel,
-    Toolbar,
     MatCardModule,
     MatDividerModule,
     MatProgressSpinnerModule,
