@@ -1,10 +1,12 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ContentRespDto, TreeApiService, TreeNodeRespDTO } from '../api/tree-api.service';
 import { ErrorService } from '../core/error.service';
-import { ContentRespDto, TreeNodeRespDTO, TreePageService } from './tree-page.service';
+import { TreePageService } from './tree-page.service';
 
 describe('TreePageService', () => {
+  let treeApiService: TreeApiService;
   let treePageService: TreePageService;
   let errorService: ErrorService;
   let httpTesting: HttpTestingController;
@@ -25,6 +27,7 @@ describe('TreePageService', () => {
     });
 
     httpTesting = TestBed.inject(HttpTestingController);
+    treeApiService = TestBed.inject(TreeApiService);
     treePageService = TestBed.inject(TreePageService);
     errorService = TestBed.inject(ErrorService);
   });
@@ -107,7 +110,7 @@ describe('TreePageService', () => {
         shouldFail: true,
       },
     ])('$name', async ({ nodeId, newParentId, shouldFail }) => {
-      treePageService.flatNodes.set(testFlatNodes);
+      treeApiService.flatNodes.set(testFlatNodes);
       const promise = treePageService.moveNode(nodeId, newParentId);
 
       if (shouldFail) {

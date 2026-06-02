@@ -1,14 +1,11 @@
-import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { tap } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { components } from '../api/schema';
+import {
+  CreateTreeNodeReqDTO,
+  TreeApiService,
+  UpdateTreeNodeReqDTO,
+} from '../api/tree-api.service';
 import { ErrorService } from '../core/error.service';
-
-export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
-export type ContentRespDto = components['schemas']['ContentRespDto'];
-export type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
-export type UpdateTreeNodeReqDTO = components['schemas']['UpdateTreeNodeReqDTO'];
 
 export interface TreeNodeData {
   id: number;
@@ -19,10 +16,11 @@ export interface TreeNodeData {
 
 @Injectable({ providedIn: 'root' })
 export class TreePageService {
-  private readonly http = inject(HttpClient);
+  private readonly treeApiService = inject(TreeApiService);
   private readonly errorService = inject(ErrorService);
 
-  readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => environment.apiBaseUrl);
+  private readonly _flatNodes = this.treeApiService.flatNodes;
+  readonly flatNodes = this._flatNodes.asReadonly();
   private readonly nodesById = computed(() => {
     const flatNodes = this.flatNodes.hasValue() ? (this.flatNodes.value() ?? []) : [];
     return new Map(flatNodes.map((node) => [node.id, node]));
@@ -30,22 +28,13 @@ export class TreePageService {
   readonly rootNode = computed(() => this.buildTree());
 
   readonly selectedNode = linkedSignal(() => this.rootNode());
-  private readonly _contentForSelectedNode = httpResource<ContentRespDto>(() =>
-    this.selectedNode() == null
-      ? undefined
-      : `${environment.apiBaseUrl}/content/${encodeURIComponent(this.selectedNode()!.id)}`,
+  private readonly _contentForSelectedNode = this.treeApiService.createContentForSelectedNode(
+    this.selectedNode,
   );
   readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
   readonly searchText = signal('');
-  private readonly _foundNodes = httpResource<number[]>(() =>
-    this.searchText()
-      ? {
-          url: `${environment.apiBaseUrl}/search`,
-          params: { text: this.searchText() },
-        }
-      : undefined,
-  );
+  private readonly _foundNodes = this.treeApiService.createFoundNodes(this.searchText);
   readonly foundNodes = computed(() =>
     this._foundNodes.hasValue() ? new Set(this._foundNodes.value()) : undefined,
   );
@@ -77,13 +66,13 @@ export class TreePageService {
   };
 
   readonly createNode = (node: CreateTreeNodeReqDTO) => {
-    return this.http.put(environment.apiBaseUrl, node).pipe(tap(() => this.flatNodes.reload()));
+    return this.treeApiService.createNode(node).pipe(tap(() => this._flatNodes.reload()));
   };
 
   readonly updateNode = (node: UpdateTreeNodeReqDTO) => {
-    return this.http.post(environment.apiBaseUrl, node).pipe(
+    return this.treeApiService.updateNode(node).pipe(
       tap(() => {
-        this.flatNodes.reload();
+        this._flatNodes.reload();
 
         if (node.id === this.selectedNode()?.id) {
           this._contentForSelectedNode.reload();
@@ -93,9 +82,9 @@ export class TreePageService {
   };
 
   readonly deleteNode = (id: number) =>
-    this.http.delete(`${environment.apiBaseUrl}/${encodeURIComponent(id)}`).pipe(
+    this.treeApiService.deleteNode(id).pipe(
       tap(() => {
-        this.flatNodes.reload();
+        this._flatNodes.reload();
         this.toggleSelect(null);
       }),
     );
@@ -115,19 +104,12 @@ export class TreePageService {
       return undefined;
     }
 
-    return this.http
-      .post(`${environment.apiBaseUrl}/move`, null, {
-        params: {
-          nodeId,
-          newParentId,
-        },
-      })
-      .pipe(
-        tap(() => {
-          this.flatNodes.reload();
-          this.toggleSelect(null);
-        }),
-      );
+    return this.treeApiService.moveNode(nodeId, newParentId).pipe(
+      tap(() => {
+        this._flatNodes.reload();
+        this.toggleSelect(null);
+      }),
+    );
   };
 
   private readonly isRoot = (nodeId: number): boolean => {

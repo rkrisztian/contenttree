@@ -26,7 +26,7 @@ import { Tree } from './tree/tree';
 export class TreePage {
   private readonly treePageService = inject(TreePageService);
 
-  protected readonly flatNodes = this.treePageService.flatNodes.asReadonly();
+  protected readonly flatNodes = this.treePageService.flatNodes;
   protected readonly rootNode = this.treePageService.rootNode;
   protected readonly selectedNode = this.treePageService.selectedNode;
 }

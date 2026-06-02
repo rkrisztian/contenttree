@@ -25,7 +25,7 @@ export class Tree {
   private readonly treePageService = inject(TreePageService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly rootNode = this.treePageService.rootNode;
+  protected readonly rootNode = this.treePageService.rootNode;
   protected readonly dataSource = toObservable(computed(() => [this.rootNode()!]));
 
   protected readonly draggedNodeId = signal<number | null>(null);

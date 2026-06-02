@@ -2,6 +2,7 @@
   "recommendations": [
     "editorconfig.editorconfig",
     "angular.ng-template",
+    "vitest.explorer",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "sonarsource.sonarlint-vscode"
