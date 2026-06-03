@@ -9,7 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test:browser": "vitest"
   },
   "packageManager": "npm@11.12.1",
   "dependencies": {
@@ -32,6 +33,7 @@
     "@angular/cli": "^21.2.13",
     "@angular/compiler-cli": "^21.2.15",
     "@eslint/js": "^10.0.1",
+    "@vitest/browser-playwright": "^4.1.8",
     "@vitest/coverage-v8": "^4.1.6",
     "angular-eslint": "21.4.0",
     "eslint": "^10.4.1",
@@ -40,6 +42,7 @@
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.56.1",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "vitest-browser-angular": "^0.4.0"
   }
 }

@@ -72,10 +72,12 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "browsers": ["Chromium"],
             "coverage": true,
             "coverageReporters": ["html", "lcov"],
             "coverageInclude": ["src/**/*.ts"],
-            "coverageExclude": ["src/app/api/schema.d.ts"]
+            "coverageExclude": ["src/app/api/schema.d.ts"],
+            "headless": true
           }
         },
         "lint": {
