@@ -1,8 +1,5 @@
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-import org.springframework.boot.gradle.tasks.bundling.BootWar
-import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
 	java
@@ -20,7 +17,7 @@ plugins {
 group = "contenttree"
 version = "0.0.1-SNAPSHOT"
 
-tasks.named<Wrapper>("wrapper") {
+tasks.wrapper {
 	retries = 3
 	retryBackOffMs = 1000
 }
@@ -114,19 +111,19 @@ val devSpecificFiles = setOf(
 	"application-docs.yaml"
 )
 
-tasks.named<Jar>("jar") {
+tasks.jar {
 	setExcludes(devSpecificFiles)
 }
 
-tasks.named<BootJar>("bootJar") {
+tasks.bootJar {
 	setExcludes(devSpecificFiles)
 }
 
-tasks.named<War>("war") {
+tasks.war {
 	rootSpec.setExcludes(devSpecificFiles)
 }
 
-tasks.named<BootWar>("bootWar") {
+tasks.bootWar {
 	rootSpec.setExcludes(devSpecificFiles)
 
 	manifest {
@@ -139,7 +136,7 @@ tasks.named<BootWar>("bootWar") {
 	}
 }
 
-tasks.named<BootRun>("bootRun") {
+tasks.bootRun {
 	if (!providers.environmentVariable("SPRING_PROFILES_ACTIVE").isPresent) {
 		systemProperty(
 			"spring.profiles.active",
@@ -201,7 +198,7 @@ testing {
 }
 
 @Suppress("UnstableApiUsage")
-tasks.named("check") {
+tasks.check {
 	dependsOn(testing.suites.named("integrationTest"))
 }
 
