@@ -9,37 +9,39 @@ export type ContentRespDto = components['schemas']['ContentRespDto'];
 export type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
 export type UpdateTreeNodeReqDTO = components['schemas']['UpdateTreeNodeReqDTO'];
 
+export const TREE_API_BASE_PATH = '/api/tree';
+export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
+
 @Injectable({
   providedIn: 'root',
 })
 export class TreeApiService {
   private readonly http = inject(HttpClient);
 
-  readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => environment.apiBaseUrl);
+  readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => TREE_API_BASE_URL);
 
-  readonly createContentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
+  readonly contentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
     httpResource<ContentRespDto>(() =>
       selectedNode() == null
         ? undefined
         : // @ts-expect-error: Already checked for null.
-          `${environment.apiBaseUrl}/content/${encodeURIComponent(selectedNode().id)}`,
+          `${TREE_API_BASE_URL}/content/${encodeURIComponent(selectedNode().id)}`,
     );
 
-  readonly createFoundNodes = (searchText: Signal<string>) =>
+  readonly foundNodes = (searchText: Signal<string>) =>
     httpResource<number[]>(() =>
       searchText()
-        ? { url: `${environment.apiBaseUrl}/search`, params: { text: searchText() } }
+        ? { url: `${TREE_API_BASE_URL}/search`, params: { text: searchText() } }
         : undefined,
     ).asReadonly();
 
-  readonly createNode = (node: CreateTreeNodeReqDTO) => this.http.put(environment.apiBaseUrl, node);
+  readonly createNode = (node: CreateTreeNodeReqDTO) => this.http.put(TREE_API_BASE_URL, node);
 
-  readonly updateNode = (node: UpdateTreeNodeReqDTO) =>
-    this.http.post(environment.apiBaseUrl, node);
+  readonly updateNode = (node: UpdateTreeNodeReqDTO) => this.http.post(TREE_API_BASE_URL, node);
 
   readonly deleteNode = (id: number) =>
-    this.http.delete(`${environment.apiBaseUrl}/${encodeURIComponent(id)}`);
+    this.http.delete(`${TREE_API_BASE_URL}/${encodeURIComponent(id)}`);
 
   readonly moveNode = (nodeId: number, newParentId: number) =>
-    this.http.post(`${environment.apiBaseUrl}/move`, null, { params: { nodeId, newParentId } });
+    this.http.post(`${TREE_API_BASE_URL}/move`, null, { params: { nodeId, newParentId } });
 }

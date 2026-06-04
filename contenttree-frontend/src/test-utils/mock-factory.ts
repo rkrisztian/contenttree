@@ -62,7 +62,7 @@ export class MockTreeApiService implements Partial<TreeApiService> {
     this.flatNodes = mockHttpResource({ value: signal(this.mockData.flatNodes) });
   }
 
-  createContentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
+  contentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
     mockHttpResource({
       hasValue: computed(() => !!selectedNode()),
       value: computed(() =>
@@ -71,7 +71,7 @@ export class MockTreeApiService implements Partial<TreeApiService> {
       ),
     });
 
-  createFoundNodes = (searchText: Signal<string>) =>
+  foundNodes = (searchText: Signal<string>) =>
     mockHttpResource({
       hasValue: computed(() => !!searchText()),
       value: computed(() => (searchText ? this.mockData.foundNodes(searchText()) : undefined)),

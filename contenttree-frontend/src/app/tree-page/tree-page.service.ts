@@ -28,13 +28,13 @@ export class TreePageService {
   readonly rootNode = computed(() => this.buildTree());
 
   readonly selectedNode = linkedSignal(() => this.rootNode());
-  private readonly _contentForSelectedNode = this.treeApiService.createContentForSelectedNode(
+  private readonly _contentForSelectedNode = this.treeApiService.contentForSelectedNode(
     this.selectedNode,
   );
   readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
   readonly searchText = signal('');
-  private readonly _foundNodes = this.treeApiService.createFoundNodes(this.searchText);
+  private readonly _foundNodes = this.treeApiService.foundNodes(this.searchText);
   readonly foundNodes = computed(() =>
     this._foundNodes.hasValue() ? new Set(this._foundNodes.value()) : undefined,
   );

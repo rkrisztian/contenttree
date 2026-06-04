@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'https://example.domain/api/tree',
+  apiBaseUrl: 'https://example.domain',
 };
