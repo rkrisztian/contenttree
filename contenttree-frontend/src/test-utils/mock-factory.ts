@@ -24,17 +24,15 @@ export interface MockHttpResourceOpts<T> {
   value: Signal<T>;
   hasValue?: Signal<boolean>;
   error?: Signal<Error | undefined>;
-  loading?: Signal<boolean>;
-  reload?: () => void;
+  isLoading?: Signal<boolean>;
+  reload?: () => boolean;
 }
 
 const mockHttpResourceDefaults: Partial<MockHttpResourceOpts<never>> = {
   hasValue: signal(true),
   error: signal(undefined),
-  loading: signal(false),
-  reload: () => {
-    /* no behavior intended */
-  },
+  isLoading: signal(false),
+  reload: () => true,
 };
 
 export const mockHttpResource = <T>(options: MockHttpResourceOpts<T>) => {

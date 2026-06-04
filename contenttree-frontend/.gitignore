@@ -11,12 +11,15 @@
 npm-debug.log
 yarn-error.log
 
+# Testing
+__screenshots__/
+.vitest-attachments
+/coverage
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
 /connect.lock
-/coverage
 /libpeerconnection.log
 testem.log
 /typings
-__screenshots__/

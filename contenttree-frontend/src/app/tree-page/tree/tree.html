@@ -18,8 +18,10 @@
 
     <button
       matButton
+      extended
       class="node-label"
       [class.not-found]="hasSearchResults() && !isFound(node.id)"
+      [attr.aria-label]="node.name + (hasSearchResults() && isFound(node.id) ? ' matched' : '')"
       [class.selected]="isSelected(node.id)"
       [attr.aria-selected]="isSelected(node.id)"
       (click)="toggleSelect(node)"
@@ -31,7 +33,7 @@
       (dragend)="stopDragging()"
       (drop)="stopDragover($event, node.id)"
     >
-      <mat-icon matPrefix>
+      <mat-icon>
         @if (node.children.length) {
           folder
         } @else {
@@ -41,5 +43,9 @@
 
       <span class="node-name">{{ node.name }}</span>
     </button>
+
+    @if (hasSearchResults() && isFound(node.id)) {
+      <mat-icon class="found-icon">check</mat-icon>
+    }
   </mat-tree-node>
 </mat-tree>

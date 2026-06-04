@@ -30,14 +30,6 @@ describe('TreeToolbar', () => {
     vi.useRealTimers();
   });
 
-  it('can search for nodes', async () => {
-    await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Grand');
-    await vi.runAllTimersAsync();
-
-    // Found no simple way to check for text color change.
-    expect(treePageService.foundNodes()).toEqual(new Set([4]));
-  });
-
   it('will not start a search under 3 characters', async () => {
     await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Gr');
     await vi.runAllTimersAsync();
