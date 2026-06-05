@@ -1,8 +1,13 @@
 import { HttpResourceRef } from '@angular/common/http';
 import { computed, signal, Signal } from '@angular/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
-import { ContentRespDto, TreeApiService, TreeNodeRespDTO } from '../app/api/tree-api.service';
+import {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  TreeApiService,
+  TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
+} from '../app/api/tree-api.service';
 import { TreeNodeData } from '../app/tree-page/tree-page.service';
 
 /*
@@ -48,16 +53,24 @@ export const mockHttpResource = <T>(options: MockHttpResourceOpts<T>) => {
 
 export interface TreeApiServiceMockData {
   flatNodes: TreeNodeRespDTO[];
+  flatNodesAfterCreate: (node: CreateTreeNodeReqDTO) => TreeNodeRespDTO[];
+  flatNodesAfterUpdate: (node: UpdateTreeNodeReqDTO) => TreeNodeRespDTO[];
   flatNodesAfterMove: (nodeId: number, newParentId: number) => TreeNodeRespDTO[];
-  contentForSelectedNode: (selectedNode: TreeNodeData) => ContentRespDto;
+
+  contents: Record<number, ContentRespDto>;
+  contentsAfterCreate: (node: CreateTreeNodeReqDTO) => Record<number, ContentRespDto>;
+  contentsAfterUpdate: (node: UpdateTreeNodeReqDTO) => Record<number, ContentRespDto>;
+
   foundNodes: (searchText: string) => number[];
 }
 
 export class MockTreeApiService implements Partial<TreeApiService> {
   readonly flatNodes: HttpResourceRef<TreeNodeRespDTO[]>;
+  private contents: Record<number, ContentRespDto>;
 
   constructor(private readonly mockData: TreeApiServiceMockData) {
     this.flatNodes = mockHttpResource({ value: signal(this.mockData.flatNodes) });
+    this.contents = this.mockData.contents;
   }
 
   contentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
@@ -65,18 +78,30 @@ export class MockTreeApiService implements Partial<TreeApiService> {
       hasValue: computed(() => !!selectedNode()),
       value: computed(() =>
         // @ts-expect-error: Already checked for null.
-        selectedNode() ? this.mockData.contentForSelectedNode(selectedNode()) : undefined,
+        selectedNode() ? this.contents[selectedNode().id] : undefined,
       ),
     });
+
+  createNode = (node: CreateTreeNodeReqDTO) => {
+    this.flatNodes.value.set(this.mockData.flatNodesAfterCreate(node));
+    this.contents = this.mockData.contentsAfterCreate(node);
+    return of();
+  };
+
+  updateNode = (node: UpdateTreeNodeReqDTO) => {
+    this.flatNodes.value.set(this.mockData.flatNodesAfterUpdate(node));
+    this.contents = this.mockData.contentsAfterUpdate(node);
+    return of();
+  };
+
+  moveNode = (nodeId: number, newParentId: number) => {
+    this.flatNodes.value.set(this.mockData.flatNodesAfterMove(nodeId, newParentId));
+    return of({});
+  };
 
   foundNodes = (searchText: Signal<string>) =>
     mockHttpResource({
       hasValue: computed(() => !!searchText()),
       value: computed(() => (searchText ? this.mockData.foundNodes(searchText()) : undefined)),
     });
-
-  moveNode = vi.fn().mockImplementation((nodeId: number, newParentId: number) => {
-    this.flatNodes.value.set(this.mockData.flatNodesAfterMove(nodeId, newParentId));
-    return of({});
-  });
 }

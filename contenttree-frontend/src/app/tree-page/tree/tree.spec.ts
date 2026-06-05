@@ -66,8 +66,6 @@ describe('Tree', () => {
       .getByRole('button', { name: 'Grandchild node', exact: true })
       .dropTo(page.getByRole('button', { name: 'Root node', exact: true }));
 
-    expect.soft(mockTreeApiService.moveNode).toHaveBeenCalledWith(4, 1);
-
     // Normally the tree gets fully expanded, as the Tree component gets re-rendered.
     await page.getByRole('button', { name: 'Toggle Root node', exact: true }).click();
 

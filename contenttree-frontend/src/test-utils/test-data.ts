@@ -1,5 +1,9 @@
-import { ContentRespDto } from '../app/api/tree-api.service';
-import { TreeNodeData } from '../app/tree-page/tree-page.service';
+import {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
+} from '../app/api/tree-api.service';
 import { TreeApiServiceMockData } from './mock-factory';
 
 export const treeApiServiceMockDataForHappyCase: TreeApiServiceMockData = {
@@ -10,23 +14,65 @@ export const treeApiServiceMockDataForHappyCase: TreeApiServiceMockData = {
     { id: 4, name: 'Grandchild node', parentId: 2 },
   ],
 
-  contentForSelectedNode: (selectedNode: TreeNodeData): ContentRespDto => {
-    switch (selectedNode.id) {
-      case 1:
-        return { data: 'Content for root node' };
-      case 2:
-        return { data: 'Content for child node' };
-      case 3:
-        return { data: 'Content for child node 2' };
-      case 4:
-        return { data: 'Content for grandchild node' };
-      default:
-        throw new Error(`Unexpected ID: ${selectedNode.id}`);
-    }
+  contents: {
+    1: { data: 'Content for root node' },
+    2: { data: 'Content for child node' },
+    3: { data: 'Content for child node 2' },
+    4: { data: 'Content for grandchild node' },
   },
 
-  foundNodes: (searchText: string): number[] => {
-    return searchText === 'Grand' ? [4] : [];
+  flatNodesAfterCreate: (node: CreateTreeNodeReqDTO): TreeNodeRespDTO[] => {
+    if (node.name === 'test node') {
+      return [
+        { id: 1, name: 'Root node' },
+        { id: 2, name: 'Child node', parentId: 1 },
+        { id: 3, name: 'Child node 2', parentId: 1 },
+        { id: 4, name: 'Grandchild node', parentId: 1 },
+        { id: 5, name: 'test node', parentId: 1 },
+      ];
+    }
+
+    throw new Error(`Unexpected node: ${node.name}`);
+  },
+
+  contentsAfterCreate: (node: CreateTreeNodeReqDTO): Record<number, ContentRespDto> => {
+    if (node.name === 'test node') {
+      return {
+        1: { data: 'Content for root node' },
+        2: { data: 'Content for child node' },
+        3: { data: 'Content for child node 2' },
+        4: { data: 'Content for grandchild node' },
+        5: { data: 'test content' },
+      };
+    }
+
+    throw new Error(`Unexpected node: ${node.name}`);
+  },
+
+  flatNodesAfterUpdate: (node: UpdateTreeNodeReqDTO): TreeNodeRespDTO[] => {
+    if (node.name === 'changed node') {
+      return [
+        { id: 1, name: 'changed node' },
+        { id: 2, name: 'Child node', parentId: 1 },
+        { id: 3, name: 'Child node 2', parentId: 1 },
+        { id: 4, name: 'Grandchild node', parentId: 1 },
+      ];
+    }
+
+    throw new Error(`Unexpected node: ${node.name}`);
+  },
+
+  contentsAfterUpdate: (node: UpdateTreeNodeReqDTO): Record<number, ContentRespDto> => {
+    if (node.name === 'changed node') {
+      return {
+        1: { data: 'changed content' },
+        2: { data: 'Content for child node' },
+        3: { data: 'Content for child node 2' },
+        4: { data: 'Content for grandchild node' },
+      };
+    }
+
+    throw new Error(`Unexpected node: ${node.name}`);
   },
 
   flatNodesAfterMove: (nodeId: number, newParentId: number) => {
@@ -40,5 +86,13 @@ export const treeApiServiceMockDataForHappyCase: TreeApiServiceMockData = {
     }
 
     throw new Error(`Unexpected move: ${nodeId} to ${newParentId}`);
+  },
+
+  foundNodes: (searchText: string): number[] => {
+    if (searchText === 'Grand') {
+      return [4];
+    }
+
+    throw new Error(`Unexpected search text: ${searchText}`);
   },
 };
