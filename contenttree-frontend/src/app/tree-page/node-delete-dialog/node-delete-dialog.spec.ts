@@ -23,11 +23,19 @@ describe('NodeDeleteDialog', () => {
   it('can delete existing node', async () => {
     await page.getByRole('button', { name: 'Child node', exact: true }).click();
     await page.getByRole('button', { name: 'Delete selected node', exact: true }).click();
-    await page.getByRole('button', { name: 'Delete All', exact: true }).click();
 
-    await expect
-      .element(page.getByRole('button', { name: 'Delete All', exact: true }))
-      .not.toBeInTheDocument();
+    const dialog = page.getByRole('dialog');
+
+    await expect.element(dialog).toBeVisible();
+    for (const name of ['Child node', 'Grandchild node']) {
+      await expect
+        .element(dialog.getByRole('listitem').getByText(name, { exact: true }))
+        .toBeVisible();
+    }
+
+    await dialog.getByRole('button', { name: 'Delete All', exact: true }).click();
+
+    await expect.element(dialog).not.toBeInTheDocument();
 
     // Normally the tree gets fully expanded, as the Tree component gets re-rendered.
     await page.getByRole('button', { name: 'Toggle Root node', exact: true }).click();

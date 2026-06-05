@@ -21,6 +21,9 @@
       .tree-preview-list {
         max-height: 12.5rem;
         overflow: auto;
+        margin: 0;
+        padding: 0;
+        list-style: none;
 
         .tree-item {
           display: flex;

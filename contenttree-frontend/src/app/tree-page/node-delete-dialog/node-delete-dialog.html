@@ -15,9 +15,9 @@
 
     @if (allNodesToDelete.length > 1) {
       <div class="tree-preview-container">
-        <div class="tree-preview-list">
+        <ul class="tree-preview-list" aria-label="Nodes to be deleted">
           @for (item of allNodesToDelete; track item.node.id) {
-            <div class="tree-item" [style.padding-left.px]="item.indentLevel * 24">
+            <li class="tree-item" [style.padding-left.px]="item.indentLevel * 24">
               <span class="tree-icon">
                 @if (item.node.children.length > 0) {
                   <mat-icon>folder</mat-icon>
@@ -26,9 +26,9 @@
                 }
               </span>
               <span class="tree-name">{{ item.node.name }}</span>
-            </div>
+            </li>
           }
-        </div>
+        </ul>
       </div>
     }
   </mat-card-content>
