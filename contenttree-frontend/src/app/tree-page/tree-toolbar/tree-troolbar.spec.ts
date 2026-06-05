@@ -26,14 +26,17 @@ describe('TreeToolbar', () => {
     vi.useRealTimers();
   });
 
-  it('does not allow adding or editing node if no node is selected', async () => {
+  it('does not allow adding/editing/deleting if no node is selected', async () => {
     await page.getByRole('button', { name: 'Root node', exact: true }).click();
 
+    for (const name of ['Add new node', 'Edit selected node', 'Delete selected node']) {
+      await expect.element(page.getByRole('button', { name, exact: true })).toBeDisabled();
+    }
+  });
+
+  it('does not allow deleting the root node', async () => {
     await expect
-      .element(page.getByRole('button', { name: 'Add new node', exact: true }))
-      .toBeDisabled();
-    await expect
-      .element(page.getByRole('button', { name: 'Edit selected node', exact: true }))
+      .element(page.getByRole('button', { name: 'Delete selected node', exact: true }))
       .toBeDisabled();
   });
 

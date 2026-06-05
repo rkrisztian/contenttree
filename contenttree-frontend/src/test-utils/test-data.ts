@@ -75,6 +75,28 @@ export const treeApiServiceMockDataForHappyCase: TreeApiServiceMockData = {
     throw new Error(`Unexpected node: ${node.name}`);
   },
 
+  flatNodesAfterDelete: (nodeId: number): TreeNodeRespDTO[] => {
+    if (nodeId === 2) {
+      return [
+        { id: 1, name: 'Root node' },
+        { id: 3, name: 'Child node 2', parentId: 1 },
+      ];
+    }
+
+    throw new Error(`Unexpected node ID: ${nodeId}`);
+  },
+
+  contentsAfterDelete: (nodeId: number): Record<number, ContentRespDto> => {
+    if (nodeId === 2) {
+      return {
+        1: { data: 'Content for root node' },
+        3: { data: 'Content for child node 2' },
+      };
+    }
+
+    throw new Error(`Unexpected node ID: ${nodeId}`);
+  },
+
   flatNodesAfterMove: (nodeId: number, newParentId: number) => {
     if (nodeId === 4 && newParentId === 1) {
       return [

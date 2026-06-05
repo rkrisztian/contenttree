@@ -56,10 +56,12 @@ export interface TreeApiServiceMockData {
   flatNodesAfterCreate: (node: CreateTreeNodeReqDTO) => TreeNodeRespDTO[];
   flatNodesAfterUpdate: (node: UpdateTreeNodeReqDTO) => TreeNodeRespDTO[];
   flatNodesAfterMove: (nodeId: number, newParentId: number) => TreeNodeRespDTO[];
+  flatNodesAfterDelete: (nodeId: number) => TreeNodeRespDTO[];
 
   contents: Record<number, ContentRespDto>;
   contentsAfterCreate: (node: CreateTreeNodeReqDTO) => Record<number, ContentRespDto>;
   contentsAfterUpdate: (node: UpdateTreeNodeReqDTO) => Record<number, ContentRespDto>;
+  contentsAfterDelete: (nodeId: number) => Record<number, ContentRespDto>;
 
   foundNodes: (searchText: string) => number[];
 }
@@ -92,6 +94,12 @@ export class MockTreeApiService implements Partial<TreeApiService> {
     this.flatNodes.value.set(this.mockData.flatNodesAfterUpdate(node));
     this.contents = this.mockData.contentsAfterUpdate(node);
     return of();
+  };
+
+  deleteNode = (nodeId: number) => {
+    this.flatNodes.value.set(this.mockData.flatNodesAfterDelete(nodeId));
+    this.contents = this.mockData.contentsAfterDelete(nodeId);
+    return of({});
   };
 
   moveNode = (nodeId: number, newParentId: number) => {
