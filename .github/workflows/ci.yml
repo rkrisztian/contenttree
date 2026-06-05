@@ -118,9 +118,17 @@ jobs:
       - name: Build Frontend
         run: npm run build
 
+      # Project version is not picked up automatically.
+      # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
+      - name: (Get Frontend Version for SonarQube Scan)
+        id: get-frontend-version
+        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995  # v8.1.0
         with:
           projectBaseDir: contenttree-frontend
+          args: >
+            -Dsonar.projectVersion=${{ steps.get-frontend-version.outputs.version }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
