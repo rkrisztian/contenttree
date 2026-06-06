@@ -24,6 +24,11 @@ updates:
           - "version-update:semver-minor"
           - "version-update:semver-patch"
 
+  - package-ecosystem: "docker-compose"
+    directory: "/contenttree-backend"
+    schedule:
+      interval: monthly
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
