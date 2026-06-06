@@ -133,8 +133,7 @@ You can change dependencies (e.g., update dependency versions) by running the fo
 
 ```shell
 cd contenttree-backend
-gw --write-verification-metadata pgp,sha256 --export-keys
-gw dependencies --write-locks
+gw build --write-verification-metadata pgp,sha256 --export-keys --write-locks
 ```
 
 Then review the changes in the verification metadata and the lock file.
