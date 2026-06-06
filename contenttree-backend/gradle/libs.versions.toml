@@ -8,7 +8,7 @@ springDependencyManagement = { id = "io.spring.dependency-management", version =
 openapiGradlePlugin = { id = "org.springdoc.openapi-gradle-plugin", version = "1.9.0" }
 netLtgt-errorprone = { id = "net.ltgt.errorprone", version = "5.1.0" }
 netLtgt-nullaway = { id = "net.ltgt.nullaway", version = "3.0.0" }
-sonarqube = { id = "org.sonarqube", version = "7.3.0.8198" }
+sonarqube = { id = "org.sonarqube", version = "7.3.1.8318" }
 
 [libraries]
 springdocOpenapiStarterWebmvcUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "3.0.3" }
