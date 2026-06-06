@@ -17,7 +17,7 @@ services:
   dbgate:
     profiles: [ debug ]
     # version: 7.1.13-alpine
-    image: dbgate/dbgate@sha256:8243b8862384d5b19d589212f8d811755b476fcd815b12a49eee30596d379e3e
+    image: dbgate/dbgate@sha256:96756007e30fec85ec63fc076ec8e3a551e882f6963bc24a8974ea344ac1b440
     ports:
       - "5433:3000"
     environment:
