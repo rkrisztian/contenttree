@@ -14,6 +14,7 @@ The app consists of a Spring Boot backend and an Angular frontend.
     - [Spring Boot](https://spring.io/projects/spring-boot) (REST API)
     - [Gradle](https://gradle.org/) (build tool)
     - [PostgreSQL](https://www.postgresql.org/) (database)
+    - *(Optional)* [DbGate](https://www.dbgate.io/) (database manager)
     - [MapStruct](https://mapstruct.org/) (DTO mapping)
     - [Testcontainers](https://testcontainers.com/) (integration testing)
     - [NullAway](https://github.com/uber/NullAway) (null safety checker)
@@ -41,10 +42,18 @@ The app consists of a Spring Boot backend and an Angular frontend.
 You can install Java and Node.js using
 [a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers).
 
+The backend application (when using the `dev` profile) and the integration tests automatically pull
+the PostgreSQL database image. To enable this, ensure that you are logged in to
+the [Docker Hardened Images distribution registry](https://hub.docker.com/hardened-images/catalog):
+
+```bash
+docker login dhi.io
+```
+
 ### Backend
 
-Navigate to the `backend` folder and start the Spring Boot application. This command also triggers
-Docker Compose to start the PostgreSQL database and DbGate service defined in `compose.yaml`.
+Navigate to the backend project folder and start the Spring Boot application. This command also
+triggers Docker Compose to start the PostgreSQL database defined in `compose.yaml`.
 
 ```bash
 cd contenttree-backend
@@ -59,10 +68,6 @@ Once the backend is running, the API documentation is available at
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). The Actuator can be
 accessed at `http://localhost:8081/actuator/<endpoint>`, e.g.,
 [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health).
-
-
-The backend depends on PostgreSQL and in a development environment uses
-the `spring-boot-docker-compose` plugin to manage the database lifecycle.
 
 If you do not have IntelliJ IDEA Ultimate edition and you need a database manager tool, you can view
 and manage the `contenttree` database content via the DbGate UI

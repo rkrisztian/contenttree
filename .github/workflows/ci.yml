@@ -63,6 +63,13 @@ jobs:
           read-only: ${{ github.ref != 'refs/heads/main' }}
           build-root-directory: contenttree-backend
 
+      - name: Log in to Docker Hardened Images distribution registry
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee  # v4.2.0
+        with:
+          registry: dhi.io
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build Backend
         run: ./gradlew build
 

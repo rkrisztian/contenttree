@@ -15,10 +15,13 @@ public class TestcontainersConfiguration {
 
 	@Bean
 	@ServiceConnection
-	PostgreSQLContainer mongoDbContainer() {
+	PostgreSQLContainer postgresDbContainer() {
 		//noinspection resource: false positive
-		return new PostgreSQLContainer(DockerImageName.parse(dbImageName))
-				.withReuse(true);
+		return new PostgreSQLContainer(
+				DockerImageName.parse(dbImageName)
+						.asCompatibleSubstituteFor("postgres"))
+				.withReuse(true)
+				.withCommand("-c", "fsync=off");
 	}
 
 }
