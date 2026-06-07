@@ -6,7 +6,7 @@ import { MatDivider } from '@angular/material/divider';
   selector: 'app-about-page',
   imports: [MatCard, MatCardContent, MatDivider],
   templateUrl: './about-page.html',
-  styleUrl: './about-page.css',
+  styleUrl: './about-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutPage {}

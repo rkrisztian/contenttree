@@ -72,6 +72,10 @@ body {
   overflow-y: hidden;
 }
 
+a:not(.mat-mdc-button-base) {
+  color: var(--mat-sys-primary);
+}
+
 ::-webkit-scrollbar {
   width: 0.375rem;
   height: 0.375rem;
