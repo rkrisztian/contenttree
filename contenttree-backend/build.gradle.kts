@@ -162,6 +162,10 @@ listOf(
 	}
 }
 
+tasks.bootBuildImage {
+	imageName = "contenttree-backend:latest"
+}
+
 @Suppress("UnstableApiUsage")  // No practical alternative is available.
 testing {
 	suites {

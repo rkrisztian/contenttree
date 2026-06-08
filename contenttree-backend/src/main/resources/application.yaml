@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: false
+    open-in-view: false
   datasource:
     hikari:
       # See `001_init.sql` for reasoning.

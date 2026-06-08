@@ -92,6 +92,17 @@ npm start
 This runs the `ng serve` command. Once the frontend is running, the application will be available at
 [http://localhost:4200/tree](http://localhost:4200/tree).
 
+## Deploying the Application
+
+To test the application in a production deployment, it is possible to create a deployment on
+the local machine by executing the following commands:
+
+```shell
+(cd contenttree-backend && gw bootBuildImage)
+(cd contenttree-frontend && npm run docker:build)
+(cd contenttree-deploy && docker compose up)
+```
+
 ## Running Tests
 
 ### Backend Tests

@@ -24,8 +24,15 @@ updates:
           - "version-update:semver-minor"
           - "version-update:semver-patch"
 
+  - package-ecosystem: "docker"
+    directory: "/contenttree-frontend"
+    schedule:
+      interval: monthly
+
   - package-ecosystem: "docker-compose"
-    directory: "/contenttree-backend"
+    directories:
+      - "/contenttree-backend"
+      - "/contenttree-deploy"
     schedule:
       interval: monthly
 

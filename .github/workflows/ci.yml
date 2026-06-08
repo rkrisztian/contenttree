@@ -73,6 +73,9 @@ jobs:
       - name: Build Backend
         run: ./gradlew build
 
+      - name: Build Docker Image
+        run: ./gradlew bootBuildImage
+
       - name: Generate and submit dependency graph
         if: ${{ github.event_name != 'pull_request' }}
         uses: gradle/actions/dependency-submission@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e  # v6.1.0
@@ -124,6 +127,9 @@ jobs:
 
       - name: Build Frontend
         run: npm run build
+
+      - name: Build Docker Image
+        run: npm run docker:build --ignore-scripts
 
       # Project version is not picked up automatically.
       # See: https://github.com/bellingard/sonar-scanner-npm/issues/75

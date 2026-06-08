@@ -76,7 +76,7 @@
             "coverage": true,
             "coverageReporters": ["html", "lcov"],
             "coverageInclude": ["src/**/*.ts"],
-            "coverageExclude": ["src/app/api/schema.d.ts"],
+            "coverageExclude": ["src/app/api/schema.d.ts", "src/environments/**/*.ts"],
             "headless": true
           }
         },

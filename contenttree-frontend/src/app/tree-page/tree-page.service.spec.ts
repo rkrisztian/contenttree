@@ -1,12 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  ContentRespDto,
-  TREE_API_BASE_URL,
-  TreeApiService,
-  TreeNodeRespDTO,
-} from '../api/tree-api.service';
+import { ContentRespDto, TreeApiService, TreeNodeRespDTO } from '../api/tree-api.service';
 import { ErrorService } from '../core/error.service';
 import { TreePageService } from './tree-page.service';
 
@@ -69,12 +64,14 @@ describe('TreePageService', () => {
       callback: () => void,
     ) => {
       TestBed.tick();
-      httpTesting.expectOne({ method: 'GET', url: TREE_API_BASE_URL }).flush(mockData.flatNodes);
+      httpTesting
+        .expectOne({ method: 'GET', url: treeApiService.treeApiBaseUrl() })
+        .flush(mockData.flatNodes);
       await vi.waitUntil(() => treePageService.flatNodes.hasValue());
 
       if (mockData.content) {
         httpTesting
-          .expectOne({ method: 'GET', url: `${TREE_API_BASE_URL}/content/1` })
+          .expectOne({ method: 'GET', url: `${treeApiService.treeApiBaseUrl()}/content/1` })
           .flush(mockData.content);
         await vi.waitUntil(() => treePageService.contentForSelectedNode.hasValue());
       }

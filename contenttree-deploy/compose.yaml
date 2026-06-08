@@ -1,0 +1,49 @@
+services:
+  db:
+    # version: 18.4-alpine3.23 (should be the same as in `../contenttree-backend/compose.yaml`)
+    image: dhi.io/postgres@sha256:b18a3537d1273920565544b084a80918be565cadaf381112769b4bcf760b7555
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: prodsecret
+      POSTGRES_DB: contenttree
+    networks:
+      - db-network
+
+  backend:
+    depends_on:
+      - db
+    image: contenttree-backend:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contenttree
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=prodsecret
+      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8081
+    networks:
+      - db-network
+
+  frontend:
+    image: contenttree-frontend:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - API_BASE_URL=http://localhost:8080
+    networks:
+      - db-network
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  db-network:
+    driver: bridge

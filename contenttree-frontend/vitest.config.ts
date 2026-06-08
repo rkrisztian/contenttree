@@ -15,4 +15,12 @@ export default defineConfig({
       headless: true,
     },
   },
+  resolve: {
+    alias: {
+      'environments/environment': new URL(
+        'src/environments/environment-development.ts',
+        import.meta.url,
+      ).pathname,
+    },
+  },
 });

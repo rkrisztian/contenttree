@@ -10,7 +10,9 @@
     "test": "ng test",
     "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
     "lint": "ng lint",
-    "test:browser": "vitest"
+    "test:browser": "vitest",
+    "docker:build": "docker build --tag contenttree-frontend:latest .",
+    "predocker:build": "npm run build"
   },
   "packageManager": "npm@11.12.1",
   "dependencies": {
