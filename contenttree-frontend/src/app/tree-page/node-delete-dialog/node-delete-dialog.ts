@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { TreeNodeData } from '../tree-page.service';
-import { NodeDeleteDialogService } from './node-delete-dialog.service';
+import { NodeDeleteDialogUtil } from './node-delete-dialog.util';
 
 export interface NodeDeleteDialogData {
   node: TreeNodeData;
@@ -21,11 +21,8 @@ export interface NodeDeleteDialogData {
 export class NodeDeleteDialog {
   protected readonly data = inject(DIALOG_DATA) as NodeDeleteDialogData;
   private readonly dialogRef = inject(DialogRef);
-  protected readonly nodeDeleteDialogService = inject(NodeDeleteDialogService);
 
-  protected readonly allNodesToDelete = this.nodeDeleteDialogService.calculateTreeAsList(
-    this.data.node,
-  );
+  protected readonly allNodesToDelete = NodeDeleteDialogUtil.convertTreeToList(this.data.node);
 
   protected cancel = () => {
     this.dialogRef.close();

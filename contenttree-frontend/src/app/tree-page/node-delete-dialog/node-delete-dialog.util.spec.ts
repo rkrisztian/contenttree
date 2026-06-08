@@ -1,19 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
-import { NodeDeleteDialogService } from './node-delete-dialog.service';
+import { NodeDeleteDialogUtil } from './node-delete-dialog.util';
 
 describe('NodeDeleteDialogService', () => {
-  let service: NodeDeleteDialogService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(NodeDeleteDialogService);
-  });
-
   describe('calculateTreeAsList', () => {
     it('should return flattened list', () => {
       expect(
-        service.calculateTreeAsList({
+        NodeDeleteDialogUtil.convertTreeToList({
           id: 1,
           name: 'root node',
           parentId: null,
