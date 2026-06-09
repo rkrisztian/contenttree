@@ -82,6 +82,8 @@ describe('NodeEditorDialog', () => {
     await userEvent.clear(dialog.getByPlaceholder('Enter node content'));
     await vi.runAllTimersAsync();
 
+    await expect.element(dialog.getByPlaceholder('Enter node name')).toBeInvalid();
+    await expect.element(dialog.getByPlaceholder('Enter node name')).toBeInvalid();
     await expect.element(dialog.getByText('Node name is required')).toBeVisible();
     await expect.element(dialog.getByText('Node content is required')).toBeVisible();
     await expect

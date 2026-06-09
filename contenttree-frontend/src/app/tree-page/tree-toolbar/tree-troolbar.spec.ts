@@ -44,6 +44,7 @@ describe('TreeToolbar', () => {
     await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Grand');
     await vi.runAllTimersAsync();
 
+    await expect.element(page.getByPlaceholder('Search nodes')).toBeValid();
     await expect
       .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
       .toBeVisible();
@@ -58,6 +59,7 @@ describe('TreeToolbar', () => {
     await userEvent.tab();
     await vi.runAllTimersAsync();
 
+    await expect.element(page.getByPlaceholder('Search nodes')).toBeInvalid();
     await expect.element(page.getByText('At least 3 characters are required')).toBeVisible();
   });
 });
