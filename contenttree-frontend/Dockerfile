@@ -12,6 +12,6 @@ COPY --chown=nginx:nginx docker/config.json.template /usr/share/nginx/html/confi
 
 USER nginx
 
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint.sh"]

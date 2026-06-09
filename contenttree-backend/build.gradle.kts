@@ -139,6 +139,7 @@ tasks.bootRun {
 }
 
 openApi {
+	apiDocsUrl = "http://localhost:8083/v3/api-docs"
 	customBootRun {
 		systemProperties.put("spring.profiles.active", "docs")
 	}

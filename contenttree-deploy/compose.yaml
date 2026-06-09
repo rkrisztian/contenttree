@@ -26,21 +26,22 @@ services:
         condition: service_healthy
     image: contenttree-backend:latest
     ports:
-      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contenttree
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=prodsecret
-      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8081
+      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080
     networks:
       - db-network
 
   frontend:
     image: contenttree-frontend:latest
     ports:
-      - "8081:8081"
+      - "8080:8080"
     environment:
-      - API_BASE_URL=http://localhost:8080
+      - API_BASE_URL=http://localhost:8081
     networks:
       - db-network
     ulimits:

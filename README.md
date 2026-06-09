@@ -65,9 +65,9 @@ environment variable (`SPRING_PROFILES_ACTIVE`) or command-line arguments
 (`--spring.profiles.active=prod`). You can override this default in your IDE's Run Configuration.
 
 Once the backend is running, the API documentation is available at
-[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). The Actuator can be
-accessed at `http://localhost:8081/actuator/<endpoint>`, e.g.,
-[http://localhost:8081/actuator/health](http://localhost:8081/actuator/health).
+[http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html). The Actuator can be
+accessed at `http://localhost:8082/actuator/<endpoint>`, e.g.,
+[http://localhost:8082/actuator/health](http://localhost:8082/actuator/health).
 
 If you do not have IntelliJ IDEA Ultimate edition and you need a database manager tool, you can view
 and manage the `contenttree` database content via the DbGate UI
