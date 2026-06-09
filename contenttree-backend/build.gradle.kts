@@ -21,10 +21,12 @@ tasks.wrapper {
 	retryBackOffMs = 1000
 }
 
+val javaVersion = file(".java-version").readText(Charsets.UTF_8).trim()
+
 java {
 	toolchain {
 		languageVersion =
-			JavaLanguageVersion.of(file(".java-version").readText(Charsets.UTF_8).trim())
+			JavaLanguageVersion.of(javaVersion)
 	}
 }
 
@@ -115,6 +117,7 @@ tasks.jar {
 
 tasks.bootJar {
 	setExcludes(devSpecificFiles)
+	includeTools = false
 
 	manifest {
 		attributes(
@@ -153,6 +156,10 @@ listOf(
 }
 
 tasks.bootBuildImage {
+	// version: 0.0.144
+	builder =
+		"paketobuildpacks/builder-noble-java-tiny@sha256:81184e304c3218d68dd76bb42f3be378203026afeee70b3d3386971b358105ab"
+	environment.put("BP_JVM_VERSION", javaVersion)
 	imageName = "contenttree-backend:latest"
 }
 
