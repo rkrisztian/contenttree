@@ -12,10 +12,18 @@ services:
       POSTGRES_DB: contenttree
     networks:
       - db-network
+    healthcheck:
+      test: pg_isready -U postgres -d contenttree
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_interval: 3s
+      start_period: 20s
 
   backend:
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     image: contenttree-backend:latest
     ports:
       - "8080:8080"
