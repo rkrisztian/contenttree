@@ -3,7 +3,6 @@ import net.ltgt.gradle.nullaway.nullaway
 
 plugins {
 	java
-	war
 	alias(libs.plugins.springframeworkBoot)
 	alias(libs.plugins.springDependencyManagement)
 	alias(libs.plugins.openapiGradlePlugin)
@@ -47,7 +46,6 @@ dependencies {
 	annotationProcessor(libs.mapstructProcessor)
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat-runtime")
 	runtimeOnly("org.postgresql:postgresql")
 	errorprone(libs.errorProneCore)
 	errorprone(libs.nullaway)
@@ -117,14 +115,6 @@ tasks.jar {
 
 tasks.bootJar {
 	setExcludes(devSpecificFiles)
-}
-
-tasks.war {
-	rootSpec.setExcludes(devSpecificFiles)
-}
-
-tasks.bootWar {
-	rootSpec.setExcludes(devSpecificFiles)
 
 	manifest {
 		attributes(
