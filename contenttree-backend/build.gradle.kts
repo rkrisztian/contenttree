@@ -21,12 +21,12 @@ tasks.wrapper {
 	retryBackOffMs = 1000
 }
 
-val javaVersion = file(".java-version").readText(Charsets.UTF_8).trim()
+val javaVersion = providers.fileContents(layout.projectDirectory.file(".java-version"))
+	.asText.map { it.trim() }
 
 java {
 	toolchain {
-		languageVersion =
-			JavaLanguageVersion.of(javaVersion)
+		languageVersion = provider { JavaLanguageVersion.of(javaVersion.get()) }
 	}
 }
 
