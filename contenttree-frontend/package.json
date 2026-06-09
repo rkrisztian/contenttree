@@ -8,6 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:headed": "npm run test -- --headless=false",
     "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
     "lint": "ng lint",
     "test:browser": "vitest",
