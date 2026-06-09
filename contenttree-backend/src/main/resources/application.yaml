@@ -57,4 +57,3 @@ management:
       show-components: always
   server:
     port: 8082
-    address: 127.0.0.1
