@@ -15,4 +15,4 @@ springdocOpenapiStarterWebmvcUi = { group = "org.springdoc", name = "springdoc-o
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstructProcessor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.49.0" }
-nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.13.4" }
+nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.13.6" }
