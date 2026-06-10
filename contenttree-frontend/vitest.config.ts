@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config';
 
 /**
- * Vitest base config consumed by Angular's `@angular/build:unit-test` builder
- * (with `runnerConfig: true`), implementing a workaround for the following issue:
+ * Vitest config for unit testing, consumed by Angular's `@angular/build:unit-test` builder
+ * (with `runnerConfig: true`).
  *
  * The unit-test builder takes the `implicitBrowser` list obtained from the build's
  * `externalPackages: true` setting and inserts it directly into Vite's `optimizeDeps.include`,
@@ -13,7 +13,7 @@ import { defineConfig } from 'vitest/config';
  *
  * Reference: https://github.com/angular/angular-cli/issues/32523
  *
- * Adapted from: https://github.com/lacolaco/angular-signal-forms-examples
+ * Workaround adapted from: https://github.com/lacolaco/angular-signal-forms-examples
  * Note: The original solution is used without an explicit license. Attribution
  * is provided here as a courtesy to the original author.
  */
@@ -37,5 +37,8 @@ export default defineConfig({
   test: {
     isolate: true,
     testTimeout: 5000,
+    coverage: {
+      reportsDirectory: 'coverage',
+    },
   },
 });

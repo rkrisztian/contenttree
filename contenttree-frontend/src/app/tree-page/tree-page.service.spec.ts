@@ -36,8 +36,8 @@ describe('TreePageService', () => {
   });
 
   describe('rootNode and contentForSelectedNode', () => {
-    it('should load a one-node tree with content', async ({ worker }) => {
-      worker.use(
+    it('should load a one-node tree with content', async ({ server }) => {
+      server.use(
         http.get(TREE_API_BASE_URL, () => HttpResponse.json([{ id: 1, name: 'dummy name' }])),
         http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
           expect(params['id']).toEqual('1');
@@ -65,8 +65,8 @@ describe('TreePageService', () => {
       });
     });
 
-    it('should return null if there are no elements', ({ worker }) => {
-      worker.use(
+    it('should return null if there are no elements', ({ server }) => {
+      server.use(
         http.get(TREE_API_BASE_PATH, () => HttpResponse.json([])),
         http.get(`${TREE_API_BASE_PATH}/content/:id`, () => {
           throw new Error('Not expected to be called');

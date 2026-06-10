@@ -72,13 +72,24 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "browsers": ["Chromium"],
+            "include": ["src/**/*.spec.ts"],
+            "exclude": ["src/**/*.ct.spec.ts"],
+            "runnerConfig": "vitest.config.ts",
             "coverage": true,
-            "coverageReporters": ["html", "lcov"],
+            "coverageReporters": ["lcov"],
             "coverageInclude": ["src/**/*.ts"],
-            "coverageExclude": ["src/app/api/schema.d.ts", "src/environments/**/*.ts"],
-            "runnerConfig": true,
-            "setupFiles": ["src/test-utils/vitest.setup.ts"]
+            "coverageExclude": [
+              "src/app/api/schema.d.ts",
+              "src/environments/**/*.ts",
+              "src/test-utils/**"
+            ]
+          },
+          "configurations": {
+            "ct": {
+              "include": ["src/**/*.ct.spec.ts"],
+              "exclude": [],
+              "runnerConfig": "vitest.ct.config.ts"
+            }
           }
         },
         "lint": {

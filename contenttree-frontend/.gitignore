@@ -15,6 +15,7 @@ yarn-error.log
 __screenshots__/
 .vitest-attachments
 /coverage
+/coverage-ct
 
 # Miscellaneous
 /.angular/cache

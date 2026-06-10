@@ -114,19 +114,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browser
-        run: npx playwright install chrome
+      - name: Build Frontend
+        run: npm run build
 
       - name: Run Lint
         run: npm run lint
 
       - name: Run Unit Tests
         run: npm test
-        env:
-          CI: true
 
-      - name: Build Frontend
-        run: npm run build
+      - name: Install Playwright Browser
+        run: npx playwright install chromium
+
+      - name: Run Component Tests
+        run: npm run test:ct
 
       - name: Build Docker Image
         run: npm run docker:build --ignore-scripts
