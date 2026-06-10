@@ -1,25 +1,17 @@
 import { render } from 'vitest-browser-angular';
 import { page, userEvent } from 'vitest/browser';
-import { MockTreeApiService } from '../../../test-utils/mock-factory';
-import { treeApiServiceMockDataForHappyCase } from '../../../test-utils/test-data';
+import { it } from '../../../test-utils/msw-test';
 import { TreeApiService } from '../../api/tree-api.service';
 import { TreePage } from '../tree-page';
 import { TreePageService } from '../tree-page.service';
 
 describe('NodeEditorDialog', () => {
   beforeEach(async () => {
-    vi.useFakeTimers();
-
-    // See reasoning about network mocking in `mock-factory.ts`.
     await render(TreePage, {
-      providers: [
-        TreePageService,
-        {
-          provide: TreeApiService,
-          useValue: new MockTreeApiService(treeApiServiceMockDataForHappyCase),
-        },
-      ],
+      providers: [TreePageService, TreeApiService],
     });
+
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
@@ -48,9 +40,6 @@ describe('NodeEditorDialog', () => {
     await vi.runAllTimersAsync();
 
     await expect.element(dialog).not.toBeInTheDocument();
-
-    // Normally the tree gets fully expanded, as the Tree component gets re-rendered.
-    await page.getByRole('button', { name: 'Toggle Root node', exact: true }).click();
 
     await expect
       .element(page.getByRole('button', { name: 'test node', exact: true }))
