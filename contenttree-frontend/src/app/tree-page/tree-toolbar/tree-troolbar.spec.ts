@@ -12,7 +12,7 @@ describe('TreeToolbar', () => {
 
     // See reasoning about network mocking in `mock-factory.ts`.
     await render(TreePage, {
-      componentProviders: [
+      providers: [
         TreePageService,
         {
           provide: TreeApiService,

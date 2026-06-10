@@ -13,7 +13,7 @@ describe('Tree', () => {
   beforeEach(async () => {
     // See reasoning about network mocking in `mock-factory.ts`.
     const screen = await render(Tree, {
-      componentProviders: [
+      providers: [
         TreePageService,
         {
           provide: TreeApiService,

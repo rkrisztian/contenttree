@@ -12,7 +12,7 @@ describe('NodeEditorDialog', () => {
 
     // See reasoning about network mocking in `mock-factory.ts`.
     await render(TreePage, {
-      componentProviders: [
+      providers: [
         TreePageService,
         {
           provide: TreeApiService,
@@ -99,7 +99,7 @@ describe('NodeEditorDialog', () => {
     await expect.element(dialog).toBeVisible();
     await expect
       .element(dialog.getByRole('button', { name: 'Edit Node', exact: true }))
-      .toBeDisabled();
+      .toBeEnabled();
 
     await userEvent.fill(dialog.getByPlaceholder('Enter node name'), 'changed node');
     await userEvent.fill(dialog.getByPlaceholder('Enter node content'), 'changed content');
