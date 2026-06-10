@@ -1,5 +1,4 @@
-import { http, HttpResponse } from 'msw';
-import { setupWorker } from 'msw/browser';
+import { AnyHandler, http, HttpResponse } from 'msw';
 import {
   ContentRespDto,
   CreateTreeNodeReqDTO,
@@ -24,7 +23,7 @@ let contents: Record<string, ContentRespDto> = {
 
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
 
-export const worker = setupWorker(
+export const handlers: AnyHandler[] = [
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(flatNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
@@ -134,4 +133,4 @@ export const worker = setupWorker(
 
   http.all('/', async () => undefined),
   http.all('*/virtual:source-map-support', async () => undefined),
-);
+];

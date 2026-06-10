@@ -1,6 +1,6 @@
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import { it } from '../../../test-utils/msw-test';
+import { it } from '../../../test-utils/msw-ct';
 import { TreeApiService } from '../../api/tree-api.service';
 import { TreePage } from '../tree-page';
 import { TreePageService } from '../tree-page.service';

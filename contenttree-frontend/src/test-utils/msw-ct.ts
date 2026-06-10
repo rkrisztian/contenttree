@@ -1,17 +1,17 @@
-import { SetupServer, setupServer } from 'msw/node';
+import { setupWorker, SetupWorker } from 'msw/browser';
 import { it as itBase } from 'vitest';
 import { handlers } from './msw-mocks';
 
-const server = setupServer(...handlers);
+const worker = setupWorker(...handlers);
 
 export const it = itBase.extend<{
-  $test: { server: SetupServer };
+  $test: { worker: SetupWorker };
 }>({
-  server: [
+  worker: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      await use(server);
-      server.resetHandlers();
+      await use(worker);
+      worker.resetHandlers();
     },
     {
       auto: true,
@@ -20,5 +20,5 @@ export const it = itBase.extend<{
 });
 
 it.beforeAll(async () => {
-  server.listen();
+  await worker.start({ quiet: true });
 });
