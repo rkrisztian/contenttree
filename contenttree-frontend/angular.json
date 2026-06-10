@@ -77,7 +77,8 @@
             "coverageReporters": ["html", "lcov"],
             "coverageInclude": ["src/**/*.ts"],
             "coverageExclude": ["src/app/api/schema.d.ts", "src/environments/**/*.ts"],
-            "headless": true
+            "runnerConfig": true,
+            "setupFiles": ["src/test-utils/vitest.setup.ts"]
           }
         },
         "lint": {

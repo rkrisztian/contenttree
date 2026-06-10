@@ -1,32 +1,21 @@
+import { ApplicationRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import { MockTreeApiService } from '../../../test-utils/mock-factory';
-import { treeApiServiceMockDataForHappyCase } from '../../../test-utils/test-data';
+import { it } from '../../../test-utils/msw-test';
 import { TreeApiService } from '../../api/tree-api.service';
+import { TreePage } from '../tree-page';
 import { TreePageService } from '../tree-page.service';
-import { Tree } from './tree';
 
 describe('Tree', () => {
   let treePageService: TreePageService;
-  const mockTreeApiService = new MockTreeApiService(treeApiServiceMockDataForHappyCase);
 
   beforeEach(async () => {
-    // See reasoning about network mocking in `mock-factory.ts`.
-    const screen = await render(Tree, {
-      providers: [
-        TreePageService,
-        {
-          provide: TreeApiService,
-          useValue: mockTreeApiService,
-        },
-      ],
+    const screen = await render(TreePage, {
+      providers: [TreePageService, TreeApiService],
     });
 
     treePageService = screen.fixture.debugElement.injector.get(TreePageService);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 
   it('can display nodes', async () => {
@@ -65,9 +54,7 @@ describe('Tree', () => {
     await page
       .getByRole('button', { name: 'Grandchild node', exact: true })
       .dropTo(page.getByRole('button', { name: 'Root node', exact: true }));
-
-    // Normally the tree gets fully expanded, as the Tree component gets re-rendered.
-    await page.getByRole('button', { name: 'Toggle Root node', exact: true }).click();
+    await TestBed.inject(ApplicationRef).whenStable();
 
     for (const name of ['Root node', 'Child node', 'Grandchild node', 'Child node 2']) {
       await expect.element(page.getByRole('button', { name, exact: true })).toBeVisible();

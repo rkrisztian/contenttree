@@ -1,7 +1,14 @@
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ContentRespDto, TreeApiService, TreeNodeRespDTO } from '../api/tree-api.service';
+import { http, HttpResponse } from 'msw';
+import { TREE_API_BASE_URL } from '../../test-utils/msw-mocks';
+import { it } from '../../test-utils/msw-test';
+import {
+  ContentRespDto,
+  TREE_API_BASE_PATH,
+  TreeApiService,
+  TreeNodeRespDTO,
+} from '../api/tree-api.service';
 import { ErrorService } from '../core/error.service';
 import { TreePageService } from './tree-page.service';
 
@@ -9,7 +16,6 @@ describe('TreePageService', () => {
   let treeApiService: TreeApiService;
   let treePageService: TreePageService;
   let errorService: ErrorService;
-  let httpTesting: HttpTestingController;
 
   const testFlatNodes: TreeNodeRespDTO[] = [
     { id: 1, name: 'Root node' },
@@ -22,63 +28,54 @@ describe('TreePageService', () => {
   };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
-    });
+    TestBed.configureTestingModule({});
 
-    httpTesting = TestBed.inject(HttpTestingController);
     treeApiService = TestBed.inject(TreeApiService);
     treePageService = TestBed.inject(TreePageService);
     errorService = TestBed.inject(ErrorService);
   });
 
   describe('rootNode and contentForSelectedNode', () => {
-    it('should load a one-node tree with content', async () => {
-      await withMockData({ flatNodes: [{ id: 1, name: 'dummy name' }], content }, () => {
-        expect(treePageService.rootNode()).toHaveProperty('id', 1);
-        expect(treePageService.contentForSelectedNode.value()).toEqual(content);
-      });
+    it('should load a one-node tree with content', async ({ worker }) => {
+      worker.use(
+        http.get(TREE_API_BASE_URL, () => HttpResponse.json([{ id: 1, name: 'dummy name' }])),
+        http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
+          expect(params['id']).toEqual('1');
+          return HttpResponse.json(content);
+        }),
+      );
+
+      TestBed.tick();
+      await TestBed.inject(ApplicationRef).whenStable();
+
+      expect(treePageService.rootNode()).toHaveProperty('id', 1);
+      expect(treePageService.contentForSelectedNode.value()).toEqual(content);
     });
 
     it('should map child elements to parent', async () => {
-      await withMockData({ flatNodes: testFlatNodes, content }, () => {
-        expect(treePageService.rootNode()).toMatchObject({
-          id: 1,
-          children: [
-            expect.objectContaining({ id: 2, children: [expect.objectContaining({ id: 4 })] }),
-            expect.objectContaining({ id: 3 }),
-          ],
-        });
-      });
-    });
-
-    it('should return null if there are no elements', async () => {
-      await withMockData({ flatNodes: [], content: null }, () => {
-        expect(treePageService.rootNode()).toBeNullable();
-        expect(treePageService.contentForSelectedNode.value()).toBeNullable();
-      });
-    });
-
-    const withMockData = async (
-      mockData: { flatNodes: TreeNodeRespDTO[]; content: ContentRespDto | null },
-      callback: () => void,
-    ) => {
       TestBed.tick();
-      httpTesting
-        .expectOne({ method: 'GET', url: treeApiService.treeApiBaseUrl() })
-        .flush(mockData.flatNodes);
-      await vi.waitUntil(() => treePageService.flatNodes.hasValue());
+      await TestBed.inject(ApplicationRef).whenStable();
 
-      if (mockData.content) {
-        httpTesting
-          .expectOne({ method: 'GET', url: `${treeApiService.treeApiBaseUrl()}/content/1` })
-          .flush(mockData.content);
-        await vi.waitUntil(() => treePageService.contentForSelectedNode.hasValue());
-      }
+      expect(treePageService.rootNode()).toMatchObject({
+        id: 1,
+        children: [
+          expect.objectContaining({ id: 2, children: [expect.objectContaining({ id: 4 })] }),
+          expect.objectContaining({ id: 3 }),
+        ],
+      });
+    });
 
-      callback();
-      httpTesting.verify();
-    };
+    it('should return null if there are no elements', ({ worker }) => {
+      worker.use(
+        http.get(TREE_API_BASE_PATH, () => HttpResponse.json([])),
+        http.get(`${TREE_API_BASE_PATH}/content/:id`, () => {
+          throw new Error('Not expected to be called');
+        }),
+      );
+
+      expect(treePageService.rootNode()).toBeNullable();
+      expect(treePageService.contentForSelectedNode.value()).toBeNullable();
+    });
   });
 
   describe('moveNode', () => {

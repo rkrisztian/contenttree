@@ -9,6 +9,8 @@ export type ContentRespDto = components['schemas']['ContentRespDto'];
 export type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
 export type UpdateTreeNodeReqDTO = components['schemas']['UpdateTreeNodeReqDTO'];
 
+export const TREE_API_BASE_PATH = '/api/tree';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +18,7 @@ export class TreeApiService {
   private readonly http = inject(HttpClient);
   private readonly config = inject(AppConfigService);
 
-  readonly treeApiBaseUrl = computed(() => `${this.config.apiBaseUrl()}/api/tree`);
+  readonly treeApiBaseUrl = computed(() => `${this.config.apiBaseUrl()}${TREE_API_BASE_PATH}`);
 
   readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => this.treeApiBaseUrl());
 

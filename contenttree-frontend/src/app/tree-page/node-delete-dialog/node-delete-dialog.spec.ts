@@ -1,22 +1,14 @@
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import { MockTreeApiService } from '../../../test-utils/mock-factory';
-import { treeApiServiceMockDataForHappyCase } from '../../../test-utils/test-data';
+import { it } from '../../../test-utils/msw-test';
 import { TreeApiService } from '../../api/tree-api.service';
 import { TreePage } from '../tree-page';
 import { TreePageService } from '../tree-page.service';
 
 describe('NodeDeleteDialog', () => {
   beforeEach(async () => {
-    // See reasoning about network mocking in `mock-factory.ts`.
     await render(TreePage, {
-      providers: [
-        TreePageService,
-        {
-          provide: TreeApiService,
-          useValue: new MockTreeApiService(treeApiServiceMockDataForHappyCase),
-        },
-      ],
+      providers: [TreePageService, TreeApiService],
     });
   });
 
@@ -37,14 +29,11 @@ describe('NodeDeleteDialog', () => {
 
     await expect.element(dialog).not.toBeInTheDocument();
 
-    // Normally the tree gets fully expanded, as the Tree component gets re-rendered.
-    await page.getByRole('button', { name: 'Toggle Root node', exact: true }).click();
-
-    for (const name of ['Child node', 'Grandchild node']) {
-      await expect.element(page.getByRole('button', { name, exact: true })).not.toBeInTheDocument();
-    }
     for (const name of ['Root node', 'Child node 2']) {
       await expect.element(page.getByRole('button', { name, exact: true })).toBeVisible();
+    }
+    for (const name of ['Child node', 'Grandchild node']) {
+      await expect.element(page.getByRole('button', { name, exact: true })).not.toBeInTheDocument();
     }
   });
 });
