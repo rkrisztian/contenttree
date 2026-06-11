@@ -16,7 +16,8 @@
   .mat-mdc-card {
     width: 24rem;
     min-height: 4rem;
-    border-left: 0.25rem solid var(--mat-sys-error);
+    border-left: 0.25rem solid var(--mat-sys-on-error-container);
+    color: var(--mat-sys-on-error-container);
 
     .mat-mdc-card-title {
       margin: 0.5rem 0.5rem 0 0.5rem;
@@ -25,14 +26,12 @@
       gap: 1rem;
 
       .error-icon {
-        color: var(--mat-sys-error);
         margin-top: 0.55rem;
         flex-shrink: 0;
       }
 
       .error-title {
         font-weight: 500;
-        color: var(--mat-sys-error);
         margin-top: 0.45rem;
         margin-bottom: 0.75rem;
       }
@@ -42,7 +41,6 @@
       }
 
       .error-close-button {
-        color: var(--mat-sys-error);
         margin-top: 0.15rem;
         flex-shrink: 0;
       }
@@ -52,21 +50,25 @@
       margin-top: 0.25rem;
       margin-bottom: 0.5rem;
 
-      .error-text {
-        flex: 1;
+      &.details-content {
+        margin-top: 0.5rem;
 
-        .error-message {
-          font-size: 0.875rem;
-          color: var(--mat-sys-error);
+        .trace-id-container {
+          font-size: 0.75rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          .trace-id-label {
+            font-weight: bold;
+          }
         }
       }
     }
 
     .mat-mdc-card-actions {
       display: flex;
-      justify-content: space-between;
+      gap: 0.5rem;
       align-items: center;
-      width: 100%;
       padding: 0;
       margin: 0.25rem 0.5rem 0.25rem 0.5rem;
 
