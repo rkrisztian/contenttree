@@ -84,7 +84,7 @@ gw bootRun --args='--spring.docker.compose.profiles.active=debug'
 
 ### Frontend
 
-Navigate to the `frontend` folder and start the Angular development server.
+Navigate to the frontend folder and start the Angular development server.
 
 ```shell
 cd contenttree-frontend
@@ -129,6 +129,14 @@ npm test
 ```
 
 This runs the `ng test` command.
+
+Component tests are executed separately because they require a browser (this project uses Chromium):
+
+```shell
+cd contenttree-frontend
+npx playwright install chromium
+npm run test:ct
+```
 
 ## Contribution
 
