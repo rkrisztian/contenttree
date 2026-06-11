@@ -120,6 +120,11 @@ jobs:
       - name: Run Lint
         run: npm run lint
 
+      # ESLint does not support multiple reporter formats in one go.
+      # See: https://github.com/eslint/eslint/issues/19990
+      - name: (Generate ESLint report for Sonar)
+        run: npm run lint:sonar
+
       - name: Run Unit Tests
         run: npm test
 

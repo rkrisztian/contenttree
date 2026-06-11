@@ -17,6 +17,9 @@ __screenshots__/
 /coverage
 /coverage-ct
 
+# Static code analysis
+eslint-report.json
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

@@ -199,8 +199,8 @@ testing {
 	}
 }
 
-@Suppress("UnstableApiUsage")
 tasks.check {
+	@Suppress("UnstableApiUsage")
 	dependsOn(testing.suites.named("integrationTest"))
 }
 
@@ -267,7 +267,15 @@ sonar {
 			tasks.named<JacocoReport>("codeCoverageReport")
 				.get().reports.xml.outputLocation.get().asFile
 		)
+		property(
+			"sonar.java.pmd.reportPaths",
+			layout.buildDirectory.file("reports/pmd/main.xml").get().asFile
+		)
 	}
+}
+
+tasks.sonar {
+	dependsOn(tasks.build)
 }
 
 listOf(
