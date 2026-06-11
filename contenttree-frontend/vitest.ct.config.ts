@@ -1,4 +1,3 @@
-import { playwright } from '@vitest/browser-playwright';
 import { mergeConfig } from 'vitest/config';
 import unitTestConfig from './vitest.config';
 
@@ -8,14 +7,6 @@ import unitTestConfig from './vitest.config';
  */
 export default mergeConfig(unitTestConfig, {
   test: {
-    browser: {
-      enabled: true,
-      provider: playwright({
-        launchOptions: { channel: 'chromium' },
-      }),
-      instances: [{ browser: 'chromium' }],
-    },
-    setupFiles: ['src/test-utils/vitest.ct.setup.ts'],
     coverage: {
       reportsDirectory: 'coverage-ct',
     },

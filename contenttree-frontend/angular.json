@@ -88,7 +88,9 @@
             "ct": {
               "include": ["src/**/*.ct.spec.ts"],
               "exclude": [],
-              "runnerConfig": "vitest.ct.config.ts"
+              "runnerConfig": "vitest.ct.config.ts",
+              "browsers": ["chromium"],
+              "setupFiles": ["src/test-utils/vitest.ct.setup.ts"]
             }
           }
         },
