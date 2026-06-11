@@ -16,4 +16,6 @@ export class ErrorOverlay {
   protected readonly errorService = inject(ErrorService);
 
   protected readonly errorData = this.errorService.errorData;
+
+  protected readonly copyErrorData = this.errorService.copyErrorData;
 }

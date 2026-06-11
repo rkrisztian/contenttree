@@ -3,6 +3,7 @@ import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 export interface ErrorData {
   error: string;
   message: string;
+  traceId?: string;
 }
 
 @Injectable({
@@ -29,5 +30,15 @@ export class ErrorService {
 
   hide = (): void => {
     this._errorData.set(null);
+  };
+
+  copyErrorData = async (errorData: ErrorData): Promise<void> => {
+    const details = [
+      `Error: ${errorData.error}`,
+      `Message: ${errorData.message}`,
+      ...(errorData.traceId ? [`Trace ID: ${errorData.traceId}`] : []),
+    ].join('\n');
+
+    await navigator.clipboard.writeText(details);
   };
 }

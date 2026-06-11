@@ -11,11 +11,11 @@ describe('Tree', () => {
   let treePageService: TreePageService;
 
   beforeEach(async () => {
-    const screen = await render(TreePage, {
+    await render(TreePage, {
       providers: [TreePageService, TreeApiService],
     });
 
-    treePageService = screen.fixture.debugElement.injector.get(TreePageService);
+    treePageService = TestBed.inject(TreePageService);
   });
 
   it('can display nodes', async () => {

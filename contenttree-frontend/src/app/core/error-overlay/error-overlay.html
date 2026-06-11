@@ -2,9 +2,9 @@
   <mat-card>
     <mat-card-title>
       <mat-icon class="error-icon" aria-hidden="true">error_outline</mat-icon>
-      <h3 class="error-title">
+      <h4 class="error-title">
         {{ errorData()!.error }}
-      </h3>
+      </h4>
       <div class="flex-spacer"></div>
       <button
         mat-icon-button
@@ -17,15 +17,28 @@
     </mat-card-title>
 
     <mat-card-content class="error-content">
-      <div class="error-text">
-        <div class="error-message">
-          {{ errorData()!.message }}
-        </div>
-      </div>
+      {{ errorData()!.message }}
     </mat-card-content>
 
+    @if (errorData()!.traceId) {
+      <mat-card-content class="details-content">
+        <div class="trace-id-container">
+          <span class="trace-id-label">Trace ID: </span>
+          <code>{{ errorData()!.traceId }}</code>
+        </div>
+      </mat-card-content>
+    }
+
     <mat-card-actions>
-      <button mat-flat-button (click)="errorService.hide()">Dismiss</button>
+      <button mat-flat-button (click)="copyErrorData(errorData()!)" aria-label="Copy error data">
+        <mat-icon class="copy-icon">content_copy</mat-icon>
+        Copy
+      </button>
+
+      <button mat-flat-button (click)="errorService.hide()">
+        Dismiss
+        <mat-icon>cancel</mat-icon>
+      </button>
     </mat-card-actions>
   </mat-card>
 }
