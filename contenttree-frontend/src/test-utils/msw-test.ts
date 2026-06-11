@@ -22,3 +22,7 @@ export const it = itBase.extend<{
 it.beforeAll(async () => {
   server.listen();
 });
+
+it.afterAll(() => {
+  server.close();
+});
