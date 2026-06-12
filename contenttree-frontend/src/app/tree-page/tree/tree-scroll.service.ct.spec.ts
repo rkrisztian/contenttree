@@ -10,11 +10,8 @@ import { TreeScrollService } from './tree-scroll.service';
     <section aria-label="Scrollable container" #scrollableContainer>
       @if (showContents()) {
         @for (number of numbers; track number) {
-          <p>Above element {{ number }}</p>
-        }
-        <span #elementToScrollTo>Test element to scroll to</span><br />
-        @for (number of numbers; track number) {
-          <p>Below element {{ number }}</p>
+          <span>Test number {{ number }}</span>
+          <br />
         }
       }
     </section>
@@ -22,6 +19,7 @@ import { TreeScrollService } from './tree-scroll.service';
   styles: `
     section {
       font-size: 16px;
+      line-height: 16px;
       height: 500px;
       max-height: 500px;
       overflow: auto;
@@ -32,7 +30,7 @@ import { TreeScrollService } from './tree-scroll.service';
 class TestScrollableContainer {
   readonly scrollableContainer = viewChild.required<ElementRef<HTMLElement>>('scrollableContainer');
   readonly showContents = signal<boolean>(true);
-  readonly numbers = Array.from({ length: 20 }, (_, i) => i);
+  readonly numbers = Array.from({ length: 1000 / 16 + 1 }, (_, i) => i);
 }
 
 describe('TreeScrollService', () => {
@@ -55,23 +53,21 @@ describe('TreeScrollService', () => {
       .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
       .toMatchObject({ scrollTop: 0 });
 
-    await page.getByText('Above element 1', { exact: true }).wheel({ delta: { y: 1000 } });
+    await page.getByText('Test number 1', { exact: true }).wheel({ delta: { y: 500 } });
 
     await expect
       .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
-      .toMatchObject({ scrollTop: expect.toSatisfy((value) => value > 500) });
+      .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
 
     service.saveScrollPosition();
     componentInstance.showContents.set(false);
-    await expect
-      .element(page.getByText('Above element 1', { exact: true }))
-      .not.toBeInTheDocument();
+    await expect.element(page.getByText('Test number 1', { exact: true })).not.toBeInTheDocument();
     componentInstance.showContents.set(true);
-    await expect.element(page.getByText('Above element 1', { exact: true })).toBeInTheDocument();
+    await expect.element(page.getByText('Test number 1', { exact: true })).toBeInTheDocument();
     service.restoreScrollPosition();
 
     await expect
       .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
-      .toMatchObject({ scrollTop: expect.toSatisfy((value) => value > 500) });
+      .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
   });
 });
