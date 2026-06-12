@@ -16,55 +16,93 @@ describe('ErrorService', () => {
     vi.useRealTimers();
   });
 
-  it('should initialize errorData as null', () => {
-    expect(service.errorData()).toBeNull();
+  it('should initialize errorData as empty', () => {
+    expect(service.errors()).toEqual([]);
   });
 
-  it('should update errorData when showError is called', () => {
-    const errorData = { error: 'Dummy error', message: 'Dummy message.' };
+  it('should update errors when addAndShow is called', () => {
+    const errorData = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
 
-    service.showError(errorData);
-
-    expect(service.errorData()).toEqual(errorData);
+    expect(service.errors()).toEqual([errorData]);
+    expect(service.latestError()).toEqual(errorData);
   });
 
-  it('should reset errorData to null when hide is called', () => {
-    const errorData = { error: 'Dummy error', message: 'Dummy message.' };
+  it('should store all errors', () => {
+    const errorData1 = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+    const errorData2 = service.addAndShow({ error: 'Dummy error 2', message: 'Dummy message 2.' });
 
-    service.showError(errorData);
-    service.hide();
-
-    expect(service.errorData()).toBeNull();
+    expect(service.errors()).toEqual([errorData2, errorData1]);
+    expect(service.latestError()).toEqual(errorData2);
   });
 
-  it('should clear the error automatically after timeout', async () => {
-    const errorData = { error: 'Dummy error', message: 'Dummy message.' };
+  it('should hide latest error', () => {
+    const errorData1 = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+    const errorData2 = service.addAndShow({ error: 'Dummy error 2', message: 'Dummy message 2.' });
 
-    service.showError(errorData);
+    service.hideLatestError();
+
+    expect(service.errors()).toEqual([errorData2, errorData1]);
+    expect(service.latestError()).toBeNull();
+  });
+
+  it('should remove errorData from errors when deleted', () => {
+    const errorData1 = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+    const errorData2 = service.addAndShow({ error: 'Dummy error 2', message: 'Dummy message 2.' });
+
+    service.remove(errorData1);
+
+    expect(service.errors()).toEqual([errorData2]);
+    expect(service.latestError()).toMatchObject(errorData2);
+  });
+
+  it('should hide latest error when deleted', () => {
+    const errorData1 = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+    const errorData2 = service.addAndShow({ error: 'Dummy error 2', message: 'Dummy message 2.' });
+
+    service.remove(errorData2);
+
+    expect(service.errors()).toEqual([errorData1]);
+    expect(service.latestError()).toBeNull();
+  });
+
+  it('should reset errors to empty when last error becomes deleted', () => {
+    const errorData1 = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+
+    service.remove(errorData1);
+
+    expect(service.errors()).toEqual([]);
+    expect(service.latestError()).toBeNull();
+  });
+
+  it('should hide the error automatically after timeout', async () => {
+    const errorData = service.addAndShow({ error: 'Dummy error', message: 'Dummy message.' });
+
     vi.advanceTimersByTime(ErrorService.TIMEOUT_IN_MS);
 
-    expect(service.errorData()).toBeNull();
+    expect(service.errors()).toEqual([errorData]);
+    expect(service.latestError()).toBeNull();
   });
 
   it('should always show and hide the latest error', async () => {
-    const errorData1 = { error: 'Test error 1', message: 'Test error 1' };
-    const errorData2 = { error: 'Test error 1', message: 'Test error 2' };
     const firstHalfTimeout = Math.floor(ErrorService.TIMEOUT_IN_MS / 2);
     const secondHalfTimeout =
       ErrorService.TIMEOUT_IN_MS - Math.floor(ErrorService.TIMEOUT_IN_MS / 2);
 
-    service.showError(errorData1);
+    const errorData1 = service.addAndShow({ error: 'Test error 1', message: 'Test error 1' });
     vi.advanceTimersByTime(firstHalfTimeout);
-    service.showError(errorData2);
+    const errorData2 = service.addAndShow({ error: 'Test error 1', message: 'Test error 2' });
 
-    expect(service.errorData()).toEqual(errorData2);
+    expect(service.errors()).toEqual([errorData2, errorData1]);
+    expect(service.latestError()).toEqual(errorData2);
 
     vi.advanceTimersByTime(secondHalfTimeout);
 
-    expect(service.errorData()).toEqual(errorData2);
+    expect(service.errors()).toEqual([errorData2, errorData1]);
+    expect(service.latestError()).toEqual(errorData2);
 
     vi.advanceTimersByTime(firstHalfTimeout);
 
-    expect(service.errorData()).toBeNull();
+    expect(service.errors()).toEqual([errorData2, errorData1]);
+    expect(service.latestError()).toBeNull();
   });
 });

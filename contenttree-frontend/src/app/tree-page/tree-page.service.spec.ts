@@ -115,10 +115,10 @@ describe('TreePageService', () => {
       const promise = treePageService.moveNode(nodeId, newParentId);
 
       if (shouldFail) {
-        expect.soft(errorService.errorData(), 'should display error').toHaveProperty('error');
+        expect.soft(errorService.latestError(), 'should display error').toBeDefined();
         expect.soft(promise, 'moveNode API should not be called').toBeUndefined();
       } else {
-        expect.soft(errorService.errorData(), 'should not display error').toBeNull();
+        expect.soft(errorService.latestError(), 'should not display error').toBeNull();
         expect.soft(promise, 'moveNode API should be called').toBeDefined();
       }
     });

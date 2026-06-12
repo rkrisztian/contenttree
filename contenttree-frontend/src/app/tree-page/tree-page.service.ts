@@ -96,7 +96,7 @@ export class TreePageService {
       this.isParent(newParentId, nodeId) ||
       this.isDescendant(newParentId, nodeId)
     ) {
-      this.errorService.showError({
+      this.errorService.addAndShow({
         error: 'Cannot perform operation',
         message: 'The requested move operation is invalid.',
       });

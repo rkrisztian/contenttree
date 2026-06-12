@@ -1,0 +1,39 @@
+<mat-card [class.with-border]="hasBorder()">
+  <mat-card-title>
+    <mat-icon class="error-icon" aria-hidden="true">error_outline</mat-icon>
+    <h4 class="error-title">
+      {{ error().error }}
+    </h4>
+    @if (closeable()) {
+      <div class="flex-spacer"></div>
+      <button mat-icon-button class="error-close-button" aria-label="Close" (click)="hide()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-card-title>
+
+  <mat-card-content class="error-content">
+    {{ error().message }}
+  </mat-card-content>
+
+  @if (error().traceId) {
+    <mat-card-content class="details-content">
+      <div class="trace-id-container">
+        <span class="trace-id-label">Trace ID: </span>
+        <code>{{ error().traceId }}</code>
+      </div>
+    </mat-card-content>
+  }
+
+  <mat-card-actions>
+    <button mat-flat-button (click)="copyToClipboard(error())" aria-label="Copy error data">
+      <mat-icon class="copy-icon">content_copy</mat-icon>
+      Copy
+    </button>
+
+    <button mat-flat-button (click)="remove(error())">
+      Delete
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

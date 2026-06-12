@@ -1,9 +1,13 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
-export interface ErrorData {
+export interface CreateErrorData {
   error: string;
   message: string;
   traceId?: string;
+}
+
+export interface ErrorData extends CreateErrorData {
+  id: string;
 }
 
 @Injectable({
@@ -14,25 +18,48 @@ export class ErrorService {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly _errorData = signal<ErrorData | null>(null);
-  readonly errorData = this._errorData.asReadonly();
+  private readonly _errors = signal<ErrorData[]>([]);
+  readonly errors = this._errors.asReadonly();
+
+  private readonly _latestError = signal<ErrorData | null>(null);
+  readonly latestError = this._latestError.asReadonly();
+
   private timeout: number | undefined = undefined;
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.timeout));
   }
 
-  showError = (errorData: ErrorData): void => {
-    this._errorData.set(errorData);
+  private readonly createError = (newErrorData: CreateErrorData) => ({
+    ...newErrorData,
+    id: crypto.randomUUID(),
+  });
+
+  readonly addAndShow = (newErrorData: CreateErrorData): ErrorData => {
+    const errorData = this.createError(newErrorData);
+
+    this._errors.update((errors) => [errorData, ...errors]);
+    this._latestError.set(errorData);
+
     clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.hide, ErrorService.TIMEOUT_IN_MS);
+    this.timeout = setTimeout(this.hideLatestError, ErrorService.TIMEOUT_IN_MS);
+
+    return errorData;
   };
 
-  hide = (): void => {
-    this._errorData.set(null);
+  readonly remove = (errorData: ErrorData): void => {
+    this._errors.update((errors) => errors.filter((error) => error.id !== errorData.id));
+
+    if (this.latestError()?.id === errorData.id) {
+      this.hideLatestError();
+    }
   };
 
-  copyErrorData = async (errorData: ErrorData): Promise<void> => {
+  readonly hideLatestError = (): void => {
+    this._latestError.set(null);
+  };
+
+  readonly copyToClipboard = async (errorData: ErrorData): Promise<void> => {
     const details = [
       `Error: ${errorData.error}`,
       `Message: ${errorData.message}`,

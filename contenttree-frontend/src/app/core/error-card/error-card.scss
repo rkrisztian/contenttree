@@ -1,12 +1,6 @@
 @use '@angular/material' as mat;
 
 :host {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  z-index: 1000;
-  display: block;
-
   @include mat.card-overrides(
     (
       elevated-container-color: var(--mat-sys-error-container),
@@ -16,8 +10,11 @@
   .mat-mdc-card {
     width: 24rem;
     min-height: 4rem;
-    border-left: 0.25rem solid var(--mat-sys-on-error-container);
     color: var(--mat-sys-on-error-container);
+
+    &.with-border {
+      border-left: 0.25rem solid var(--mat-sys-on-error-container);
+    }
 
     .mat-mdc-card-title {
       margin: 0.5rem 0.5rem 0 0.5rem;

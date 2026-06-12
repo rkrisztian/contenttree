@@ -10,9 +10,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: (response: HttpErrorResponse) => {
         if (response.status === 0) {
-          errorService.showError({ error: 'Unexpected error', message: response.message });
+          errorService.addAndShow({ error: 'Unexpected error', message: response.message });
         } else if (response.error.error && response.error.message) {
-          errorService.showError({
+          errorService.addAndShow({
             error: response.error.error,
             message: response.error.message,
             traceId: response.error.traceId || response.error.trace,
