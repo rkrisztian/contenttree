@@ -131,6 +131,5 @@ export const handlers: AnyHandler[] = [
     );
   }),
 
-  http.all('/', async () => undefined),
-  http.all('*/virtual:source-map-support', async () => undefined),
+  http.all('http://localhost:63315/*', async () => undefined),
 ];
