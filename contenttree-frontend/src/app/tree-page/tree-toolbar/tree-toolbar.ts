@@ -83,7 +83,7 @@ export class TreeToolbar {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
         } else {
-          this.treePageService.updateNode({ id: this.selectedNode()!.id, ...data }).subscribe();
+          this.treePageService.updateSelectedNode(data).subscribe();
         }
       });
   };
@@ -101,7 +101,7 @@ export class TreeToolbar {
       .subscribe((confirmed: boolean | undefined) => {
         if (confirmed) {
           this.treePageService
-            .deleteNode(this.selectedNode()!.id)
+            .deleteSelectedNode()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
         }

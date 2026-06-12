@@ -6,13 +6,14 @@ import {
   DestroyRef,
   inject,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTree, MatTreeModule } from '@angular/material/tree';
 import { TreeNodeData, TreePageService } from '../tree-page.service';
+import { TreeScrollService } from './tree-scroll.service';
 
 @Component({
   selector: 'app-tree',
@@ -24,6 +25,7 @@ import { TreeNodeData, TreePageService } from '../tree-page.service';
 export class Tree {
   private readonly treePageService = inject(TreePageService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly scrollService = inject(TreeScrollService);
 
   protected readonly rootNode = this.treePageService.rootNode;
   protected readonly dataSource = toObservable(computed(() => [this.rootNode()!]));
@@ -31,12 +33,12 @@ export class Tree {
   protected readonly draggedNodeId = signal<number | null>(null);
   protected readonly dragoverNodeId = signal<number | null>(null);
 
-  @ViewChild('tree', { read: MatTree })
-  protected readonly tree!: MatTree<TreeNodeData>;
+  protected readonly tree = viewChild.required('tree', { read: MatTree });
 
   constructor() {
     afterNextRender(() => {
-      this.tree.expandAll();
+      this.tree().expandAll();
+      this.scrollService.restoreScrollPosition();
     });
   }
 

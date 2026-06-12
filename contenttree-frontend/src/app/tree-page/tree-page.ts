@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +14,7 @@ import { ContentPanel } from './content-panel/content-panel';
 import { TreePageService } from './tree-page.service';
 import { TreeToolbar } from './tree-toolbar/tree-toolbar';
 import { Tree } from './tree/tree';
+import { TreeScrollService } from './tree/tree-scroll.service';
 
 @Component({
   selector: 'app-tree-page',
@@ -25,8 +33,18 @@ import { Tree } from './tree/tree';
 })
 export class TreePage {
   private readonly treePageService = inject(TreePageService);
+  private readonly treeScrollService = inject(TreeScrollService);
 
   protected readonly flatNodes = this.treePageService.flatNodes;
   protected readonly rootNode = this.treePageService.rootNode;
   protected readonly selectedNode = this.treePageService.selectedNode;
+
+  private readonly treeContainer = viewChild.required<ElementRef>('treeContainer');
+
+  constructor() {
+    afterNextRender(() => {
+      this.treeScrollService.containerElementRef.set(this.treeContainer());
+      this.treeScrollService.restoreScrollPosition();
+    });
+  }
 }
