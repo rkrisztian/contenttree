@@ -6,7 +6,7 @@
 
     <mat-divider />
 
-    <mat-card-content class="tree">
+    <mat-card-content #treeContainer class="tree">
       @if (flatNodes.isLoading()) {
         <div class="loading-container">
           <mat-spinner diameter="32"></mat-spinner>

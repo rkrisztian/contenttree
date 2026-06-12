@@ -1,13 +1,10 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
-export interface CreateErrorData {
+export interface ErrorData {
+  id: string;
   error: string;
   message: string;
   traceId?: string;
-}
-
-export interface ErrorData extends CreateErrorData {
-  id: string;
 }
 
 @Injectable({
@@ -30,12 +27,12 @@ export class ErrorService {
     this.destroyRef.onDestroy(() => clearTimeout(this.timeout));
   }
 
-  private readonly createError = (newErrorData: CreateErrorData) => ({
+  private readonly createError = (newErrorData: Omit<ErrorData, 'id'>) => ({
     ...newErrorData,
     id: crypto.randomUUID(),
   });
 
-  readonly addAndShow = (newErrorData: CreateErrorData): ErrorData => {
+  readonly addAndShow = (newErrorData: Omit<ErrorData, 'id'>): ErrorData => {
     const errorData = this.createError(newErrorData);
 
     this._errors.update((errors) => [errorData, ...errors]);

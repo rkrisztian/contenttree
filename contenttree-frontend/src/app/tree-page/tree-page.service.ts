@@ -6,6 +6,7 @@ import {
   UpdateTreeNodeReqDTO,
 } from '../api/tree-api.service';
 import { ErrorService } from '../core/error.service';
+import { TreeScrollService } from './tree/tree-scroll.service';
 
 export interface TreeNodeData {
   id: number;
@@ -17,17 +18,22 @@ export interface TreeNodeData {
 @Injectable({ providedIn: 'root' })
 export class TreePageService {
   private readonly treeApiService = inject(TreeApiService);
+  private readonly treeScrollService = inject(TreeScrollService);
   private readonly errorService = inject(ErrorService);
 
   private readonly _flatNodes = this.treeApiService.flatNodes;
   readonly flatNodes = this._flatNodes.asReadonly();
-  private readonly nodesById = computed(() => {
-    const flatNodes = this.flatNodes.hasValue() ? (this.flatNodes.value() ?? []) : [];
-    return new Map(flatNodes.map((node) => [node.id, node]));
-  });
-  readonly rootNode = computed(() => this.buildTree());
+  private readonly builtTree = computed(() => this.buildTree());
+  readonly rootNode = computed(() => this.builtTree().root);
+  private readonly nodesById = computed(() => this.builtTree().nodesById);
 
-  readonly selectedNode = linkedSignal(() => this.rootNode());
+  // Keep previous selection, otherwise default to rootNode.
+  // Ensure that after editing a node, selectedNode gets the updated data.
+  readonly selectedNode = linkedSignal<TreeNodeData | null, TreeNodeData | null>({
+    source: () => this.rootNode(),
+    computation: (rootNode, previousRootNode) =>
+      previousRootNode?.value ? this.nodesById().get(previousRootNode.value.id)! : rootNode,
+  });
   private readonly _contentForSelectedNode = this.treeApiService.contentForSelectedNode(
     this.selectedNode,
   );
@@ -39,26 +45,23 @@ export class TreePageService {
     this._foundNodes.hasValue() ? new Set(this._foundNodes.value()) : undefined,
   );
 
-  private readonly buildTree = (): TreeNodeData | null => {
-    const nodeDataById = new Map(
-      Array.from(this.nodesById().entries()).map(([nodeId, node]) => [
-        nodeId,
-        { ...node, children: [] } as TreeNodeData,
-      ]),
+  private readonly buildTree = () => {
+    const flatNodes = this.flatNodes.hasValue() ? (this.flatNodes.value() ?? []) : [];
+    const nodesById = new Map(
+      flatNodes.map((node) => [node.id, { ...node, children: [] } as TreeNodeData]),
     );
-
     let root: TreeNodeData | null = null;
 
-    for (const node of nodeDataById.values()) {
+    for (const node of nodesById.values()) {
       if (node.parentId == null) {
         root = node;
       } else {
-        const parent = nodeDataById.get(node.parentId)!;
+        const parent = nodesById.get(node.parentId)!;
         parent.children.push(node);
       }
     }
 
-    return root;
+    return { root, nodesById };
   };
 
   readonly toggleSelect = (newSelectedNode: TreeNodeData | null) => {
@@ -66,26 +69,30 @@ export class TreePageService {
   };
 
   readonly createNode = (node: CreateTreeNodeReqDTO) => {
-    return this.treeApiService.createNode(node).pipe(tap(() => this._flatNodes.reload()));
-  };
-
-  readonly updateNode = (node: UpdateTreeNodeReqDTO) => {
-    return this.treeApiService.updateNode(node).pipe(
+    return this.treeApiService.createNode(node).pipe(
       tap(() => {
+        this.treeScrollService.saveScrollPosition();
         this._flatNodes.reload();
-
-        if (node.id === this.selectedNode()?.id) {
-          this._contentForSelectedNode.reload();
-        }
       }),
     );
   };
 
-  readonly deleteNode = (id: number) =>
-    this.treeApiService.deleteNode(id).pipe(
+  readonly updateSelectedNode = (data: Omit<UpdateTreeNodeReqDTO, 'id'>) => {
+    return this.treeApiService.updateNode({ id: this.selectedNode()!.id, ...data }).pipe(
       tap(() => {
+        this.treeScrollService.saveScrollPosition();
         this._flatNodes.reload();
-        this.toggleSelect(null);
+        this._contentForSelectedNode.reload();
+      }),
+    );
+  };
+
+  readonly deleteSelectedNode = () =>
+    this.treeApiService.deleteNode(this.selectedNode()!.id).pipe(
+      tap(() => {
+        this.treeScrollService.saveScrollPosition();
+        this._flatNodes.reload();
+        this.toggleSelect(this.nodesById().get(this.selectedNode()!.parentId!)!);
       }),
     );
 
@@ -106,8 +113,8 @@ export class TreePageService {
 
     return this.treeApiService.moveNode(nodeId, newParentId).pipe(
       tap(() => {
+        this.treeScrollService.saveScrollPosition();
         this._flatNodes.reload();
-        this.toggleSelect(null);
       }),
     );
   };
