@@ -1,11 +1,7 @@
-header {
-  mat-toolbar.mat-toolbar {
-    background: var(--mat-sys-primary-container);
-    color: var(--mat-sys-on-primary-container);
-    border: 1px solid var(--mat-sys-outline-variant);
-    box-shadow: var(--mat-sys-level2);
-  }
-  .spacer {
-    flex: 1 1 0%;
-  }
+app-error-card {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: block;
 }

@@ -1,30 +1,11 @@
-<header>
-  <mat-toolbar>
-    <h1>{{ title }}</h1>
-    <span class="spacer"></span>
-
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Settings">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/tree">
-        <mat-icon>account_tree</mat-icon>
-        <span>Tree</span>
-      </button>
-      <button mat-menu-item routerLink="/about">
-        <mat-icon>info</mat-icon>
-        <span>About</span>
-      </button>
-    </mat-menu>
-
-    <app-theme-toggle />
-  </mat-toolbar>
-</header>
+<app-header />
 
 <main class="mat-app-background">
   <div style="margin-left: auto; margin-right: auto; padding: 1rem">
     <router-outlet></router-outlet>
   </div>
 
-  <app-error-overlay />
+  @if (latestError()) {
+    <app-error-card [error]="latestError()!" />
+  }
 </main>

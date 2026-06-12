@@ -36,7 +36,7 @@ describe('errorInterceptor', () => {
       expect.objectContaining({ name: 'HttpErrorResponse', status: 0 }),
     );
 
-    expect(errorService.errorData()).toMatchObject(
+    expect(errorService.latestError()).toMatchObject(
       expect.objectContaining({ error: 'Unexpected error' }),
     );
   });
@@ -63,7 +63,7 @@ describe('errorInterceptor', () => {
       expect.objectContaining({ name: 'HttpErrorResponse', status: 400 }),
     );
 
-    expect(errorService.errorData()).toEqual({
+    expect(errorService.latestError()).toMatchObject({
       error: 'Content tree service error',
       message: 'Node cannot be moved into a descendant',
       traceId: '0123456789abcdef0123456789abcdef',

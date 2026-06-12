@@ -1,19 +1,22 @@
-import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import { ErrorService } from '../error.service';
-import { ErrorOverlay } from './error-overlay';
+import { ErrorData, ErrorService } from '../error.service';
+import { ErrorCard } from './error-card';
 
 describe('ErrorService', () => {
-  let service: ErrorService;
-
   beforeEach(async () => {
-    await render(ErrorOverlay, {
+    await render(ErrorCard, {
       providers: [ErrorService],
+      inputs: {
+        error: {
+          id: '1',
+          error: 'dummy error',
+          message: 'dummy message',
+          traceId: 'abcd-1234',
+        } satisfies ErrorData,
+      },
     });
-
-    service = TestBed.inject(ErrorService);
   });
 
   afterEach(() => {
@@ -26,12 +29,6 @@ describe('ErrorService', () => {
       .mockImplementation(async () => {
         return;
       });
-
-    service.showError({
-      error: 'dummy error',
-      message: 'dummy message',
-      traceId: 'abcd-1234',
-    });
 
     await page.getByRole('button', { name: 'Copy error data', exact: true }).click();
 
