@@ -75,6 +75,7 @@
             "include": ["src/**/*.spec.ts"],
             "exclude": ["src/**/*.ct.spec.ts"],
             "runnerConfig": "vitest.config.ts",
+            "tsConfig": "tsconfig.spec.json",
             "coverage": true,
             "coverageReporters": ["lcov"],
             "coverageInclude": ["src/**/*.ts"],
@@ -89,6 +90,7 @@
               "include": ["src/**/*.ct.spec.ts"],
               "exclude": [],
               "runnerConfig": "vitest.ct.config.ts",
+              "tsConfig": "tsconfig.ct.spec.json",
               "browsers": ["chromium"],
               "setupFiles": ["src/test-utils/vitest.ct.setup.ts"]
             }
