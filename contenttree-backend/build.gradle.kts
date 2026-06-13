@@ -157,10 +157,24 @@ listOf(
 }
 
 tasks.bootBuildImage {
-	// version: 0.0.144
+	// version: 0.0.147
 	builder =
-		"paketobuildpacks/builder-noble-java-tiny@sha256:81184e304c3218d68dd76bb42f3be378203026afeee70b3d3386971b358105ab"
+		"paketobuildpacks/builder-noble-java-tiny@sha256:cfcf6edbac710d1fd12ba82e3a9ee31746b716465f86cc9cfbead663e004a415"
+	buildpacks = listOf(
+		// version: 11.6.3
+		"paketobuildpacks/azul-zulu@sha256:51f6a21087f919dd335696c4b708f97217b23dc9fe89819cd4e197193dca69e6",
+		// version: 22.1.0
+		"paketobuildpacks/java@sha256:0d3183b1209db62902ef228cfde9f55f68ff115a7aa2ef5115265414945b0467"
+	)
 	environment.put("BP_JVM_VERSION", javaVersion)
+	environment.put("BP_JVM_JLINK_ENABLED", "true")
+	environment.put(
+		"BP_JVM_JLINK_ARGS",
+		"--no-man-pages --no-header-files --strip-debug --compress zip-6 "
+				// Spring Boot requires the "jdk.unsupported".
+				+ "--add-modules java.base,java.desktop,java.compiler,java.management,java.logging,"
+				+ "java.naming,java.security.jgss,java.instrument,java.sql,jdk.unsupported"
+	)
 	imageName = "contenttree-backend:latest"
 }
 
