@@ -1,0 +1,88 @@
+name: CI Build - Frontend
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build
+    defaults:
+      run:
+        working-directory: contenttree-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: (Harden Runner)
+        uses: step-security/harden-runner@v2.19.4  # Immutable
+        with:
+          egress-policy: audit
+
+      - name: Check out code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: (Set up Node.js)
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
+        with:
+          node-version-file: contenttree-frontend/.node_version
+          cache: 'npm'
+          cache-dependency-path: contenttree-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Frontend
+        run: npm run build
+
+      - name: Run Lint
+        run: npm run lint
+
+      # ESLint does not support multiple reporter formats in one go.
+      # See: https://github.com/eslint/eslint/issues/19990
+      - name: (Generate ESLint report for Sonar)
+        run: npm run lint:sonar
+
+      - name: Run Unit Tests
+        run: npm test
+
+      - name: Install Playwright Browser
+        run: npx playwright install chromium
+
+      - name: Run Component Tests
+        run: npm run test:ct
+
+      - name: (Log in to Docker Hardened Images distribution registry)
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: dhi.io
+          # If username is sensitive for you, use a secret variable instead.
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: (Set up Docker Buildx)
+        uses: docker/setup-buildx-action@v4.1.0  # Immutable
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v7.2.0  # Immutable
+        with:
+          context: contenttree-frontend
+          tags: contenttree-frontend:latest
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Project version is not picked up automatically.
+      # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
+      - name: (Get Frontend Version for SonarQube Scan)
+        id: get-frontend-version
+        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
+        with:
+          projectBaseDir: contenttree-frontend
+          args: >
+            -Dsonar.projectVersion=${{ steps.get-frontend-version.outputs.version }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
