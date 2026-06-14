@@ -102,7 +102,7 @@ the local machine by executing the following commands:
 
 ```shell
 (cd contenttree-backend && gw bootBuildImage)
-(cd contenttree-frontend && npm run docker:build)
+(cd contenttree-frontend && npm run build:docker)
 (cd contenttree-deploy && docker compose up)
 ```
 
