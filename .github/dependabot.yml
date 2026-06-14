@@ -28,6 +28,8 @@ updates:
     directory: "/contenttree-frontend"
     schedule:
       interval: monthly
+    registries:
+      - docker-hardened-images
 
   - package-ecosystem: "docker-compose"
     directories:
@@ -35,8 +37,17 @@ updates:
       - "/contenttree-deploy"
     schedule:
       interval: monthly
+    registries:
+      - docker-hardened-images
 
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: monthly
+
+registries:
+  docker-hardened-images:
+    type: docker-registry
+    url: https://dhi.io
+    username: ${{ vars.DOCKER_USERNAME }}
+    password: ${{ secrets.DOCKER_PASSWORD }}
