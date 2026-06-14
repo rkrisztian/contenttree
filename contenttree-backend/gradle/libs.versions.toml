@@ -14,5 +14,5 @@ sonarqube = { id = "org.sonarqube", version = "7.3.0.8198" }
 springdocOpenapiStarterWebmvcUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "3.0.3" }
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstructProcessor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
-errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.49.0" }
+errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.50.0" }
 nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.13.4" }
