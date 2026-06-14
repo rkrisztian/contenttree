@@ -9,10 +9,10 @@
     "watch": "ng build --watch --configuration development",
     "build:docker": "docker build --tag contenttree-frontend:latest .",
     "prebuild:docker": "npm run build",
+    "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
     "test": "ng test",
     "test:ct": "npm run test -- --configuration ct",
     "test:ct:headless": "npm run test:ct -- --headless",
-    "openapi:generate": "npx openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
     "lint": "ng lint",
     "lint:sonar": "eslint ./ --format json > eslint-report.json"
   },
