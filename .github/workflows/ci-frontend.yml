@@ -46,8 +46,8 @@ jobs:
       - name: Run Unit Tests
         run: npm test
 
-      - name: Install Playwright Browser
-        run: npx playwright install chromium
+      - name: Install Playwright Browser (Chromium)
+        run: npm run install:chromium
 
       - name: Run Component Tests
         run: npm run test:ct

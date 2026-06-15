@@ -17,30 +17,30 @@ The app consists of a Spring Boot backend and an Angular frontend.
     - [Spring Boot](https://spring.io/projects/spring-boot) (REST API)
     - [Gradle](https://gradle.org/) (build tool)
     - [PostgreSQL](https://www.postgresql.org/) (database)
-    - *(Optional)* [DbGate](https://www.dbgate.io/) (database manager)
+    - _(Optional)_ [DbGate](https://www.dbgate.io/) (database manager)
     - [MapStruct](https://mapstruct.org/) (DTO mapping)
     - [Testcontainers](https://testcontainers.com/) (integration testing)
     - [NullAway](https://github.com/uber/NullAway) (null safety checker)
     - [PMD](https://pmd.github.io/) (code linting)
 - **Frontend:**
-	- [Angular](https://angular.dev/) (component-based UI)
-	- [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
-	- [Angular Material](https://material.angular.dev/) (UI components)
-    - [ESLint](https://eslint.org/) (code linting)
+    - [Angular](https://angular.dev/) (component-based UI)
+    - [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
+    - [Angular Material](https://material.angular.dev/) (UI components)
+        - [ESLint](https://eslint.org/) (code linting)
 - **CI/CD & Quality:**
-	- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
-	- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality & security analysis)
+    - [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
+    - [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality & security analysis)
 
 ## Running the Application
 
 ### Prerequisites
 
 - **Backend:**
-	- [Java Development Kit](https://www.java.com/en/) 25 or later
-	- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
-	- *(Optional)* [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
+    - [Java Development Kit](https://www.java.com/en/) 25 or later
+    - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+    - _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
 - **Frontend:**
-	- [Node.js](https://nodejs.org/en) and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
+    - [Node.js](https://nodejs.org/en) and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
 
 You can install Java and Node.js using
 [a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers).
@@ -134,7 +134,7 @@ Component tests are executed separately because they require a browser (this pro
 
 ```shell
 cd contenttree-frontend
-npx playwright install chromium
+npm run install:chromium
 npm run test:ct
 ```
 
@@ -143,9 +143,9 @@ npm run test:ct
 The following IDEs are recommended for use:
 
 - **Backend:**
-	- [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
+    - [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
 - **Frontend:**
-	- [Visual Studio Code](https://code.visualstudio.com/)
+    - [Visual Studio Code](https://code.visualstudio.com/)
 
 ### Backend
 
