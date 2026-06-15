@@ -4,6 +4,20 @@ updates:
     directory: "/contenttree-backend"
     schedule:
       interval: monthly
+    groups:
+      spring:
+        patterns:
+          - org.springframework.*
+          - io.spring.*
+      mapstruct:
+        patterns:
+          - org.mapstruct:*
+      error-prone-and-nullaway:
+        patterns:
+          - net.ltgt.errorprone
+          - net.ltgt.nullaway
+          - com.google.errorprone:*
+          - com.uber.nullaway:*
 
   - package-ecosystem: npm
     directory: "/contenttree-frontend"
