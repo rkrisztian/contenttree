@@ -63,26 +63,34 @@ jobs:
       - name: (Set up Docker Buildx)
         uses: docker/setup-buildx-action@v4.1.0  # Immutable
 
-      - name: Build Docker Image
-        uses: docker/build-push-action@v7.2.0  # Immutable
-        with:
-          context: contenttree-frontend
-          tags: contenttree-frontend:latest
-          push: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: (Get Frontend Version)
+        id: get-version
+        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       # Project version is not picked up automatically.
       # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
-      - name: (Get Frontend Version for SonarQube Scan)
-        id: get-frontend-version
-        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
         with:
           projectBaseDir: contenttree-frontend
           args: >
-            -Dsonar.projectVersion=${{ steps.get-frontend-version.outputs.version }}
+            -Dsonar.projectVersion=${{ steps.get-version.outputs.version }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: (Log in to GitHub Container Registry)
+        if: ${{ (github.event_name != 'pull_request') && success() }}
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v7.2.0  # Immutable
+        with:
+          context: contenttree-frontend
+          tags: "ghcr.io/${{ github.actor }}/contenttree-frontend:${{ steps.get-version.outputs.version }}-snapshot"
+          push: ${{ github.event_name != 'pull_request' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

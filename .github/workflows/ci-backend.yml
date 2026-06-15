@@ -47,9 +47,6 @@ jobs:
       - name: Build Backend
         run: ./gradlew build
 
-      - name: Build Docker Image
-        run: ./gradlew bootBuildImage
-
       - name: Generate and submit dependency graph
         if: ${{ (github.event_name != 'pull_request') && !cancelled()  }}
         uses: gradle/actions/dependency-submission@3f131e8634966bd73d06cc69884922b02e6faf92  # v6.2.0
@@ -61,3 +58,16 @@ jobs:
         run: ./gradlew sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: (Log in to GitHub Container Registry)
+        if: ${{ (github.event_name != 'pull_request') && success() }}
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        run: ./gradlew bootBuildImage -PpublishImage=${{ github.event_name != 'pull_request' }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}

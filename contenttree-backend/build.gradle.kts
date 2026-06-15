@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "contenttree"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 tasks.wrapper {
 	retries = 3
@@ -157,6 +157,9 @@ listOf(
 }
 
 tasks.bootBuildImage {
+	val publishImage = providers.gradleProperty("publishImage")
+		.map(String::toBoolean).orElse(false)
+
 	// version: 0.0.147
 	builder =
 		"paketobuildpacks/builder-noble-java-tiny@sha256:cfcf6edbac710d1fd12ba82e3a9ee31746b716465f86cc9cfbead663e004a415"
@@ -175,7 +178,16 @@ tasks.bootBuildImage {
 				+ "--add-modules java.base,java.desktop,java.compiler,java.management,java.logging,"
 				+ "java.naming,java.security.jgss,java.instrument,java.sql,jdk.unsupported"
 	)
-	imageName = "contenttree-backend:latest"
+	imageName = provider {
+		if (publishImage.get()) {
+			"ghcr.io/${
+				providers.environmentVariable("GITHUB_ACTOR").get()
+			}/contenttree-backend:${version}-snapshot"
+		} else {
+			"contenttree-backend:latest"
+		}
+	}
+	publish = publishImage
 }
 
 @Suppress("UnstableApiUsage")  // No practical alternative is available.
