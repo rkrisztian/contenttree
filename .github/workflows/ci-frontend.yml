@@ -41,6 +41,7 @@ jobs:
       # ESLint does not support multiple reporter formats in one go.
       # See: https://github.com/eslint/eslint/issues/19990
       - name: (Generate ESLint report for Sonar)
+        if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         run: npm run lint:sonar
 
       - name: Run Unit Tests
@@ -70,6 +71,7 @@ jobs:
       # Project version is not picked up automatically.
       # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
       - name: SonarQube Scan
+        if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
         with:
           projectBaseDir: contenttree-frontend
