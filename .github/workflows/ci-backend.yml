@@ -55,6 +55,7 @@ jobs:
           build-root-directory: contenttree-backend
 
       - name: SonarQubeCloud Scan
+        if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         run: ./gradlew sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

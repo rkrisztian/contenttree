@@ -70,6 +70,7 @@ jobs:
       # Project version is not picked up automatically.
       # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
       - name: SonarQube Scan
+        if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
         with:
           projectBaseDir: contenttree-frontend
