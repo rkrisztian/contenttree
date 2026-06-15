@@ -48,7 +48,8 @@ jobs:
     needs: changes
     if: ${{ (needs.changes.outputs.backend == 'true') && !cancelled()  }}
     permissions:
-      contents: write  # Needed by the `dependency-submission` action
+      contents: write  # Needed by the `dependency-submission` action.
+      packages: write  # Needed for publishing docker images to GHCR.
     uses: ./.github/workflows/ci-backend.yml
     secrets: inherit
 
@@ -58,5 +59,6 @@ jobs:
     if: ${{ (needs.changes.outputs.frontend == 'true') && !cancelled()  }}
     permissions:
       contents: read
+      packages: write  # Needed for publishing docker images to GHCR.
     uses: ./.github/workflows/ci-frontend.yml
     secrets: inherit
