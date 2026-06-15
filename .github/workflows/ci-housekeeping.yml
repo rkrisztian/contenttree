@@ -1,0 +1,29 @@
+name: CI Housekeeping
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * SUN"  # Weekly
+
+jobs:
+  clean:
+    name: Delete old snapshot images
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write  # Needed for removing old docker images from GHCR.
+    steps:
+      - name: (Harden Runner)
+        uses: step-security/harden-runner@v2.19.4  # Immutable
+        with:
+          egress-policy: audit
+          disable-telemetry: true
+
+      - name: Delete old snapshot images
+        uses: snok/container-retention-policy@d3bdcf5ce9b05f685154e4a16c39233b245e3d53  # v3.1.0
+        with:
+          account: user
+          token: ${{ secrets.GITHUB_TOKEN }}
+          image-names: "contenttree-frontend contenttree-backend"
+          image-tags: "*-snapshot"
+          cut-off: 1month
+          keep-n-most-recent: 2
