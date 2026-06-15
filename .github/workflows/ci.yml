@@ -39,9 +39,11 @@ jobs:
             backend:
               - 'contenttree-backend/**'
               - '.github/workflows/ci.yml'
+              - '.github/workflows/ci-backend.yml'
             frontend:
               - 'contenttree-frontend/**'
               - '.github/workflows/ci.yml'
+              - '.github/workflows/ci-frontend.yml'
 
   backend:
     name: Backend
