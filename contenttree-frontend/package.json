@@ -46,7 +46,7 @@
     "openapi-typescript": "^7.13.0",
     "prettier": "^3.8.4",
     "typescript": "~5.9.2",
-    "typescript-eslint": "8.56.1",
+    "typescript-eslint": "8.61.1",
     "vitest": "^4.0.8",
     "vitest-browser-angular": "^0.4.0"
   }
