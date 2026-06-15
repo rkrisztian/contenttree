@@ -197,7 +197,12 @@ testing {
 			targets.all {
 				testTask.configure {
 					testLogging { events("skipped", "failed") }
-					jvmArgs("-javaagent:${mockitoAgent.get().asPath}")
+					jvmArgs(
+						"-javaagent:${mockitoAgent.get().asPath}",
+						// Disable CDS to silence "Sharing is only supported for boot loader classes..."
+						// warning, caused by agents (e.g., JaCoCo) appending to the bootstrap classpath.
+						"-Xshare:off"
+					)
 
 					finalizedBy("codeCoverageReport")
 				}

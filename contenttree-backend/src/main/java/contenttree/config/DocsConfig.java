@@ -25,23 +25,22 @@ public class DocsConfig {
 		return createStub(TreeNodeWithContentRepository.class);
 	}
 
-	@SuppressWarnings({"unchecked", "PMD.UseProperClassLoader", "PMD.CompareObjectsWithEquals"})
+	// PMD.UseProperClassLoader: JPA interfaces always have non-null classloader in Spring Boot.
+	// ReferenceEquality: This proxy must not use value equality to prevent infinite recursion.
+	@SuppressWarnings({"unchecked", "PMD.UseProperClassLoader", "PMD.CompareObjectsWithEquals",
+			"ReferenceEquality"})
 	private static <T> T createStub(Class<T> interfaceClass) {
 		return (T) Proxy.newProxyInstance(
 				interfaceClass.getClassLoader(),
 				new Class<?>[]{interfaceClass},
-				(proxy, method, args) -> {
-					final String methodName = method.getName();
-
-					return switch (methodName) {
-						case "equals" -> proxy == args[0];
-						case "hashCode" -> System.identityHashCode(proxy);
-						case "toString" -> proxy.getClass().getName() + "@stub";
-						default -> throw new UnsupportedOperationException(
-								"This stub implementation does not support real functionality.");
-					};
-
-				}
+				(proxy, method, args) ->
+						switch (method.getName()) {
+							case "equals" -> proxy == args[0];
+							case "hashCode" -> System.identityHashCode(proxy);
+							case "toString" -> proxy.getClass().getName() + "@stub";
+							default -> throw new UnsupportedOperationException(
+									"This stub implementation does not support real functionality.");
+						}
 		);
 	}
 
