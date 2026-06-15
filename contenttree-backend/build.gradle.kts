@@ -181,7 +181,7 @@ tasks.bootBuildImage {
 	imageName = provider {
 		if (publishImage.get()) {
 			"ghcr.io/${
-				providers.environmentVariable("GITHUB_ACTOR").get()
+				providers.environmentVariable("GHCR_USER").get()
 			}/contenttree-backend:${version}-snapshot"
 		} else {
 			"contenttree-backend:latest"

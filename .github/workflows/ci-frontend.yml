@@ -83,14 +83,14 @@ jobs:
         uses: docker/login-action@v4.2.0  # Immutable
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v7.2.0  # Immutable
         with:
           context: contenttree-frontend
-          tags: "ghcr.io/${{ github.actor }}/contenttree-frontend:${{ steps.get-version.outputs.version }}-snapshot"
+          tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.get-version.outputs.version }}-snapshot"
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

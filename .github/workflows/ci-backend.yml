@@ -64,10 +64,10 @@ jobs:
         uses: docker/login-action@v4.2.0  # Immutable
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker Image
         run: ./gradlew bootBuildImage -PpublishImage=${{ github.event_name != 'pull_request' }}
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
+          GHCR_USER: ${{ github.repository_owner }}
