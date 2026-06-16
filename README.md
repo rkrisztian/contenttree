@@ -14,33 +14,35 @@ to another parent, as well as search nodes by name or content.
 The app consists of a Spring Boot backend and an Angular frontend.
 
 - **Backend:**
-    - [Spring Boot](https://spring.io/projects/spring-boot) (REST API)
-    - [Gradle](https://gradle.org/) (build tool)
-    - [PostgreSQL](https://www.postgresql.org/) (database)
-    - _(Optional)_ [DbGate](https://www.dbgate.io/) (database manager)
-    - [MapStruct](https://mapstruct.org/) (DTO mapping)
-    - [Testcontainers](https://testcontainers.com/) (integration testing)
-    - [NullAway](https://github.com/uber/NullAway) (null safety checker)
-    - [PMD](https://pmd.github.io/) (code linting)
+	- [Spring Boot](https://spring.io/projects/spring-boot) (REST API)
+	- [Gradle](https://gradle.org/) (build tool)
+	- [PostgreSQL](https://www.postgresql.org/) (database)
+	- _(Optional)_ [DbGate](https://www.dbgate.io/) (database manager)
+	- [MapStruct](https://mapstruct.org/) (DTO mapping)
+	- [Testcontainers](https://testcontainers.com/) (integration testing)
+	- [NullAway](https://github.com/uber/NullAway) (null safety checker)
+	- [PMD](https://pmd.github.io/) (code linting)
 - **Frontend:**
-    - [Angular](https://angular.dev/) (component-based UI)
-    - [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
-    - [Angular Material](https://material.angular.dev/) (UI components)
-        - [ESLint](https://eslint.org/) (code linting)
+	- [Angular](https://angular.dev/) (component-based UI)
+	- [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
+	- [Angular Material](https://material.angular.dev/) (UI components)
+		- [ESLint](https://eslint.org/) (code linting)
 - **CI/CD & Quality:**
-    - [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
-    - [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality & security analysis)
+	- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
+	- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
+	  security analysis)
 
 ## Running the Application
 
 ### Prerequisites
 
 - **Backend:**
-    - [Java Development Kit](https://www.java.com/en/) 25 or later
-    - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
-    - _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
+	- [Java Development Kit](https://www.java.com/en/) 25 or later
+	- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+	- _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
 - **Frontend:**
-    - [Node.js](https://nodejs.org/en) and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
+	- [Node.js](https://nodejs.org/en)
+	  and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
 
 You can install Java and Node.js using
 [a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers).
@@ -97,7 +99,7 @@ This runs the `ng serve` command. Once the frontend is running, the application 
 
 ## Deploying the Application
 
-To test the application in a production deployment, it is possible to create a deployment on
+To test the application in a production-like deployment, it is possible to create a deployment on
 the local machine by executing the following commands:
 
 ```shell
@@ -138,14 +140,23 @@ npm run install:chromium
 npm run test:ct
 ```
 
+### End-to-End Tests
+
+To run E2E tests, be sure that you have executed the aforementioned production-like deployment.
+
+```shell
+cd contenttree-deploy/e2e
+npm test
+```
+
 ## Contribution
 
 The following IDEs are recommended for use:
 
 - **Backend:**
-    - [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
+	- [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
 - **Frontend:**
-    - [Visual Studio Code](https://code.visualstudio.com/)
+	- [Visual Studio Code](https://code.visualstudio.com/)
 
 ### Backend
 
@@ -167,11 +178,9 @@ Then review the changes in the verification metadata and the lock file.
 To generate the `schema.d.ts` file, run the following commands:
 
 ```shell
-cd contenttree-backend
-gw generateOpenApiDocs
-
-cd ../contenttree-frontend
-npm run openapi:generate
+(cd contenttree-backend && gw generateOpenApiDocs)
+(cd contenttree-frontend && npm run openapi:generate)
+(cd contenttree-deploy/e2e && npm run openapi:generate)
 ```
 
 **Note:** `generateOpenApiDocs` is a standalone task because it is incompatible with Gradle's

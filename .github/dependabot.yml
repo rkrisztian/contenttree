@@ -20,7 +20,9 @@ updates:
           - com.uber.nullaway:*
 
   - package-ecosystem: npm
-    directory: "/contenttree-frontend"
+    directories:
+      - "/contenttree-frontend"
+      - "/contenttree-deploy/e2e"
     schedule:
       interval: monthly
     groups:

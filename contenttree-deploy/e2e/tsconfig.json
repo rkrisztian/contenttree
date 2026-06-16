@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["@types/node"]
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["@types/node"],
+    "sourceMap": true
   }
 }
