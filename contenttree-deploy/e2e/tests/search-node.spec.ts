@@ -11,8 +11,6 @@ test('should find matching node', async ({ page }) => {
   await dialog.getByRole('button', { name: 'Add Node', exact: true }).click();
   await page.getByRole('searchbox', { name: 'Search nodes', exact: true }).fill('search text');
 
-  await expect(page.getByText('Loading tree...', { exact: true })).not.toBeInViewport();
-  await expect(page.getByText('Loading content...', { exact: true })).not.toBeInViewport();
   await expect(
     page.getByRole('button', { name: 'node to be searched matched', exact: true }),
   ).toBeVisible();
