@@ -55,5 +55,7 @@ management:
       enabled: true
       show-details: never
       show-components: always
+      probes:
+        enabled: true
   server:
     port: 8082

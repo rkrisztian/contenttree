@@ -1,0 +1,90 @@
+name: CD Pipeline
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-and-e2e-test:
+    name: Deploy and E2E Test
+    defaults:
+      run:
+        working-directory: contenttree-deploy/e2e
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    timeout-minutes: 60
+    steps:
+      - name: (Harden Runner)
+        uses: step-security/harden-runner@v2.19.4  # Immutable
+        with:
+          egress-policy: audit
+          disable-telemetry: true
+
+      - name: Check out code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: (Cache .gradle)
+        uses: burrunan/gradle-cache-action@4b67497abd37a511d6c1dc6299bdd84ff39f7bf5  # v3.0.2
+        with:
+          read-only: ${{ github.ref != 'refs/heads/main' }}
+          build-root-directory: contenttree-backend
+
+      - name: (Get Backend Version)
+        id: backend-version
+        run: |
+          VERSION=$(./gradlew properties -q --console=plain --no-daemon --property version | \
+            tee /dev/stderr | grep -E '^version:' | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        working-directory: contenttree-backend
+
+      - name: (Get Frontend Version)
+        id: frontend-version
+        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
+        working-directory: contenttree-frontend
+
+      - name: (Log in to Docker Hardened Images distribution registry)
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: dhi.io
+          # If username is sensitive for you, use a secret variable instead.
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Deploy Application
+        uses: hoverkraft-tech/compose-action@11beaa1c2dae4e8ed7b1665aa074723b6cecb0e4  # v3.0.0
+        with:
+          compose-file: compose.yaml
+          down-flags: "--volumes"
+          cwd: contenttree-deploy
+        env:
+          BACKEND_IMAGE: "ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-snapshot"
+          FRONTEND_IMAGE: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-snapshot"
+
+      - name: (Set up Node.js)
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
+        with:
+          node-version-file: contenttree-deploy/e2e/.node_version
+          cache: 'npm'
+          cache-dependency-path: contenttree-deploy/e2e/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browser (Chromium)
+        run: npm run install:chromium
+
+      - name: Run E2E Tests
+        run: npm test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: contenttree-deploy/e2e/playwright-report/
+          retention-days: 30

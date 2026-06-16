@@ -13,9 +13,9 @@ services:
     networks:
       - db-network
     healthcheck:
-      test: pg_isready -U postgres -d contenttree
-      interval: 10s
-      timeout: 3s
+      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "contenttree" ]
+      interval: 30s
+      timeout: 10s
       retries: 3
       start_interval: 3s
       start_period: 20s
@@ -24,7 +24,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    image: contenttree-backend:latest
+    image: ${BACKEND_IMAGE:-contenttree-backend:latest}
     ports:
       - "8081:8081"
       - "8082:8082"
@@ -33,11 +33,20 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=prodsecret
       - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080
+      - THC_PATH=/actuator/health/readiness
+      - THC_PORT=8082
     networks:
       - db-network
+    healthcheck:
+      test: [ "CMD", "/workspace/health-check" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_interval: 3s
+      start_period: 30s
 
   frontend:
-    image: contenttree-frontend:latest
+    image: ${FRONTEND_IMAGE:-contenttree-frontend:latest}
     ports:
       - "8080:8080"
     environment:
@@ -48,6 +57,13 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://frontend:8080/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_interval: 3s
+      start_period: 10s
 
 volumes:
   db-data:

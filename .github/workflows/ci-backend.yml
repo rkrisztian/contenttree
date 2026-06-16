@@ -1,4 +1,4 @@
-name: CI Build - Backend
+name: CI Pipeline - Backend
 
 on:
   workflow_call:

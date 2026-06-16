@@ -167,7 +167,9 @@ tasks.bootBuildImage {
 		// version: 11.6.3
 		"paketobuildpacks/azul-zulu@sha256:51f6a21087f919dd335696c4b708f97217b23dc9fe89819cd4e197193dca69e6",
 		// version: 22.1.0
-		"paketobuildpacks/java@sha256:0d3183b1209db62902ef228cfde9f55f68ff115a7aa2ef5115265414945b0467"
+		"paketobuildpacks/java@sha256:0d3183b1209db62902ef228cfde9f55f68ff115a7aa2ef5115265414945b0467",
+		// version: 2.13.4
+		"paketobuildpacks/health-checker@sha256:459583607d5faf6afe7af94c636b1b49a1468727b1cc8ed874dde6cc59ced579"
 	)
 	environment.put("BP_JVM_VERSION", javaVersion)
 	environment.put("BP_JVM_JLINK_ENABLED", "true")
@@ -178,6 +180,7 @@ tasks.bootBuildImage {
 				+ "--add-modules java.base,java.desktop,java.compiler,java.management,java.logging,"
 				+ "java.naming,java.security.jgss,java.instrument,java.sql,jdk.unsupported"
 	)
+	environment.put("BP_HEALTH_CHECKER_ENABLED", "true")
 	imageName = provider {
 		if (publishImage.get()) {
 			"ghcr.io/${

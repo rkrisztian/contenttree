@@ -1,4 +1,4 @@
-name: CI Housekeeping
+name: CI Pipeline - Housekeeping
 
 on:
   workflow_dispatch:

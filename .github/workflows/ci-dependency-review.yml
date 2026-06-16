@@ -1,4 +1,4 @@
-name: Dependency Review
+name: CI Pipeline - Dependency Review
 
 on:
   pull_request:
