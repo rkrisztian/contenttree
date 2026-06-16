@@ -20,6 +20,7 @@ spring:
       connection-init-sql: "SET max_stack_depth = '5MB'"
   liquibase:
     change-log: classpath:db/changelog/db.changelog-prod.yaml
+    analyticsEnabled: false
   main:
     banner-mode: off
     lazy-initialization: true
