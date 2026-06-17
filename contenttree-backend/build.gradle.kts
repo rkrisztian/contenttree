@@ -254,7 +254,8 @@ reporting {
 				classDirectories.setFrom(
 					sourceSets.main.get().output.classesDirs.map { dir ->
 						fileTree(dir).exclude(
-							"contenttree/config/DocsConfig.class"
+							"contenttree/config/DocsConfig.class",
+							"contenttree/ContentTreeMapperImpl.class"
 						)
 					}
 				)
