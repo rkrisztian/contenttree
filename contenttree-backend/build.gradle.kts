@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "contenttree"
-version = "0.0.1"
+version = providers.fileContents(layout.projectDirectory.file("../.version")).asText.get().trim()
 
 tasks.wrapper {
 	retries = 3

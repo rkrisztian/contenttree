@@ -1,6 +1,7 @@
 {
   "name": "contenttree",
-  "version": "0.0.1",
+  "description": "Content Tree Application Frontend",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "ng": "ng",

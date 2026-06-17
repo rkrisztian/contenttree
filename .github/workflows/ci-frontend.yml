@@ -64,9 +64,9 @@ jobs:
       - name: (Set up Docker Buildx)
         uses: docker/setup-buildx-action@v4.1.0  # Immutable
 
-      - name: (Get Frontend Version)
-        id: get-version
-        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - name: (Get Project Version)
+        run: echo "PROJECT_VERSION=$(cat .version)" >> $GITHUB_ENV
+        working-directory: .
 
       # Project version is not picked up automatically.
       # See: https://github.com/bellingard/sonar-scanner-npm/issues/75
@@ -76,7 +76,7 @@ jobs:
         with:
           projectBaseDir: contenttree-frontend
           args: >
-            -Dsonar.projectVersion=${{ steps.get-version.outputs.version }}
+            -Dsonar.projectVersion=${{ env.PROJECT_VERSION }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -92,7 +92,7 @@ jobs:
         uses: docker/build-push-action@v7.2.0  # Immutable
         with:
           context: contenttree-frontend
-          tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.get-version.outputs.version }}-snapshot"
+          tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-snapshot"
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
