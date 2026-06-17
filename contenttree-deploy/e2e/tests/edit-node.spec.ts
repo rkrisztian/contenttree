@@ -1,34 +1,23 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
+import { NodeEditDialogPage } from '../pages/node-edit-dialog-page.js';
+import { TreePage } from '../pages/tree-page.js';
 
 test('should edit existing node', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Add new node', exact: true }).click();
+  const treePage = new TreePage(page);
+  const nodeEditDialogPage = new NodeEditDialogPage(page);
 
-  const dialog = page.getByRole('dialog');
+  await treePage.goto();
+  await treePage.openAddNodeDialog();
+  await nodeEditDialogPage.addNode('node to be edited', 'content for node to be edited');
+  await treePage.selectNodeAndExpectContent('node to be edited', 'content for node to be edited');
 
-  await dialog.getByRole('textbox', { name: 'Name', exact: true }).fill('node to be edited');
-  await dialog
-    .getByRole('textbox', { name: 'Content', exact: true })
-    .fill('content for node to be edited');
-  await dialog.getByRole('button', { name: 'Add Node', exact: true }).click();
-  await page.getByRole('button', { name: 'node to be edited', exact: true }).click();
-
-  await expect(page.getByText('content for node to be edited', { exact: true })).toBeVisible();
-
-  await page.getByRole('button', { name: 'Edit selected node', exact: true }).click();
-
-  await dialog
-    .getByRole('textbox', { name: 'Name', exact: true })
-    .fill('node to be edited - changed');
-  await dialog
-    .getByRole('textbox', { name: 'Content', exact: true })
-    .fill('content for node to be edited - changed');
-  await dialog.getByRole('button', { name: 'Edit Node', exact: true }).click();
-
-  await expect(
-    page.getByRole('button', { name: 'node to be edited - changed', exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.getByText('content for node to be edited - changed', { exact: true }),
-  ).toBeVisible();
+  await treePage.openEditNodeDialog();
+  await nodeEditDialogPage.editNode(
+    'node to be edited - changed',
+    'content for node to be edited - changed',
+  );
+  await treePage.expectSelectedNodeAndContentExists(
+    'node to be edited - changed',
+    'content for node to be edited - changed',
+  );
 });

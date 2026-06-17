@@ -20,6 +20,7 @@ export default defineConfig({
     },
     {
       name: 'set up db',
+      testDir: 'utils',
       testMatch: /global\.setup\.ts/,
       teardown: 'clean up db',
       use: {
@@ -28,6 +29,7 @@ export default defineConfig({
     },
     {
       name: 'clean up db',
+      testDir: 'utils',
       testMatch: /global\.teardown\.ts/,
       use: {
         baseURL: 'http://localhost:8081',

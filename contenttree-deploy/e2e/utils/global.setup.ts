@@ -1,5 +1,5 @@
 import { test as setup } from '@playwright/test';
-import { components } from './schema.js';
+import { components } from '../api/schema.js';
 
 type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
 

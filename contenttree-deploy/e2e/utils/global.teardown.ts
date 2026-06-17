@@ -1,5 +1,5 @@
 import { test as teardown } from '@playwright/test';
-import { components } from './schema.js';
+import { components } from '../api/schema.js';
 
 export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
 
