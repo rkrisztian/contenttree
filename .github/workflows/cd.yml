@@ -15,7 +15,7 @@ jobs:
         working-directory: contenttree-deploy/e2e
     runs-on: ubuntu-latest
     permissions:
-      packages: read
+      packages: write
     timeout-minutes: 60
     steps:
       - name: (Harden Runner)
@@ -63,8 +63,8 @@ jobs:
           down-flags: "--volumes"
           cwd: contenttree-deploy
         env:
-          BACKEND_IMAGE: "ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-snapshot"
-          FRONTEND_IMAGE: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-snapshot"
+          BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-snapshot
+          FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-snapshot
 
       - name: (Set up Node.js)
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
@@ -88,3 +88,96 @@ jobs:
           name: playwright-report
           path: contenttree-deploy/e2e/playwright-report/
           retention-days: 30
+
+      - name: (Log in to GitHub Container Registry)
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Release Candidate Images
+        run: |
+          docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
+          docker tag ${FRONTEND_IMAGE_OLD} ${FRONTEND_IMAGE_NEW}
+          docker push ${BACKEND_IMAGE_NEW}
+          docker push ${FRONTEND_IMAGE_NEW}
+        env:
+          BACKEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-snapshot
+          BACKEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-rc
+          FRONTEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-snapshot
+          FRONTEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-rc
+
+  release:
+    name: Release
+    needs: deploy-and-e2e-test
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    environment: release
+    steps:
+      - name: (Harden Runner)
+        uses: step-security/harden-runner@v2.19.4  # Immutable
+        with:
+          egress-policy: audit
+          disable-telemetry: true
+
+      - name: Check out code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: (Cache .gradle)
+        uses: burrunan/gradle-cache-action@4b67497abd37a511d6c1dc6299bdd84ff39f7bf5  # v3.0.2
+        with:
+          read-only: ${{ github.ref != 'refs/heads/main' }}
+          build-root-directory: contenttree-backend
+
+      - name: (Get Backend Version)
+        id: backend-version
+        run: |
+          VERSION=$(./gradlew properties -q --console=plain --no-daemon --property version | \
+            tee /dev/stderr | grep -E '^version:' | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        working-directory: contenttree-backend
+
+      - name: (Get Frontend Version)
+        id: frontend-version
+        run: echo "version=$(node -pe "require('./package.json').version")" >> $GITHUB_OUTPUT
+        working-directory: contenttree-frontend
+
+      - name: (Log in to GitHub Container Registry)
+        uses: docker/login-action@v4.2.0  # Immutable
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Release Images
+        run: |
+          docker pull ${BACKEND_IMAGE_OLD}
+          docker pull ${FRONTEND_IMAGE_OLD}
+          docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
+          docker tag ${FRONTEND_IMAGE_OLD} ${FRONTEND_IMAGE_NEW}
+          docker push ${BACKEND_IMAGE_NEW}
+          docker push ${FRONTEND_IMAGE_NEW}
+        env:
+          BACKEND_IMAGE_OLD: >
+            ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}-rc
+          BACKEND_IMAGE_NEW: >
+            ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ steps.backend-version.outputs.version }}
+          FRONTEND_IMAGE_OLD: >
+            ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}-rc
+          FRONTEND_IMAGE_NEW: >
+            ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ steps.frontend-version.outputs.version }}
+
+      - name: Create Git Tag
+        uses: pkgdeps/git-tag-action@a5a161774bace8b4e1969dd850c67a7421f1b710  # v3.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repo: ${{ github.repository }}
+          git_commit_sha: ${{ github.sha }}
+          version: ${{ steps.backend-version.outputs.version }}
+          git_tag_prefix: "v"
