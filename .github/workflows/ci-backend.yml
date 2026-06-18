@@ -44,6 +44,10 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: (Set Gradle Logging Level to Info)
+        if: ${{ runner.debug == '1' }}
+        run: echo 'GRADLE_OPTS=-Dorg.gradle.logging.level=info' >> $GITHUB_ENV
+
       - name: Build Backend
         run: ./gradlew build
 
