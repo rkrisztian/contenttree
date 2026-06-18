@@ -1,3 +1,4 @@
+[![CI Pipeline](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml/badge.svg)](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml)
 Backend: [![Backend Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend)
 Frontend: [![Frontend Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend)
 
