@@ -5,7 +5,7 @@ import {
   TreeApiService,
   UpdateTreeNodeReqDTO,
 } from '../api/tree-api.service';
-import { ErrorService } from '../core/error.service';
+import { ErrorService } from '../core/error-handler/error.service';
 import { TreeScrollService } from './tree/tree-scroll.service';
 
 export interface TreeNodeData {

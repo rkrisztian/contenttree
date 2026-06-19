@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { errorInterceptor } from './core/error-interceptor';
+import { errorInterceptor } from './core/error-handler/error-interceptor';
 import { ThemeToggleService } from './core/theme-toggle/theme-toggle.service';
 
 export const appConfig: ApplicationConfig = {

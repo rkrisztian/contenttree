@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
-import { ErrorCard } from '../core/error-card/error-card';
-import { ErrorService } from '../core/error.service';
+import { ErrorCard } from '../core/error-handler/error-card/error-card';
+import { ErrorService } from '../core/error-handler/error.service';
 import { ThemeToggle } from '../core/theme-toggle/theme-toggle';
 
 @Component({
