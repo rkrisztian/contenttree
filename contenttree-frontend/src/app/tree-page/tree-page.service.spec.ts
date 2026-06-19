@@ -9,7 +9,7 @@ import {
   TreeApiService,
   TreeNodeRespDTO,
 } from '../api/tree-api.service';
-import { ErrorService } from '../core/error.service';
+import { ErrorService } from '../core/error-handler/error.service';
 import { TreePageService } from './tree-page.service';
 
 describe('TreePageService', () => {

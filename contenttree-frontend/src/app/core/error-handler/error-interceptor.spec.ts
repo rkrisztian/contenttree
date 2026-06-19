@@ -2,9 +2,9 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { http, HttpResponse } from 'msw';
 import { lastValueFrom } from 'rxjs';
-import { TREE_API_BASE_URL } from '../../test-utils/msw-mocks';
-import { it } from '../../test-utils/msw-test';
-import { TreeApiService } from '../api/tree-api.service';
+import { TREE_API_BASE_URL } from '../../../test-utils/msw-mocks';
+import { it } from '../../../test-utils/msw-test';
+import { TreeApiService } from '../../api/tree-api.service';
 import { errorInterceptor } from './error-interceptor';
 import { ErrorService } from './error.service';
 

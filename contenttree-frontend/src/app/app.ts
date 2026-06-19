@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ErrorCard } from './core/error-card/error-card';
-import { ErrorService } from './core/error.service';
+import { ErrorCard } from './core/error-handler/error-card/error-card';
+import { ErrorService } from './core/error-handler/error.service';
 import { Header } from './header/header';
 
 @Component({
