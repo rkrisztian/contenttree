@@ -32,42 +32,47 @@ describe('TreeToolbar', () => {
       .toBeDisabled();
   });
 
-  it('can search for nodes', async () => {
-    await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Grand');
-    await vi.runAllTimersAsync();
+  describe('Search field', () => {
+    const searchField = page.getByRole('searchbox', { name: 'Search nodes' });
 
-    await expect.element(page.getByPlaceholder('Search nodes')).toBeValid();
-    await expect
-      .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
-      .toBeVisible();
+    it('can search for nodes', async () => {
+      await userEvent.fill(searchField, 'Grand');
+      await vi.runAllTimersAsync();
 
-    for (const name of ['Root node', 'Child node', 'Child node 2']) {
-      await expect.element(page.getByRole('button', { name, exact: true })).toBeVisible();
-    }
-  });
+      await expect.element(searchField).toBeValid();
+      await expect
+        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .toBeVisible();
 
-  it('will not start a search under 3 characters', async () => {
-    await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Gr');
-    await userEvent.tab();
-    await vi.runAllTimersAsync();
+      for (const name of ['Root node', 'Child node', 'Child node 2']) {
+        await expect.element(page.getByRole('button', { name, exact: true })).toBeVisible();
+      }
+    });
 
-    await expect.element(page.getByPlaceholder('Search nodes')).toBeInvalid();
-    await expect.element(page.getByText('At least 3 characters are required')).toBeVisible();
-  });
-  it('can clear search', async () => {
-    await userEvent.fill(page.getByPlaceholder('Search nodes'), 'Grand');
-    await vi.runAllTimersAsync();
+    it('will not start a search under 3 characters', async () => {
+      await userEvent.fill(searchField, 'Gr');
+      await userEvent.tab();
+      await vi.runAllTimersAsync();
 
-    await expect
-      .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
-      .toBeVisible();
+      await expect.element(searchField).toBeInvalid();
+      await expect.element(page.getByText('At least 3 characters are required')).toBeVisible();
+    });
 
-    await page.getByRole('button', { name: 'Clear search', exact: true }).click();
-    await vi.runAllTimersAsync();
+    it('can clear search', async () => {
+      await userEvent.fill(searchField, 'Grand');
+      await vi.runAllTimersAsync();
 
-    await expect.element(page.getByPlaceholder('Search nodes')).toBeValid();
-    await expect
-      .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
-      .not.toBeInTheDocument();
+      await expect
+        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .toBeVisible();
+
+      await page.getByRole('button', { name: 'Clear search', exact: true }).click();
+      await vi.runAllTimersAsync();
+
+      await expect.element(searchField).toBeValid();
+      await expect
+        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .not.toBeInTheDocument();
+    });
   });
 });
