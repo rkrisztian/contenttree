@@ -3,6 +3,10 @@
     <h1>Content Tree Application</h1>
     <span class="spacer"></span>
 
+    @if (isLoading()) {
+      <mat-progress-spinner diameter="24" [mode]="'indeterminate'" aria-label="Loading" />
+    }
+
     <button mat-icon-button [matMenuTriggerFor]="pagesMenu" aria-label="Pages">
       <mat-icon>more_vert</mat-icon>
     </button>

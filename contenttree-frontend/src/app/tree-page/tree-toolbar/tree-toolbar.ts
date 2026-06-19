@@ -12,6 +12,7 @@ import { debounce, form, FormField, minLength } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { LoadingService } from '../../core/loading-indicator/loading.service';
 import { NodeDeleteDialog, NodeDeleteDialogData } from '../node-delete-dialog/node-delete-dialog';
 import {
   NodeEditorDialog,
@@ -35,6 +36,7 @@ export class TreeToolbar {
   private static readonly SEARCH_DELAY_IN_MS = 500;
 
   private readonly treePageService = inject(TreePageService);
+  private readonly loadingService = inject(LoadingService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -49,6 +51,8 @@ export class TreeToolbar {
 
     minLength(schemaPath.searchText, 3, { message: 'At least 3 characters are required' });
   });
+
+  protected readonly isLoading = this.loadingService.isLoading;
 
   constructor() {
     effect(() => {

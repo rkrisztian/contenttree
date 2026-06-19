@@ -4,7 +4,7 @@ import { http, HttpResponse } from 'msw';
 import { lastValueFrom } from 'rxjs';
 import { TREE_API_BASE_URL } from '../../../test-utils/msw-mocks';
 import { it } from '../../../test-utils/msw-test';
-import { TreeApiService } from '../../api/tree-api.service';
+import { TREE_API_BASE_PATH, TreeApiService } from '../../api/tree-api.service';
 import { errorInterceptor } from './error-interceptor';
 import { ErrorService } from './error.service';
 
@@ -25,7 +25,7 @@ describe('errorInterceptor', () => {
     errorService = TestBed.inject(ErrorService);
   });
 
-  it('show error on missing backend connection', async ({ server }) => {
+  it('should show error on missing backend connection', async ({ server }) => {
     server.use(
       http.post(`${TREE_API_BASE_URL}/move`, async () => {
         return HttpResponse.error();
@@ -41,7 +41,7 @@ describe('errorInterceptor', () => {
     );
   });
 
-  it('show error with trace ID on bad response', async ({ server }) => {
+  it('should show error with trace ID on bad response', async ({ server }) => {
     server.use(
       http.post(`${TREE_API_BASE_URL}/move`, async () => {
         return HttpResponse.json(
@@ -49,7 +49,7 @@ describe('errorInterceptor', () => {
             status: 400,
             error: 'Content tree service error',
             message: 'Node cannot be moved into a descendant',
-            path: '/api/tree/move',
+            path: `${TREE_API_BASE_PATH}/move`,
             traceId: '0123456789abcdef0123456789abcdef',
             trace: 'Node cannot be moved into a descendant',
             timestamp: '2026-01-01T11:12:13.001234567Z',

@@ -12,6 +12,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTree, MatTreeModule } from '@angular/material/tree';
+import { LoadingService } from '../../core/loading-indicator/loading.service';
 import { TreeNodeData, TreePageService } from '../tree-page.service';
 import { TreeScrollService } from './tree-scroll.service';
 
@@ -26,6 +27,7 @@ export class Tree {
   private readonly treePageService = inject(TreePageService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly scrollService = inject(TreeScrollService);
+  private readonly loadingService = inject(LoadingService);
 
   protected readonly rootNode = this.treePageService.rootNode;
   protected readonly dataSource = toObservable(computed(() => [this.rootNode()!]));
@@ -55,6 +57,8 @@ export class Tree {
 
   protected readonly isDragging = (nodeId: number) => this.draggedNodeId() === nodeId;
   protected readonly isDraggedOver = (nodeId: number) => this.dragoverNodeId() === nodeId;
+
+  protected readonly isLoading = this.loadingService.isLoading;
 
   protected readonly startDragging = (event: DragEvent, nodeId: number): void => {
     if (!event.dataTransfer) return;
