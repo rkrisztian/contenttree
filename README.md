@@ -147,6 +147,8 @@ To run E2E tests, be sure that you have executed the aforementioned production-l
 
 ```shell
 cd contenttree-deploy/e2e
+npm ci
+npm run install:chromium
 npm test
 ```
 

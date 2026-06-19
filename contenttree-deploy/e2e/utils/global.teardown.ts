@@ -5,7 +5,7 @@ export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
 
 const apiUrl = '/api/tree';
 
-teardown('clean up database', async ({ request }) => {
+teardown('delete all nodes', async ({ request }) => {
   const listResponse = await request.get(apiUrl);
 
   if (!listResponse.ok()) {

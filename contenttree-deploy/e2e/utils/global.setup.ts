@@ -3,7 +3,7 @@ import { components } from '../api/schema.js';
 
 type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
 
-setup('initialize database', async ({ request }) => {
+setup('add root node', async ({ request }) => {
   const createResponse = await request.put(`/api/tree`, {
     data: {
       name: 'Root node',
