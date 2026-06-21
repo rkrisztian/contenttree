@@ -42,7 +42,6 @@ describe('ThemeToggleService', () => {
     storageGetItemSpy.mockReturnValue(null);
 
     service.initializeTheme();
-    TestBed.tick();
 
     expect(service.mode()).toBe('dark');
   });
@@ -52,7 +51,6 @@ describe('ThemeToggleService', () => {
     storageGetItemSpy.mockReturnValue(null);
 
     service.initializeTheme();
-    TestBed.tick();
 
     expect(service.mode()).toBe('light');
   });
@@ -62,7 +60,6 @@ describe('ThemeToggleService', () => {
     storageGetItemSpy.mockReturnValue(null);
 
     service.initializeTheme();
-    TestBed.tick();
     storageGetItemSpy.mockReturnValue('light');
     service.changeMode();
 
