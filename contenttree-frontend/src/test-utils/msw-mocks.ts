@@ -5,6 +5,7 @@ import {
   TREE_API_BASE_PATH,
   TreeNodeRespDTO,
 } from '../app/api/tree-api.service';
+import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
 import { environment } from '../environments/environment';
 
 let flatNodes: TreeNodeRespDTO[] = [
@@ -24,6 +25,10 @@ let contents: Record<string, ContentRespDto> = {
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
 
 export const handlers: AnyHandler[] = [
+  http.get(REMOTE_CONFIG_PATH, () =>
+    HttpResponse.json({ apiBaseUrl: 'test-config-path' } satisfies RemoteConfig),
+  ),
+
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(flatNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {

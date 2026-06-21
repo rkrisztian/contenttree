@@ -2,7 +2,16 @@
 
 <main class="mat-app-background">
   <div style="margin-left: auto; margin-right: auto; padding: 1rem">
-    <router-outlet></router-outlet>
+    @if (remoteConfig.isLoading()) {
+      <div class="loading-layout">
+        <div class="loading-container">
+          <mat-progress-spinner mode="indeterminate" />
+          <span>Loading...</span>
+        </div>
+      </div>
+    } @else {
+      <router-outlet></router-outlet>
+    }
   </div>
 
   @if (latestError()) {
