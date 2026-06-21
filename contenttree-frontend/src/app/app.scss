@@ -1,3 +1,25 @@
+.loading-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+@media (min-width: 1024px) {
+  .loading-layout {
+    flex-direction: row;
+    height: calc(100vh - 6rem);
+  }
+}
+
 app-error-card {
   position: fixed;
   bottom: 1rem;
