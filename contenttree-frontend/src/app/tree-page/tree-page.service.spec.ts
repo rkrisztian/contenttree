@@ -45,7 +45,6 @@ describe('TreePageService', () => {
         }),
       );
 
-      TestBed.tick();
       await TestBed.inject(ApplicationRef).whenStable();
 
       expect(treePageService.rootNode()).toHaveProperty('id', 1);
@@ -53,7 +52,6 @@ describe('TreePageService', () => {
     });
 
     it('should map child elements to parent', async () => {
-      TestBed.tick();
       await TestBed.inject(ApplicationRef).whenStable();
 
       expect(treePageService.rootNode()).toMatchObject({
