@@ -34,13 +34,15 @@
       @if (!errors().length) {
         <div class="empty-state">No errors</div>
       } @else {
-        <ul class="error-list">
-          @for (error of errors(); track error.id) {
-            <li class="error-list-item">
-              <app-error-card [error]="error" [closeable]="false" [hasBorder]="false" />
-            </li>
-          }
-        </ul>
+        <div (click)="$event.stopPropagation()" (keypress)="$event.stopPropagation()" tabindex="-1">
+          <ul class="error-list">
+            @for (error of errors(); track error.id) {
+              <li class="error-list-item">
+                <app-error-card [error]="error" [closeable]="false" [hasBorder]="false" />
+              </li>
+            }
+          </ul>
+        </div>
       }
     </mat-menu>
 
