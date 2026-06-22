@@ -109,6 +109,9 @@ the local machine by executing the following commands:
 (cd contenttree-deploy && docker compose up)
 ```
 
+The files in `contenttree-deploy/etc` contain default credentials for local development convenience
+only.
+
 ## Running Tests
 
 ### Backend Tests

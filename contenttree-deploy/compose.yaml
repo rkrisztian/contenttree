@@ -2,16 +2,19 @@ services:
   db:
     # Should be the same as in `../contenttree-backend/compose.yaml`:
     image: dhi.io/postgres:18.4-alpine3.23@sha256:b18a3537d1273920565544b084a80918be565cadaf381112769b4bcf760b7555
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/db_username
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: contenttree
     volumes:
       - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-prodsecret}
-      POSTGRES_DB: contenttree
+    secrets:
+      - db_username
+      - db_password
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "contenttree" ]
+      test: [ "CMD", "/bin/bash", "-c", "pg_isready -U $(cat $${POSTGRES_USER_FILE}) -d contenttree" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -28,11 +31,12 @@ services:
       - "8082:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contenttree
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-prodsecret}
+      - SPRING_CONFIG_IMPORT=file:/run/secrets/backend_config[.properties]
       - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080
       - THC_PATH=/actuator/health/readiness
       - THC_PORT=8082
+    secrets:
+      - backend_config
     networks:
       - app-network
     healthcheck:
@@ -70,3 +74,11 @@ volumes:
 networks:
   app-network:
     driver: bridge
+
+secrets:
+  db_username:
+    file: etc/db/username
+  db_password:
+    file: etc/db/password
+  backend_config:
+    file: etc/backend/application.properties

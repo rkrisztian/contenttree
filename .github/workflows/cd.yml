@@ -41,16 +41,31 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: (Create Docker Secret Files)
+        run: |
+          cat >etc/db/username <<'EOF'
+          ${{ secrets.DB_USERNAME }}
+          EOF
+
+          cat >etc/db/password <<'EOF'
+          ${{ secrets.DB_PASSWORD }}
+          EOF
+
+          cat >etc/backend/application.properties <<'EOF'
+          spring.datasource.username=${{ secrets.DB_USERNAME }}
+          spring.datasource.password=${{ secrets.DB_PASSWORD }}
+          EOF
+        working-directory: contenttree-deploy
+
       - name: Deploy Application
         uses: hoverkraft-tech/compose-action@11beaa1c2dae4e8ed7b1665aa074723b6cecb0e4  # v3.0.0
         with:
           compose-file: compose.yaml
-          down-flags: "--volumes"
+          down-flags: '--volumes'
           cwd: contenttree-deploy
         env:
           BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-snapshot
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: (Set up Node.js)
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
@@ -68,7 +83,8 @@ jobs:
       - name: Run E2E Tests
         run: npm test
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      - name: (Upload E2E Test Report)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
@@ -146,4 +162,4 @@ jobs:
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           version: ${{ env.PROJECT_VERSION }}
-          git_tag_prefix: "v"
+          git_tag_prefix: 'v'
