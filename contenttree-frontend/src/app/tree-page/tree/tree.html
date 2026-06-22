@@ -16,12 +16,14 @@
       </button>
     }
 
+    @let foundStatus = getFoundStatus(node.id);
+
     <button
       matButton
       extended
       class="node-label"
-      [class.not-found]="hasSearchResults() && !isFound(node.id)"
-      [attr.aria-label]="node.name + (hasSearchResults() && isFound(node.id) ? ' matched' : '')"
+      [class.not-found]="foundStatus === 'notFound'"
+      [attr.aria-label]="node.name + (foundStatus === 'found' ? ' matched' : '')"
       [class.selected]="isSelected(node.id)"
       [attr.aria-selected]="isSelected(node.id)"
       (click)="toggleSelect(node)"
@@ -44,7 +46,7 @@
       <span class="node-name">{{ node.name }}</span>
     </button>
 
-    @if (hasSearchResults() && isFound(node.id)) {
+    @if (foundStatus === 'found') {
       <mat-icon class="found-icon">check</mat-icon>
     }
   </mat-tree-node>

@@ -51,9 +51,11 @@ export class Tree {
     this.treePageService.selectedNode()?.id === nodeId;
   protected readonly toggleSelect = this.treePageService.toggleSelect;
 
-  protected readonly hasSearchResults = () => this.treePageService.foundNodes() != null;
-  protected readonly isFound = (nodeId: number) =>
-    this.treePageService.foundNodes()?.has(nodeId) ?? false;
+  protected readonly getFoundStatus = (nodeId: number): 'found' | 'notFound' | null => {
+    const searchResults = this.treePageService.foundNodes();
+    if (!searchResults) return null;
+    return searchResults.has(nodeId) ? 'found' : 'notFound';
+  };
 
   protected readonly isDragging = (nodeId: number) => this.draggedNodeId() === nodeId;
   protected readonly isDraggedOver = (nodeId: number) => this.dragoverNodeId() === nodeId;
