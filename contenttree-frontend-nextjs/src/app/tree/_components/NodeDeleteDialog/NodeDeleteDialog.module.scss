@@ -1,0 +1,51 @@
+.dialog-header {
+  background-color: var(--mui-palette-primary-main);
+  color: var(--mui-palette-primary-contrastText);
+}
+
+:global(.MuiIconButton-root).close-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  color: var(--mui-palette-primary-contrastText);
+}
+
+:global(.MuiTypography-root).instruction-text {
+  margin-bottom: 1rem;
+}
+
+.tree-preview-container {
+  border: 0.0625rem solid var(--mui-palette-grey-500);
+  background-color: var(--mui-palette-grey-200);
+  color: var(--mui-palette-text-secondary);
+  border-radius: 0.5rem;
+  max-height: 20rem;
+  padding: 0.5rem;
+  overflow: auto;
+
+  .tree-preview-list {
+    padding: 0;
+
+    .tree-item {
+      cursor: default;
+
+      &:hover {
+        background-color: var(--mui-palette-grey-300);
+      }
+
+      .tree-icon svg {
+        font-size: 1.25rem;
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .tree-name {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.dialog-actions {
+  gap: 0.5rem;
+}

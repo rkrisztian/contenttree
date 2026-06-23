@@ -1,0 +1,17 @@
+.error-menu :global(.MuiPaper-root) {
+  padding: 0.5rem;
+  max-width: 25rem;
+}
+
+.error-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.empty-state {
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+}
