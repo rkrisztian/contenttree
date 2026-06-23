@@ -1,0 +1,31 @@
+.tree {
+  :global(.MuiCollapse-wrapperInner) {
+    // TODO: Find a visually cleaner solution for marking node as selected
+    width: fit-content;
+  }
+
+  .node-label {
+    overflow-wrap: normal;
+    white-space: nowrap;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &.not-found {
+      color: var(--mui-palette-text-disabled);
+    }
+    &.dragging {
+      background-color: var(--mui-palette-grey-400);
+      color: var(--mui-palette-text-secondary);
+    }
+    &.dragged-over {
+      background-color: var(--mui-palette-grey-300);
+      color: var(--mui-palette-text-secondary);
+    }
+
+    .found-icon {
+      margin-left: 0.5rem;
+      color: var(--mui-palette-success-main);
+      font-size: medium;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.error-card:global(.MuiCard-root) {
+  background-color: var(--mui-palette-Alert-errorFilledBg);
+  color: var(--mui-palette-Alert-errorFilledColor);
+  width: 24rem;
+  min-height: 4rem;
+
+  .trace-id-container {
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .trace-id-label {
+      font-weight: bold;
+    }
+  }
+}

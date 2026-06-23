@@ -1,0 +1,60 @@
+{
+  "name": "contenttree-frontend",
+  "description": "Content Tree Application Frontend",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "prebuild": "license-report --only=prod --output=html > public/third-party-licenses.html",
+    "openapi:generate": "openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/_lib/schema.d.ts",
+    "start": "next start",
+    "test": "vitest",
+    "test:ct": "npm run test -- --config vitest.ct.config.ts",
+    "test:ct:headless": "npm run test:ct -- --browser.headless",
+    "lint": "biome check --fix",
+    "format": "biome format --write"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.1.1",
+    "@mui/material-nextjs": "^9.1.1",
+    "@mui/x-tree-view": "^9.7.0",
+    "axios": "^1.18.1",
+    "clsx": "^2.1.1",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.81.0",
+    "swr": "^2.4.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.3",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.10",
+    "babel-plugin-react-compiler": "1.0.0",
+    "jsdom": "^29.1.1",
+    "license-report": "^6.8.5",
+    "msw": "^2.15.0",
+    "openapi-typescript": "^7.13.0",
+    "sass": "^1.101.0",
+    "typescript": "^5",
+    "vitest-browser-react": "^2.2.0"
+  },
+  "ignoreScripts": [
+    "sharp",
+    "unrs-resolver"
+  ],
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ]
+}
