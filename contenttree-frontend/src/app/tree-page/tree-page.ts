@@ -37,7 +37,6 @@ export class TreePage {
 
   protected readonly flatNodes = this.treePageService.flatNodes;
   protected readonly rootNode = this.treePageService.rootNode;
-  protected readonly selectedNode = this.treePageService.selectedNode;
 
   private readonly treeContainer = viewChild.required<ElementRef>('treeContainer');
 

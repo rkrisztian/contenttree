@@ -1,7 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, Signal } from '@angular/core';
 import { AppConfigService } from '../app-config.service';
-import { TreeNodeData } from '../tree-page/tree-page.service';
 import { components } from './schema';
 
 export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
@@ -22,12 +21,12 @@ export class TreeApiService {
 
   readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => this.treeApiBaseUrl());
 
-  readonly contentForSelectedNode = (selectedNode: Signal<TreeNodeData | null>) =>
+  readonly contentForSelectedNode = (selectedNodeId: Signal<number | undefined>) =>
     httpResource<ContentRespDto>(() =>
-      selectedNode() == null
-        ? undefined
-        : // @ts-expect-error: Already checked for null.
-          `${this.treeApiBaseUrl()}/content/${encodeURIComponent(selectedNode().id)}`,
+      selectedNodeId()
+        ? // @ts-expect-error: Already checked for null.
+          `${this.treeApiBaseUrl()}/content/${encodeURIComponent(selectedNodeId())}`
+        : undefined,
     );
 
   readonly foundNodes = (searchText: Signal<string>) =>

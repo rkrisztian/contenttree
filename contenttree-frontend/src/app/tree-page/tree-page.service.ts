@@ -35,7 +35,7 @@ export class TreePageService {
       previousRootNode?.value ? this.nodesById().get(previousRootNode.value.id)! : rootNode,
   });
   private readonly _contentForSelectedNode = this.treeApiService.contentForSelectedNode(
-    this.selectedNode,
+    computed(() => this.selectedNode()?.id),
   );
   readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
