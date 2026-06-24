@@ -16,6 +16,7 @@
     "test:ct:headless": "npm run test:ct -- --headless",
     "install:chromium": "playwright install chromium",
     "lint": "ng lint",
+    "lint:dpdm": "dpdm '**/*.ts' --tree false --warning false",
     "lint:sonar": "eslint ./ --format json > eslint-report.json"
   },
   "packageManager": "npm@11.12.1",
@@ -41,6 +42,7 @@
     "@vitest/browser-playwright": "^4.1.8",
     "@vitest/coverage-v8": "^4.1.6",
     "angular-eslint": "21.4.0",
+    "dpdm": "^4.2.0",
     "eslint": "^10.5.0",
     "jsdom": "^28.1.0",
     "msw": "^2.14.6",

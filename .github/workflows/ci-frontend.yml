@@ -44,6 +44,9 @@ jobs:
         if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         run: npm run lint:sonar
 
+      - name: Analyze Imports for Cyclic Dependencies
+        run: npm run lint:dpdm
+
       - name: Run Unit Tests
         run: npm test
 
