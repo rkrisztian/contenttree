@@ -21,7 +21,7 @@ export class ErrorService {
   private readonly _latestError = signal<ErrorData | null>(null);
   readonly latestError = this._latestError.asReadonly();
 
-  private timeout: number | undefined = undefined;
+  private timeout: number | undefined;
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.timeout));
@@ -32,7 +32,7 @@ export class ErrorService {
     id: crypto.randomUUID(),
   });
 
-  readonly addAndShow = (newErrorData: Omit<ErrorData, 'id'>): ErrorData => {
+  readonly addAndShow = (newErrorData: Omit<ErrorData, 'id'>): void => {
     const errorData = this.createError(newErrorData);
 
     this._errors.update((errors) => [errorData, ...errors]);
@@ -40,8 +40,6 @@ export class ErrorService {
 
     clearTimeout(this.timeout);
     this.timeout = setTimeout(this.hideLatestError, ErrorService.TIMEOUT_IN_MS);
-
-    return errorData;
   };
 
   readonly remove = (errorData: ErrorData): void => {
