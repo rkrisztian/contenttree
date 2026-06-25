@@ -54,7 +54,7 @@ describe('ErrorService', () => {
     const errorData1 = addError(service, { error: 'Dummy error', message: 'Dummy message.' });
     const errorData2 = addError(service, { error: 'Dummy error 2', message: 'Dummy message 2.' });
 
-    service.remove(errorData1);
+    service.remove(errorData1.id);
 
     expect.soft(service.errors()).toEqual([errorData2]);
     expect.soft(service.latestError()).toEqual(errorData2);
@@ -64,7 +64,7 @@ describe('ErrorService', () => {
     const errorData1 = addError(service, { error: 'Dummy error', message: 'Dummy message.' });
     const errorData2 = addError(service, { error: 'Dummy error 2', message: 'Dummy message 2.' });
 
-    service.remove(errorData2);
+    service.remove(errorData2.id);
 
     expect.soft(service.errors()).toEqual([errorData1]);
     expect.soft(service.latestError()).toBeNull();
@@ -73,7 +73,7 @@ describe('ErrorService', () => {
   it('should reset errors to empty when last error becomes deleted', () => {
     const errorData1 = addError(service, { error: 'Dummy error', message: 'Dummy message.' });
 
-    service.remove(errorData1);
+    service.remove(errorData1.id);
 
     expect.soft(service.errors()).toEqual([]);
     expect.soft(service.latestError()).toBeNull();

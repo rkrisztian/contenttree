@@ -42,10 +42,10 @@ export class ErrorService {
     this.timeout = setTimeout(this.hideLatestError, ErrorService.TIMEOUT_IN_MS);
   };
 
-  readonly remove = (errorData: ErrorData): void => {
-    this._errors.update((errors) => errors.filter((error) => error.id !== errorData.id));
+  readonly remove = (errorId: string) => {
+    this._errors.update((errors) => errors.filter((error) => error.id !== errorId));
 
-    if (this.latestError()?.id === errorData.id) {
+    if (this.latestError()?.id === errorId) {
       this.hideLatestError();
     }
   };
