@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 import { ErrorCard } from '../core/error-handler/error-card/error-card';
 import { ErrorService } from '../core/error-handler/error.service';
 import { LoadingService } from '../core/loading-indicator/loading.service';
-import { ThemeToggle } from '../core/theme-toggle/theme-toggle';
+import { ThemeToggle } from './theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-header',

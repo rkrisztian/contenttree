@@ -9,7 +9,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { errorInterceptor } from './core/error-handler/error-interceptor';
 import { loadingInterceptor } from './core/loading-indicator/loading-interceptor';
-import { ThemeToggleService } from './core/theme-toggle/theme-toggle.service';
+import { ThemeToggleService } from './header/theme-toggle/theme-toggle.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
