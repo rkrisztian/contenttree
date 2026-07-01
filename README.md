@@ -20,15 +20,16 @@ The app consists of a Spring Boot backend and an Angular frontend.
 	- [PostgreSQL](https://www.postgresql.org/) (database)
 	- _(Optional)_ [DbGate](https://www.dbgate.io/) (database manager)
 	- [MapStruct](https://mapstruct.org/) (DTO mapping)
-	- [Testcontainers](https://testcontainers.com/) (integration testing)
-	- [NullAway](https://github.com/uber/NullAway) (null safety checker)
-	- [PMD](https://pmd.github.io/) (code linting)
 - **Frontend:**
 	- [Angular](https://angular.dev/) (component-based UI)
 	- [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
 	- [Angular Material](https://material.angular.dev/) (UI components)
-		- [ESLint](https://eslint.org/) (code linting)
 - **CI/CD & Quality:**
+	- [Testcontainers](https://testcontainers.com/) (integration testing)
+	- [NullAway](https://github.com/uber/NullAway) (null safety checker)
+	- [PMD](https://pmd.github.io/) (code linting)
+	- [ESLint](https://eslint.org/) (code linting)
+	- [Prettier](https://prettier.io/) (code formatting)
 	- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
 	- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
 	  security analysis)
