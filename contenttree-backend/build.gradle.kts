@@ -34,7 +34,7 @@ repositories {
 	mavenCentral()
 }
 
-val mockitoAgent by configurations.registering
+val mockitoAgent = configurations.register("mockitoAgent")
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -212,8 +212,7 @@ testing {
 			}
 		}
 
-		@Suppress("unused")
-		val test by getting(JvmTestSuite::class) {
+		named<JvmTestSuite>("test") {
 			useJUnitJupiter()
 		}
 
@@ -241,8 +240,7 @@ tasks.check {
 @Suppress("UnstableApiUsage")
 reporting {
 	reports {
-		@Suppress("unused")
-		val codeCoverageReport by creating(JacocoCoverageReport::class) {
+		create<JacocoCoverageReport>("codeCoverageReport") {
 			testSuiteName = "all"
 
 			reportTask.configure {
