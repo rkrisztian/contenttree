@@ -41,7 +41,7 @@
     "@eslint/js": "^10.0.1",
     "@vitest/browser-playwright": "^4.1.8",
     "@vitest/coverage-v8": "^4.1.6",
-    "angular-eslint": "21.4.0",
+    "angular-eslint": "^21.4.0",
     "dpdm": "^4.2.0",
     "eslint": "^10.6.0",
     "jsdom": "^28.1.0",
@@ -49,7 +49,7 @@
     "openapi-typescript": "^7.13.0",
     "prettier": "^3.8.4",
     "typescript": "~5.9.2",
-    "typescript-eslint": "8.61.1",
+    "typescript-eslint": "^8.62.1",
     "vitest": "^4.0.8",
     "vitest-browser-angular": "^0.4.0"
   }
