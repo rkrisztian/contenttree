@@ -17,7 +17,9 @@
     "install:chromium": "playwright install chromium",
     "lint": "ng lint",
     "lint:dpdm": "dpdm '**/*.ts' --tree false --warning false",
-    "lint:sonar": "eslint ./ --format json > eslint-report.json"
+    "lint:sonar": "eslint ./ --format json > eslint-report.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "packageManager": "npm@11.12.1",
   "dependencies": {

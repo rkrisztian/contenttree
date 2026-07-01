@@ -44,6 +44,10 @@ jobs:
               - 'contenttree-frontend/**'
               - '.github/workflows/ci.yml'
               - '.github/workflows/ci-frontend.yml'
+            deploy:
+              - 'contenttree-deploy/**'
+              - '.github/workflows/ci.yml'
+              - '.github/workflows/ci-deploy.yml'
 
   backend:
     name: Backend
@@ -63,4 +67,13 @@ jobs:
       contents: read
       packages: write  # Needed for publishing docker images to GHCR.
     uses: ./.github/workflows/ci-frontend.yml
+    secrets: inherit
+
+  deploy-ci:
+    name: Deploy (CI)
+    needs: changes
+    if: ${{ (needs.changes.outputs.deploy == 'true') && !cancelled()  }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci-deploy.yml
     secrets: inherit

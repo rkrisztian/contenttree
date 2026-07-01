@@ -8,7 +8,9 @@
     "test": "playwright test",
     "test:ui": "npm run test -- --ui",
     "install:chromium": "playwright install chromium",
-    "openapi:generate": "openapi-typescript ../../contenttree-backend/build/openapi.json -o api/schema.d.ts"
+    "openapi:generate": "openapi-typescript ../../contenttree-backend/build/openapi.json -o api/schema.d.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

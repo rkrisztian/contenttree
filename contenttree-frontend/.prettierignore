@@ -1,0 +1,2 @@
+.sonarlint/**
+src/app/api/schema.d.ts

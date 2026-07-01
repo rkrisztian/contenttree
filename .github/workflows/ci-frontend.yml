@@ -47,6 +47,9 @@ jobs:
       - name: Analyze Imports for Cyclic Dependencies
         run: npm run lint:dpdm
 
+      - name: Run Prettier Checks
+        run: npm run format:check
+
       - name: Run Unit Tests
         run: npm test
 
