@@ -11,7 +11,7 @@
     "openapi:generate": "openapi-typescript ../../contenttree-backend/build/openapi.json -o api/schema.d.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.0",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.3",
     "openapi-typescript": "^7.13.0",
     "prettier": "^3.8.4"
