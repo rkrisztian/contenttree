@@ -5,6 +5,7 @@
 
   .tree-panel {
     width: 100%;
+    max-height: 40rem;
     box-shadow: var(--mat-sys-level2);
     padding: 1rem;
 
@@ -57,6 +58,8 @@
 
     .tree-panel {
       width: 30rem;
+      max-height: unset;
+      height: auto;
     }
   }
 }
