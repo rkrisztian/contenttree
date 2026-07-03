@@ -39,7 +39,7 @@ export class ErrorService {
     this._latestError.set(errorData);
 
     clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.hideLatestError, ErrorService.TIMEOUT_IN_MS);
+    this.timeout = setTimeout(() => this._latestError.set(null), ErrorService.TIMEOUT_IN_MS);
   };
 
   readonly remove = (errorId: string) => {
@@ -52,6 +52,7 @@ export class ErrorService {
 
   readonly hideLatestError = (): void => {
     this._latestError.set(null);
+    clearTimeout(this.timeout);
   };
 
   readonly copyToClipboard = async (errorData: ErrorData): Promise<void> => {
