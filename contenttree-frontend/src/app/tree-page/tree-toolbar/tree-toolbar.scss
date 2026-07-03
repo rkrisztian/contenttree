@@ -21,6 +21,11 @@
       align-items: center;
       gap: 0.5rem;
       white-space: nowrap;
+
+      .delete-button:not(:disabled) {
+        background-color: var(--mat-sys-error);
+        color: var(--mat-sys-on-error);
+      }
     }
   }
 }

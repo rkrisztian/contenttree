@@ -35,7 +35,7 @@
 
   <mat-card-actions>
     <button mat-stroked-button (click)="cancel()">Cancel</button>
-    <button mat-flat-button (click)="confirm()">
+    <button mat-flat-button class="delete-button" (click)="confirm()">
       <mat-icon>delete</mat-icon>
       Delete
       @if (allNodesToDelete.length > 1) {

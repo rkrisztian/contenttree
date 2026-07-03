@@ -52,6 +52,7 @@
 
     <button
       mat-flat-button
+      class="delete-button"
       (click)="deleteNode()"
       [disabled]="!selectedNode()?.parentId || isLoading()"
       aria-label="Delete selected node"
