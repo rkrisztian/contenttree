@@ -41,6 +41,7 @@ export class TreeToolbar {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly selectedNode = this.treePageService.selectedNode;
+  protected readonly contentForSelectedNode = this.treePageService.contentForSelectedNode;
   protected readonly rootNode = this.treePageService.rootNode;
 
   private readonly searchModel = signal<SearchFormData>({
@@ -68,6 +69,7 @@ export class TreeToolbar {
       data: {
         createMode,
         selectedNode: this.selectedNode(),
+        content: createMode ? undefined : this.contentForSelectedNode.value()!.data,
       },
     });
 

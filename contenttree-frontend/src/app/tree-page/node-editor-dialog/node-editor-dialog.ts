@@ -7,16 +7,17 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TreeNodeData, TreePageService } from '../tree-page.service';
-
-export interface NodeEditorFormData {
-  name: string;
-  content: string;
-}
+import { TreeNodeData } from '../tree-page.service';
 
 export interface NodeEditorDialogData {
   createMode: boolean;
   selectedNode: TreeNodeData | null;
+  content: string | undefined;
+}
+
+export interface NodeEditorFormData {
+  name: string;
+  content: string;
 }
 
 @Component({
@@ -38,12 +39,10 @@ export interface NodeEditorDialogData {
 export class NodeEditorDialog {
   protected readonly data = inject(DIALOG_DATA) as NodeEditorDialogData;
   private readonly dialogRef = inject(DialogRef);
-  private readonly treePageService = inject(TreePageService);
 
-  protected readonly content = this.treePageService.contentForSelectedNode;
   private readonly nodeEditorModel = signal<NodeEditorFormData>({
     name: this.data.createMode ? '' : this.data.selectedNode!.name,
-    content: this.data.createMode ? '' : (this.content.value()?.data ?? ''),
+    content: this.data.createMode ? '' : this.data.content!,
   });
   protected readonly nodeEditorForm = form(
     this.nodeEditorModel,
