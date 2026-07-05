@@ -78,17 +78,15 @@ export class TreeToolbar {
           return;
         }
 
-        if (createMode) {
-          this.treePageService
-            .createNode({
+        (createMode
+          ? this.treePageService.createNode({
               ...data,
               ...(this.selectedNode() ? { parentId: this.selectedNode()!.id } : {}),
             })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-        } else {
-          this.treePageService.updateSelectedNode(data).subscribe();
-        }
+          : this.treePageService.updateSelectedNode(data)
+        )
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe();
       });
   };
 
