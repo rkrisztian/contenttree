@@ -1,6 +1,6 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { debounce, form, FormField, required } from '@angular/forms/signals';
+import { debounce, form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -22,6 +22,7 @@ export interface NodeEditorDialogData {
 @Component({
   selector: 'app-node-editor-dialog',
   imports: [
+    FormRoot,
     FormField,
     MatButtonModule,
     MatCardModule,
@@ -44,19 +45,29 @@ export class NodeEditorDialog {
     name: this.data.createMode ? '' : this.data.selectedNode!.name,
     content: this.data.createMode ? '' : (this.content.value()?.data ?? ''),
   });
-  protected readonly nodeEditorForm = form(this.nodeEditorModel, (schemaPath) => {
-    debounce(schemaPath.name, 250);
-    debounce(schemaPath.content, 250);
+  protected readonly nodeEditorForm = form(
+    this.nodeEditorModel,
+    (schemaPath) => {
+      debounce(schemaPath.name, 250);
+      debounce(schemaPath.content, 250);
 
-    required(schemaPath.name, { message: 'Node name is required' });
-    required(schemaPath.content, { message: 'Node content is required' });
-  });
+      required(schemaPath.name, { message: 'Node name is required' });
+      required(schemaPath.content, { message: 'Node content is required' });
+    },
+    {
+      submission: {
+        action: async () => {
+          this.confirm();
+        },
+      },
+    },
+  );
 
-  protected close = () => {
+  protected readonly close = () => {
     this.dialogRef.close();
   };
 
-  protected confirm = () => {
+  private readonly confirm = () => {
     this.dialogRef.close({
       name: this.nodeEditorForm.name().value(),
       content: this.nodeEditorForm.content().value(),
