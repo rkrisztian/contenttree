@@ -28,7 +28,7 @@ describe('loadingInterceptor', () => {
 
   it('should set loading state on network connection', async ({ server }) => {
     server.use(
-      http.post(`${TREE_API_BASE_URL}/move`, async () => {
+      http.post(`${TREE_API_BASE_URL}/move`, () => {
         return HttpResponse.json({});
       }),
     );

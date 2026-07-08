@@ -108,7 +108,7 @@ describe('TreePageService', () => {
         newParentId: 4,
         shouldFail: true,
       },
-    ])('$name', async ({ nodeId, newParentId, shouldFail }) => {
+    ])('$name', ({ nodeId, newParentId, shouldFail }) => {
       treeApiService.flatNodes.set(testFlatNodes);
       const promise = treePageService.moveNode(nodeId, newParentId);
 

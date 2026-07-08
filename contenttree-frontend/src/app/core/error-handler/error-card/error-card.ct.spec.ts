@@ -27,7 +27,7 @@ describe('ErrorService', () => {
     const clipboardWriteTextSpy = vi
       .spyOn(navigator.clipboard, 'writeText')
       .mockImplementation(async () => {
-        return;
+        /* empty */
       });
 
     await page.getByRole('button', { name: 'Copy error data', exact: true }).click();

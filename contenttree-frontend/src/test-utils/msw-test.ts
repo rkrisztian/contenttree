@@ -19,7 +19,7 @@ export const it = itBase.extend<{
   ],
 });
 
-it.beforeAll(async () => {
+it.beforeAll(() => {
   server.listen();
 });
 

@@ -118,7 +118,7 @@ export const handlers: AnyHandler[] = [
     throw new Error(`Unexpected ID: ${id}`);
   }),
 
-  http.post(`${TREE_API_BASE_URL}/move`, async ({ request }) => {
+  http.post(`${TREE_API_BASE_URL}/move`, ({ request }) => {
     const queryParams = new URL(request.url).searchParams;
 
     if (queryParams.get('nodeId') === '4' && queryParams.get('newParentId') === '1') {
@@ -136,5 +136,5 @@ export const handlers: AnyHandler[] = [
     );
   }),
 
-  http.all('http://localhost:63315/*', async () => undefined),
+  http.all('http://localhost:63315/*', () => undefined),
 ];

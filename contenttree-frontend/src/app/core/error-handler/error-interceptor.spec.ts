@@ -25,9 +25,14 @@ describe('errorInterceptor', () => {
     errorService = TestBed.inject(ErrorService);
   });
 
+  afterEach(() => {
+    // Ensure there is no active timeout
+    errorService.hideLatestError();
+  });
+
   it('should show error on missing backend connection', async ({ server }) => {
     server.use(
-      http.post(`${TREE_API_BASE_URL}/move`, async () => {
+      http.post(`${TREE_API_BASE_URL}/move`, () => {
         return HttpResponse.error();
       }),
     );
@@ -43,7 +48,7 @@ describe('errorInterceptor', () => {
 
   it('should show error with trace ID on bad response', async ({ server }) => {
     server.use(
-      http.post(`${TREE_API_BASE_URL}/move`, async () => {
+      http.post(`${TREE_API_BASE_URL}/move`, () => {
         return HttpResponse.json(
           {
             status: 400,
