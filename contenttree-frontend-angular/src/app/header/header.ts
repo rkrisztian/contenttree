@@ -34,4 +34,18 @@ export class Header {
 
   protected readonly errors = this.errorService.errors;
   protected readonly isLoading = this.loadingService.isLoading;
+
+  protected errorNotificationsAriaLabel = (errorCount: number) => {
+    let label = 'Error notifications';
+
+    if (errorCount) {
+      label += `, ${errorCount} error`;
+
+      if (errorCount > 1) {
+        label += 's';
+      }
+    }
+
+    return label;
+  };
 }

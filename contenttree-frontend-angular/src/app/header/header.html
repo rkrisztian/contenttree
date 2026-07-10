@@ -26,7 +26,7 @@
       [matMenuTriggerFor]="errorsMenu"
       [matBadge]="errors().length"
       [matBadgeHidden]="!errors().length"
-      aria-label="Error Notifications"
+      [aria-label]="errorNotificationsAriaLabel(errors().length)"
     >
       <mat-icon>notifications</mat-icon>
     </button>

@@ -52,9 +52,7 @@ export const Header = () => {
         </Typography>
 
         {loading && (
-          <Box sx={{ display: "flex", mr: 2 }}>
-            <CircularProgress size={24} color="inherit" disableShrink />
-          </Box>
+          <CircularProgress size={24} color="inherit" disableShrink aria-label="Loading" />
         )}
 
         {/* Pages Menu */}
@@ -102,7 +100,7 @@ export const Header = () => {
         <IconButton
           size="large"
           color="inherit"
-          aria-label="error notifications"
+          aria-label={errorNotificationsAriaLabel(errors.length)}
           aria-controls="error-menu"
           aria-haspopup="true"
           onClick={handleErrorsMenuOpen}
@@ -149,4 +147,18 @@ export const Header = () => {
       </Toolbar>
     </AppBar>
   );
+};
+
+const errorNotificationsAriaLabel = (errorCount: number) => {
+  let label = "Error notifications";
+
+  if (errorCount) {
+    label += `, ${errorCount} error`;
+
+    if (errorCount > 1) {
+      label += "s";
+    }
+  }
+
+  return label;
 };
