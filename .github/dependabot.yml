@@ -21,7 +21,7 @@ updates:
 
   - package-ecosystem: npm
     directories:
-      - "/contenttree-frontend"
+      - "/contenttree-frontend-angular"
       - "/contenttree-deploy/e2e"
     schedule:
       interval: monthly
@@ -41,7 +41,7 @@ updates:
           - "version-update:semver-patch"
 
   - package-ecosystem: "docker"
-    directory: "/contenttree-frontend"
+    directory: "/contenttree-frontend-angular"
     schedule:
       interval: monthly
     registries:

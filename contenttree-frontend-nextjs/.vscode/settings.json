@@ -1,10 +1,5 @@
 {
   "telemetry.feedback.enabled": false,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
-  },
   "editor.defaultFormatter": "biomejs.biome",
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -12,9 +7,17 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "npm.autoDetect": "on",
-  "npm.packageManager": "bun",
+  "editor.formatOnSave": true,
   "biome.requireConfiguration": true,
   "biome.suggestInstallingGlobally": false,
-  "editor.rulers": [100]
+  "editor.rulers": [100],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "rkrisztian",
+    "projectKey": "contenttree-frontend-nextjs"
+  },
+  "sonarlint.disableTelemetry": true
 }

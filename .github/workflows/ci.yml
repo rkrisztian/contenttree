@@ -18,7 +18,7 @@ jobs:
       pull-requests: read
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
+      frontend-angular: ${{ steps.filter.outputs.frontend-angular }}
     steps:
       - name: (Harden Runner)
         uses: step-security/harden-runner@v2.19.4  # Immutable
@@ -40,10 +40,10 @@ jobs:
               - 'contenttree-backend/**'
               - '.github/workflows/ci.yml'
               - '.github/workflows/ci-backend.yml'
-            frontend:
-              - 'contenttree-frontend/**'
+            frontend-angular:
+              - 'contenttree-frontend-angular/**'
               - '.github/workflows/ci.yml'
-              - '.github/workflows/ci-frontend.yml'
+              - '.github/workflows/ci-frontend-angular.yml'
             deploy:
               - 'contenttree-deploy/**'
               - '.github/workflows/ci.yml'
@@ -59,14 +59,14 @@ jobs:
     uses: ./.github/workflows/ci-backend.yml
     secrets: inherit
 
-  frontend:
-    name: Frontend
+  frontend-angular:
+    name: Frontend (Angular)
     needs: changes
-    if: ${{ (needs.changes.outputs.frontend == 'true') && !cancelled()  }}
+    if: ${{ (needs.changes.outputs.frontend-angular == 'true') && !cancelled()  }}
     permissions:
       contents: read
       packages: write  # Needed for publishing docker images to GHCR.
-    uses: ./.github/workflows/ci-frontend.yml
+    uses: ./.github/workflows/ci-frontend-angular.yml
     secrets: inherit
 
   deploy-ci:

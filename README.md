@@ -1,6 +1,7 @@
 [![CI Pipeline](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml/badge.svg)](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml)
 Backend: [![Backend Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend)
-Frontend: [![Frontend Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend)
+Frontend (Angular):
+[![Frontend Gate Status (Angular)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-angular)
 
 # Content Tree Management App
 
@@ -12,27 +13,73 @@ to another parent, as well as search nodes by name or content.
 
 ## Used technology stack
 
-The app consists of a Spring Boot backend and an Angular frontend.
+The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 
-- **Backend:**
-	- [Spring Boot](https://spring.io/projects/spring-boot) (REST API)
-	- [Gradle](https://gradle.org/) (build tool)
-	- [PostgreSQL](https://www.postgresql.org/) (database)
-	- _(Optional)_ [DbGate](https://www.dbgate.io/) (database manager)
-	- [MapStruct](https://mapstruct.org/) (DTO mapping)
-- **Frontend:**
-	- [Angular](https://angular.dev/) (component-based UI)
-	- [OpenAPI TypeScript](https://openapi-ts.dev/) (type-safe API interactions)
-	- [Angular Material](https://material.angular.dev/) (UI components)
-- **CI/CD & Quality:**
-	- [Testcontainers](https://testcontainers.com/) (integration testing)
-	- [NullAway](https://github.com/uber/NullAway) (null safety checker)
-	- [PMD](https://pmd.github.io/) (code linting)
-	- [ESLint](https://eslint.org/) (code linting)
-	- [Prettier](https://prettier.io/) (code formatting)
-	- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
-	- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
-	  security analysis)
+<table>
+	<tr>
+		<th>&nbsp;</th>
+		<th>Main Dependencies</th>
+		<th>Quality & Testing</th>
+	</tr>
+	<tr>
+		<th>Backend</th>
+		<td>
+			<ul>
+				<li><a href="https://spring.io/projects/spring-boot">Spring Boot</a> (REST API)</li>
+				<li><a href="https://gradle.org/">Gradle</a> (build tool)</li>
+				<li><a href="https://www.postgresql.org/">PostgreSQL</a> (database)</li>
+				<li><i>(Optional)</i> <a href="https://www.dbgate.io/">DbGate</a> (database manager)</li>
+				<li><a href="https://mapstruct.org/">MapStruct</a> (DTO mapping)</li>
+			</ul>
+		</td>
+		<td>
+			<ul>
+				<li><a href="https://testcontainers.com/">Testcontainers</a> (integration testing)</li>
+				<li><a href="https://github.com/uber/NullAway">NullAway</a> (null safety checker)</li>
+				<li><a href="https://pmd.github.io/">PMD</a> (code linting)</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th>Frontend (Angular)</th>
+		<td>
+			<ul>
+				<li><a href="https://angular.dev/">Angular</a> (component-based UI)</li>
+				<li><a href="https://openapi-ts.dev/">OpenAPI TypeScript</a> (type-safe API interactions)</li>
+				<li><a href="https://material.angular.dev/">Angular Material</a> (UI components)</li>
+			</ul>
+		</td>
+		<td>
+			<ul>
+				<li><a href="https://eslint.org/">ESLint</a> (code linting)</li>
+				<li><a href="https://prettier.io/">Prettier</a> (code formatting)</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th>Frontend (Next.js)</th>
+		<td>
+			<ul>
+				<li><a href="https://nextjs.org/">Next.js</a> (React framework)</li>
+				<li><a href="https://openapi-ts.dev/">OpenAPI TypeScript</a> (type-safe API interactions)</li>
+				<li><a href="https://mui.com/">MUI</a> (UI components)</li>
+			</ul>
+		</td>
+		<td>
+			<ul>
+				<li><a href="https://biomejs.dev/">Biome</a> (code linting and formatting)</li>
+				<li><a href="https://vitest.dev/">Vitest</a> (testing framework)</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+- **Common Technologies:**
+	- **CI/CD & Quality:**
+		- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
+		- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
+		  security analysis)
+		- [Playwright](https://playwright.dev/) (end-to-end testing)
 
 ## Running the Application
 
@@ -42,7 +89,7 @@ The app consists of a Spring Boot backend and an Angular frontend.
 	- [Java Development Kit](https://www.java.com/en/) 25 or later
 	- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 	- _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
-- **Frontend:**
+- **Frontend (Angular and Next.js):**
 	- [Node.js](https://nodejs.org/en)
 	  and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
 
@@ -86,14 +133,27 @@ cd contenttree-backend
 gw bootRun --args='--spring.docker.compose.profiles.active=debug'
 ```
 
-### Frontend
+### Frontend (Angular)
 
-Navigate to the frontend folder and start the Angular development server.
+Navigate to the `contenttree-frontend-angular` folder and start the Angular development server.
 
 ```shell
-cd contenttree-frontend
+cd contenttree-frontend-angular
 npm ci
 npm start
+```
+
+This runs the `ng serve` command. Once the frontend is running, the application will be available at
+[http://localhost:4200/tree](http://localhost:4200/tree).
+
+### Frontend (Next.js)
+
+Navigate to the `contenttree-frontend-nextjs` folder and start the Angular development server.
+
+```shell
+cd contenttree-frontend-nextjs
+npm ci
+npm run dev
 ```
 
 This runs the `ng serve` command. Once the frontend is running, the application will be available at
@@ -106,7 +166,8 @@ the local machine by executing the following commands:
 
 ```shell
 (cd contenttree-backend && gw bootBuildImage)
-(cd contenttree-frontend && npm run build:docker)
+(cd contenttree-frontend-angular && npm run build:docker)
+(cd contenttree-frontend-nextjs && npm run build:docker)
 (cd contenttree-deploy && docker compose up)
 ```
 
@@ -126,21 +187,36 @@ gw check
 
 The `check` task depends on the `integrationTest` suite.
 
-### Frontend Tests
+### Frontend Tests (Angular)
 
-Execute frontend tests using npm:
+Execute unit and integration tests using npm:
 
 ```shell
-cd contenttree-frontend
+cd contenttree-frontend-angular
 npm test
 ```
-
-This runs the `ng test` command.
 
 Component tests are executed separately because they require a browser (this project uses Chromium):
 
 ```shell
-cd contenttree-frontend
+cd contenttree-frontend-angular
+npm run install:chromium
+npm run test:ct
+```
+
+### Frontend Tests (Nextjs)
+
+Execute unit and integration tests using npm:
+
+```shell
+cd contenttree-frontend-nextjs
+npm test
+```
+
+Component tests are executed separately because they require a browser (this project uses Chromium):
+
+```shell
+cd contenttree-frontend-nextjs
 npm run install:chromium
 npm run test:ct
 ```
@@ -162,7 +238,7 @@ The following IDEs are recommended for use:
 
 - **Backend:**
 	- [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
-- **Frontend:**
+- **Frontend (Angular & Next.js):**
 	- [Visual Studio Code](https://code.visualstudio.com/)
 
 ### Backend
@@ -178,7 +254,7 @@ gw build --write-verification-metadata pgp,sha256 --export-keys --write-locks
 
 Then review the changes in the verification metadata and the lock file.
 
-### Frontend
+### Frontend (Angular and Next.js) and E2E Tests
 
 #### API Schema Generation
 
@@ -186,7 +262,8 @@ To generate the `schema.d.ts` file, run the following commands:
 
 ```shell
 (cd contenttree-backend && gw generateOpenApiDocs)
-(cd contenttree-frontend && npm run openapi:generate)
+(cd contenttree-frontend-angular && npm run openapi:generate)
+(cd contenttree-frontend-nextjs && npm run openapi:generate)
 (cd contenttree-deploy/e2e && npm run openapi:generate)
 ```
 

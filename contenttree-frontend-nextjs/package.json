@@ -1,17 +1,20 @@
 {
-  "name": "contenttree-frontend",
+  "name": "contenttree-frontend-nextjs",
   "description": "Content Tree Application Frontend",
   "private": true,
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:docker": "echo TODO implementation coming soon",
+    "prebuild:docker": "npm run build",
     "prebuild": "license-report --only=prod --output=html > public/third-party-licenses.html",
     "openapi:generate": "openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/_lib/schema.d.ts",
     "start": "next start",
     "test": "vitest",
     "test:ct": "npm run test -- --config vitest.ct.config.ts",
     "test:ct:headless": "npm run test:ct -- --browser.headless",
+    "install:chromium": "playwright install chromium",
     "lint": "biome check --fix",
     "format": "biome format --write"
   },

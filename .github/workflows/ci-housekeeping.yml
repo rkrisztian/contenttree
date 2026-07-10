@@ -23,7 +23,7 @@ jobs:
         with:
           account: user
           token: ${{ secrets.GITHUB_TOKEN }}
-          image-names: "contenttree-frontend contenttree-backend"
+          image-names: "contenttree-frontend-angular contenttree-backend"
           image-tags: "*-snapshot"
           cut-off: 1month
           keep-n-most-recent: 2
@@ -33,7 +33,7 @@ jobs:
         with:
           account: user
           token: ${{ secrets.GITHUB_TOKEN }}
-          image-names: "contenttree-frontend contenttree-backend"
+          image-names: "contenttree-frontend-angular contenttree-backend"
           image-tags: "*-rc"
           cut-off: 1month
           keep-n-most-recent: 2

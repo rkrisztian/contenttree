@@ -1,5 +1,5 @@
 {
-  "name": "contenttree",
+  "name": "contenttree-frontend-angular",
   "description": "Content Tree Application Frontend",
   "private": true,
   "license": "MIT",
@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "build:docker": "docker build --tag contenttree-frontend:latest .",
+    "build:docker": "docker build --tag contenttree-frontend-angular:latest .",
     "prebuild:docker": "npm run build",
     "openapi:generate": "openapi-typescript ../contenttree-backend/build/openapi.json -o src/app/api/schema.d.ts",
     "test": "ng test",

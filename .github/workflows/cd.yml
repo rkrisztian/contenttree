@@ -65,7 +65,7 @@ jobs:
           cwd: contenttree-deploy
         env:
           BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-snapshot
-          FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-snapshot
+          FRONTEND_ANGULAR_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
 
       - name: (Set up Node.js)
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
@@ -101,14 +101,14 @@ jobs:
       - name: Push Release Candidate Images
         run: |
           docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
-          docker tag ${FRONTEND_IMAGE_OLD} ${FRONTEND_IMAGE_NEW}
+          docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${BACKEND_IMAGE_NEW}
-          docker push ${FRONTEND_IMAGE_NEW}
+          docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
         env:
           BACKEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-snapshot
           BACKEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-rc
-          FRONTEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-snapshot
-          FRONTEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-rc
+          FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
+          FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
 
   release:
     name: Release
@@ -144,16 +144,16 @@ jobs:
       - name: Push Release Images
         run: |
           docker pull ${BACKEND_IMAGE_OLD}
-          docker pull ${FRONTEND_IMAGE_OLD}
+          docker pull ${FRONTEND_ANGULAR_IMAGE_OLD}
           docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
-          docker tag ${FRONTEND_IMAGE_OLD} ${FRONTEND_IMAGE_NEW}
+          docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${BACKEND_IMAGE_NEW}
-          docker push ${FRONTEND_IMAGE_NEW}
+          docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
         env:
           BACKEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-rc
           BACKEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}
-          FRONTEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}-rc
-          FRONTEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend:${{ env.PROJECT_VERSION }}
+          FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
+          FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}
 
       - name: Create Git Tag
         uses: pkgdeps/git-tag-action@a5a161774bace8b4e1969dd850c67a7421f1b710  # v3.0.1

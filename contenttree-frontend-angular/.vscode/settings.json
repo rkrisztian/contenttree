@@ -1,4 +1,5 @@
 {
+  "telemetry.feedback.enabled": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -13,7 +14,7 @@
   },
   "sonarlint.connectedMode.project": {
     "connectionId": "rkrisztian",
-    "projectKey": "contenttree-frontend"
+    "projectKey": "contenttree-frontend-angular"
   },
   "sonarlint.disableTelemetry": true
 }
