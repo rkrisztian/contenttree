@@ -8,15 +8,25 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined,
   reporter: [['html'], ['list']],
   use: {
-    baseURL: 'http://localhost:8080',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'angular',
       dependencies: ['set up db'],
-      use: { ...devices['Desktop Chromium'] },
+      use: {
+        ...devices['Desktop Chromium'],
+        baseURL: 'http://localhost:8080',
+      },
+    },
+    {
+      name: 'nextjs',
+      dependencies: ['set up db'],
+      use: {
+        ...devices['Desktop Chromium'],
+        baseURL: 'http://localhost:8084',
+      },
     },
     {
       name: 'set up db',

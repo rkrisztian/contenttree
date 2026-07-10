@@ -32,7 +32,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contenttree
       - SPRING_CONFIG_IMPORT=file:/run/secrets/backend_config[.properties]
-      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080
+      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:8084
       - THC_PATH=/actuator/health/readiness
       - THC_PORT=8082
     secrets:
@@ -61,6 +61,26 @@ services:
         hard: 65535
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://frontend-angular:8080/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_interval: 3s
+      start_period: 10s
+
+  frontend-nextjs:
+    image: ${FRONTEND_NEXTJS_IMAGE:-contenttree-frontend-nextjs:latest}
+    ports:
+      - "8084:3000"
+    environment:
+      - API_BASE_URL=http://localhost:8081
+    networks:
+      - app-network
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    healthcheck:
+      test: [ "CMD", "node", "healthcheck.mjs" ]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -22,6 +22,7 @@ updates:
   - package-ecosystem: npm
     directories:
       - "/contenttree-frontend-angular"
+      - "/contenttree-frontend-nextjs"
       - "/contenttree-deploy/e2e"
     schedule:
       interval: monthly
@@ -35,13 +36,23 @@ updates:
         patterns:
           - "@eslint/*"
           - eslint
+      vitest:
+        patterns:
+          - "@vitest/*"
+          - vitest-*
+      testing-library:
+        patterns:
+          - "@testing-library/*"
+          - jsdom
     allow:
       - update-types:
           - "version-update:semver-minor"
           - "version-update:semver-patch"
 
   - package-ecosystem: "docker"
-    directory: "/contenttree-frontend-angular"
+    directories:
+      - "/contenttree-frontend-angular"
+      - "/contenttree-frontend-nextjs"
     schedule:
       interval: monthly
     registries:

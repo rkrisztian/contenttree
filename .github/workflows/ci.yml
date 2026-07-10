@@ -19,6 +19,7 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend-angular: ${{ steps.filter.outputs.frontend-angular }}
+      frontend-nextjs: ${{ steps.filter.outputs.frontend-nextjs }}
     steps:
       - name: (Harden Runner)
         uses: step-security/harden-runner@v2.19.4  # Immutable
@@ -44,6 +45,10 @@ jobs:
               - 'contenttree-frontend-angular/**'
               - '.github/workflows/ci.yml'
               - '.github/workflows/ci-frontend-angular.yml'
+            frontend-nextjs:
+              - 'contenttree-frontend-nextjs/**'
+              - '.github/workflows/ci.yml'
+              - '.github/workflows/ci-frontend-nextjs.yml'
             deploy:
               - 'contenttree-deploy/**'
               - '.github/workflows/ci.yml'
@@ -67,6 +72,16 @@ jobs:
       contents: read
       packages: write  # Needed for publishing docker images to GHCR.
     uses: ./.github/workflows/ci-frontend-angular.yml
+    secrets: inherit
+
+  frontend-nextjs:
+    name: Frontend (Next.js)
+    needs: changes
+    if: ${{ (needs.changes.outputs.frontend-nextjs == 'true') && !cancelled()  }}
+    permissions:
+      contents: read
+      packages: write  # Needed for publishing docker images to GHCR.
+    uses: ./.github/workflows/ci-frontend-nextjs.yml
     secrets: inherit
 
   deploy-ci:

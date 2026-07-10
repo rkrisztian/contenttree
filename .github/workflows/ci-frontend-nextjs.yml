@@ -1,4 +1,4 @@
-name: CI Pipeline - Frontend (Angular)
+name: CI Pipeline - Frontend (Next.js)
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ jobs:
     name: Build
     defaults:
       run:
-        working-directory: contenttree-frontend-angular
+        working-directory: contenttree-frontend-nextjs
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
@@ -25,9 +25,9 @@ jobs:
       - name: (Set up Node.js)
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
         with:
-          node-version-file: contenttree-frontend-angular/.node_version
+          node-version-file: contenttree-frontend-nextjs/.node_version
           cache: 'npm'
-          cache-dependency-path: contenttree-frontend-angular/package-lock.json
+          cache-dependency-path: contenttree-frontend-nextjs/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -38,17 +38,8 @@ jobs:
       - name: Run Lint
         run: npm run lint
 
-      # ESLint does not support multiple reporter formats in one go.
-      # See: https://github.com/eslint/eslint/issues/19990
-      - name: (Generate ESLint report for Sonar)
-        if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
-        run: npm run lint:sonar
-
       - name: Analyze Imports for Cyclic Dependencies
         run: npm run lint:dpdm
-
-      - name: Run Formatting Checks
-        run: npm run format:check
 
       - name: Run Unit Tests
         run: npm test
@@ -78,7 +69,7 @@ jobs:
         if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
         uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
         with:
-          projectBaseDir: contenttree-frontend-angular
+          projectBaseDir: contenttree-frontend-nextjs
           args: >
             -Dsonar.projectVersion=${{ env.PROJECT_VERSION }}
         env:
@@ -95,8 +86,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v7.2.0  # Immutable
         with:
-          context: contenttree-frontend-angular
-          tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot"
+          context: contenttree-frontend-nextjs
+          tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-snapshot"
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
