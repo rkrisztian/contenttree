@@ -145,8 +145,8 @@ npm ci
 npm start
 ```
 
-This runs the `ng serve` command. Once the frontend is running, the application will be available at
-[http://localhost:4200/tree](http://localhost:4200/tree).
+This runs the development web server. Once the frontend is running, the application will be
+available at [http://localhost:4200/tree](http://localhost:4200/tree).
 
 ### Frontend (Next.js)
 
@@ -158,8 +158,8 @@ npm ci
 npm run dev
 ```
 
-This runs the `ng serve` command. Once the frontend is running, the application will be available at
-[http://localhost:4200/tree](http://localhost:4200/tree).
+This runs the development web server. Once the frontend is running, the application will be
+available at [http://localhost:3000/tree](http://localhost:3000/tree).
 
 ## Deploying the Application
 
