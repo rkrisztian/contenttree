@@ -59,5 +59,10 @@
   "trustedDependencies": [
     "sharp",
     "unrs-resolver"
-  ]
+  ],
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "msw@2.15.0": true,
+    "sharp@0.34.5": true
+  }
 }
