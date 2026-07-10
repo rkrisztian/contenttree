@@ -16,6 +16,7 @@
     "test:ct:headless": "npm run test:ct -- --browser.headless",
     "install:chromium": "playwright install chromium",
     "lint": "biome check --fix",
+    "lint:dpdm": "dpdm '**/*.ts?(x)' --tree false --warning false",
     "format": "biome format --write"
   },
   "dependencies": {
@@ -44,6 +45,7 @@
     "@vitest/browser-playwright": "^4.1.10",
     "@vitest/coverage-v8": "^4.1.10",
     "babel-plugin-react-compiler": "1.0.0",
+    "dpdm": "^4.2.0",
     "jsdom": "^29.1.1",
     "license-report": "^6.8.5",
     "msw": "^2.15.0",
