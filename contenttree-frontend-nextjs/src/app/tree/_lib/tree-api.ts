@@ -32,7 +32,7 @@ export class TreeApi {
       : [];
 
   readonly createNode = async (node: CreateTreeNodeReqDTO) =>
-    this.getBackendApi().put(TREE_API_BASE_PATH, node);
+    Number((await this.getBackendApi().put(TREE_API_BASE_PATH, node)).data);
 
   readonly updateNode = async (node: UpdateTreeNodeReqDTO) =>
     this.getBackendApi().post(TREE_API_BASE_PATH, node);

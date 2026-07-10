@@ -6,19 +6,14 @@ import { useTreeItemModel } from "@mui/x-tree-view/hooks";
 import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
 import { TreeItem, type TreeItemProps } from "@mui/x-tree-view/TreeItem";
 import clsx from "clsx";
-import { forwardRef, type Ref, type SyntheticEvent, useMemo, useState } from "react";
+import { forwardRef, type Ref, type SyntheticEvent, useMemo } from "react";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { type TreeNodeData, useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./Tree.module.scss";
 import { TreeDragProvider, useTreeDrag } from "./TreeDragContext";
 
 export const Tree = () => {
-  const { rootNode, nodesById, selectedNodeId, toggleSelect } = useTreePage();
-  const [expandedItems, setExpandedItems] = useState<string[]>(
-    Array.from(
-      nodesById.values().flatMap((node) => (node.children.length ? [String(node.id)] : [])),
-    ),
-  );
+  const { rootNode, expandedItems, setExpandedItems, selectedNodeId, toggleSelect } = useTreePage();
   const key = useMemo(() => convertTreeToKey(rootNode), [rootNode]);
 
   const handleExpansionChange = (
@@ -116,7 +111,7 @@ const TreeNodeLabel = ({ children, nodeId }: TreeNodeLabelProps) => {
   );
 };
 
-export const convertTreeToKey = (rootNode: TreeNodeData | null): string => {
+const convertTreeToKey = (rootNode: TreeNodeData | null): string => {
   if (!rootNode) return "empty";
 
   const keyParts = [];

@@ -34,6 +34,8 @@ export type TreePageContextType = {
   rootNode: TreeNodeData | null;
   nodesById: Map<number, TreeNodeData>;
   selectedNodeId: number | null;
+  expandedItems: string[];
+  setExpandedItems: Dispatch<SetStateAction<TreePageContextType["expandedItems"]>>;
   toggleSelect: (newSelectedNodeId: number | null) => void;
   contentForSelectedNode: SWRResponse<ContentRespDto>;
   searchText: string;
@@ -63,10 +65,13 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
     () => treeApiRef.current.getContentForSelectedNode(selectedNodeId!),
   );
 
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: rootNode is derived
   useEffect(() => {
     if (!hasFlatNodesInitialized && flatNodes.data) {
       setSelectedNodeId(rootNode?.id ?? null);
+      setExpandedItems(convertToExpandedItems(nodesById));
       setHasFlatNodesInitialized(true);
     }
   }, [hasFlatNodesInitialized, flatNodes.data]);
@@ -85,8 +90,9 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   };
 
   const createNode = async (node: CreateTreeNodeReqDTO) => {
-    await treeApiRef.current.createNode(node);
+    const id = await treeApiRef.current.createNode(node);
     await flatNodes.mutate();
+    setExpandedItems((expandedItems) => [...expandedItems, String(id)]);
   };
 
   const updateSelectedNode = async (data: Omit<UpdateTreeNodeReqDTO, "id">) => {
@@ -98,6 +104,10 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   const deleteSelectedNode = async () => {
     await treeApiRef.current.deleteNode(selectedNodeId!);
     setSelectedNodeId(nodesById.get(selectedNodeId!)!.parentId);
+    setExpandedItems((expandedItems) => {
+      const selectedNodeIdStr = String(selectedNodeId!);
+      return expandedItems.filter((id) => id !== selectedNodeIdStr);
+    });
     await flatNodes.mutate();
   };
 
@@ -148,6 +158,8 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
         flatNodes,
         rootNode,
         nodesById,
+        expandedItems,
+        setExpandedItems,
         selectedNodeId,
         toggleSelect,
         contentForSelectedNode,
@@ -188,3 +200,6 @@ const buildTree = (flatNodes: TreeNodeRespDTO[] = []) => {
 
   return { root, nodesById };
 };
+
+const convertToExpandedItems = (nodesById: Map<number, TreeNodeData>) =>
+  Array.from(nodesById.keys().map((id) => String(id)));
