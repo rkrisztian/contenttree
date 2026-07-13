@@ -35,8 +35,8 @@ export class TreePage {
   private readonly treePageService = inject(TreePageService);
   private readonly treeScrollService = inject(TreeScrollService);
 
-  protected readonly flatNodes = this.treePageService.flatNodes;
-  protected readonly rootNode = this.treePageService.rootNode;
+  protected readonly rawNodes = this.treePageService.rawNodes;
+  protected readonly treeData = this.treePageService.treeData;
 
   private readonly treeContainer = viewChild.required<ElementRef>('treeContainer');
 

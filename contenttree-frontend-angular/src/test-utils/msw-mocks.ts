@@ -8,7 +8,7 @@ import {
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
 import { environment } from '../environments/environment';
 
-let flatNodes: TreeNodeRespDTO[] = [
+let rawNodes: TreeNodeRespDTO[] = [
   { id: 1, name: 'Root node' },
   { id: 2, name: 'Child node', parentId: 1 },
   { id: 3, name: 'Child node 2', parentId: 1 },
@@ -29,7 +29,7 @@ export const handlers: AnyHandler[] = [
     HttpResponse.json({ apiBaseUrl: 'test-config-path' } satisfies RemoteConfig),
   ),
 
-  http.get(TREE_API_BASE_URL, () => HttpResponse.json(flatNodes)),
+  http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
     const { id } = params as { id: string };
@@ -58,7 +58,7 @@ export const handlers: AnyHandler[] = [
     const node = (await request.json()) as CreateTreeNodeReqDTO;
 
     if (node.name === 'test node') {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: 'Root node' },
         { id: 2, name: 'Child node', parentId: 1 },
         { id: 3, name: 'Child node 2', parentId: 1 },
@@ -82,7 +82,7 @@ export const handlers: AnyHandler[] = [
     const node = (await request.json()) as CreateTreeNodeReqDTO;
 
     if (node.name === 'changed node') {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: 'changed node' },
         { id: 2, name: 'Child node', parentId: 1 },
         { id: 3, name: 'Child node 2', parentId: 1 },
@@ -104,7 +104,7 @@ export const handlers: AnyHandler[] = [
     const { id } = params as { id: string };
 
     if (id === '2') {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: 'Root node' },
         { id: 3, name: 'Child node 2', parentId: 1 },
       ];
@@ -122,7 +122,7 @@ export const handlers: AnyHandler[] = [
     const queryParams = new URL(request.url).searchParams;
 
     if (queryParams.get('nodeId') === '4' && queryParams.get('newParentId') === '1') {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: 'Root node' },
         { id: 2, name: 'Child node', parentId: 1 },
         { id: 3, name: 'Child node 2', parentId: 1 },

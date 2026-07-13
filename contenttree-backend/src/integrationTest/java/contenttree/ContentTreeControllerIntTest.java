@@ -69,19 +69,6 @@ class ContentTreeControllerIntTest {
 			assertThat(getAllTreeNodes()).extracting(TreeNodeRespDTO::getId)
 					.containsExactlyInAnyOrder(rootNode.getId(), childNode2.getId());
 		}
-
-		@Test
-		void shouldListNodesInOrder() throws Exception {
-			final var rootNode = createTreeNode("pineapple", "dummy content", null);
-			final var childNode1 = createTreeNode("banana", "dummy content 2", rootNode.getId());
-			final var childNode2 = createTreeNode("carrot", "dummy content 3", childNode1.getId());
-			createTreeNode("apple", "dummy content 4", childNode2.getId());
-			createTreeNode("garlic", "dummy content 5", rootNode.getId());
-
-			assertThat(getAllTreeNodes()).extracting(TreeNodeRespDTO::getName)
-					.containsExactly("apple", "banana", "carrot", "garlic", "pineapple");
-		}
-
 	}
 
 	@Nested

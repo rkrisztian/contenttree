@@ -10,7 +10,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import { Controller, useForm } from "react-hook-form";
-import type { TreeNodeData } from "@/app/tree/_lib/TreePageContext";
+import type { TreeNodeData } from "@/app/tree/_lib/tree-data";
 import styles from "./NodeEditorDialog.module.scss";
 
 interface NodeEditorDialogProps {
@@ -31,9 +31,9 @@ export interface NodeEditorFormData {
 }
 
 export default function NodeEditorDialog({
+  data,
   onClose,
   onSave,
-  data,
 }: Readonly<NodeEditorDialogProps>) {
   const {
     control,

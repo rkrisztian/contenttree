@@ -7,13 +7,13 @@
     <mat-divider />
 
     <mat-card-content #treeContainer class="tree">
-      @if (flatNodes.isLoading()) {
+      @if (rawNodes.isLoading()) {
         <div class="loading-container">
           <mat-spinner diameter="32"></mat-spinner>
           <span>Loading tree...</span>
         </div>
       } @else {
-        @if (rootNode() == null) {
+        @if (treeData().rootNodeId == null) {
           <div class="empty-state">
             <mat-icon class="empty-icon">inbox</mat-icon>
             <h3>Tree is Empty</h3>

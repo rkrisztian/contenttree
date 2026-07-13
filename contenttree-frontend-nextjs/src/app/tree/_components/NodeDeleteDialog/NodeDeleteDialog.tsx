@@ -13,20 +13,22 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import type { TreeNodeData } from "@/app/tree/_lib/TreePageContext";
+import type { TreeNodeData } from "@/app/tree/_lib/tree-data";
 import styles from "./NodeDeleteDialog.module.scss";
-import { convertTreeToList } from "./node-delete-dialog-util";
 
 export interface NodeDeleteDialogProps {
-  node: TreeNodeData;
+  data: NodeDeleteDialogData;
   onClose: () => void;
   onDelete: () => void;
 }
 
-export const NodeDeleteDialog = ({ node, onClose, onDelete }: Readonly<NodeDeleteDialogProps>) => {
-  const allNodesToDelete = convertTreeToList(node);
+export interface NodeDeleteDialogData {
+  allNodesToDelete: TreeNodeData[];
+}
+
+export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDeleteDialogProps>) => {
+  const nodeToDelete = data.allNodesToDelete[0]!;
 
   const handleClose = () => {
     onClose();
@@ -53,28 +55,27 @@ export const NodeDeleteDialog = ({ node, onClose, onDelete }: Readonly<NodeDelet
 
       <DialogContent dividers>
         <Typography variant="body1" className={styles["instruction-text"]}>
-          Are you sure you want to delete <strong>{node.name}</strong>
-          {allNodesToDelete.length > 1 && " and its following children"}?
+          Are you sure you want to delete <strong>{nodeToDelete.name}</strong>
+          {data.allNodesToDelete.length > 1 && " and its following children"}?
         </Typography>
 
-        {allNodesToDelete.length > 1 && (
+        {data.allNodesToDelete.length > 1 && (
           <Box className={styles["tree-preview-container"]}>
             <List aria-label="Nodes to be deleted" className={styles["tree-preview-list"]}>
-              {allNodesToDelete.map((item) => (
-                <ListItem
-                  key={item.node.id}
-                  className={styles["tree-item"]}
-                  disablePadding
-                  sx={{ paddingLeft: `${item.indentLevel * 24}px` }}
-                >
-                  <ListItemIcon className={styles["tree-icon"]}>
-                    {item.node.children.length > 0 ? <FolderIcon /> : <DescriptionIcon />}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.node.name}
-                    slotProps={{ primary: { className: styles["tree-name"] } }}
-                  />
-                </ListItem>
+              {data.allNodesToDelete.map((node) => (
+                <Box key={node.id}>
+                  <ListItem
+                    className={styles["tree-node"]}
+                    disablePadding
+                    sx={{ marginLeft: `${(node.depth - nodeToDelete.depth) * 1.75}rem` }}
+                  >
+                    <ListItemIcon className={styles["tree-node-icon"]}>
+                      {node.children.length > 0 ? <FolderIcon /> : <DescriptionIcon />}
+                    </ListItemIcon>
+                    {/* ListItemText renders a `div` */}
+                    <span className={styles["tree-node-name"]}>{node.name}</span>
+                  </ListItem>
+                </Box>
               ))}
             </List>
           </Box>
@@ -93,7 +94,7 @@ export const NodeDeleteDialog = ({ node, onClose, onDelete }: Readonly<NodeDelet
           startIcon={<DeleteIcon />}
         >
           Delete
-          {allNodesToDelete.length > 1 && " All"}
+          {data.allNodesToDelete.length > 1 && " All"}
         </Button>
       </DialogActions>
     </Dialog>

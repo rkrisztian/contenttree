@@ -14,7 +14,7 @@ import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./page.module.scss";
 
 export default function TreePage() {
-  const { flatNodes, rootNode } = useTreePage();
+  const { rawNodes: flatNodes, treeData } = useTreePage();
 
   return (
     <Box className={styles["page-layout"]}>
@@ -26,24 +26,7 @@ export default function TreePage() {
         <Divider />
 
         <CardContent className={styles["tree"]}>
-          {flatNodes.isLoading ? (
-            <Box className={styles["loading-container"]}>
-              <CircularProgress size={32} />
-              <Typography>Loading tree...</Typography>
-            </Box>
-          ) : rootNode ? ( // NOSONAR: TODO: I'll deal with this later.
-            <Tree />
-          ) : (
-            <Box className={styles["empty-state"]}>
-              <InboxIcon className={styles["empty-icon"]} />
-              <Typography variant="h5" component="h3">
-                Tree is Empty
-              </Typography>
-              <Typography variant="body1">
-                Add a root node to begin organizing your data.
-              </Typography>
-            </Box>
-          )}
+          <TreeContent isLoading={flatNodes.isLoading} hasRootNode={!!treeData.rootNodeId} />
         </CardContent>
       </Card>
 
@@ -53,3 +36,27 @@ export default function TreePage() {
     </Box>
   );
 }
+
+const TreeContent = ({ isLoading, hasRootNode }: { isLoading: boolean; hasRootNode: boolean }) => {
+  if (isLoading) {
+    return (
+      <Box className={styles["loading-container"]}>
+        <CircularProgress size={32} />
+        <Typography>Loading tree...</Typography>
+      </Box>
+    );
+  }
+  if (!hasRootNode) {
+    return (
+      <Box className={styles["empty-state"]}>
+        <InboxIcon className={styles["empty-icon"]} />
+        <Typography variant="h5" component="h3">
+          Tree is Empty
+        </Typography>
+        <Typography variant="body1">Add a root node to begin organizing your data.</Typography>
+      </Box>
+    );
+  }
+
+  return <Tree />;
+};

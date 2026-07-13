@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { RefObject } from "react";
-import type { components } from "../../_lib/schema";
+import type { components } from "@/app/_lib/schema";
 
 export type TreeNodeRespDTO = components["schemas"]["TreeNodeRespDTO"];
 export type ContentRespDto = components["schemas"]["ContentRespDto"];
@@ -32,7 +32,7 @@ export class TreeApi {
       : [];
 
   readonly createNode = async (node: CreateTreeNodeReqDTO) =>
-    Number((await this.getBackendApi().put(TREE_API_BASE_PATH, node)).data);
+    this.getBackendApi().put(TREE_API_BASE_PATH, node);
 
   readonly updateNode = async (node: UpdateTreeNodeReqDTO) =>
     this.getBackendApi().post(TREE_API_BASE_PATH, node);

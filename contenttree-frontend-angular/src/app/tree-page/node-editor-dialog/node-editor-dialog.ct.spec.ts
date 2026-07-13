@@ -42,10 +42,10 @@ describe('NodeEditorDialog', () => {
     await expect.element(dialog).not.toBeInTheDocument();
 
     await expect
-      .element(page.getByRole('button', { name: 'test node', exact: true }))
+      .element(page.getByRole('treeitem', { name: 'test node', exact: true }))
       .toBeVisible();
 
-    await page.getByRole('button', { name: 'test node', exact: true }).click();
+    await page.getByRole('treeitem', { name: 'test node', exact: true }).click();
 
     await expect.element(page.getByText('test content', { exact: true })).toBeVisible();
   });
@@ -103,7 +103,7 @@ describe('NodeEditorDialog', () => {
 
     await expect.element(dialog).not.toBeInTheDocument();
     await expect
-      .element(page.getByRole('button', { name: 'changed node', exact: true }))
+      .element(page.getByRole('treeitem', { name: 'changed node', exact: true }))
       .toBeVisible();
 
     await expect.element(page.getByText('changed content', { exact: true })).toBeVisible();

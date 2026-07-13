@@ -25,32 +25,28 @@
         padding: 0;
         list-style: none;
 
-        .tree-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
+        .tree-node {
+          display: inline-block;
+          white-space: nowrap;
           padding: 0.25rem 0.75rem;
           color: var(--mat-sys-on-surface-variant);
+          cursor: default;
 
           &:hover {
             background-color: rgba(0, 0, 0, 0.05);
           }
 
-          .tree-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          .tree-node-icon {
+            display: inline-block;
             pointer-events: none;
-
-            mat-icon {
-              font-size: 1.25rem;
-              width: 1.25rem;
-              height: 1.25rem;
-            }
+            font-size: 1.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
           }
 
-          .tree-name {
-            white-space: nowrap;
+          .tree-node-name {
+            vertical-align: center;
+            padding-left: 0.5rem;
           }
         }
       }

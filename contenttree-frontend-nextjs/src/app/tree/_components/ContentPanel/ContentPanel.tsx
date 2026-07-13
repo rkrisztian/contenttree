@@ -8,7 +8,7 @@ import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./ContentPanel.module.scss";
 
 export const ContentPanel = () => {
-  const { selectedNodeId, nodesById, contentForSelectedNode } = useTreePage();
+  const { treeData, selectedNodeId } = useTreePage();
 
   return (
     <Card className={styles["content-panel"]} elevation={2}>
@@ -17,7 +17,7 @@ export const ContentPanel = () => {
           <CardHeader
             title={
               <Typography variant="h3" component="h3">
-                {nodesById.get(selectedNodeId)!.name}
+                {treeData.getNodebyId(selectedNodeId).name}
               </Typography>
             }
             sx={{ paddingBottom: 0 }}
@@ -26,19 +26,27 @@ export const ContentPanel = () => {
         </>
       )}
       <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        {selectedNodeId ? (
-          contentForSelectedNode.isLoading ? (
-            <output className={styles["loading"]} aria-label="Loading content" aria-live="polite">
-              <CircularProgress size={32} />
-              <span>Loading content...</span>
-            </output>
-          ) : (
-            <pre className={styles["content-data"]}>{contentForSelectedNode.data!.data}</pre>
-          )
-        ) : (
-          <p className={styles["node-not-selected"]}>Select a node to view its content</p>
-        )}
+        <NodeContent />
       </CardContent>
     </Card>
   );
+};
+
+const NodeContent = () => {
+  const { selectedNodeId, contentForSelectedNode } = useTreePage();
+
+  if (!selectedNodeId) {
+    return <p className={styles["node-not-selected"]}>Select a node to view its content</p>;
+  }
+
+  if (contentForSelectedNode.isLoading) {
+    return (
+      <output className={styles["loading"]} aria-label="Loading content" aria-live="polite">
+        <CircularProgress size={32} />
+        <span>Loading content...</span>
+      </output>
+    );
+  }
+
+  return <pre className={styles["content-data"]}>{contentForSelectedNode.data!.data}</pre>;
 };

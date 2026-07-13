@@ -2,23 +2,22 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
+  ElementRef,
   inject,
   signal,
-  viewChild,
+  viewChildren,
 } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTree, MatTreeModule } from '@angular/material/tree';
 import { LoadingService } from '../../core/loading-indicator/loading.service';
-import { TreeNodeData, TreePageService } from '../tree-page.service';
+import { TreePageService } from '../tree-page.service';
 import { TreeScrollService } from './tree-scroll.service';
 
 @Component({
   selector: 'app-tree',
-  imports: [MatTreeModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './tree.html',
   styleUrl: './tree.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,26 +28,27 @@ export class Tree {
   private readonly scrollService = inject(TreeScrollService);
   private readonly loadingService = inject(LoadingService);
 
-  protected readonly rootNode = this.treePageService.rootNode;
-  protected readonly dataSource = toObservable(computed(() => [this.rootNode()!]));
+  protected readonly treeData = this.treePageService.treeData;
+  protected readonly expansionState = this.treePageService.expansionState;
 
   protected readonly draggedNodeId = signal<number | null>(null);
   protected readonly dragoverNodeId = signal<number | null>(null);
 
-  protected readonly tree = viewChild.required('tree', { read: MatTree });
+  private readonly treeItems = viewChildren<ElementRef<HTMLDivElement>>('treeitem');
 
   constructor() {
     afterNextRender(() => {
-      this.tree().expandAll();
       this.scrollService.restoreScrollPosition();
     });
   }
 
-  protected readonly childrenAccessor = (node: TreeNodeData) => node.children ?? [];
-  protected readonly hasChild = (node: TreeNodeData) => !!node.children?.length;
+  protected readonly toggleExpanded = (event: Event | null, nodeId: number) => {
+    event?.stopPropagation();
+    this.expansionState().toggleExpanded(nodeId, this.treeData());
+  };
 
   protected readonly isSelected = (nodeId: number) =>
-    this.treePageService.selectedNode()?.id === nodeId;
+    this.treePageService.selectedNodeId() === nodeId;
   protected readonly toggleSelect = this.treePageService.toggleSelect;
 
   protected readonly getFoundStatus = (nodeId: number): 'found' | 'notFound' | null => {
@@ -92,4 +92,34 @@ export class Tree {
       .subscribe();
     this.dragoverNodeId.set(null);
   };
+
+  handleKeyDown(event: KeyboardEvent, nodeId: number) {
+    const treeItems = this.treeItems().map((ref) => ref.nativeElement);
+    const currentIndex = treeItems.indexOf(document.activeElement as HTMLDivElement);
+    if (currentIndex === -1) return;
+
+    switch (event.key) {
+      case 'ArrowDown': {
+        event.preventDefault();
+        const next = treeItems[(currentIndex + 1) % treeItems.length]!;
+        next.focus();
+        break;
+      }
+      case 'ArrowUp': {
+        event.preventDefault();
+        const prev = treeItems[(currentIndex - 1 + treeItems.length) % treeItems.length]!;
+        prev.focus();
+        break;
+      }
+      case 'Enter':
+        event.preventDefault();
+        this.toggleSelect(nodeId);
+        break;
+      case ' ': {
+        event.preventDefault();
+        this.toggleExpanded(null, nodeId);
+        break;
+      }
+    }
+  }
 }

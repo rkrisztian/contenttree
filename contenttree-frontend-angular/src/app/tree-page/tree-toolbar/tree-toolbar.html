@@ -33,7 +33,7 @@
     <button
       mat-flat-button
       (click)="addOrEditNode(true)"
-      [disabled]="(!!rootNode() && !selectedNode()) || isLoading()"
+      [disabled]="(!!treeData().rootNodeId && !selectedNodeId()) || isLoading()"
       aria-label="Add new node"
     >
       <mat-icon>add</mat-icon>
@@ -43,7 +43,7 @@
     <button
       mat-flat-button
       (click)="addOrEditNode(false)"
-      [disabled]="!selectedNode() || isLoading()"
+      [disabled]="!selectedNodeId() || isLoading()"
       aria-label="Edit selected node"
     >
       <mat-icon>edit</mat-icon>
@@ -54,7 +54,7 @@
       mat-flat-button
       class="delete-button"
       (click)="deleteNode()"
-      [disabled]="!selectedNode()?.parentId || isLoading()"
+      [disabled]="!selectedNodeId() || selectedNodeId() === treeData().rootNodeId || isLoading()"
       aria-label="Delete selected node"
     >
       <mat-icon>delete</mat-icon>

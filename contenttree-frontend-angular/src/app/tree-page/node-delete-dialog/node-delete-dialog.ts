@@ -4,11 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { TreeNodeData } from '../tree-page.service';
-import { convertTreeToList } from './node-delete-dialog.util';
+import { TreeNodeData } from '../tree-data';
 
 export interface NodeDeleteDialogData {
-  node: TreeNodeData;
+  allNodesToDelete: TreeNodeData[];
 }
 
 @Component({
@@ -19,10 +18,11 @@ export interface NodeDeleteDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeDeleteDialog {
-  protected readonly data = inject(DIALOG_DATA) as NodeDeleteDialogData;
+  private readonly data = inject(DIALOG_DATA) as NodeDeleteDialogData;
   private readonly dialogRef = inject(DialogRef);
 
-  protected readonly allNodesToDelete = convertTreeToList(this.data.node);
+  protected readonly allNodesToDelete = this.data.allNodesToDelete;
+  protected readonly nodeToDelete = this.allNodesToDelete[0]!;
 
   protected cancel = () => {
     this.dialogRef.close();

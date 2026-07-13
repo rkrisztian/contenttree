@@ -40,9 +40,9 @@ export class TreeToolbar {
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly selectedNode = this.treePageService.selectedNode;
+  protected readonly treeData = this.treePageService.treeData;
+  protected readonly selectedNodeId = this.treePageService.selectedNodeId;
   protected readonly contentForSelectedNode = this.treePageService.contentForSelectedNode;
-  protected readonly rootNode = this.treePageService.rootNode;
 
   private readonly searchModel = signal<SearchFormData>({
     searchText: '',
@@ -68,7 +68,9 @@ export class TreeToolbar {
       panelClass: 'content-tree-dialog',
       data: {
         createMode,
-        selectedNode: this.selectedNode(),
+        selectedNode: this.selectedNodeId()
+          ? this.treeData().getNodebyId(this.selectedNodeId()!)
+          : null,
         content: createMode ? undefined : this.contentForSelectedNode.value()!.data,
       },
     });
@@ -83,7 +85,7 @@ export class TreeToolbar {
         (createMode
           ? this.treePageService.createNode({
               ...data,
-              ...(this.selectedNode() ? { parentId: this.selectedNode()!.id } : {}),
+              ...(this.selectedNodeId() ? { parentId: this.selectedNodeId()! } : {}),
             })
           : this.treePageService.updateSelectedNode(data)
         )
@@ -96,7 +98,7 @@ export class TreeToolbar {
     const dialogRef = this.dialog.open<boolean, NodeDeleteDialogData>(NodeDeleteDialog, {
       panelClass: 'content-tree-dialog',
       data: {
-        node: this.selectedNode()!,
+        allNodesToDelete: [...this.treeData().iterateSubTree(this.selectedNodeId()!)],
       },
     });
 

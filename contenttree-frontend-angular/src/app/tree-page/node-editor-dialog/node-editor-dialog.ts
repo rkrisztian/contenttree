@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TreeNodeData } from '../tree-page.service';
+import { TreeNodeData } from '../tree-data';
 
 export interface NodeEditorDialogData {
   createMode: boolean;
