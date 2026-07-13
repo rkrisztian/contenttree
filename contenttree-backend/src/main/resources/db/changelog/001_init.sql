@@ -37,14 +37,7 @@ CREATE SEQUENCE public.tree_node_seq
 CREATE INDEX idx_tree_node_parent_id ON tree_node(parent_id);
 
 /*
- * 2. Optional B-Tree for 'ORDER BY name' queries (DEFERRED)
- *    - Only create this if the table exceeds 10,000 rows.
- *    - It adds write overhead with no read benefit for small datasets.
- */
--- CREATE INDEX idx_tree_node_name ON tree_node(name);
-
-/*
- * 3. Trigram indices for case-insensitive substring search on name and content
+ * 2. Trigram indices for case-insensitive substring search on name and content
  *    - Prevents reading every single row for large datasets.
  *    - Handles 'LIKE %...%' queries efficiently for lengths >= 3.
  */

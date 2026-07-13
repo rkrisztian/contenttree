@@ -19,9 +19,9 @@ export class TreeApiService {
 
   readonly treeApiBaseUrl = computed(() => `${this.config.apiBaseUrl()}${TREE_API_BASE_PATH}`);
 
-  readonly flatNodes = httpResource<TreeNodeRespDTO[]>(() => this.treeApiBaseUrl());
+  readonly rawNodes = httpResource<TreeNodeRespDTO[]>(() => this.treeApiBaseUrl());
 
-  readonly contentForSelectedNode = (selectedNodeId: Signal<number | undefined>) =>
+  readonly contentForSelectedNode = (selectedNodeId: Signal<number | null>) =>
     httpResource<ContentRespDto>(() =>
       selectedNodeId()
         ? // @ts-expect-error: Already checked for null.

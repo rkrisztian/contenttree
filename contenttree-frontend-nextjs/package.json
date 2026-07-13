@@ -24,7 +24,6 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.1.1",
     "@mui/material-nextjs": "^9.1.1",
-    "@mui/x-tree-view": "^9.7.0",
     "axios": "^1.18.1",
     "clsx": "^2.1.1",
     "next": "16.2.9",

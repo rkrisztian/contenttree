@@ -1,17 +1,17 @@
 .tree {
-  :global(.MuiCollapse-wrapperInner) {
-    // TODO: Find a visually cleaner solution for marking node as selected
-    width: fit-content;
-  }
-
-  .node-label {
-    overflow-wrap: normal;
+  .tree-item {
+    display: inline-block;
     white-space: nowrap;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
 
-    &.not-found {
-      color: var(--mui-palette-text-disabled);
+    &:focus {
+      background-color: var(--mui-palette-LinearProgress-infoBg);
+      color: var(--mui-palette-text-primary);
+    }
+    &[aria-selected='true'] {
+      background-color: var(--mui-palette-primary-main);
+      color: var(--mui-palette-primary-contrastText);
     }
     &.dragging {
       background-color: var(--mui-palette-grey-400);
@@ -21,11 +21,34 @@
       background-color: var(--mui-palette-grey-300);
       color: var(--mui-palette-text-secondary);
     }
+    &.not-found {
+      color: var(--mui-palette-text-disabled);
+
+      &[aria-selected='true'] {
+        color: color-mix(in srgb, var(--mui-palette-primary-contrastText) 50%, transparent);
+      }
+      &.dragging {
+        color: color-mix(in srgb, var(--mui-palette-text-secondary) 50%, transparent);
+      }
+      &.dragged-over {
+        color: color-mix(in srgb, var(--mui-palette-text-secondary) 50%, transparent);
+      }
+    }
+
+    .node-icon {
+      font-size: medium;
+      vertical-align: baseline;
+    }
+
+    .node-label {
+      vertical-align: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
 
     .found-icon {
-      margin-left: 0.5rem;
+      padding-left: 0.5rem;
       color: var(--mui-palette-success-main);
-      font-size: medium;
     }
   }
 }

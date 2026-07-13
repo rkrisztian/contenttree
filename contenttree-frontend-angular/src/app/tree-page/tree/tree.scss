@@ -1,28 +1,19 @@
-.mat-tree-node {
-  display: block;
-  overflow-wrap: normal;
-  white-space: nowrap;
-  margin-top: -0.5rem;
-  margin-bottom: -0.5rem;
-
-  .node-label {
-    margin-top: -0.75rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+[role='tree'] {
+  [role='treeitem'] {
+    display: inline-block;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: var(--mat-sys-label-large-size);
+    font-weight: 500;
     color: var(--mat-sys-on-surface);
 
-    &.selected {
+    &:focus {
+      background-color: var(--mat-sys-secondary-container);
+      color: var(--mat-sys-on-secondary-container);
+    }
+    &[aria-selected='true'] {
       background-color: var(--mat-sys-primary-container);
       color: var(--mat-sys-on-primary-container);
-    }
-    &.not-found {
-      // Same as `@extend .mat-text-disabled;` but not reusing it for 2 reasons:
-      // 1. separation of concerns, 2. optimizing CSS bundle size.
-      color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
-
-      &.selected {
-        color: color-mix(in srgb, var(--mat-sys-on-primary-container) 38%, transparent);
-      }
     }
     &.dragging {
       background-color: var(--mat-sys-surface-container-high);
@@ -32,9 +23,30 @@
       background-color: var(--mat-sys-surface-container);
       color: var(--mat-sys-on-surface-variant);
     }
-  }
+    &.not-found {
+      // Same as `@extend .mat-text-disabled;` but not reusing it for 2 reasons:
+      // 1. separation of concerns, 2. optimizing CSS bundle size.
+      color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
 
-  .found-icon {
-    padding-left: 0.5rem;
+      &[aria-selected='true'] {
+        color: color-mix(in srgb, var(--mat-sys-on-primary-container) 38%, transparent);
+      }
+      &.dragging {
+        color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 50%, transparent);
+      }
+      &.dragged-over {
+        color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 50%, transparent);
+      }
+    }
+
+    .node-label {
+      vertical-align: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .found-icon {
+      padding-left: 0.5rem;
+    }
   }
 }

@@ -19,7 +19,7 @@ describe('TreeToolbar', () => {
   });
 
   it('does not allow adding/editing/deleting if no node is selected', async () => {
-    await page.getByRole('button', { name: 'Root node', exact: true }).click();
+    await page.getByRole('treeitem', { name: 'Root node', exact: true }).click();
 
     for (const name of ['Add new node', 'Edit selected node', 'Delete selected node']) {
       await expect.element(page.getByRole('button', { name, exact: true })).toBeDisabled();
@@ -41,11 +41,11 @@ describe('TreeToolbar', () => {
 
       await expect.element(searchField).toBeValid();
       await expect
-        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .element(page.getByRole('treeitem', { name: 'Grandchild node matched', exact: true }))
         .toBeVisible();
 
       for (const name of ['Root node', 'Child node', 'Child node 2']) {
-        await expect.element(page.getByRole('button', { name, exact: true })).toBeVisible();
+        await expect.element(page.getByRole('treeitem', { name, exact: true })).toBeVisible();
       }
     });
 
@@ -63,7 +63,7 @@ describe('TreeToolbar', () => {
       await vi.runAllTimersAsync();
 
       await expect
-        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .element(page.getByRole('treeitem', { name: 'Grandchild node matched', exact: true }))
         .toBeVisible();
 
       await page.getByRole('button', { name: 'Clear search', exact: true }).click();
@@ -71,7 +71,7 @@ describe('TreeToolbar', () => {
 
       await expect.element(searchField).toBeValid();
       await expect
-        .element(page.getByRole('button', { name: 'Grandchild node matched', exact: true }))
+        .element(page.getByRole('treeitem', { name: 'Grandchild node matched', exact: true }))
         .not.toBeInTheDocument();
     });
   });

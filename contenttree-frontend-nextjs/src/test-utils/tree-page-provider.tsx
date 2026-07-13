@@ -50,9 +50,9 @@ export const renderTreePageContextHooks = async (): Promise<TreePageContextHooks
   // TODO: `contentForSelectedNode` is stuck in loading state on initial load via `useEffect`
   act(() => hooks.current.treePageContext.contentForSelectedNode.isLoading);
   act(() => {
-    if (hooks.current.treePageContext.rootNode) {
-      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.rootNode.id);
-      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.rootNode.id);
+    if (hooks.current.treePageContext.treeData.rootNodeId) {
+      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.treeData.rootNodeId);
+      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.treeData.rootNodeId);
     }
   });
 

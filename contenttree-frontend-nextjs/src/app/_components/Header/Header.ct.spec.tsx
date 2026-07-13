@@ -63,7 +63,7 @@ describe("Header", () => {
         .element(page.getByLabelText("Error notifications, 1 error", { exact: true }))
         .toBeVisible();
 
-      await act(async () => hooks.current.treePageContext.flatNodes.mutate());
+      await act(async () => hooks.current.treePageContext.rawNodes.mutate());
 
       await expect
         .element(page.getByLabelText("Error notifications, 2 errors", { exact: true }))

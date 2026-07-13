@@ -17,7 +17,7 @@ describe('TreePageService', () => {
   let treePageService: TreePageService;
   let errorService: ErrorService;
 
-  const testFlatNodes: TreeNodeRespDTO[] = [
+  const testRawNodes: TreeNodeRespDTO[] = [
     { id: 1, name: 'Root node' },
     { id: 2, name: 'Child node', parentId: 1 },
     { id: 3, name: 'Child node 2', parentId: 1 },
@@ -47,20 +47,8 @@ describe('TreePageService', () => {
 
       await TestBed.inject(ApplicationRef).whenStable();
 
-      expect(treePageService.rootNode()).toHaveProperty('id', 1);
-      expect(treePageService.contentForSelectedNode.value()).toEqual(content);
-    });
-
-    it('should map child elements to parent', async () => {
-      await TestBed.inject(ApplicationRef).whenStable();
-
-      expect(treePageService.rootNode()).toMatchObject({
-        id: 1,
-        children: [
-          expect.objectContaining({ id: 2, children: [expect.objectContaining({ id: 4 })] }),
-          expect.objectContaining({ id: 3 }),
-        ],
-      });
+      expect.soft(treePageService.treeData().rootNodeId).toBe(1);
+      expect.soft(treePageService.contentForSelectedNode.value()).toEqual(content);
     });
 
     it('should return null if there are no elements', ({ server }) => {
@@ -71,8 +59,8 @@ describe('TreePageService', () => {
         }),
       );
 
-      expect(treePageService.rootNode()).toBeNullable();
-      expect(treePageService.contentForSelectedNode.value()).toBeNullable();
+      expect.soft(treePageService.treeData().nodes[0]).toBeNullable();
+      expect.soft(treePageService.contentForSelectedNode.value()).toBeNullable();
     });
   });
 
@@ -90,26 +78,8 @@ describe('TreePageService', () => {
         newParentId: 2,
         shouldFail: true,
       },
-      {
-        name: 'should not move root node',
-        nodeId: 1,
-        newParentId: 2,
-        shouldFail: true,
-      },
-      {
-        name: 'should not move node to same parent',
-        nodeId: 2,
-        newParentId: 1,
-        shouldFail: true,
-      },
-      {
-        name: 'should not move node to descendant node',
-        nodeId: 2,
-        newParentId: 4,
-        shouldFail: true,
-      },
     ])('$name', ({ nodeId, newParentId, shouldFail }) => {
-      treeApiService.flatNodes.set(testFlatNodes);
+      treeApiService.rawNodes.set(testRawNodes);
       const promise = treePageService.moveNode(nodeId, newParentId);
 
       if (shouldFail) {

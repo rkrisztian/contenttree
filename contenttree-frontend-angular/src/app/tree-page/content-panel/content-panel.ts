@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,10 @@ import { TreePageService } from '../tree-page.service';
 export class ContentPanel {
   private readonly treePageService = inject(TreePageService);
 
-  protected readonly selectedNode = this.treePageService.selectedNode;
+  private readonly treeData = this.treePageService.treeData;
+  private readonly selectedNodeId = this.treePageService.selectedNodeId;
+  protected readonly selectedNode = computed(() =>
+    this.selectedNodeId() ? this.treeData().getNodebyId(this.selectedNodeId()!) : null,
+  );
   protected readonly content = this.treePageService.contentForSelectedNode;
 }

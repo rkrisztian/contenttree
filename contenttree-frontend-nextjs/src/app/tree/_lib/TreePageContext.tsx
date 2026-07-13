@@ -21,21 +21,15 @@ import {
   type TreeNodeRespDTO,
   type UpdateTreeNodeReqDTO,
 } from "./tree-api";
-
-export interface TreeNodeData {
-  id: number;
-  name: string;
-  parentId: number | null;
-  children: TreeNodeData[];
-}
+import { TreeData } from "./tree-data";
+import { TreeExpansionState } from "./tree-expansion-state";
 
 export type TreePageContextType = {
-  flatNodes: SWRResponse<TreeNodeRespDTO[]>;
-  rootNode: TreeNodeData | null;
-  nodesById: Map<number, TreeNodeData>;
+  rawNodes: SWRResponse<TreeNodeRespDTO[]>;
+  treeData: TreeData;
+  expansionState: TreeExpansionState;
+  setExpansionState: Dispatch<SetStateAction<TreePageContextType["expansionState"]>>;
   selectedNodeId: number | null;
-  expandedItems: string[];
-  setExpandedItems: Dispatch<SetStateAction<TreePageContextType["expandedItems"]>>;
   toggleSelect: (newSelectedNodeId: number | null) => void;
   contentForSelectedNode: SWRResponse<ContentRespDto>;
   searchText: string;
@@ -53,11 +47,9 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   const { backendApiRef, addAndShowError } = useBackendApi();
   const treeApiRef = useRef(new TreeApi(backendApiRef));
 
-  const flatNodes = useSWR("flatNodes", treeApiRef.current.getFlatNodes);
-  const builtTree = useMemo(() => buildTree(flatNodes.data), [flatNodes.data]);
-  const rootNode = builtTree.root;
-  const nodesById = builtTree.nodesById;
-  const [hasFlatNodesInitialized, setHasFlatNodesInitialized] = useState(false);
+  const rawNodes = useSWR("flatNodes", treeApiRef.current.getFlatNodes);
+  const treeData = useMemo(() => new TreeData(rawNodes.data), [rawNodes.data]);
+  const [hasRawNodesInitialized, setHasRawNodesInitialized] = useState(false);
 
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const contentForSelectedNode = useSWR(
@@ -65,16 +57,15 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
     () => treeApiRef.current.getContentForSelectedNode(selectedNodeId!),
   );
 
-  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [expansionState, setExpansionState] = useState(() => new TreeExpansionState());
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: rootNode is derived
+  // biome-ignore lint/correctness/useExhaustiveDependencies: treeData is derived
   useEffect(() => {
-    if (!hasFlatNodesInitialized && flatNodes.data) {
-      setSelectedNodeId(rootNode?.id ?? null);
-      setExpandedItems(convertToExpandedItems(nodesById));
-      setHasFlatNodesInitialized(true);
+    if (!hasRawNodesInitialized && rawNodes.data) {
+      setSelectedNodeId(treeData.rootNodeId ?? null);
+      setHasRawNodesInitialized(true);
     }
-  }, [hasFlatNodesInitialized, flatNodes.data]);
+  }, [hasRawNodesInitialized, rawNodes.data]);
 
   const [searchText, setSearchText] = useState("");
   const _foundNodes = useSWR(searchText ? ["foundNodes", searchText] : null, () =>
@@ -90,34 +81,29 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   };
 
   const createNode = async (node: CreateTreeNodeReqDTO) => {
-    const id = await treeApiRef.current.createNode(node);
-    await flatNodes.mutate();
-    setExpandedItems((expandedItems) => [...expandedItems, String(id)]);
+    await treeApiRef.current.createNode(node);
+    await rawNodes.mutate();
   };
 
   const updateSelectedNode = async (data: Omit<UpdateTreeNodeReqDTO, "id">) => {
     await treeApiRef.current.updateNode({ id: selectedNodeId!, ...data });
-    await flatNodes.mutate();
+    await rawNodes.mutate();
     await contentForSelectedNode.mutate();
   };
 
   const deleteSelectedNode = async () => {
     await treeApiRef.current.deleteNode(selectedNodeId!);
-    setSelectedNodeId(nodesById.get(selectedNodeId!)!.parentId);
-    setExpandedItems((expandedItems) => {
-      const selectedNodeIdStr = String(selectedNodeId!);
-      return expandedItems.filter((id) => id !== selectedNodeIdStr);
+    setSelectedNodeId(treeData.getNodebyId(selectedNodeId!).parentId);
+    setExpansionState((prev) => {
+      const next = prev.clone();
+      next.sync(treeData);
+      return next;
     });
-    await flatNodes.mutate();
+    await rawNodes.mutate();
   };
 
   const moveNode = async (nodeId: number, newParentId: number): Promise<void> => {
-    if (
-      nodeId === newParentId ||
-      isRoot(nodeId) ||
-      isParent(newParentId, nodeId) ||
-      isDescendant(newParentId, nodeId)
-    ) {
+    if (!treeData.isValidMove(nodeId, newParentId)) {
       addAndShowError({
         error: "Cannot perform operation",
         message: "The requested move operation is invalid.",
@@ -127,39 +113,16 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
     }
 
     await treeApiRef.current.moveNode(nodeId, newParentId);
-    await flatNodes.mutate();
-  };
-
-  const isRoot = (nodeId: number): boolean => {
-    return rootNode?.id === nodeId;
-  };
-
-  const isParent = (newParentId: number, nodeId: number): boolean =>
-    nodesById.get(nodeId)?.parentId === newParentId;
-
-  /** Checks if the node with ID `newParentId` is a descendant of that with `nodeId`. */
-  const isDescendant = (newParentId: number, nodeId: number): boolean => {
-    let currentId: number | null = newParentId;
-
-    do {
-      currentId = nodesById.get(currentId)!.parentId ?? null;
-
-      if (currentId === nodeId) {
-        return true;
-      }
-    } while (currentId != null);
-
-    return false;
+    await rawNodes.mutate();
   };
 
   return (
     <TreePageContext.Provider
       value={{
-        flatNodes,
-        rootNode,
-        nodesById,
-        expandedItems,
-        setExpandedItems,
+        rawNodes,
+        treeData,
+        expansionState,
+        setExpansionState,
         selectedNodeId,
         toggleSelect,
         contentForSelectedNode,
@@ -182,24 +145,3 @@ export const useTreePage = () => {
   if (!context) throw new Error("useTreePage must be used within a TreePageContextProvider");
   return context;
 };
-
-const buildTree = (flatNodes: TreeNodeRespDTO[] = []) => {
-  const nodesById = new Map(
-    flatNodes.map((node) => [node.id, { ...node, children: [] } as TreeNodeData]),
-  );
-  let root: TreeNodeData | null = null;
-
-  for (const node of nodesById.values()) {
-    if (node.parentId == null) {
-      root = node;
-    } else {
-      const parent = nodesById.get(node.parentId)!;
-      parent.children.push(node);
-    }
-  }
-
-  return { root, nodesById };
-};
-
-const convertToExpandedItems = (nodesById: Map<number, TreeNodeData>) =>
-  Array.from(nodesById.keys().map((id) => String(id)));

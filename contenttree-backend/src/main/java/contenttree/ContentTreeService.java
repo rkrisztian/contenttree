@@ -8,7 +8,6 @@ import contenttree.model.TreeNode;
 import contenttree.model.TreeNodeWithContent;
 import contenttree.repository.TreeNodeRepository;
 import contenttree.repository.TreeNodeWithContentRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +59,7 @@ public class ContentTreeService {
 	}
 
 	public List<TreeNode> getTree() {
-		return treeNodeRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		return treeNodeRepository.findAll();
 	}
 
 	@Transactional

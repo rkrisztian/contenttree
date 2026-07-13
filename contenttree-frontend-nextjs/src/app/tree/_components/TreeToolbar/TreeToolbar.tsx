@@ -11,12 +11,15 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
-import { NodeDeleteDialog } from "@/app/tree/_components/NodeDeleteDialog/NodeDeleteDialog";
+import {
+  NodeDeleteDialog,
+  type NodeDeleteDialogData,
+} from "@/app/tree/_components/NodeDeleteDialog/NodeDeleteDialog";
 import NodeEditorDialog, {
   type NodeEditorDialogData,
   type NodeEditorFormData,
 } from "@/app/tree/_components/NodeEditorDialog/NodeEditorDialog";
-import { type TreeNodeData, useTreePage } from "@/app/tree/_lib/TreePageContext";
+import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./TreeToolbar.module.scss";
 
 const DEBOUNCE_DELAY = 500; // ms
@@ -24,8 +27,7 @@ const DEBOUNCE_DELAY = 500; // ms
 export const TreeToolbar = () => {
   const { loading } = useBackendApi();
   const {
-    rootNode,
-    nodesById,
+    treeData,
     selectedNodeId,
     searchText,
     setSearchText,
@@ -42,7 +44,9 @@ export const TreeToolbar = () => {
   const [nodeEditorDialogData, setNodeEditorDialogData] = useState<NodeEditorDialogData | null>(
     null,
   );
-  const [nodeDeleteDialogData, setNodeDeleteDialogData] = useState<TreeNodeData | null>(null);
+  const [nodeDeleteDialogData, setNodeDeleteDialogData] = useState<NodeDeleteDialogData | null>(
+    null,
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: searchText is a side effect.
   useEffect(() => {
@@ -58,7 +62,7 @@ export const TreeToolbar = () => {
   const openNodeEditorDialog = (createMode: boolean): void => {
     setNodeEditorDialogData({
       createMode,
-      selectedNode: selectedNodeId ? nodesById.get(selectedNodeId)! : null,
+      selectedNode: selectedNodeId ? treeData.getNodebyId(selectedNodeId) : null,
       content: createMode ? undefined : contentForSelectedNode.data!.data,
     });
   };
@@ -78,7 +82,9 @@ export const TreeToolbar = () => {
   };
 
   const openNodeDeleteDialog = (): void => {
-    setNodeDeleteDialogData(nodesById.get(selectedNodeId!)!);
+    setNodeDeleteDialogData({
+      allNodesToDelete: [...treeData.iterateSubTree(selectedNodeId!)],
+    });
   };
 
   const closeNodeDeleteDialog = () => {
@@ -128,7 +134,7 @@ export const TreeToolbar = () => {
         <Button
           variant="contained"
           onClick={() => openNodeEditorDialog(true)}
-          disabled={(!!rootNode && !selectedNodeId) || !!loading}
+          disabled={(!!treeData.rootNodeId && !selectedNodeId) || !!loading}
           aria-label="Add new node"
           startIcon={<AddIcon />}
         >
@@ -149,7 +155,7 @@ export const TreeToolbar = () => {
           variant="contained"
           color="error"
           onClick={openNodeDeleteDialog}
-          disabled={!selectedNodeId || selectedNodeId === rootNode?.id || !!loading}
+          disabled={!selectedNodeId || selectedNodeId === treeData.rootNodeId || !!loading}
           aria-label="Delete selected node"
           startIcon={<DeleteIcon />}
         >
@@ -167,7 +173,7 @@ export const TreeToolbar = () => {
 
       {nodeDeleteDialogData && (
         <NodeDeleteDialog
-          node={nodeDeleteDialogData}
+          data={nodeDeleteDialogData}
           onClose={closeNodeDeleteDialog}
           onDelete={deleteNode}
         />

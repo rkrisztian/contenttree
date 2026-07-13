@@ -6,7 +6,7 @@
   <mat-card-content>
     <p class="instruction-text">
       Are you sure you want to delete
-      <strong>{{ data.node.name }}</strong>
+      <strong>{{ nodeToDelete.name }}</strong>
       @if (allNodesToDelete.length > 1) {
         and its following children
       }
@@ -16,17 +16,22 @@
     @if (allNodesToDelete.length > 1) {
       <div class="tree-preview-container">
         <ul class="tree-preview-list" aria-label="Nodes to be deleted">
-          @for (item of allNodesToDelete; track item.node.id) {
-            <li class="tree-item" [style.padding-left.px]="item.indentLevel * 24">
-              <span class="tree-icon">
-                @if (item.node.children.length > 0) {
-                  <mat-icon>folder</mat-icon>
-                } @else {
-                  <mat-icon>description</mat-icon>
-                }
-              </span>
-              <span class="tree-name">{{ item.node.name }}</span>
-            </li>
+          @for (node of allNodesToDelete; track node.id) {
+            <div>
+              <li
+                class="tree-node"
+                [style]="{ 'margin-left': `${(node.depth - nodeToDelete.depth) * 1.75}rem` }"
+              >
+                <mat-icon class="tree-node-icon">
+                  @if (node.children.length > 0) {
+                    folder
+                  } @else {
+                    description
+                  }
+                </mat-icon>
+                <span class="tree-node-name">{{ node.name }}</span>
+              </li>
+            </div>
           }
         </ul>
       </div>

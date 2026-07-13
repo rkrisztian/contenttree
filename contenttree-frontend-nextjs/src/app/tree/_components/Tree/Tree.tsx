@@ -1,131 +1,169 @@
 "use client";
 
 import CheckIcon from "@mui/icons-material/Check";
-import Typography from "@mui/material/Typography";
-import { useTreeItemModel } from "@mui/x-tree-view/hooks";
-import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
-import { TreeItem, type TreeItemProps } from "@mui/x-tree-view/TreeItem";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FolderIcon from "@mui/icons-material/Folder";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import clsx from "clsx";
-import { forwardRef, type Ref, type SyntheticEvent, useMemo } from "react";
+import { type DragEvent, type KeyboardEvent, type MouseEvent, useState } from "react";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
-import { type TreeNodeData, useTreePage } from "@/app/tree/_lib/TreePageContext";
+import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./Tree.module.scss";
-import { TreeDragProvider, useTreeDrag } from "./TreeDragContext";
 
 export const Tree = () => {
-  const { rootNode, expandedItems, setExpandedItems, selectedNodeId, toggleSelect } = useTreePage();
-  const key = useMemo(() => convertTreeToKey(rootNode), [rootNode]);
-
-  const handleExpansionChange = (
-    event: SyntheticEvent | null,
-    itemId: string,
-    isExpanded: boolean,
-  ) => {
-    event?.stopPropagation();
-    setExpandedItems((itemIds) =>
-      isExpanded ? [...itemIds, itemId] : itemIds.filter((id) => id !== itemId),
-    );
-  };
-
-  const handleSelectionChange = (
-    _event: SyntheticEvent | null,
-    newSelectedNodeId: string | null,
-  ) => {
-    toggleSelect(Number(newSelectedNodeId));
-  };
-
-  return (
-    <TreeDragProvider>
-      <RichTreeView
-        className={styles["tree"]!}
-        key={key}
-        items={[rootNode!]}
-        getItemId={(node) => String(node.id)}
-        getItemLabel={(node) => node.name}
-        slots={{ item: TreeNode }}
-        expandedItems={expandedItems}
-        onItemExpansionToggle={handleExpansionChange}
-        expansionTrigger="iconContainer"
-        selectedItems={selectedNodeId ? String(selectedNodeId) : null}
-        onItemClick={handleSelectionChange}
-      />
-    </TreeDragProvider>
-  );
-};
-
-const TreeNode = forwardRef((props: TreeItemProps, ref: Ref<HTMLLIElement>) => {
-  const node = useTreeItemModel<TreeNodeData>(props.itemId)!;
-
-  return (
-    <TreeItem
-      {...props}
-      ref={ref}
-      slots={{
-        label: TreeNodeLabel,
-      }}
-      slotProps={{
-        label: { nodeId: node.id } as Partial<TreeNodeLabelProps>,
-      }}
-    />
-  );
-});
-
-interface TreeNodeLabelProps {
-  children: string;
-  nodeId: number;
-}
-
-const TreeNodeLabel = ({ children, nodeId }: TreeNodeLabelProps) => {
   const { loading } = useBackendApi();
-  const { foundNodes, nodesById, selectedNodeId } = useTreePage();
   const {
-    draggedNodeId,
-    dragoverNodeId,
-    startDragging,
-    stopDragging,
-    startDragover,
-    stopDragover,
-  } = useTreeDrag();
+    treeData,
+    expansionState,
+    setExpansionState,
+    selectedNodeId,
+    toggleSelect,
+    foundNodes,
+    moveNode,
+  } = useTreePage();
+  const [draggedNodeId, setDraggedNodeId] = useState<number | null>(null);
+  const [dragoverNodeId, setDragoverNodeId] = useState<number | null>(null);
 
-  const foundStatus = foundNodes && (foundNodes.has(nodeId) ? "found" : "notFound");
+  const toggleExpanded = (event: MouseEvent | null, nodeId: number) => {
+    event?.stopPropagation();
+
+    // React Strict Mode workaround
+    const origExpanded = expansionState.isExpanded(nodeId);
+
+    setExpansionState((prev) => {
+      const next = prev.clone();
+
+      // React Strict Mode workaround
+      if (prev.isExpanded(nodeId) !== origExpanded) {
+        return next;
+      }
+
+      next.toggleExpanded(nodeId, treeData);
+      return next;
+    });
+  };
+
+  const startDragging = (event: DragEvent, nodeId: number) => {
+    if (!event.dataTransfer) return;
+    event.dataTransfer.effectAllowed = "move";
+
+    setDraggedNodeId(nodeId);
+  };
+
+  const stopDragging = () => {
+    setDraggedNodeId(null);
+    setDragoverNodeId(null);
+  };
+
+  const startDragover = (event: DragEvent, nodeId: number) => {
+    event.preventDefault();
+    if (!event.dataTransfer) return;
+    event.dataTransfer.dropEffect = "move";
+
+    setDragoverNodeId(nodeId === draggedNodeId ? null : nodeId);
+  };
+
+  const stopDragover = (event: DragEvent, newParentId: number) => {
+    event.preventDefault();
+    if (!event.dataTransfer) return;
+
+    moveNode(draggedNodeId!, newParentId);
+    stopDragging();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent, nodeId: number) => {
+    const treeItems = Array.from(document.querySelectorAll<HTMLDivElement>('[role="treeitem"]'));
+    const currentIndex = treeItems.indexOf(document.activeElement as HTMLDivElement);
+
+    switch (event.key) {
+      case "ArrowDown": {
+        event.preventDefault();
+        const next = treeItems[(currentIndex + 1) % treeItems.length]!;
+        next.focus();
+        break;
+      }
+      case "ArrowUp": {
+        event.preventDefault();
+        const prev = treeItems[(currentIndex - 1 + treeItems.length) % treeItems.length]!;
+        prev.focus();
+        break;
+      }
+      case "Enter":
+        event.preventDefault();
+        toggleSelect(nodeId);
+        break;
+      case " ":
+        event.preventDefault();
+        toggleExpanded(null, nodeId);
+        break;
+    }
+  };
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: TODO: create fully customized tree item
-    <Typography // NOSONAR: TODO: create fully customized tree item
-      role="button"
-      className={clsx(styles["node-label"], {
-        [styles["not-found"] as string]: foundStatus === "notFound",
-        [styles["dragging"] as string]: draggedNodeId === nodeId,
-        [styles["dragged-over"] as string]: dragoverNodeId === nodeId,
+    <Box role="tree" aria-label="Content tree" className={styles["tree"]}>
+      {treeData.nodes.map((node) => {
+        const foundStatus = foundNodes && (foundNodes.has(node.id) ? "found" : "notFound");
+
+        return (
+          expansionState.isVisible(node.id) && (
+            <Box key={node.id}>
+              <Box
+                role="treeitem"
+                aria-level={node.depth}
+                sx={{ marginLeft: `${node.depth * 1.75}rem` }}
+                aria-label={node.name + (foundStatus === "found" ? " matched" : "")}
+                aria-expanded={expansionState.isExpanded(node.id)}
+                aria-selected={selectedNodeId === node.id}
+                onClick={() => toggleSelect(node.id)}
+                onKeyDown={(event) => handleKeyDown(event, node.id)}
+                tabIndex={selectedNodeId === node.id ? 0 : -1}
+                draggable={!loading}
+                onDragStart={(event) => startDragging(event, node.id)}
+                onDragOver={(event) => startDragover(event, node.id)}
+                onDragEnd={stopDragging}
+                onDrop={(event) => stopDragover(event, node.id)}
+                className={clsx(styles["tree-item"], {
+                  [styles["not-found"] as string]: foundStatus === "notFound",
+                  [styles["dragging"] as string]: draggedNodeId === node.id,
+                  [styles["dragged-over"] as string]: dragoverNodeId === node.id,
+                })}
+              >
+                {node.children.length ? (
+                  <IconButton
+                    className={styles["node-icon"]}
+                    tabIndex={-1}
+                    onClick={(event) => toggleExpanded(event, node.id)}
+                    aria-label={`Toggle ${node.name}`}
+                  >
+                    {expansionState.isExpanded(node.id) ? (
+                      <ExpandMoreIcon fontSize="inherit" />
+                    ) : (
+                      <ChevronRightIcon fontSize="inherit" />
+                    )}
+                  </IconButton>
+                ) : (
+                  <IconButton className={styles["node-icon"]} disabled={true}>
+                    &nbsp;
+                  </IconButton>
+                )}
+
+                {node.children.length ? (
+                  <FolderIcon fontSize="inherit" />
+                ) : (
+                  <InsertDriveFileIcon fontSize="inherit" />
+                )}
+
+                <span className={styles["node-label"]}>{node.name}</span>
+
+                {foundStatus === "found" && <CheckIcon className={styles["found-icon"]} />}
+              </Box>
+            </Box>
+          )
+        );
       })}
-      aria-label={nodesById.get(nodeId)!.name + (foundStatus === "found" ? " matched" : "")}
-      aria-selected={nodeId === selectedNodeId}
-      draggable={!loading}
-      onDragStart={(event) => startDragging(event, nodeId)}
-      onDragOver={(event) => startDragover(event, nodeId)}
-      onDragEnd={stopDragging}
-      onDrop={(event) => stopDragover(event, nodeId)}
-    >
-      {children} {foundStatus === "found" && <CheckIcon className={styles["found-icon"]} />}
-    </Typography>
+    </Box>
   );
-};
-
-const convertTreeToKey = (rootNode: TreeNodeData | null): string => {
-  if (!rootNode) return "empty";
-
-  const keyParts = [];
-  const stack: TreeNodeData[] = [rootNode];
-
-  while (stack.length) {
-    const node = stack.pop()!;
-
-    keyParts.push(`${node.id}:${node.parentId ?? "0"}`);
-
-    for (let i = node.children.length - 1; i >= 0; i--) {
-      stack.push(node.children[i]!);
-    }
-  }
-
-  return keyParts.join(",");
 };

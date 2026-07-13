@@ -11,9 +11,8 @@ export class TreePage {
     this.page.getByRole('searchbox', { name: 'Search nodes', exact: true });
   private readonly clearSearchButton = () =>
     this.page.getByRole('button', { name: 'Clear search', exact: true });
-  private readonly node = (name: string) => this.page.getByRole('button', { name, exact: true });
-  private readonly foundNode = (name: string) =>
-    this.page.getByRole('button', { name: `${name} matched`, exact: true });
+  private readonly node = (name: string) => this.page.getByRole('treeitem', { name, exact: true });
+  private readonly foundNode = (name: string) => this.node(`${name} matched`);
   private readonly toggleButton = (name: string) =>
     this.page.getByRole('button', { name: `Toggle ${name}}` });
   private readonly content = (content: string) => this.page.getByText(content, { exact: true });
