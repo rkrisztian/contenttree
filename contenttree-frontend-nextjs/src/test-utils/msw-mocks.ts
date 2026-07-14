@@ -7,28 +7,31 @@ import {
   type TreeNodeRespDTO,
 } from "@/app/tree/_lib/tree-api";
 
-let flatNodes: TreeNodeRespDTO[] = [
+export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]}${TREE_API_BASE_PATH}`;
+
+const INITIAL_RAW_NODES: TreeNodeRespDTO[] = [
   { id: 1, name: "Root node" },
   { id: 2, name: "Child node", parentId: 1 },
   { id: 3, name: "Child node 2", parentId: 1 },
   { id: 4, name: "Grandchild node", parentId: 2 },
 ];
 
-let contents: Record<string, ContentRespDto> = {
+const INITIAL_CONTENTS: Record<string, ContentRespDto> = {
   "1": { data: "Content for root node" },
   "2": { data: "Content for child node" },
   "3": { data: "Content for child node 2" },
   "4": { data: "Content for grandchild node" },
 };
 
-export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]}${TREE_API_BASE_PATH}`;
+let rawNodes = INITIAL_RAW_NODES;
+let contents = INITIAL_CONTENTS;
 
 export const handlers: AnyHandler[] = [
   http.get(REMOTE_CONFIG_PATH, () =>
     HttpResponse.json({ apiBaseUrl: process.env["API_BASE_URL"]! } satisfies RemoteConfig),
   ),
 
-  http.get(TREE_API_BASE_URL, () => HttpResponse.json(flatNodes)),
+  http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
     const { id } = params as { id: string };
@@ -57,7 +60,7 @@ export const handlers: AnyHandler[] = [
     const node = (await request.json()) as CreateTreeNodeReqDTO;
 
     if (node.name === "test node") {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: "Root node" },
         { id: 2, name: "Child node", parentId: 1 },
         { id: 3, name: "Child node 2", parentId: 1 },
@@ -81,7 +84,7 @@ export const handlers: AnyHandler[] = [
     const node = (await request.json()) as CreateTreeNodeReqDTO;
 
     if (node.name === "changed node") {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: "changed node" },
         { id: 2, name: "Child node", parentId: 1 },
         { id: 3, name: "Child node 2", parentId: 1 },
@@ -103,7 +106,7 @@ export const handlers: AnyHandler[] = [
     const { id } = params as { id: string };
 
     if (id === "2") {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: "Root node" },
         { id: 3, name: "Child node 2", parentId: 1 },
       ];
@@ -121,7 +124,7 @@ export const handlers: AnyHandler[] = [
     const queryParams = new URL(request.url).searchParams;
 
     if (queryParams.get("nodeId") === "4" && queryParams.get("newParentId") === "1") {
-      flatNodes = [
+      rawNodes = [
         { id: 1, name: "Root node" },
         { id: 2, name: "Child node", parentId: 1 },
         { id: 3, name: "Child node 2", parentId: 1 },
@@ -137,3 +140,8 @@ export const handlers: AnyHandler[] = [
 
   http.all("http://localhost:63315/*", () => undefined),
 ];
+
+export const resetMswMocks = () => {
+  rawNodes = INITIAL_RAW_NODES;
+  contents = INITIAL_CONTENTS;
+};

@@ -8,21 +8,24 @@ import {
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
 import { environment } from '../environments/environment';
 
-let rawNodes: TreeNodeRespDTO[] = [
+export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
+
+const INITIAL_RAW_NODES: TreeNodeRespDTO[] = [
   { id: 1, name: 'Root node' },
   { id: 2, name: 'Child node', parentId: 1 },
   { id: 3, name: 'Child node 2', parentId: 1 },
   { id: 4, name: 'Grandchild node', parentId: 2 },
 ];
 
-let contents: Record<string, ContentRespDto> = {
+const INITIAL_CONTENTS: Record<string, ContentRespDto> = {
   '1': { data: 'Content for root node' },
   '2': { data: 'Content for child node' },
   '3': { data: 'Content for child node 2' },
   '4': { data: 'Content for grandchild node' },
 };
 
-export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
+let rawNodes = INITIAL_RAW_NODES;
+let contents = INITIAL_CONTENTS;
 
 export const handlers: AnyHandler[] = [
   http.get(REMOTE_CONFIG_PATH, () =>
@@ -138,3 +141,8 @@ export const handlers: AnyHandler[] = [
 
   http.all('http://localhost:63315/*', () => undefined),
 ];
+
+export const resetMswMocks = () => {
+  rawNodes = INITIAL_RAW_NODES;
+  contents = INITIAL_CONTENTS;
+};

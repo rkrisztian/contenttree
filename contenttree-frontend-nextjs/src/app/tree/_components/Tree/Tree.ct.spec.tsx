@@ -34,13 +34,9 @@ describe("Tree", () => {
             name: /^(Root node|Child node( 2)?|Grandchild node)$/,
             exact: true,
           })
-          .elements(),
-      ).toMatchObject([
-        expect.toHaveTextContent("Root node"),
-        expect.toHaveTextContent("Child node"),
-        expect.toHaveTextContent("Grandchild node"),
-        expect.toHaveTextContent("Child node 2"),
-      ]);
+          .elements()
+          .map((element) => element.ariaLabel),
+      ).toEqual(["Root node", "Child node", "Grandchild node", "Child node 2"]);
     });
 
     it("can select and deselect node", async () => {
@@ -65,9 +61,12 @@ describe("Tree", () => {
       await expect.element(grandChildNode).toBeVisible();
     });
 
-    // TODO: Find out why this test fails.
-    it.skip("can move nodes", async () => {
+    it("can move nodes", async () => {
       await grandChildNode.dropTo(page.getByRole("treeitem", { name: "Root node", exact: true }));
+
+      await expect
+        .element(page.getByRole("button", { name: `Toggle Child node`, exact: true }))
+        .not.toBeInTheDocument();
 
       for (const node of [rootNode, childNode1, grandChildNode, childNode2]) {
         await expect.element(node).toBeVisible();
@@ -79,13 +78,9 @@ describe("Tree", () => {
             name: /^(Root node|Child node( 2)?|Grandchild node)$/,
             exact: true,
           })
-          .elements(),
-      ).toMatchObject([
-        expect.toHaveTextContent("Root node"),
-        expect.toHaveTextContent("Child node"),
-        expect.toHaveTextContent("Child node 2"),
-        expect.toHaveTextContent("Grandchild node"),
-      ]);
+          .elements()
+          .map((element) => element.ariaLabel),
+      ).toEqual(["Root node", "Child node", "Child node 2", "Grandchild node"]);
     });
   });
 

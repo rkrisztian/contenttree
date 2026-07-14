@@ -1,6 +1,6 @@
 import { SetupServer, setupServer } from 'msw/node';
 import { it as itBase } from 'vitest';
-import { handlers } from './msw-mocks';
+import { handlers, resetMswMocks } from './msw-mocks';
 
 const server = setupServer(...handlers);
 
@@ -12,6 +12,7 @@ export const it = itBase.extend<{
     async ({}, use) => {
       await use(server);
       server.resetHandlers();
+      resetMswMocks();
     },
     {
       auto: true,

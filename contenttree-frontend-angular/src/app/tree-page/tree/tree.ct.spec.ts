@@ -31,13 +31,9 @@ describe('Tree', () => {
             name: /^(Root node|Child node( 2)?|Grandchild node)$/,
             exact: true,
           })
-          .elements(),
-      ).toMatchObject([
-        expect.toHaveTextContent('Root node'),
-        expect.toHaveTextContent('Child node'),
-        expect.toHaveTextContent('Grandchild node'),
-        expect.toHaveTextContent('Child node 2'),
-      ]);
+          .elements()
+          .map((element) => element.ariaLabel),
+      ).toEqual(['Root node', 'Child node', 'Grandchild node', 'Child node 2']);
     });
 
     it('can select and deselect node', async () => {
@@ -66,6 +62,10 @@ describe('Tree', () => {
       await grandChildNode.dropTo(page.getByRole('treeitem', { name: 'Root node', exact: true }));
       await TestBed.inject(ApplicationRef).whenStable();
 
+      await expect
+        .element(page.getByRole('button', { name: `Toggle Child node`, exact: true }))
+        .not.toBeInTheDocument();
+
       for (const node of [rootNode, childNode1, grandChildNode, childNode2]) {
         await expect.element(node).toBeVisible();
       }
@@ -76,13 +76,9 @@ describe('Tree', () => {
             name: /^(Root node|Child node( 2)?|Grandchild node)$/,
             exact: true,
           })
-          .elements(),
-      ).toMatchObject([
-        expect.toHaveTextContent('Root node'),
-        expect.toHaveTextContent('Child node'),
-        expect.toHaveTextContent('Child node 2'),
-        expect.toHaveTextContent('Grandchild node'),
-      ]);
+          .elements()
+          .map((element) => element.ariaLabel),
+      ).toEqual(['Root node', 'Child node', 'Child node 2', 'Grandchild node']);
     });
   });
 
@@ -102,7 +98,7 @@ describe('Tree', () => {
 
       await userEvent.keyboard('{ArrowUp}');
 
-      expect(grandChildNode).toHaveFocus();
+      expect(childNode2).toHaveFocus();
     });
 
     it('should toggle selection with Enter key', async () => {

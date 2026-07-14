@@ -1,6 +1,6 @@
 import { setupWorker, SetupWorker } from 'msw/browser';
 import { it as itBase } from 'vitest';
-import { handlers } from './msw-mocks';
+import { handlers, resetMswMocks } from './msw-mocks';
 
 const worker = setupWorker(...handlers);
 
@@ -12,6 +12,7 @@ export const it = itBase.extend<{
     async ({}, use) => {
       await use(worker);
       worker.resetHandlers();
+      resetMswMocks();
     },
     {
       auto: true,
