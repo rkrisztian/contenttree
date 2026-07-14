@@ -19,6 +19,7 @@ describe("Tree", () => {
     );
 
     await expect.element(page.getByText("Loading...")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Loading tree...")).not.toBeInTheDocument();
   });
 
   describe("basic behavior", () => {
