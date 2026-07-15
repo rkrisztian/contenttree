@@ -8,7 +8,6 @@ describe('AppConfigService', () => {
   const origUseRemoteConfig = environment.useRemoteConfig;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     appConfigService = TestBed.inject(AppConfigService);
   });
 

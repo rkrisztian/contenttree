@@ -9,7 +9,7 @@ export default defineConfig({
     include: ["src/**/*.spec.ts?(x)"],
     exclude: ["src/**/*.ct.spec.ts?(x)"],
     setupFiles: ["src/test-utils/vitest.setup.ts"],
-    isolate: true,
+    isolate: false,
     environment: "jsdom",
     globals: true,
     env: loadEnv("development", process.cwd(), ""),

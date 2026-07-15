@@ -2,7 +2,7 @@ import { HttpResponse, http } from "msw";
 import type { ReactNode } from "react";
 import { describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
-import { render, renderHook } from "vitest-browser-react";
+import { render, renderHook } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import { it } from "@/test-utils/msw-ct";

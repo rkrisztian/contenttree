@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect } from "vitest";
 import { page } from "vitest/browser";
-import { render } from "vitest-browser-react";
+import { render } from "vitest-browser-react/pure";
 import TreePage from "@/app/tree/page";
 import { it } from "@/test-utils/msw-ct";
 import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
