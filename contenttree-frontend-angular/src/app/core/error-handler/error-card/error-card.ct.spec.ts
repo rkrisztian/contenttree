@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { ErrorData, ErrorService } from '../error.service';
 import { ErrorCard } from './error-card';
 
-describe('ErrorService', () => {
+describe('ErrorCard', () => {
   beforeEach(async () => {
     await render(ErrorCard, {
       providers: [ErrorService],

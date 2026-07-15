@@ -7,7 +7,6 @@ describe('ErrorService', () => {
 
   beforeEach(() => {
     vi.useFakeTimers();
-    TestBed.configureTestingModule({});
     service = TestBed.inject(ErrorService);
   });
 

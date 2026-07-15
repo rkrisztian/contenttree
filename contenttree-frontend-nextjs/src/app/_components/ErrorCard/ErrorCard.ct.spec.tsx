@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
-import { render } from "vitest-browser-react";
+import { render } from "vitest-browser-react/pure";
 import type { ErrorData } from "@/app/_lib/BackendApiContext";
 import { it } from "@/test-utils/msw-ct";
 import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
