@@ -46,6 +46,24 @@
       }
     </mat-menu>
 
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu" class="user-menu">
+      @if (isAuthenticated()) {
+        <div class="username">{{ currentUsername() }}</div>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Log Out</span>
+        </button>
+      } @else {
+        <button mat-menu-item (click)="login()">
+          <mat-icon>login</mat-icon>
+          <span>Log In</span>
+        </button>
+      }
+    </mat-menu>
+
     <app-theme-toggle />
   </mat-toolbar>
 </header>

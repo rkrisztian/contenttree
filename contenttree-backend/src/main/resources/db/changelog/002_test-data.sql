@@ -106,3 +106,14 @@ first%20second
 ', 1);
 
 SELECT setval('public.tree_node_seq', 54);
+
+--changeset rkrisztian:2
+--comment Add test users
+
+-- Password for test users: secret
+INSERT INTO users (id, name, password_hash, role) VALUES
+	(1, 'admin', '$2a$10$YWShFGZJKsaq.sZki6hjQO37v84bDorEpqyzcmqNC4qJSbwt54.dK', 'ADMIN'),
+	(2, 'manager', '$2a$10$YWShFGZJKsaq.sZki6hjQO37v84bDorEpqyzcmqNC4qJSbwt54.dK', 'MANAGER'),
+	(3, 'reader', '$2a$10$YWShFGZJKsaq.sZki6hjQO37v84bDorEpqyzcmqNC4qJSbwt54.dK', 'READER');
+
+SELECT setval('public.users_seq', 4);

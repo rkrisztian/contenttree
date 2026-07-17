@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const BASE_URL_ANGULAR = 'http://localhost:8080';
+const BASE_URL_NEXTJS = 'http://localhost:8084';
+const BASE_URL_BACKEND = 'http://localhost:8081';
+
 export default defineConfig({
   testDir: 'tests',
   fullyParallel: true,
@@ -14,27 +18,29 @@ export default defineConfig({
   projects: [
     {
       name: 'angular',
-      dependencies: ['set up db'],
+      dependencies: ['set up db', 'log in - angular'],
       use: {
         ...devices['Desktop Chromium'],
-        baseURL: 'http://localhost:8080',
+        baseURL: BASE_URL_ANGULAR,
+        storageState: 'playwright/.auth/angular.json',
       },
     },
     {
       name: 'nextjs',
-      dependencies: ['set up db'],
+      dependencies: ['set up db', 'log in - nextjs'],
       use: {
         ...devices['Desktop Chromium'],
-        baseURL: 'http://localhost:8084',
+        baseURL: BASE_URL_NEXTJS,
+        storageState: 'playwright/.auth/nextjs.json',
       },
     },
     {
       name: 'set up db',
       testDir: 'utils',
       testMatch: /global\.setup\.ts/,
-      teardown: 'clean up db',
+      dependencies: ['clean up db'],
       use: {
-        baseURL: 'http://localhost:8081',
+        baseURL: BASE_URL_BACKEND,
       },
     },
     {
@@ -42,7 +48,23 @@ export default defineConfig({
       testDir: 'utils',
       testMatch: /global\.teardown\.ts/,
       use: {
-        baseURL: 'http://localhost:8081',
+        baseURL: BASE_URL_BACKEND,
+      },
+    },
+    {
+      name: 'log in - angular',
+      testDir: 'utils',
+      testMatch: /auth\.setup\.ts/,
+      use: {
+        baseURL: BASE_URL_ANGULAR,
+      },
+    },
+    {
+      name: 'log in - nextjs',
+      testDir: 'utils',
+      testMatch: /auth\.setup\.ts/,
+      use: {
+        baseURL: BASE_URL_NEXTJS,
       },
     },
   ],

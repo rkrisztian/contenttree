@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
+import { AuthService } from '../core/auth/auth.service';
 import { ErrorService } from '../core/error-handler/error.service';
 import { LoadingService } from '../core/loading-indicator/loading.service';
 import { Header } from './header';
@@ -55,6 +56,6 @@ describe('Header', () => {
 
   const renderHeader = async () =>
     render(Header, {
-      providers: [LoadingService, ErrorService, provideRouter([])],
+      providers: [LoadingService, ErrorService, AuthService, provideRouter([])],
     });
 });

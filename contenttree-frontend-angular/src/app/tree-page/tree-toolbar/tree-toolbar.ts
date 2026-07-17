@@ -12,6 +12,7 @@ import { debounce, form, FormField, minLength } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../../core/auth/auth.service';
 import { LoadingService } from '../../core/loading-indicator/loading.service';
 import { NodeDeleteDialog, NodeDeleteDialogData } from '../node-delete-dialog/node-delete-dialog';
 import {
@@ -37,12 +38,14 @@ export class TreeToolbar {
 
   private readonly treePageService = inject(TreePageService);
   private readonly loadingService = inject(LoadingService);
+  private readonly authService = inject(AuthService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly treeData = this.treePageService.treeData;
   protected readonly selectedNodeId = this.treePageService.selectedNodeId;
   protected readonly contentForSelectedNode = this.treePageService.contentForSelectedNode;
+  protected readonly isManager = this.authService.isManager;
 
   private readonly searchModel = signal<SearchFormData>({
     searchText: '',

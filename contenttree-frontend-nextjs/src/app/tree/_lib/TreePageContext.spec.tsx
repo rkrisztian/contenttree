@@ -3,7 +3,7 @@ import { act } from "react";
 import { describe, expect } from "vitest";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
-import { renderTreePageContextHooks } from "@/test-utils/tree-page-provider";
+import { renderTreePageContextHooks } from "@/test-utils/test-hooks";
 import type { ContentRespDto } from "./tree-api";
 
 describe("TreePageContext", () => {

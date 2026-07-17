@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect } from "vitest";
+import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import TreePage from "@/app/tree/page";
 import { it } from "@/test-utils/msw-ct";
-import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
+import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 
 describe("Tree", () => {
   const rootNode = page.getByRole("treeitem", { name: "Root node", exact: true });
@@ -20,6 +20,10 @@ describe("Tree", () => {
 
     await expect.element(page.getByText("Loading...")).not.toBeInTheDocument();
     await expect.element(page.getByText("Loading tree...")).not.toBeInTheDocument();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("basic behavior", () => {

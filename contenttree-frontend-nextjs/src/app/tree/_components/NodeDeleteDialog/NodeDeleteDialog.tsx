@@ -90,7 +90,6 @@ export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDelet
           variant="contained"
           color="error"
           onClick={handleConfirm}
-          className={styles["delete-button"]}
           startIcon={<DeleteIcon />}
         >
           Delete

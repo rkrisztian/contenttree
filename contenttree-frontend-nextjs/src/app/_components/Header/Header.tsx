@@ -1,7 +1,10 @@
 "use client";
 
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccountTree from "@mui/icons-material/AccountTree";
 import Info from "@mui/icons-material/Info";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVert from "@mui/icons-material/MoreVert";
 import Notifications from "@mui/icons-material/Notifications";
 import AppBar from "@mui/material/AppBar";
@@ -10,23 +13,29 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { type MouseEvent, useState } from "react";
+import { type MouseEvent, useMemo, useState } from "react";
 import { ErrorCard } from "@/app/_components/ErrorCard/ErrorCard";
+import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import styles from "./Header.module.scss";
 import { ThemeToggle } from "./ThemeToggle/ThemeToggle";
 
 export const Header = () => {
   const { loading, errors } = useBackendApi();
+  const { isAuthenticated, loginData, logout } = useAuthContext();
+  const currentUsername = useMemo(() => loginData?.username ?? null, [loginData]);
   const [navigationButton, setNavigationButton] = useState<null | HTMLElement>(null);
   const [errorsButton, setErrorsButton] = useState<null | HTMLElement>(null);
+  const [userButton, setUserButton] = useState<null | HTMLElement>(null);
   const isNavMenuOpen = Boolean(navigationButton);
   const isErrorMenuOpen = Boolean(errorsButton);
+  const isUserMenuOpen = Boolean(userButton);
 
   const handleNavMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setNavigationButton(event.currentTarget);
@@ -44,10 +53,18 @@ export const Header = () => {
     setErrorsButton(null);
   };
 
+  const handleUserMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setUserButton(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserButton(null);
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" className={styles["title"]}>
           Content Tree Application
         </Typography>
 
@@ -58,9 +75,8 @@ export const Header = () => {
         {/* Pages Menu */}
         <IconButton
           size="large"
-          edge="end"
           color="inherit"
-          aria-label="pages"
+          aria-label="Pages"
           aria-controls="navigation-menu"
           aria-haspopup="true"
           onClick={handleNavMenuOpen}
@@ -140,6 +156,57 @@ export const Header = () => {
                 <ErrorCard key={error.id} error={error} closeable={false} />
               ))}
             </Box>
+          )}
+        </Menu>
+
+        {/* User Menu */}
+        <IconButton
+          size="large"
+          color="inherit"
+          aria-label="User"
+          aria-controls="user-menu"
+          aria-haspopup="true"
+          onClick={handleUserMenuOpen}
+        >
+          <AccountCircleIcon />
+        </IconButton>
+        <Menu
+          id="user-menu"
+          anchorEl={userButton}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={isUserMenuOpen}
+          onClose={handleUserMenuClose}
+          className={styles["user-menu"]}
+        >
+          {isAuthenticated ? (
+            <>
+              <MenuItem disabled>
+                <Box className={styles["username"]}>
+                  <ListItemText primary={currentUsername} />
+                </Box>
+              </MenuItem>
+              <MenuItem onClick={logout}>
+                <ListItemIcon>
+                  <LogoutIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Log Out" />
+              </MenuItem>
+            </>
+          ) : (
+            <MenuItem component={Link} href="/login" onClick={handleUserMenuClose}>
+              <ListItemIcon>
+                <LoginIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Log In" />
+            </MenuItem>
           )}
         </Menu>
 

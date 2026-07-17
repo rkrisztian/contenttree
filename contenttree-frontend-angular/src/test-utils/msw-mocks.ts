@@ -1,4 +1,5 @@
 import { AnyHandler, http, HttpResponse } from 'msw';
+import { AUTH_API_BASE_PATH, LoginReqDto, LoginRespDto } from '../app/api/auth-api.service';
 import {
   ContentRespDto,
   CreateTreeNodeReqDTO,
@@ -9,6 +10,7 @@ import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
 import { environment } from '../environments/environment';
 
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
+export const AUTH_API_BASE_URL = `${environment.apiBaseUrl}${AUTH_API_BASE_PATH}`;
 
 const INITIAL_RAW_NODES: TreeNodeRespDTO[] = [
   { id: 1, name: 'Root node' },
@@ -26,6 +28,14 @@ const INITIAL_CONTENTS: Record<string, ContentRespDto> = {
 
 let rawNodes = INITIAL_RAW_NODES;
 let contents = INITIAL_CONTENTS;
+
+export const LOGIN_DATA = {
+  token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiJ9.I9KBzS2NKnwOi5KmcP038Apxx6j_oPOpLyAvzFiBpgQ', // NOSONAR: test-only token
+  username: 'admin',
+  role: 'ADMIN',
+  expiration: new Date(Date.now() + 60 * 60 * 1000).toString(), // 1 hour later
+} as LoginRespDto;
 
 export const handlers: AnyHandler[] = [
   http.get(REMOTE_CONFIG_PATH, () =>
@@ -138,6 +148,18 @@ export const handlers: AnyHandler[] = [
       `Unexpected move: ${queryParams.get('nodeId')} to ${queryParams.get('newParentId')}`,
     );
   }),
+
+  http.post(`${AUTH_API_BASE_URL}/login`, async ({ request }) => {
+    const { username, password } = (await request.json()) as LoginReqDto;
+
+    if (username === 'admin' && password === 'secret') {
+      return HttpResponse.json(LOGIN_DATA);
+    }
+
+    throw new Error(`Unexpected login: ${username}:${password}`);
+  }),
+
+  http.post(`${AUTH_API_BASE_URL}/logout`, () => HttpResponse.json()),
 
   http.all('http://localhost:63315/*', () => undefined),
 ];

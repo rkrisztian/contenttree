@@ -3,7 +3,7 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import TreePage from "@/app/tree/page";
 import { it } from "@/test-utils/msw-ct";
-import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
+import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 
 describe("TreeToolbar", () => {
   beforeEach(async () => {
@@ -18,6 +18,7 @@ describe("TreeToolbar", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   it("does not allow adding/editing/deleting if no node is selected", async () => {

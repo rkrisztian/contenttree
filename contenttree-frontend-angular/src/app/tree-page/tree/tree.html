@@ -16,7 +16,7 @@
           (keydown)="handleKeyDown($event, node.id)"
           [class.not-found]="foundStatus === 'notFound'"
           [attr.tabindex]="isSelected(node.id) ? 0 : -1"
-          [attr.draggable]="!isLoading()"
+          [attr.draggable]="isManager() && !isLoading()"
           [class.dragging]="isDragging(node.id)"
           [class.dragged-over]="isDraggedOver(node.id)"
           (dragstart)="startDragging($event, node.id)"

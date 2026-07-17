@@ -11,6 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../core/auth/auth.service';
 import { LoadingService } from '../../core/loading-indicator/loading.service';
 import { TreePageService } from '../tree-page.service';
 import { TreeScrollService } from './tree-scroll.service';
@@ -27,12 +28,15 @@ export class Tree {
   private readonly destroyRef = inject(DestroyRef);
   private readonly scrollService = inject(TreeScrollService);
   private readonly loadingService = inject(LoadingService);
+  private readonly authService = inject(AuthService);
 
   protected readonly treeData = this.treePageService.treeData;
   protected readonly expansionState = this.treePageService.expansionState;
 
   protected readonly draggedNodeId = signal<number | null>(null);
   protected readonly dragoverNodeId = signal<number | null>(null);
+
+  protected readonly isManager = this.authService.isManager;
 
   private readonly treeItems = viewChildren<ElementRef<HTMLDivElement>>('treeitem');
 

@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
-import { NodeDeleteDialogPage } from '../pages/node-delete-dialog-page copy.js';
+import { NodeDeleteDialogPage } from '../pages/node-delete-dialog-page.js';
 import { NodeEditDialogPage } from '../pages/node-edit-dialog-page.js';
 import { TreePage } from '../pages/tree-page.js';
-import { projectScoped } from '../utils/node-naming.js';
+import { projectScoped } from '../utils/naming.js';
 
 test('should delete existing node', async ({ page }, testInfo) => {
   const treePage = new TreePage(page);

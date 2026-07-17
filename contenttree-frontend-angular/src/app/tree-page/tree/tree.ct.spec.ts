@@ -1,11 +1,8 @@
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { render } from 'vitest-browser-angular';
 import { page, userEvent } from 'vitest/browser';
 import { it } from '../../../test-utils/msw-ct';
-import { TreeApiService } from '../../api/tree-api.service';
-import { TreePage } from '../tree-page';
-import { TreePageService } from '../tree-page.service';
+import { renderTreePage } from '../../../test-utils/test-configurations';
 
 describe('Tree', () => {
   const rootNode = page.getByRole('treeitem', { name: 'Root node', exact: true });
@@ -14,9 +11,7 @@ describe('Tree', () => {
   const childNode2 = page.getByRole('treeitem', { name: 'Child node 2', exact: true });
 
   beforeEach(async () => {
-    await render(TreePage, {
-      providers: [TreePageService, TreeApiService],
-    });
+    await renderTreePage();
   });
 
   describe('basic behavior', () => {

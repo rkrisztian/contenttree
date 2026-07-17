@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+
+  .card {
+    max-width: 26.25rem;
+
+    .card-header {
+      background-color: var(--mui-palette-primary-main);
+      color: var(--mui-palette-primary-contrastText);
+    }
+
+    :global(.MuiTextField-root).text-field:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
