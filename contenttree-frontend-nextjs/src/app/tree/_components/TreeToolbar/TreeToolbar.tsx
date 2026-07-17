@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import {
   NodeDeleteDialog,
@@ -26,6 +27,7 @@ const DEBOUNCE_DELAY = 500; // ms
 
 export const TreeToolbar = () => {
   const { loading } = useBackendApi();
+  const { isManager } = useAuthContext();
   const {
     treeData,
     selectedNodeId,
@@ -134,7 +136,7 @@ export const TreeToolbar = () => {
         <Button
           variant="contained"
           onClick={() => openNodeEditorDialog(true)}
-          disabled={(!!treeData.rootNodeId && !selectedNodeId) || !!loading}
+          disabled={!isManager || (!!treeData.rootNodeId && !selectedNodeId) || !!loading}
           aria-label="Add new node"
           startIcon={<AddIcon />}
         >
@@ -144,7 +146,7 @@ export const TreeToolbar = () => {
         <Button
           variant="contained"
           onClick={() => openNodeEditorDialog(false)}
-          disabled={!selectedNodeId || !!loading}
+          disabled={!isManager || !selectedNodeId || !!loading}
           aria-label="Edit selected node"
           startIcon={<EditIcon />}
         >
@@ -155,7 +157,9 @@ export const TreeToolbar = () => {
           variant="contained"
           color="error"
           onClick={openNodeDeleteDialog}
-          disabled={!selectedNodeId || selectedNodeId === treeData.rootNodeId || !!loading}
+          disabled={
+            !isManager || !selectedNodeId || selectedNodeId === treeData.rootNodeId || !!loading
+          }
           aria-label="Delete selected node"
           startIcon={<DeleteIcon />}
         >

@@ -34,6 +34,10 @@ spring:
 server:
   port: 8083
 
+app:
+  jwt:
+    secret: this-is-a-local-secret-for-schema-generation-only
+
 springdoc:
   api-docs:
     enabled: true

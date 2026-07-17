@@ -24,6 +24,9 @@ spring:
       - org.springframework.boot.micrometer.observation.autoconfigure.ObservationAutoConfiguration
       - org.springframework.boot.servlet.autoconfigure.actuate.web.ServletManagementContextAutoConfiguration
       - org.springframework.boot.tomcat.autoconfigure.metrics.TomcatMetricsAutoConfiguration
+      # This app uses JWT, not form login.
+      - org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
+
   docker:
     compose:
       enabled: false
@@ -34,6 +37,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  sql:
+    init:
+      mode: never
 
 springdoc:
   api-docs:
@@ -48,3 +54,7 @@ logging:
 server:
   error:
     include-stacktrace: always
+
+app:
+  jwt:
+    secret: this-is-a-local-secret-for-testing-purposes-only

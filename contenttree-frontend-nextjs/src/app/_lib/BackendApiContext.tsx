@@ -67,7 +67,7 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
             error: "Unexpected error",
             message: `${(error as AxiosError).config?.url ?? "unknown URL"}: ${error.message}`,
           });
-        } else {
+        } else if (!error.isAxiosError || error.code !== "ERR_CANCELED") {
           console.error("Unknown error: ", error);
         }
 

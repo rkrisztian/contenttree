@@ -13,6 +13,9 @@ spring:
         format_sql: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-dev.yaml
+  sql:
+    init:
+      mode: never
 
 springdoc:
   api-docs:
@@ -33,6 +36,8 @@ server:
 app:
   cors:
     allowed-origins: http://localhost:4200,http://localhost:3000
+  jwt:
+    secret: this-is-a-local-secret-for-testing-purposes-only
 
 management:
   endpoints:

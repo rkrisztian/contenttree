@@ -1,15 +1,10 @@
-import { render } from 'vitest-browser-angular';
 import { page, userEvent } from 'vitest/browser';
 import { it } from '../../../test-utils/msw-ct';
-import { TreeApiService } from '../../api/tree-api.service';
-import { TreePage } from '../tree-page';
-import { TreePageService } from '../tree-page.service';
+import { renderTreePage } from '../../../test-utils/test-configurations';
 
 describe('NodeEditorDialog', () => {
   beforeEach(async () => {
-    await render(TreePage, {
-      providers: [TreePageService, TreeApiService],
-    });
+    await renderTreePage();
 
     vi.useFakeTimers();
   });

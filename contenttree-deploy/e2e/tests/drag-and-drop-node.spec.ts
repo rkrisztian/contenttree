@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { NodeEditDialogPage } from '../pages/node-edit-dialog-page.js';
 import { TreePage } from '../pages/tree-page.js';
-import { projectScoped } from '../utils/node-naming.js';
+import { projectScoped } from '../utils/naming.js';
 
 test('should move node to new parent', async ({ page }, testInfo) => {
   const treePage = new TreePage(page);

@@ -44,3 +44,20 @@ CREATE INDEX idx_tree_node_parent_id ON tree_node(parent_id);
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE INDEX idx_tree_node_name_trgm_lower ON tree_node USING GIN (LOWER(name) gin_trgm_ops);
 CREATE INDEX idx_tree_node_content_trgm_lower ON tree_node USING GIN (LOWER(content) gin_trgm_ops);
+
+--changeset rkrisztian:2
+--comment Authentication and authorization
+
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('READER', 'MANAGER', 'ADMIN'))
+);
+
+CREATE SEQUENCE public.users_seq
+	START WITH 1
+	INCREMENT BY 1
+	NO MINVALUE
+	NO MAXVALUE
+	CACHE 1;

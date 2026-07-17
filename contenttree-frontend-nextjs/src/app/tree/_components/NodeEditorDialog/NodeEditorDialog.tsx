@@ -122,7 +122,6 @@ export default function NodeEditorDialog({
           variant="contained"
           disabled={!isValid || isSubmitting}
           startIcon={data.createMode ? <AddIcon /> : <EditIcon />}
-          className={styles["saveButton"]}
         >
           {data.createMode ? "Add Node" : "Edit Node"}
         </Button>

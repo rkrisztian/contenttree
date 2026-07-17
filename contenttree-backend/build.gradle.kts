@@ -44,11 +44,15 @@ dependencies {
 	implementation(libs.springdocOpenapiStarterWebmvcUi)
 	implementation(libs.mapstruct)
 	implementation("org.springframework.boot:spring-boot-starter-liquibase")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation(libs.jjwtApi)
 
+	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly(libs.jjwtImpl)
+	runtimeOnly(libs.jjwtJackson)
 	annotationProcessor(libs.mapstructProcessor)
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
-	runtimeOnly("org.postgresql:postgresql")
 	errorprone(libs.errorProneCore)
 	errorprone(libs.nullaway)
 
@@ -58,8 +62,10 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-junit-jupiter")
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-security-test")
 
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 }
 
@@ -106,7 +112,8 @@ nullaway {
 }
 
 val devSpecificFiles = setOf(
-	"contenttree/config/DocsConfig*.class",
+	"contenttree/common/config/DocsConfig*.class",
+	"contenttree/common/config/OpenApiConfig.class",
 	"application-dev.yaml",
 	"application-docs.yaml"
 )

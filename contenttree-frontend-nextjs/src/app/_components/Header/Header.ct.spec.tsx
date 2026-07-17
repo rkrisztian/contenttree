@@ -1,16 +1,27 @@
 import { HttpResponse, http } from "msw";
 import type { ReactNode } from "react";
-import { describe, expect, vi } from "vitest";
+import { afterEach, describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render, renderHook } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import { it } from "@/test-utils/msw-ct";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
-import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
+import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import { Header } from "./Header";
 
 describe("Header", () => {
+  const HeaderWithTreePageContextProvider = ({ children }: Readonly<{ children?: ReactNode }>) => (
+    <WithTreePageContextProvider>
+      <Header />
+      {children}
+    </WithTreePageContextProvider>
+  );
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe("Loading snipper", () => {
     it("shows when loading", async ({ worker }) => {
       let resolveRequest!: () => void;
@@ -70,11 +81,4 @@ describe("Header", () => {
         .toBeVisible();
     });
   });
-
-  const HeaderWithTreePageContextProvider = ({ children }: Readonly<{ children?: ReactNode }>) => (
-    <WithTreePageContextProvider>
-      <Header />
-      {children}
-    </WithTreePageContextProvider>
-  );
 });

@@ -1,9 +1,9 @@
 package contenttree;
 
-import contenttree.dto.CreateTreeNodeReqDTO;
-import contenttree.dto.TreeNodeRespDTO;
-import contenttree.dto.UpdateTreeNodeReqDTO;
-import contenttree.repository.TreeNodeRepository;
+import contenttree.tree.dto.CreateTreeNodeReqDTO;
+import contenttree.tree.dto.TreeNodeRespDTO;
+import contenttree.tree.dto.UpdateTreeNodeReqDTO;
+import contenttree.tree.repository.TreeNodeRepository;
 import contenttree.util.TestcontainersConfiguration;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.core.type.TypeReference;
@@ -34,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("inttest")
 @AutoConfigureMockMvc
 @Import(TestcontainersConfiguration.class)
+@WithMockUser(username = "testUser", roles = {"MANAGER"})
 class ContentTreeControllerIntTest {
 
 	@Autowired

@@ -9,12 +9,14 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import clsx from "clsx";
 import { type DragEvent, type KeyboardEvent, type MouseEvent, useState } from "react";
+import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./Tree.module.scss";
 
 export const Tree = () => {
   const { loading } = useBackendApi();
+  const { isManager } = useAuthContext();
   const {
     treeData,
     expansionState,
@@ -120,7 +122,7 @@ export const Tree = () => {
                 onClick={() => toggleSelect(node.id)}
                 onKeyDown={(event) => handleKeyDown(event, node.id)}
                 tabIndex={selectedNodeId === node.id ? 0 : -1}
-                draggable={!loading}
+                draggable={isManager && !loading}
                 onDragStart={(event) => startDragging(event, node.id)}
                 onDragOver={(event) => startDragover(event, node.id)}
                 onDragEnd={stopDragging}

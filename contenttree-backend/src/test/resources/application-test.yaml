@@ -3,10 +3,13 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
       - org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+      # This app uses JWT, not form login.
+      - org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
 
 logging:
   level:
     web: debug
+    security: DEBUG
 
 server:
   error:

@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect } from "vitest";
+import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import TreePage from "@/app/tree/page";
 import { it } from "@/test-utils/msw-ct";
-import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
+import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 
 describe("NodeDeleteDialog", () => {
   beforeEach(async () => {
@@ -12,6 +12,10 @@ describe("NodeDeleteDialog", () => {
         <TreePage />
       </WithTreePageContextProvider>,
     );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("can delete existing node", async () => {

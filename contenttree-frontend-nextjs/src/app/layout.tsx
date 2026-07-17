@@ -8,6 +8,7 @@ import PageWrapper from "@/app/_components/PageWrapper/PageWrapper";
 import { BackendApiContextProvider } from "@/app/_lib/BackendApiContext";
 import theme from "@/app/theme";
 import "./globals.scss";
+import { AuthContextProvider } from "./_lib/AuthContext";
 
 export const metadata: Metadata = {
   title: "Content Tree Management Application",
@@ -26,7 +27,9 @@ const AppProviders = ({ children }: Readonly<{ children: ReactNode }>) => {
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <BackendApiContextProvider>{children}</BackendApiContextProvider>
+        <BackendApiContextProvider>
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </BackendApiContextProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );

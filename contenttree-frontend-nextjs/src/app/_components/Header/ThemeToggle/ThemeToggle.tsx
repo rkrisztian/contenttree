@@ -13,9 +13,10 @@ export const ThemeToggle = () => {
 
   return (
     <IconButton
+      size="large"
+      color="inherit"
       onClick={toggleMode}
       aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
-      color="inherit"
     >
       {mode === "light" ? <LightMode /> : <DarkMode />}
     </IconButton>

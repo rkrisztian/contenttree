@@ -40,6 +40,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logs out */
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logs in and generates a JWT token */
+        post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/tree/search": {
         parameters: {
             query?: never;
@@ -116,6 +150,28 @@ export interface components {
             name: string;
             /** @example Example content */
             content: string;
+        };
+        LoginReqDto: {
+            /** @example admin */
+            username: string;
+            /** @example secret */
+            password: string;
+        };
+        LoginRespDto: {
+            /** @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJNQU5BR0VSIn0.abcdefghijklmnop */
+            token: string;
+            /** @example admin */
+            username: string;
+            /**
+             * @example ADMIN
+             * @enum {string}
+             */
+            role: "READER" | "MANAGER" | "ADMIN";
+            /**
+             * Format: date-time
+             * @example 1677445697
+             */
+            expiration: string;
         };
         TreeNodeRespDTO: {
             /**
@@ -228,6 +284,48 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginReqDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LoginRespDto"];
+                };
             };
         };
     };

@@ -3,13 +3,13 @@ import { page } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import type { ErrorData } from "@/app/_lib/BackendApiContext";
 import { it } from "@/test-utils/msw-ct";
-import { WithTreePageContextProvider } from "@/test-utils/tree-page-provider";
+import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
 import { ErrorCard } from "./ErrorCard";
 
 describe("ErrorService", () => {
   beforeEach(async () => {
     await render(
-      <WithTreePageContextProvider>
+      <WithBackendApiContextProvider>
         <ErrorCard
           error={
             {
@@ -20,7 +20,7 @@ describe("ErrorService", () => {
             } satisfies ErrorData
           }
         />
-      </WithTreePageContextProvider>,
+      </WithBackendApiContextProvider>,
     );
   });
 

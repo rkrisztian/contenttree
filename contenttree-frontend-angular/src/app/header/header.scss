@@ -1,21 +1,26 @@
 header {
+  h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   mat-toolbar.mat-toolbar {
     background: var(--mat-sys-primary-container);
     color: var(--mat-sys-on-primary-container);
     border: 1px solid var(--mat-sys-outline-variant);
     box-shadow: var(--mat-sys-level2);
   }
+
   .spacer {
     flex: 1 1 0%;
   }
 }
 
 ::ng-deep .mat-mdc-menu-panel.error-menu {
-  width: 25rem;
   max-width: 25rem;
+  padding: 0rem 1rem;
 
   .empty-state {
-    padding: 1rem;
     text-align: center;
     color: var(--mat-sys-on-surface-variant);
     font-style: italic;
@@ -33,5 +38,15 @@ header {
 
   .error-list-item {
     margin: 0;
+  }
+}
+
+::ng-deep .mat-mdc-menu-panel.user-menu {
+  .username {
+    padding: 1rem;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    font-style: italic;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
   }
 }

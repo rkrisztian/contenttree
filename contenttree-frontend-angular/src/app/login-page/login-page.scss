@@ -1,0 +1,32 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+
+  .mat-mdc-card {
+    max-width: 26.25rem;
+    box-sizing: border-box;
+
+    .mat-mdc-card-header {
+      background-color: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+      border-top-left-radius: var(--mat-sys-corner-medium);
+      border-top-right-radius: var(--mat-sys-corner-medium);
+      padding: 1rem;
+    }
+
+    .mat-mdc-card-content {
+      padding: 1rem 1rem 0 1rem;
+
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+    }
+
+    .mat-mdc-card-actions {
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
