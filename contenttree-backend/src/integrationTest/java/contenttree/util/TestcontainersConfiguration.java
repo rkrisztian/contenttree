@@ -20,9 +20,8 @@ public class TestcontainersConfiguration {
 		return new PostgreSQLContainer(
 				DockerImageName.parse(dbImageName)
 						.asCompatibleSubstituteFor("postgres"))
-				.withCommand("-c", "fsync=off")
 				.withReuse(true)
-				.withCreateContainerCmdModifier(cmd -> cmd.withName("contenttree-backend-test-db"));
+				.withCommand("-c", "fsync=off");
 	}
 
 }
