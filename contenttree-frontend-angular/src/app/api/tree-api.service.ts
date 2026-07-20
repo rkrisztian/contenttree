@@ -17,15 +17,16 @@ export class TreeApiService {
   private readonly http = inject(HttpClient);
   private readonly config = inject(AppConfigService);
 
-  readonly treeApiBaseUrl = computed(() => `${this.config.apiBaseUrl()}${TREE_API_BASE_PATH}`);
+  private readonly treeApiBaseUrl = computed(
+    () => `${this.config.apiBaseUrl()}${TREE_API_BASE_PATH}`,
+  );
 
   readonly rawNodes = httpResource<TreeNodeRespDTO[]>(() => this.treeApiBaseUrl());
 
   readonly contentForSelectedNode = (selectedNodeId: Signal<number | null>) =>
     httpResource<ContentRespDto>(() =>
       selectedNodeId()
-        ? // @ts-expect-error: Already checked for null.
-          `${this.treeApiBaseUrl()}/content/${encodeURIComponent(selectedNodeId())}`
+        ? `${this.treeApiBaseUrl()}/content/${encodeURIComponent(selectedNodeId()!)}`
         : undefined,
     );
 

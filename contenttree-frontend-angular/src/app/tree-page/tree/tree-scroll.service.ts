@@ -11,20 +11,16 @@ export class TreeScrollService {
   readonly saveScrollPosition = () => {
     if (this.containerElementRef()) {
       this.scrollPosition.set([
-        // @ts-expect-error: Already checked for null
-        this.containerElementRef().nativeElement.scrollLeft,
-        // @ts-expect-error: Already checked for null
-        this.containerElementRef().nativeElement.scrollTop,
+        this.containerElementRef()!.nativeElement.scrollLeft,
+        this.containerElementRef()!.nativeElement.scrollTop,
       ]);
     }
   };
 
   readonly restoreScrollPosition = () => {
     if (this.containerElementRef() && this.scrollPosition()) {
-      // @ts-expect-error: Already checked for null
-      this.containerElementRef().nativeElement.scrollLeft = this.scrollPosition()[0];
-      // @ts-expect-error: Already checked for null
-      this.containerElementRef().nativeElement.scrollTop = this.scrollPosition()[1];
+      this.containerElementRef()!.nativeElement.scrollLeft = this.scrollPosition()![0];
+      this.containerElementRef()!.nativeElement.scrollTop = this.scrollPosition()![1];
     }
   };
 }
