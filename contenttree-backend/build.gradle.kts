@@ -311,6 +311,11 @@ sonar {
 			"sonar.java.pmd.reportPaths",
 			layout.buildDirectory.file("reports/pmd/main.xml").get().asFile
 		)
+
+		property("sonar.issue.ignore.multicriteria", "oldDate")
+		// I am using legacy API (jjwt). See: https://github.com/jwtk/jjwt/issues/235
+		property("sonar.issue.ignore.multicriteria.oldDate.ruleKey", "java:S2143")
+		property("sonar.issue.ignore.multicriteria.oldDate.resourceKey", "**/JwtService.java")
 	}
 }
 

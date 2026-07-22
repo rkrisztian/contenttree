@@ -40,7 +40,7 @@ public class JwtService {
 		return Jwts.builder()
 				.subject(username)
 				.claim("role", role.name())
-				.issuedAt(Date.from(now))
+				.issuedAt(Date.from(Instant.now()))
 				.expiration(Date.from(now.plus(Duration.ofMillis(jwtExpirationMs))))
 				.signWith(getSigningKey(), Jwts.SIG.HS256)
 				.compact();

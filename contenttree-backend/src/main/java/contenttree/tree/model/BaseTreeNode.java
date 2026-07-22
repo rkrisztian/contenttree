@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
@@ -66,14 +67,14 @@ public class BaseTreeNode<T extends BaseTreeNode<T>> {
 	}
 
 	@Override
-	public final boolean equals(Object o) {
+	public boolean equals(Object o) {
 		if (!(o instanceof BaseTreeNode<?> that)) return false;
-		return id.equals(that.id);
+		return Objects.equals(id, that.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return id.hashCode();
+		return Objects.hashCode(id);
 	}
 
 }

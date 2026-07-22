@@ -9,11 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "users")
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)
 	@SequenceGenerator(allocationSize = 1)
@@ -71,14 +74,14 @@ public class User {
 	}
 
 	@Override
-	public final boolean equals(Object o) {
-		if (!(o instanceof User that)) return false;
-		return id.equals(that.id);
+	public boolean equals(Object o) {
+		if (!(o instanceof User user)) return false;
+		return Objects.equals(id, user.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return id.hashCode();
+		return Objects.hashCode(id);
 	}
 
 }
