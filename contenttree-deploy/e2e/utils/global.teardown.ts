@@ -1,13 +1,14 @@
 import { test as teardown } from '@playwright/test';
 import { components } from '../api/schema.js';
 import { login } from './auth-api.js';
+import { ADMIN_PASSWORD } from './constants.js';
 
 export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
 
 const apiUrl = '/api/tree';
 
 teardown('delete all nodes', async ({ request }) => {
-  const headers = await login(request, 'admin', 'secret');
+  const headers = await login(request, 'admin', ADMIN_PASSWORD);
   const listResponse = await request.get(apiUrl, { headers });
 
   if (!listResponse.ok()) {

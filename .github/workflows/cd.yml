@@ -54,6 +54,22 @@ jobs:
           cat >etc/backend/application.properties <<'EOF'
           spring.datasource.username=${{ secrets.DB_USERNAME }}
           spring.datasource.password=${{ secrets.DB_PASSWORD }}
+          app.jwt.secret=${{ secrets.JWT_SECRET }}
+          EOF
+
+          cat >etc/backend/prod_data.sql <<'EOF'
+          -- Prod-like data initialization script (used for E2E testing)
+          DO
+          '
+          BEGIN
+            IF NOT EXISTS (SELECT 1 FROM users WHERE name = ''admin'') THEN
+              INSERT INTO users (id, name, password_hash, role) VALUES
+                (1, ''admin'', ''${{ secrets.ADMIN_PASSWORD_HASHED }}'', ''ADMIN'');
+
+              PERFORM setval(''public.users_seq'', (SELECT COALESCE(MAX(id), 1) FROM users));
+            END IF;
+          END;
+          '  LANGUAGE PLPGSQL;
           EOF
         working-directory: contenttree-deploy
 
@@ -84,6 +100,8 @@ jobs:
 
       - name: Run E2E Tests
         run: npm test
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
       - name: (Upload E2E Test Report)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
