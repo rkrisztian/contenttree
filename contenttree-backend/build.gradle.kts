@@ -179,15 +179,18 @@ tasks.bootBuildImage {
 		"paketobuildpacks/health-checker@sha256:459583607d5faf6afe7af94c636b1b49a1468727b1cc8ed874dde6cc59ced579"
 	)
 	environment.put("BP_JVM_VERSION", javaVersion)
-	environment.put("BP_JVM_JLINK_ENABLED", "true")
-	environment.put(
-		"BP_JVM_JLINK_ARGS",
-		"--no-man-pages --no-header-files --strip-debug --compress zip-6 "
-				// Spring Boot requires the "jdk.unsupported".
-				+ "--add-modules java.base,java.desktop,java.compiler,java.management,java.logging,"
-				+ "java.naming,java.security.jgss,java.instrument,java.sql,jdk.unsupported"
+	environment.putAll(
+		mapOf(
+			"BP_JVM_JLINK_ENABLED" to "true",
+			"BP_JVM_JLINK_ARGS" to "--no-man-pages --no-header-files --strip-debug --compress zip-6 "
+					// Spring Boot requires the "jdk.unsupported".
+					+ "--add-modules java.base,java.desktop,java.compiler,java.management,java.logging,"
+					+ "java.naming,java.security.jgss,java.instrument,java.sql,jdk.unsupported",
+			"BP_HEALTH_CHECKER_ENABLED" to "true",
+			"BPE_DELIM_JAVA_TOOL_OPTIONS" to " ",
+			"BPE_APPEND_JAVA_TOOL_OPTIONS" to "-XX:MaxMetaspaceSize=256M",
+		)
 	)
-	environment.put("BP_HEALTH_CHECKER_ENABLED", "true")
 	imageName = provider {
 		if (publishImage.get()) {
 			"ghcr.io/${
