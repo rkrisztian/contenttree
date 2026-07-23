@@ -5,10 +5,9 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import type { ReactNode } from "react";
 import PageWrapper from "@/app/_components/PageWrapper/PageWrapper";
+import { AuthContextProvider } from "@/app/_lib/AuthContext";
 import { BackendApiContextProvider } from "@/app/_lib/BackendApiContext";
 import theme from "@/app/theme";
-import "./globals.scss";
-import { AuthContextProvider } from "./_lib/AuthContext";
 
 export const metadata: Metadata = {
   title: "Content Tree Management Application",
