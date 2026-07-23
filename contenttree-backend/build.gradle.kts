@@ -112,7 +112,7 @@ nullaway {
 }
 
 val devSpecificFiles = setOf(
-	"contenttree/common/config/DocsConfig*.class",
+	"contenttree/common/config/DocsConfig.class",
 	"contenttree/common/config/OpenApiConfig.class",
 	"application-dev.yaml",
 	"application-docs.yaml"
@@ -259,8 +259,10 @@ reporting {
 				classDirectories.setFrom(
 					sourceSets.main.get().output.classesDirs.map { dir ->
 						fileTree(dir).exclude(
-							"contenttree/config/DocsConfig.class",
-							"contenttree/ContentTreeMapperImpl.class"
+							"contenttree/common/config/DocsConfig.class",
+							"contenttree/common/config/OpenApiConfig.class",
+							"contenttree/tree/ContentTreeMapperImpl.class",
+							"contenttree/auth/AuthMapperImpl.class"
 						)
 					}
 				)
@@ -287,7 +289,7 @@ sonar {
 		property("sonar.projectKey", "contenttree-backend")
 		property("sonar.organization", "rkrisztian")
 		property("sonar.projectName", "contenttree-backend")
-		property("sonar.coverage.exclusions", "**/DocsConfig.java")
+		property("sonar.coverage.exclusions", listOf("**/DocsConfig.java", "**/OpenApiConfig.java"))
 		property("sonar.tests", testTasks.flatMap { sourceSets[it].allSource.srcDirs }.toSet())
 		property(
 			"sonar.java.test.binaries",

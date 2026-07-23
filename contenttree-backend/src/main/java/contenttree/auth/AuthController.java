@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AuthController {
 
-	public static final String JWT_COOKIE_NAME = "authToken";
 	private static final String HAS_ANY_ROLE = "isAuthenticated()";
 
 	private final AuthService authService;

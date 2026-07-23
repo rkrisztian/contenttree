@@ -22,16 +22,6 @@ public class LoginRespDto {
 	@Schema(requiredMode = REQUIRED, example = "1677445697")
 	private Instant expiration;
 
-	public LoginRespDto() {
-	}
-
-	public LoginRespDto(String token, String username, Role role, Instant expiration) {
-		this.token = token;
-		this.username = username;
-		this.role = role;
-		this.expiration = expiration;
-	}
-
 	public String getToken() {
 		return token;
 	}

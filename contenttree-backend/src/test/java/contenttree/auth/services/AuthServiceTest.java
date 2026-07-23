@@ -31,7 +31,7 @@ class AuthServiceTest {
 	UserRepository userRepository;
 
 	@Spy
-	final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Mock
 	JwtService jwtService;

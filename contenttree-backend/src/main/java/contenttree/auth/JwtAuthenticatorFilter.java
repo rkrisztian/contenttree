@@ -46,11 +46,13 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
 		}
 
 		final var jwt = authHeader.substring(7);
-		final JwtClaims claims = jwtService.validateTokenAndGetClaims(jwt);
+		final JwtClaims jwtClaims = jwtService.parseToken(jwt);
+
+		jwtService.validateClaims(jwtClaims);
 
 		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(claims.username(), null,
-						List.of(new SimpleGrantedAuthority("ROLE_" + claims.role().name()))));
+				new UsernamePasswordAuthenticationToken(jwtClaims.username(), null,
+						List.of(new SimpleGrantedAuthority("ROLE_" + jwtClaims.role().name()))));
 
 		filterChain.doFilter(request, response);
 	}

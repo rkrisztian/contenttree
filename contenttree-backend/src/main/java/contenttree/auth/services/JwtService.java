@@ -46,16 +46,6 @@ public class JwtService {
 				.compact();
 	}
 
-	public JwtClaims validateTokenAndGetClaims(String token) {
-		final var jwtClaims = parseToken(token);
-
-		if (!isValid(jwtClaims)) {
-			throw new JwtAuthenticationException("Invalid token");
-		}
-
-		return jwtClaims;
-	}
-
 	@SuppressWarnings("PMD.LawOfDemeter")  // `.getPayLoad()` is fluent API.
 	public JwtClaims parseToken(String token) {
 		try {
@@ -75,7 +65,13 @@ public class JwtService {
 		}
 	}
 
-	public boolean isValid(JwtClaims claims) {
+	public void validateClaims(JwtClaims jwtClaims) {
+		if (!isValid(jwtClaims)) {
+			throw new JwtAuthenticationException("Invalid token");
+		}
+	}
+
+	private boolean isValid(JwtClaims claims) {
 		return !claims.expiration().isBefore(Instant.now());
 	}
 
