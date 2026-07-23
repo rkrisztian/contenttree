@@ -162,6 +162,12 @@ npm run dev
 This runs the development web server. Once the frontend is running, the application will be
 available at [http://localhost:3000/tree](http://localhost:3000/tree).
 
+### Authentication
+
+See [`002_test-data.sql`](contenttree-backend/src/main/resources/db/changelog/002_test-data.sql)
+for test users with different roles. The passwords for these users were generated using
+[`BCryptPasswordEncoder`](https://www.baeldung.com/linux/bcrypt-hash).
+
 ## Deploying the Application
 
 To test the application in a production-like deployment, it is possible to create a deployment on
