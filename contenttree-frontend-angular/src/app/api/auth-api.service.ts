@@ -21,6 +21,4 @@ export class AuthApiService {
 
   readonly login = (credentials: LoginReqDto) =>
     this.http.post<LoginRespDto>(`${this.authApiBaseUrl()}/login`, credentials);
-
-  readonly logout = () => this.http.post<void>(`${this.authApiBaseUrl()}/logout`, undefined);
 }

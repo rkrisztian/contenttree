@@ -62,7 +62,7 @@ describe("AuthApiContext", () => {
     it("should clear login data from local storage", async () => {
       const hooks = await renderAuthContextHooks();
 
-      await act(async () => hooks.current.authContext.logout());
+      await act(() => hooks.current.authContext.logout());
 
       expect.soft(hooks.current.authContext.loginData).toBeNull();
       expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();

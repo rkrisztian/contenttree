@@ -11,14 +11,14 @@ import {
   useState,
 } from "react";
 import { TREE_API_BASE_PATH } from "../tree/_lib/tree-api";
-import { AUTH_API_BASE_PATH, AuthApi, type LoginRespDto } from "./auth-api";
+import { AuthApi, type LoginRespDto } from "./auth-api";
 import { useBackendApi } from "./BackendApiContext";
 
 export type AuthContextType = {
   loginData: LoginData | null;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
   isManager: boolean;
 };
 
@@ -76,8 +76,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     router.push("/tree");
   };
 
-  const logout = async () => {
-    await authApi.current.logout();
+  const logout = () => {
     clearLoginData();
     router.push("/login");
   };
@@ -127,7 +126,7 @@ export const useAuthContext = () => {
 
 const isProtectedPath = (pathname: string | undefined) => {
   if (!pathname) return false;
-  return pathname.startsWith(TREE_API_BASE_PATH) || pathname.startsWith(AUTH_API_BASE_PATH);
+  return pathname.startsWith(TREE_API_BASE_PATH);
 };
 
 const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData => ({

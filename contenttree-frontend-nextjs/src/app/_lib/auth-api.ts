@@ -14,9 +14,5 @@ export class AuthApi {
     (await this.getBackendApi().post<LoginRespDto>(`${AUTH_API_BASE_PATH}/login`, credentials))
       .data;
 
-  readonly logout = async () => {
-    await this.getBackendApi().post<void>(`${AUTH_API_BASE_PATH}/logout`);
-  };
-
   private readonly getBackendApi = () => this.backendApiRef.current;
 }

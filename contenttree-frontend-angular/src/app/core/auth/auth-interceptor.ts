@@ -1,7 +1,6 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NEVER } from 'rxjs';
-import { AUTH_API_BASE_PATH } from '../../api/auth-api.service';
 import { TREE_API_BASE_PATH } from '../../api/tree-api.service';
 import { AuthService } from './auth.service';
 
@@ -28,5 +27,5 @@ const isProtectedPath = (req: HttpRequest<unknown>) => {
       ? new URL(req.url).pathname
       : req.url;
 
-  return pathname.startsWith(TREE_API_BASE_PATH) || pathname.startsWith(AUTH_API_BASE_PATH);
+  return pathname.startsWith(TREE_API_BASE_PATH);
 };

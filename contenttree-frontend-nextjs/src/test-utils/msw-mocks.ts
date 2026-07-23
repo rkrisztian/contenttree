@@ -158,8 +158,6 @@ export const handlers: AnyHandler[] = [
     throw new Error(`Unexpected login: ${username}:${password}`);
   }),
 
-  http.post(`${AUTH_API_BASE_URL}/logout`, () => HttpResponse.json()),
-
   http.all("http://localhost:63315/*", () => undefined),
 ];
 

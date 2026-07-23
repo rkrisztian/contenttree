@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,7 +33,6 @@ export class Header {
   private readonly errorService = inject(ErrorService);
   private readonly loadingService = inject(LoadingService);
   private readonly authService = inject(AuthService);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
   protected readonly errors = this.errorService.errors;
@@ -63,6 +61,6 @@ export class Header {
   };
 
   protected readonly logout = (): void => {
-    this.authService.logout().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.authService.logout();
   };
 }

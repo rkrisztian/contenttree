@@ -60,7 +60,7 @@ describe('AuthService', () => {
     it('should clear login data from local storage', async () => {
       initTestingModule();
 
-      await lastValueFrom(authService.logout());
+      authService.logout();
 
       expect.soft(authService.loginData()).toBeNull();
       expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();

@@ -34,13 +34,10 @@ export class AuthService {
       }),
     );
 
-  readonly logout = () =>
-    this.authApiService.logout().pipe(
-      tap(() => {
-        this.clearLoginData();
-        this.router.navigate(['/login']);
-      }),
-    );
+  readonly logout = () => {
+    this.clearLoginData();
+    this.router.navigate(['/login']);
+  };
 
   readonly autoLogOutIfLoginExpired = () => {
     if (this._loginData() && this._loginData()!.expiration <= new Date()) {

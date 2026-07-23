@@ -6,9 +6,7 @@ import contenttree.auth.services.AuthService;
 import contenttree.auth.services.JwtService;
 import contenttree.auth.services.JwtService.JwtClaims;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 @Validated
 public class AuthController {
-
-	private static final String HAS_ANY_ROLE = "isAuthenticated()";
 
 	private final AuthService authService;
 	private final JwtService jwtService;
@@ -39,13 +35,6 @@ public class AuthController {
 		final JwtClaims jwtClaims = jwtService.parseToken(jwt);
 
 		return mapper.toLoginRespDTO(jwt, jwtClaims);
-	}
-
-	@PostMapping("/logout")
-	@PreAuthorize(HAS_ANY_ROLE)
-	@Operation(summary = "Logs out (currently no-op)")
-	public void logout(HttpServletResponse response) {
-		// No-op for now.
 	}
 
 }
