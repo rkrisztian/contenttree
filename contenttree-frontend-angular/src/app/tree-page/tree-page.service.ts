@@ -18,7 +18,9 @@ export class TreePageService {
 
   private readonly _rawNodes = this.treeApiService.rawNodes;
   readonly rawNodes = this._rawNodes.asReadonly();
-  readonly treeData = computed(() => new TreeData(this.rawNodes.value()));
+  readonly treeData = computed(
+    () => new TreeData(this._rawNodes.hasValue() ? this._rawNodes.value() : []),
+  );
 
   readonly expansionState = signal(new TreeExpansionState(), {
     equal: (a, b) => a.isEqual(b),

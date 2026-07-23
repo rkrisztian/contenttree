@@ -12,16 +12,14 @@
           <mat-spinner diameter="32"></mat-spinner>
           <span>Loading tree...</span>
         </div>
+      } @else if (treeData().rootNodeId == null) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">inbox</mat-icon>
+          <h3>Tree is Empty</h3>
+          <p>Add a root node to begin organizing your data.</p>
+        </div>
       } @else {
-        @if (treeData().rootNodeId == null) {
-          <div class="empty-state">
-            <mat-icon class="empty-icon">inbox</mat-icon>
-            <h3>Tree is Empty</h3>
-            <p>Add a root node to begin organizing your data.</p>
-          </div>
-        } @else {
-          <app-tree />
-        }
+        <app-tree />
       }
     </mat-card-content>
   </mat-card>

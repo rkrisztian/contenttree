@@ -35,10 +35,6 @@ export const ContentPanel = () => {
 const NodeContent = () => {
   const { selectedNodeId, contentForSelectedNode } = useTreePage();
 
-  if (!selectedNodeId) {
-    return <p className={styles["node-not-selected"]}>Select a node to view its content</p>;
-  }
-
   if (contentForSelectedNode.isLoading) {
     return (
       <output className={styles["loading"]} aria-label="Loading content" aria-live="polite">
@@ -48,5 +44,9 @@ const NodeContent = () => {
     );
   }
 
-  return <pre className={styles["content-data"]}>{contentForSelectedNode.data!.data}</pre>;
+  if (!selectedNodeId || !contentForSelectedNode.data) {
+    return <p className={styles["node-not-selected"]}>Select a node to view its content</p>;
+  }
+
+  return <pre className={styles["content-data"]}>{contentForSelectedNode.data.data}</pre>;
 };
