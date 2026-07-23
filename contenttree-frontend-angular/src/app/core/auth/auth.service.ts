@@ -17,7 +17,7 @@ export class AuthService {
   private readonly authApiService = inject(AuthApiService);
   private readonly router = inject(Router);
 
-  readonly _loginData = signal<LoginData | null>(
+  private readonly _loginData = signal<LoginData | null>(
     convertStringToLoginData(localStorage.getItem(LOGIN_DATA_KEY)),
   );
   readonly loginData = this._loginData.asReadonly();
