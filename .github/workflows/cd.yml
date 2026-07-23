@@ -61,6 +61,7 @@ jobs:
         uses: hoverkraft-tech/compose-action@11beaa1c2dae4e8ed7b1665aa074723b6cecb0e4  # v3.0.0
         with:
           compose-file: compose.yaml
+          up-flags: '--wait'
           down-flags: '--volumes'
           cwd: contenttree-deploy
         env:
