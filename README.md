@@ -30,8 +30,9 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 				<li><a href="https://spring.io/projects/spring-boot">Spring Boot</a> (REST API)</li>
 				<li><a href="https://gradle.org/">Gradle</a> (build tool)</li>
 				<li><a href="https://www.postgresql.org/">PostgreSQL</a> (database)</li>
-				<li><i>(Optional)</i> <a href="https://www.dbgate.io/">DbGate</a> (database manager)</li>
 				<li><a href="https://mapstruct.org/">MapStruct</a> (DTO mapping)</li>
+				<li><a href="https://github.com/jwtk/jjwt">JJWT</a> (authentication)</li>
+				<li><i>(Optional)</i> <a href="https://www.dbgate.io/">DbGate</a> (database manager)</li>
 			</ul>
 		</td>
 		<td>
