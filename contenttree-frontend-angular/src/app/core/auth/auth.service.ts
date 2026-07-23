@@ -39,16 +39,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   };
 
-  readonly autoLogOutIfLoginExpired = () => {
-    if (this._loginData() && this._loginData()!.expiration <= new Date()) {
-      this.clearLoginData();
-      this.router.navigate(['/login']);
-      return true;
-    }
-
-    return false;
-  };
-
   private readonly storeLoginData = (loginRespDto: LoginRespDto): void => {
     const loginData = convertLoginRespDtoToLoginData(loginRespDto);
 

@@ -5,7 +5,7 @@ import { LOGIN_DATA, TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { renderAuthContextHooks } from "@/test-utils/test-hooks";
 import { REMOTE_CONFIG_PATH } from "../api/config/route";
-import { TreeApi } from "../tree/_lib/tree-api";
+import { TREE_API_BASE_PATH, TreeApi } from "../tree/_lib/tree-api";
 import { LOGIN_DATA_KEY, type LoginData } from "./AuthContext";
 
 vi.mock("next/navigation", () => ({
@@ -62,77 +62,10 @@ describe("AuthApiContext", () => {
     it("should clear login data from local storage", async () => {
       const hooks = await renderAuthContextHooks();
 
-      await act(() => hooks.current.authContext.logout());
+      act(() => hooks.current.authContext.logout());
 
       expect.soft(hooks.current.authContext.loginData).toBeNull();
       expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
-    });
-  });
-
-  describe("autoLogOutIfLoginExpired", () => {
-    it("should return false and do nothing when login data is not expired", async ({ server }) => {
-      localStorage.setItem(
-        LOGIN_DATA_KEY,
-        JSON.stringify({
-          ...TEST_LOGIN_DATA,
-          expiration: new Date(Date.now() + 60 * 60 * 1000), // 1 hour later
-        }),
-      );
-      server.use(
-        http.get(TREE_API_BASE_URL, () => {
-          return HttpResponse.json([{ id: 1, name: "Root node" }]);
-        }),
-      );
-      const hooks = await renderAuthContextHooks();
-
-      await act(async () =>
-        expect(
-          new TreeApi(hooks.current.backendApiContext.backendApiRef).getFlatNodes(),
-        ).resolves.toBeDefined(),
-      );
-
-      expect.soft(hooks.current.authContext.loginData).not.toBeNull();
-      expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeTruthy();
-    });
-
-    it("should return true, clear data, and navigate to login when expired", async ({ server }) => {
-      localStorage.setItem(
-        LOGIN_DATA_KEY,
-        JSON.stringify({
-          ...TEST_LOGIN_DATA,
-          expiration: new Date(Date.now() - 60 * 60 * 1000), // 1 hour ago
-        }),
-      );
-      server.use(
-        http.get(TREE_API_BASE_URL, () => {
-          return HttpResponse.json([{ id: 1, name: "Root node" }]);
-        }),
-      );
-      const hooks = await renderAuthContextHooks();
-
-      await act(async () =>
-        expect(
-          new TreeApi(hooks.current.backendApiContext.backendApiRef).getFlatNodes(),
-        ).rejects.toThrow(),
-      );
-
-      expect.soft(hooks.current.authContext.loginData).toBeNull();
-      expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
-    });
-
-    it("should handle null login data gracefully", async ({ server }) => {
-      server.use(
-        http.get(TREE_API_BASE_URL, () => {
-          return HttpResponse.json([{ id: 1, name: "Root node" }]);
-        }),
-      );
-      const hooks = await renderAuthContextHooks();
-
-      await act(async () =>
-        expect(
-          new TreeApi(hooks.current.backendApiContext.backendApiRef).getFlatNodes(),
-        ).resolves.toBeDefined(),
-      );
     });
   });
 
@@ -172,6 +105,24 @@ describe("AuthApiContext", () => {
       );
 
       expect(authorizationHeader).toBeNull();
+    });
+
+    it("should auto-logout when login is expired", async ({ server }) => {
+      server.use(
+        http.get(TREE_API_BASE_URL, () => {
+          return new HttpResponse(null, { status: 401 });
+        }),
+      );
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
+      const hooks = await renderAuthContextHooks();
+
+      await act(async () =>
+        expect(
+          hooks.current.backendApiContext.backendApiRef.current.get(TREE_API_BASE_PATH),
+        ).rejects.toThrow(),
+      );
+
+      expect.soft(hooks.current.authContext.isAuthenticated).toBeFalsy();
     });
   });
 });

@@ -12,6 +12,10 @@ describe('TreePageService', () => {
   let errorService: ErrorService;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [TreePageService],
+    });
+
     treePageService = TestBed.inject(TreePageService);
     errorService = TestBed.inject(ErrorService);
   });

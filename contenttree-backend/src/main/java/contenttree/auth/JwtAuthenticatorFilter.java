@@ -8,11 +8,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.Strings;
 import org.jspecify.annotations.NonNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,9 +24,13 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
 
+	private final HandlerExceptionResolver resolver;
+
 	@SuppressWarnings("PMD.CallSuperInConstructor")  // Calling super() has no effect here.
-	public JwtAuthenticatorFilter(JwtService jwtService) {
+	public JwtAuthenticatorFilter(JwtService jwtService,
+	                              @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
 		this.jwtService = jwtService;
+		this.resolver = resolver;
 	}
 
 	@Override
@@ -46,15 +52,20 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
 		}
 
 		final var jwt = authHeader.substring(7);
-		final JwtClaims jwtClaims = jwtService.parseToken(jwt);
 
-		jwtService.validateClaims(jwtClaims);
+		try {
+			final JwtClaims jwtClaims = jwtService.parseToken(jwt);
 
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(jwtClaims.username(), null,
-						List.of(new SimpleGrantedAuthority("ROLE_" + jwtClaims.role().name()))));
+			jwtService.validateClaims(jwtClaims);
 
-		filterChain.doFilter(request, response);
+			SecurityContextHolder.getContext().setAuthentication(
+					new UsernamePasswordAuthenticationToken(jwtClaims.username(), null,
+							List.of(new SimpleGrantedAuthority("ROLE_" + jwtClaims.role().name()))));
+
+			filterChain.doFilter(request, response);
+		} catch (JwtAuthenticationException e) {
+			resolver.resolveException(request, response, null, e);
+		}
 	}
 
 }

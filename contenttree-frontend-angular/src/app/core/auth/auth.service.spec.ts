@@ -66,48 +66,4 @@ describe('AuthService', () => {
       expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
     });
   });
-
-  describe('autoLogOutIfLoginExpired', () => {
-    it('should return false and do nothing when login data is not expired', () => {
-      localStorage.setItem(
-        LOGIN_DATA_KEY,
-        JSON.stringify({
-          ...TEST_LOGIN_DATA,
-          expiration: new Date(Date.now() + 60 * 60 * 1000), // 1 hour later
-        }),
-      );
-      initTestingModule();
-
-      const expired = authService.autoLogOutIfLoginExpired();
-
-      expect.soft(expired).toBeFalsy();
-      expect.soft(authService.loginData()).not.toBeNull();
-      expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeTruthy();
-    });
-
-    it('should return true, clear data, and navigate to login when expired', () => {
-      localStorage.setItem(
-        LOGIN_DATA_KEY,
-        JSON.stringify({
-          ...TEST_LOGIN_DATA,
-          expiration: new Date(Date.now() - 60 * 60 * 1000), // 1 hour ago
-        }),
-      );
-      initTestingModule();
-
-      const expired = authService.autoLogOutIfLoginExpired();
-
-      expect.soft(expired).toBeTruthy();
-      expect.soft(authService.loginData()).toBeNull();
-      expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
-    });
-
-    it('should handle null login data gracefully', () => {
-      initTestingModule();
-
-      const expired = authService.autoLogOutIfLoginExpired();
-
-      expect(expired).toBeFalsy();
-    });
-  });
 });

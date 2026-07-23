@@ -10,7 +10,7 @@ import { TreeData } from './tree-data';
 import { TreeExpansionState } from './tree-expansion-state';
 import { TreeScrollService } from './tree/tree-scroll.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TreePageService {
   private readonly treeApiService = inject(TreeApiService);
   private readonly treeScrollService = inject(TreeScrollService);

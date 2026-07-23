@@ -30,6 +30,7 @@ import { TreeScrollService } from './tree/tree-scroll.service';
     MatProgressSpinnerModule,
     MatIconModule,
   ],
+  providers: [TreePageService],
 })
 export class TreePage {
   private readonly treePageService = inject(TreePageService);

@@ -1,6 +1,6 @@
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { NEVER } from 'rxjs';
+import { tap } from 'rxjs';
 import { TREE_API_BASE_PATH } from '../../api/tree-api.service';
 import { AuthService } from './auth.service';
 
@@ -10,13 +10,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (!authService.isAuthenticated() || !isProtectedPath(req)) {
     return next(req);
   }
-  if (authService.autoLogOutIfLoginExpired()) {
-    return NEVER;
-  }
 
   return next(
     req.clone({
       setHeaders: { Authorization: `Bearer ${authService.loginData()!.token}` },
+    }),
+  ).pipe(
+    tap({
+      error: (response: HttpErrorResponse) => {
+        if (response.status === 401) {
+          authService.logout();
+        }
+      },
     }),
   );
 };

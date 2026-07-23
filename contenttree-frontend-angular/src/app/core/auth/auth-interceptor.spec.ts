@@ -8,7 +8,7 @@ import { it } from '../../../test-utils/msw-test';
 import { TreeApiService } from '../../api/tree-api.service';
 import { REMOTE_CONFIG_PATH } from '../../app-config.service';
 import { authInterceptor } from '../../core/auth/auth-interceptor';
-import { LOGIN_DATA_KEY } from '../../core/auth/auth.service';
+import { AuthService, LOGIN_DATA_KEY } from '../../core/auth/auth.service';
 
 describe('authInterceptor', () => {
   const initTestingModule = () => {
@@ -58,5 +58,21 @@ describe('authInterceptor', () => {
     await lastValueFrom(httpClient.get(REMOTE_CONFIG_PATH));
 
     expect(authorizationHeader).toBeNull();
+  });
+
+  it('should auto-logout when login is expired', async ({ server }) => {
+    server.use(
+      http.get(TREE_API_BASE_URL, () => {
+        return new HttpResponse(null, { status: 401 });
+      }),
+    );
+    localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
+    initTestingModule();
+    const authService = TestBed.inject(AuthService);
+    const httpClient = TestBed.inject(HttpClient);
+
+    await expect(lastValueFrom(httpClient.get(TREE_API_BASE_URL))).rejects.toThrow();
+
+    expect(authService.isAuthenticated()).toBeFalsy();
   });
 });

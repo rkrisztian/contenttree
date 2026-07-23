@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -58,16 +59,27 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       if (!loginDataRef.current || !isProtectedPath(config.url)) {
         return config;
       }
-      if (autoLogOutIfLoginExpired()) {
-        const controller = new AbortController();
-        config.signal = controller.signal;
-        controller.abort();
-        return config;
-      }
 
       config.headers.setAuthorization(`Bearer ${loginDataRef.current.token}`);
       return config;
     });
+
+    backendApiRef.current.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        if (
+          axios.isAxiosError(error) &&
+          error.response?.status === 401 &&
+          isProtectedPath(error.config?.url)
+        ) {
+          logout();
+        }
+
+        return Promise.reject(error);
+      },
+    );
   };
 
   const login = async (username: string, password: string) => {
@@ -79,16 +91,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     clearLoginData();
     router.push("/login");
-  };
-
-  const autoLogOutIfLoginExpired = () => {
-    if (loginData && loginData.expiration <= new Date()) {
-      clearLoginData();
-      router.push("/login");
-      return true;
-    }
-
-    return false;
   };
 
   const storeLoginData = (loginRespDto: LoginRespDto): void => {
