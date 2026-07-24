@@ -1,16 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { LOGIN_DATA } from '../../../test-utils/msw-mocks';
 import { it } from '../../../test-utils/msw-test';
-import { AuthService, LOGIN_DATA_KEY, LoginData } from './auth.service';
+import { LOGIN_DATA } from '../../../test-utils/test-data';
+import { AuthService, LOGIN_DATA_KEY } from './auth.service';
 
 describe('AuthService', () => {
-  const TEST_LOGIN_DATA = {
-    ...LOGIN_DATA,
-    expiration: new Date(LOGIN_DATA.expiration),
-  } as LoginData;
-
   let authService: AuthService;
 
   const initTestingModule = () => {
@@ -27,10 +22,10 @@ describe('AuthService', () => {
 
   describe('login data', () => {
     it('should initialize from localStorage when stored', () => {
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
       initTestingModule();
 
-      expect.soft(authService.loginData()).toEqual(TEST_LOGIN_DATA);
+      expect.soft(authService.loginData()).toEqual(LOGIN_DATA);
       expect.soft(authService.isAuthenticated()).toBeTruthy();
     });
 
@@ -57,7 +52,7 @@ describe('AuthService', () => {
   });
 
   describe('logout', () => {
-    it('should clear login data from local storage', async () => {
+    it('should clear login data from local storage', () => {
       initTestingModule();
 
       authService.logout();

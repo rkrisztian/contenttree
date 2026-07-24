@@ -3,8 +3,6 @@ package contenttree.auth;
 import contenttree.auth.dto.LoginReqDto;
 import contenttree.auth.dto.LoginRespDto;
 import contenttree.auth.services.AuthService;
-import contenttree.auth.services.JwtService;
-import contenttree.auth.services.JwtService.JwtClaims;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -19,22 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
 	private final AuthService authService;
-	private final JwtService jwtService;
 	private final AuthMapper mapper;
 
-	public AuthController(AuthService authService, JwtService jwtService, AuthMapper mapper) {
+	public AuthController(AuthService authService, AuthMapper mapper) {
 		this.authService = authService;
-		this.jwtService = jwtService;
 		this.mapper = mapper;
 	}
 
 	@PostMapping("/login")
 	@Operation(summary = "Logs in and generates a JWT token")
 	public LoginRespDto login(@Valid @RequestBody LoginReqDto request) {
-		final String jwt = authService.authenticate(request.getUsername(), request.getPassword());
-		final JwtClaims jwtClaims = jwtService.parseToken(jwt);
-
-		return mapper.toLoginRespDTO(jwt, jwtClaims);
+		return mapper.toLoginRespDTO(
+				authService.authenticate(request.getUsername(), request.getPassword()));
 	}
 
 }

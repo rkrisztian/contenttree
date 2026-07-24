@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { AuthContext, AuthContextProvider } from "@/app/_lib/AuthContext";
 import { BackendApiContextProvider, useBackendApi } from "@/app/_lib/BackendApiContext";
 import { TreePageContextProvider } from "@/app/tree/_lib/TreePageContext";
-import { LOGIN_DATA } from "./msw-mocks";
+import { LOGIN_DATA } from "./test-data";
 
 export const WithTreePageContextProvider = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
@@ -35,24 +35,19 @@ export const WithBackendApiContextProvider = ({ children }: Readonly<{ children:
   </BackendApiContextProvider>
 );
 
-export const WithMockAuthContext = ({ children }: Readonly<{ children: ReactNode }>) => {
-  return (
-    <AuthContext.Provider
-      value={{
-        loginData: {
-          ...LOGIN_DATA,
-          expiration: new Date(LOGIN_DATA.expiration),
-        },
-        isAuthenticated: true,
-        login: vi.fn(),
-        logout: vi.fn(),
-        isManager: true,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+export const WithMockAuthContext = ({ children }: Readonly<{ children: ReactNode }>) => (
+  <AuthContext.Provider
+    value={{
+      loginData: LOGIN_DATA,
+      isAuthenticated: true,
+      login: vi.fn(),
+      logout: vi.fn(),
+      isManager: true,
+    }}
+  >
+    {children}
+  </AuthContext.Provider>
+);
 
 const WaitForRemoteConfig = ({ children }: Readonly<{ children: ReactNode }>) => {
   const { remoteConfigLoading } = useBackendApi();

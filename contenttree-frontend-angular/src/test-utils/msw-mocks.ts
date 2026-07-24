@@ -29,12 +29,11 @@ const INITIAL_CONTENTS: Record<string, ContentRespDto> = {
 let rawNodes = INITIAL_RAW_NODES;
 let contents = INITIAL_CONTENTS;
 
-export const LOGIN_DATA = {
+export const LOGIN_RESP = {
   token:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiJ9.I9KBzS2NKnwOi5KmcP038Apxx6j_oPOpLyAvzFiBpgQ', // NOSONAR: test-only token
-  username: 'admin',
-  role: 'ADMIN',
-  expiration: new Date(Date.now() + 60 * 60 * 1000).toString(), // 1 hour later
+    'eyJhbGciOiJIUzI1NiJ9.' +
+    'eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4NDg5MzA5MiwiZXhwIjoxNzg0ODk2NjkyfQ.' +
+    'erJgVOVJrKzySG52n62y3dhCpk-ecAfAugWZqmyM0v8',
 } as LoginRespDto;
 
 export const handlers: AnyHandler[] = [
@@ -153,7 +152,7 @@ export const handlers: AnyHandler[] = [
     const { username, password } = (await request.json()) as LoginReqDto;
 
     if (username === 'admin' && password === 'secret') {
-      return HttpResponse.json(LOGIN_DATA);
+      return HttpResponse.json(LOGIN_RESP);
     }
 
     throw new Error(`Unexpected login: ${username}:${password}`);

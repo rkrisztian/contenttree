@@ -143,18 +143,6 @@ export interface components {
         LoginRespDto: {
             /** @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJNQU5BR0VSIn0.abcdefghijklmnop */
             token: string;
-            /** @example admin */
-            username: string;
-            /**
-             * @example ADMIN
-             * @enum {string}
-             */
-            role: "READER" | "MANAGER" | "ADMIN";
-            /**
-             * Format: date-time
-             * @example 1677445697
-             */
-            expiration: string;
         };
         TreeNodeRespDTO: {
             /**

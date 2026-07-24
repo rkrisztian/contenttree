@@ -1,12 +1,13 @@
 import { act } from "@testing-library/react";
 import { HttpResponse, http } from "msw";
 import { afterEach, describe, expect, vi } from "vitest";
-import { LOGIN_DATA, TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
+import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
+import { LOGIN_DATA } from "@/test-utils/test-data";
 import { renderAuthContextHooks } from "@/test-utils/test-hooks";
 import { REMOTE_CONFIG_PATH } from "../api/config/route";
 import { TREE_API_BASE_PATH, TreeApi } from "../tree/_lib/tree-api";
-import { LOGIN_DATA_KEY, type LoginData } from "./AuthContext";
+import { LOGIN_DATA_KEY } from "./AuthContext";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -15,11 +16,6 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("AuthApiContext", () => {
-  const TEST_LOGIN_DATA = {
-    ...LOGIN_DATA,
-    expiration: new Date(LOGIN_DATA.expiration),
-  } as LoginData;
-
   afterEach(async () => {
     localStorage.removeItem(LOGIN_DATA_KEY);
     vi.clearAllMocks();
@@ -27,10 +23,10 @@ describe("AuthApiContext", () => {
 
   describe("login data", () => {
     it("should initialize from localStorage when stored", async () => {
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
       const hooks = await renderAuthContextHooks();
 
-      expect.soft(hooks.current.authContext.loginData).toEqual(TEST_LOGIN_DATA);
+      expect.soft(hooks.current.authContext.loginData).toEqual(LOGIN_DATA);
       expect.soft(hooks.current.authContext.isAuthenticated).toBeTruthy();
     });
 
@@ -78,7 +74,7 @@ describe("AuthApiContext", () => {
           return HttpResponse.json([{ id: 1, name: "Root node" }]);
         }),
       );
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
       const hooks = await renderAuthContextHooks();
 
       await act(async () =>

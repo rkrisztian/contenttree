@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { decodeJwt } from "jose";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -25,11 +26,12 @@ export type AuthContextType = {
 
 export const LOGIN_DATA_KEY = "loginData";
 
+export type Role = "READER" | "MANAGER" | "ADMIN";
+
 export interface LoginData {
   token: string;
   username: string;
-  role: LoginRespDto["role"];
-  expiration: Date;
+  role: Role;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -131,19 +133,15 @@ const isProtectedPath = (pathname: string | undefined) => {
   return pathname.startsWith(TREE_API_BASE_PATH);
 };
 
-const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData => ({
-  token: loginRespDto.token,
-  username: loginRespDto.username,
-  role: loginRespDto.role,
-  expiration: new Date(loginRespDto.expiration),
-});
+const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData => {
+  const jwtClaims = decodeJwt(loginRespDto.token);
 
-const convertStringToLoginData = (loginDataStr: string | null): LoginData | null => {
-  if (!loginDataStr) {
-    return null;
-  }
-
-  const loginData = JSON.parse(loginDataStr);
-
-  return { ...loginData, expiration: new Date(loginData.expiration) };
+  return {
+    token: loginRespDto.token,
+    username: jwtClaims.sub!,
+    role: jwtClaims["role"] as Role,
+  };
 };
+
+const convertStringToLoginData = (loginDataStr: string | null): LoginData | null =>
+  loginDataStr ? JSON.parse(loginDataStr) : null;

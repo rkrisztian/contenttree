@@ -1,15 +1,17 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { decodeJwt } from 'jose';
 import { tap } from 'rxjs';
 import { AuthApiService, LoginRespDto } from '../../api/auth-api.service';
 
 export const LOGIN_DATA_KEY = 'loginData';
 
+export type Role = 'READER' | 'MANAGER' | 'ADMIN';
+
 export interface LoginData {
   token: string;
   username: string;
-  role: LoginRespDto['role'];
-  expiration: Date;
+  role: Role;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -52,19 +54,15 @@ export class AuthService {
   };
 }
 
-const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData => ({
-  token: loginRespDto.token,
-  username: loginRespDto.username,
-  role: loginRespDto.role,
-  expiration: new Date(loginRespDto.expiration),
-});
+const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData => {
+  const jwtClaims = decodeJwt(loginRespDto.token);
 
-const convertStringToLoginData = (loginDataStr: string | null): LoginData | null => {
-  if (!loginDataStr) {
-    return null;
-  }
-
-  const loginData = JSON.parse(loginDataStr);
-
-  return { ...loginData, expiration: new Date(loginData.expiration) };
+  return {
+    token: loginRespDto.token,
+    username: jwtClaims.sub!,
+    role: jwtClaims['role'] as Role,
+  };
 };
+
+const convertStringToLoginData = (loginDataStr: string | null): LoginData | null =>
+  loginDataStr ? JSON.parse(loginDataStr) : null;

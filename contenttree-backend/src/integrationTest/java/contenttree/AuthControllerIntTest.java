@@ -17,11 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
-import java.util.List;
-
 import static contenttree.auth.model.Role.ADMIN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -70,12 +67,8 @@ class AuthControllerIntTest {
 						jsonPath("$.token").isNotEmpty())
 				.andReturn().getResponse().getContentAsString();
 
-		final var loginRespDto = mapper.readValue(json, LoginRespDto.class);
-
-		assertAll(
-				() -> assertThat(loginRespDto.getToken()).isNotNull(),
-				() -> assertThat(loginRespDto).extracting(LoginRespDto::getUsername, LoginRespDto::getRole)
-						.isEqualTo(List.of("testUserForLogin", ADMIN)));
+		var loginRespDto = mapper.readValue(json, LoginRespDto.class);
+		assertThat(loginRespDto.getToken()).isNotNull();
 
 		mockMvc.perform(get("/api/tree/content/1")
 						.header(AUTHORIZATION, "Bearer " + loginRespDto.getToken()))
