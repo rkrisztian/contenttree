@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { afterNextRender, computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import {
   CreateTreeNodeReqDTO,
@@ -43,6 +43,14 @@ export class TreePageService {
   readonly foundNodes = computed(() =>
     this._foundNodes.hasValue() ? new Set(this._foundNodes.value()) : undefined,
   );
+
+  constructor() {
+    afterNextRender(() => {
+      if (this._rawNodes.error()) {
+        this._rawNodes.reload();
+      }
+    });
+  }
 
   readonly toggleSelect = (newSelectedNodeId: number | null) => {
     this.selectedNodeId.update((nodeId) =>
