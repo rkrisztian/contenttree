@@ -3,15 +3,7 @@
 import axios from "axios";
 import { decodeJwt } from "jose";
 import { useRouter } from "next/navigation";
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { TREE_API_BASE_PATH } from "../tree/_lib/tree-api";
 import { AuthApi, type LoginRespDto } from "./auth-api";
 import { useBackendApi } from "./BackendApiContext";
@@ -39,7 +31,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const { backendApiRef } = useBackendApi();
   const authApi = useRef(new AuthApi(backendApiRef));
-
   const router = useRouter();
 
   const [loginData, setLoginData] = useState<LoginData | null>(() =>
@@ -47,14 +38,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       ? convertStringToLoginData(localStorage.getItem(LOGIN_DATA_KEY))
       : null,
   );
+  const loginDataRef = useRef(loginData);
   const isAuthenticated = !!loginData;
-  const isManager = useMemo(
-    () => !!loginData && ["ADMIN", "MANAGER"].includes(loginData.role),
-    [loginData],
-  );
-  // Needed to track loginData updates inside the context
-  // TODO: Find a cleaner solution.
-  const loginDataRef = useRef<AuthContextType["loginData"]>(loginData);
+  const isManager = isAuthenticated && ["ADMIN", "MANAGER"].includes(loginData.role);
 
   const initAuth = async () => {
     backendApiRef.current.interceptors.request.use((config) => {
@@ -84,36 +70,33 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const login = async (username: string, password: string) => {
-    const loginRespDto = await authApi.current.login({ username, password });
-    storeLoginData(loginRespDto);
-    router.push("/tree");
-  };
-
-  const logout = () => {
-    clearLoginData();
-    router.push("/login");
-  };
-
-  const storeLoginData = (loginRespDto: LoginRespDto): void => {
-    const loginData = convertLoginRespDtoToLoginData(loginRespDto);
-    localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(loginData));
-    loginDataRef.current = loginData;
-    setLoginData(loginData);
-  };
-
-  const clearLoginData = (): void => {
-    localStorage.removeItem(LOGIN_DATA_KEY);
-    loginDataRef.current = null;
-    setLoginData(null);
-  };
-
   // biome-ignore lint/correctness/useExhaustiveDependencies(initAuth): only need to run once
   useEffect(() => {
     initAuth();
 
     return () => {};
   }, []);
+
+  const login = async (username: string, password: string) => {
+    const loginRespDto = await authApi.current.login({ username, password });
+    setLoginData(convertLoginRespDtoToLoginData(loginRespDto));
+    router.push("/tree");
+  };
+
+  const logout = () => {
+    setLoginData(null);
+    router.push("/login");
+  };
+
+  useEffect(() => {
+    loginDataRef.current = loginData;
+
+    if (loginData) {
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(loginData));
+    } else {
+      localStorage.removeItem(LOGIN_DATA_KEY);
+    }
+  }, [loginData]);
 
   return (
     <AuthContext.Provider value={{ loginData, isAuthenticated, login, logout, isManager }}>

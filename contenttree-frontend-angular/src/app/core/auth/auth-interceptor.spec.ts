@@ -1,4 +1,5 @@
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { http, HttpResponse } from 'msw';
@@ -73,7 +74,9 @@ describe('authInterceptor', () => {
     const httpClient = TestBed.inject(HttpClient);
 
     await expect(lastValueFrom(httpClient.get(TREE_API_BASE_URL))).rejects.toThrow();
+    await TestBed.inject(ApplicationRef).whenStable();
 
-    expect(authService.isAuthenticated()).toBeFalsy();
+    expect.soft(authService.isAuthenticated()).toBeFalsy();
+    expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
   });
 });

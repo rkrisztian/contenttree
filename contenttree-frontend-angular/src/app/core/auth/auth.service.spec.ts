@@ -1,3 +1,4 @@
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
@@ -42,6 +43,7 @@ describe('AuthService', () => {
       initTestingModule();
 
       await lastValueFrom(authService.login('admin', 'secret'));
+      await TestBed.inject(ApplicationRef).whenStable();
 
       expect.soft(authService.loginData()).toMatchObject({ username: 'admin', role: 'ADMIN' });
       expect.soft(authService.loginData()?.token).toBeDefined();
@@ -52,10 +54,11 @@ describe('AuthService', () => {
   });
 
   describe('logout', () => {
-    it('should clear login data from local storage', () => {
+    it('should clear login data from local storage', async () => {
       initTestingModule();
 
       authService.logout();
+      await TestBed.inject(ApplicationRef).whenStable();
 
       expect.soft(authService.loginData()).toBeNull();
       expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
