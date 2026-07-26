@@ -93,7 +93,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker Image
-        uses: docker/build-push-action@v7.2.0  # Immutable
+        uses: docker/build-push-action@v7.3.0  # Immutable
         with:
           context: contenttree-frontend-angular
           tags: "ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot"
