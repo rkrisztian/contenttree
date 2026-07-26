@@ -16,6 +16,6 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.3",
     "openapi-typescript": "^7.13.0",
-    "prettier": "^3.8.4"
+    "prettier": "^3.9.6"
   }
 }
