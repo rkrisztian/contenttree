@@ -1,4 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { type AuthContextType, useAuthContext } from "@/app/_lib/AuthContext";
 import { type BackendApiContextType, useBackendApi } from "@/app/_lib/BackendApiContext";
 import { type TreePageContextType, useTreePage } from "@/app/tree/_lib/TreePageContext";
@@ -8,25 +9,32 @@ export type TreePageContextHooks = {
   current: { backendApiContext: BackendApiContextType; treePageContext: TreePageContextType };
 };
 
-export const renderTreePageContextHooks = async (): Promise<TreePageContextHooks> => {
-  const hooks = (
+export const renderTreePageContextHooks = async (): Promise<TreePageContextHooks> =>
+  (
     await act(() =>
       renderHook(() => ({ backendApiContext: useBackendApi(), treePageContext: useTreePage() }), {
-        wrapper: WithTreePageContextProvider,
+        wrapper: ({ children }: Readonly<{ children: ReactNode }>) => {
+          return (
+            <WithTreePageContextProvider>
+              <TestTreePage>{children}</TestTreePage>
+            </WithTreePageContextProvider>
+          );
+        },
       }),
     )
   ).result;
 
-  // // TODO: `contentForSelectedNode` is stuck in loading state on initial load via `useEffect`
-  act(() => hooks.current.treePageContext.contentForSelectedNode.isLoading);
-  act(() => {
-    if (hooks.current.treePageContext.treeData.rootNodeId) {
-      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.treeData.rootNodeId);
-      hooks.current.treePageContext.toggleSelect(hooks.current.treePageContext.treeData.rootNodeId);
-    }
-  });
+const TestTreePage = ({ children }: Readonly<{ children: ReactNode }>) => {
+  const { contentForSelectedNode } = useTreePage();
 
-  return hooks;
+  return (
+    <>
+      {children}
+
+      {/* Trigger effect for setting default selected node */}
+      {contentForSelectedNode.data && ""}
+    </>
+  );
 };
 
 export type AuthContextHooks = {

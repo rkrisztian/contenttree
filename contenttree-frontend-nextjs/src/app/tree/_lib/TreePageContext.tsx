@@ -49,7 +49,9 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
 
   const rawNodes = useSWR("flatNodes", treeApiRef.current.getFlatNodes);
   const treeData = useMemo(() => new TreeData(rawNodes.data), [rawNodes.data]);
-  const [hasRawNodesInitialized, setHasRawNodesInitialized] = useState(false);
+  const hasRawNodesInitialized = useRef(false);
+
+  const [expansionState, setExpansionState] = useState(() => new TreeExpansionState());
 
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const contentForSelectedNode = useSWR(
@@ -57,15 +59,13 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
     () => treeApiRef.current.getContentForSelectedNode(selectedNodeId!),
   );
 
-  const [expansionState, setExpansionState] = useState(() => new TreeExpansionState());
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: treeData is derived
   useEffect(() => {
-    if (!hasRawNodesInitialized && rawNodes.data) {
+    if (!hasRawNodesInitialized.current && rawNodes.data) {
       setSelectedNodeId(treeData.rootNodeId ?? null);
-      setHasRawNodesInitialized(true);
+      hasRawNodesInitialized.current = true;
     }
-  }, [hasRawNodesInitialized, rawNodes.data]);
+  }, [rawNodes.data]);
 
   const [searchText, setSearchText] = useState("");
   const _foundNodes = useSWR(searchText ? ["foundNodes", searchText] : null, () =>
