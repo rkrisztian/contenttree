@@ -1,2 +1,6 @@
 .sonarlint/**
 src/app/api/schema.d.ts
+.editorconfig
+.gitignore
+.node_version
+.prettierignore
