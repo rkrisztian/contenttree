@@ -71,6 +71,10 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
+    groups:
+      docker:
+        patterns:
+          - "docker/*"
 
 registries:
   docker-hardened-images:
