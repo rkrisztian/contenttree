@@ -20,6 +20,7 @@ jobs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend-angular: ${{ steps.filter.outputs.frontend-angular }}
       frontend-nextjs: ${{ steps.filter.outputs.frontend-nextjs }}
+      deploy: ${{ steps.filter.outputs.deploy }}
     steps:
       - name: (Harden Runner)
         uses: step-security/harden-runner@v2.19.4  # Immutable
