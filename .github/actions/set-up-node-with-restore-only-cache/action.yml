@@ -1,0 +1,33 @@
+name: 'set-up-node-with-restore-only-cache'
+description: 'Sets up Node.js and restores the npm cache without saving it.'
+# For reducing cache poisoning risk. Based on: Section "Restore-only cache" at
+# https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
+
+inputs:
+  node-version-file:
+    description: 'The path to the file containing the Node.js version (e.g., `.node-version`)'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
+      with:
+        node-version-file: ${{ inputs.node-version-file }}
+        package-manager-cache: false
+
+    - name: Normalize runner architecture
+      shell: bash
+      run: echo "ARCH=$(echo '${{ runner.arch }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+    - name: Output of cache path
+      id: cachepath
+      shell: bash
+      run: echo "path=$(npm config get cache)" >> $GITHUB_OUTPUT
+
+    - name: Restore Node cache
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+      with:
+        path: ${{ steps.cachepath.outputs.path }}
+        key: node-cache-${{ runner.os }}-${{ env.ARCH }}-npm-${{ hashFiles('**/package-lock.json') }}
