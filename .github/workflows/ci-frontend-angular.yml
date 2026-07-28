@@ -76,7 +76,7 @@ jobs:
 
       - name: SonarQube Scan
         if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
-        uses: SonarSource/sonarqube-scan-action@v8.2.0  # Immutable
+        uses: SonarSource/sonarqube-scan-action@v8.2.1  # Immutable
         with:
           projectBaseDir: contenttree-frontend-angular
           args: >
