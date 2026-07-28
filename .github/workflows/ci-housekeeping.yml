@@ -22,7 +22,7 @@ jobs:
         uses: snok/container-retention-policy@d3bdcf5ce9b05f685154e4a16c39233b245e3d53  # v3.1.0
         with:
           account: user
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           image-names: "contenttree-frontend-angular contenttree-backend"
           image-tags: "*-snapshot"
           cut-off: 1month
@@ -32,7 +32,7 @@ jobs:
         uses: snok/container-retention-policy@d3bdcf5ce9b05f685154e4a16c39233b245e3d53  # v3.1.0
         with:
           account: user
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           image-names: "contenttree-frontend-angular contenttree-backend"
           image-tags: "*-rc"
           cut-off: 1month

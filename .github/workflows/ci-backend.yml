@@ -70,7 +70,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       - name: Build and Push Docker Image
         run: ./gradlew bootBuildImage -PpublishImage=${{ github.event_name != 'pull_request' }}

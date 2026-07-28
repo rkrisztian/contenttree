@@ -114,7 +114,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       - name: Push Release Candidate Images
         run: |
@@ -161,7 +161,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       - name: Push Release Images
         run: |
@@ -185,7 +185,7 @@ jobs:
       - name: Create Git Tag
         uses: pkgdeps/git-tag-action@a5a161774bace8b4e1969dd850c67a7421f1b710  # v3.0.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           version: ${{ env.PROJECT_VERSION }}
