@@ -1,13 +1,25 @@
 // @ts-check
-const eslint = require('@eslint/js');
-const { defineConfig } = require('eslint/config');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
+import eslint from '@eslint/js';
+import angular from 'angular-eslint';
+import { defineConfig, includeIgnoreFile } from 'eslint/config';
+import { fileURLToPath } from 'node:url';
+import tseslint from 'typescript-eslint';
 
-module.exports = defineConfig([
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
+
+export default defineConfig([
+  includeIgnoreFile(gitignorePath, { gitignoreResolution: true }),
+  {
+    ignores: [
+      'src/app/api/schema.d.ts',
+      '.prettierrc.js',
+      'eslint.config.js',
+      'vitest.config.ts',
+      'vitest.ct.config.ts',
+    ],
+  },
   {
     files: ['**/*.ts'],
-    ignores: ['src/app/api/schema.d.ts'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommended,

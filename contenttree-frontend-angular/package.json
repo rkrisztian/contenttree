@@ -3,6 +3,7 @@
   "description": "Content Tree Application Frontend",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
