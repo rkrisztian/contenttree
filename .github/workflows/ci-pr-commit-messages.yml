@@ -1,0 +1,99 @@
+name: PR - Commit Messages
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+
+jobs:
+  commit-messages:
+    name: Block fixup!/squash! commits
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Check commit messages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          repo="${{ github.repository }}"
+          pr="${{ github.event.pull_request.number }}"
+          base_ref="${{ github.event.pull_request.base.ref }}"
+
+          echo "::group::Commit message validation"
+          echo "Checking commit messages for PR..."
+          echo
+          echo "Repository : ${repo}"
+          echo "PR         : #${pr}"
+          echo "Base ref   : ${base_ref}"
+          echo
+
+          bad_commits="$(
+            gh api \
+              "repos/${repo}/pulls/${pr}/commits" \
+              --paginate \
+              --jq '
+                .[]
+                | {
+                    sha: .sha[0:7],
+                    subject: (.commit.message | split("\n")[0])
+                  }
+                | select(.subject | startswith("fixup!") or startswith("squash!"))
+                | "\(.sha)\t\(.subject)"
+              '
+          )"
+
+          if [[ -n "${bad_commits}" ]]; then
+            echo "Found the following fixup!/squash! commits:"
+            echo
+
+            while IFS=$'\t' read -r sha subject; do
+              printf '  %s  %s\n' "$sha" "$subject"
+            done <<< "${bad_commits}"
+          fi
+
+          echo "::endgroup::"
+
+          if [[ -z "${bad_commits}" ]]; then
+            echo "✅ No fixup!/squash! commits found."
+            exit 0
+          fi
+
+          echo "::error::Found fixup!/squash! commits. See the workflow summary for instructions."
+
+          {
+            echo "## ❌ Autosquash commits found"
+            echo
+            echo "This pull request contains one or more commits whose subject starts with **\`fixup!\`** or **\`squash!\`**."
+            echo "These commits are intended to be temporary and should be autosquashed before merging."
+            echo
+            echo "### Blocked commits"
+            echo
+            echo "| Commit | Subject |"
+            echo "| ------ | ------- |"
+
+            while IFS=$'\t' read -r sha subject; do
+              printf '| `%s` | `%s` |\n' "$sha" "$subject"
+            done <<< "${bad_commits}"
+
+            echo
+            echo "### How to fix"
+            echo
+            echo '```bash'
+            echo "git fetch origin"
+            echo "git rebase -i --autosquash origin/${base_ref}"
+            echo "git push --force-with-lease"
+            echo '```'
+            echo
+            echo "After pushing the rewritten branch, this check will run again automatically."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          exit 1
