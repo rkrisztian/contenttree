@@ -1,13 +1,39 @@
-import { act } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { HttpResponse, http } from "msw";
+import type { ReactNode } from "react";
 import { afterEach, describe, expect, vi } from "vitest";
+import { REMOTE_CONFIG_PATH } from "@/app/api/config/route";
+import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/tree-api";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { LOGIN_DATA } from "@/test-utils/test-data";
-import { renderAuthContextHooks } from "@/test-utils/test-hooks";
-import { REMOTE_CONFIG_PATH } from "../api/config/route";
-import { TREE_API_BASE_PATH, TreeApi } from "../tree/_lib/tree-api";
-import { LOGIN_DATA_KEY } from "./AuthContext";
+import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
+import {
+  AuthContextProvider,
+  type AuthContextType,
+  LOGIN_DATA_KEY,
+  useAuthContext,
+} from "./AuthContext";
+import { type BackendApiContextType, useBackendApi } from "./BackendApiContext";
+
+type AuthContextHooks = {
+  current: { backendApiContext: BackendApiContextType; authContext: AuthContextType };
+};
+
+const renderAuthContextHooks = async (): Promise<AuthContextHooks> =>
+  (
+    await act(() =>
+      renderHook(() => ({ backendApiContext: useBackendApi(), authContext: useAuthContext() }), {
+        wrapper: WithAuthContextProvider,
+      }),
+    )
+  ).result;
+
+const WithAuthContextProvider = ({ children }: Readonly<{ children: ReactNode }>) => (
+  <WithBackendApiContextProvider>
+    <AuthContextProvider>{children}</AuthContextProvider>
+  </WithBackendApiContextProvider>
+);
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
