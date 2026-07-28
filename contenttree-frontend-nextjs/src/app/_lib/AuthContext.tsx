@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const isAuthenticated = !!loginData;
   const isManager = isAuthenticated && ["ADMIN", "MANAGER"].includes(loginData.role);
 
-  const initAuth = async () => {
+  const initAuth = () => {
     backendApiRef.current.interceptors.request.use((config) => {
       if (!loginDataRef.current || !isProtectedPath(config.url)) {
         return config;

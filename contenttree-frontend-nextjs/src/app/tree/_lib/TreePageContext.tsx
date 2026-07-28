@@ -11,8 +11,8 @@ import {
   useRef,
   useState,
 } from "react";
-import useSWR from "swr";
 import type { SWRResponse } from "swr/_internal";
+import { useAbortContext, useSwrWithAbort } from "@/app/_lib/AbortContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import {
   type ContentRespDto,
@@ -46,17 +46,20 @@ export const TreePageContext = createContext<TreePageContextType | undefined>(un
 export const TreePageContextProvider = ({ children }: { children: ReactNode }) => {
   const { backendApiRef, addAndShowError } = useBackendApi();
   const treeApiRef = useRef(new TreeApi(backendApiRef));
+  const { withAbort } = useAbortContext();
 
-  const rawNodes = useSWR("flatNodes", treeApiRef.current.getFlatNodes);
+  const rawNodes = useSwrWithAbort("flatNodes", (signal) =>
+    treeApiRef.current.getFlatNodes(signal),
+  );
   const treeData = useMemo(() => new TreeData(rawNodes.data), [rawNodes.data]);
   const hasRawNodesInitialized = useRef(false);
 
   const [expansionState, setExpansionState] = useState(() => new TreeExpansionState());
 
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
-  const contentForSelectedNode = useSWR(
-    selectedNodeId ? `contentForSelectedNode/${selectedNodeId}` : null,
-    () => treeApiRef.current.getContentForSelectedNode(selectedNodeId!),
+  const contentForSelectedNode = useSwrWithAbort(
+    selectedNodeId ? ["contentForSelectedNode", selectedNodeId] : null,
+    (signal) => treeApiRef.current.getContentForSelectedNode(selectedNodeId!, signal),
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: treeData is derived
@@ -68,8 +71,8 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   }, [rawNodes.data]);
 
   const [searchText, setSearchText] = useState("");
-  const _foundNodes = useSWR(searchText ? ["foundNodes", searchText] : null, () =>
-    treeApiRef.current.getFoundNodes(searchText),
+  const _foundNodes = useSwrWithAbort(searchText ? ["foundNodes", searchText] : null, (signal) =>
+    treeApiRef.current.getFoundNodes(searchText, signal),
   );
   const foundNodes = useMemo(
     () => (_foundNodes.data ? new Set(_foundNodes.data) : undefined),
@@ -81,18 +84,22 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   };
 
   const createNode = async (node: CreateTreeNodeReqDTO) => {
-    await treeApiRef.current.createNode(node);
+    await withAbort("createNode", (signal) => treeApiRef.current.createNode(node, signal));
     await rawNodes.mutate();
   };
 
   const updateSelectedNode = async (data: Omit<UpdateTreeNodeReqDTO, "id">) => {
-    await treeApiRef.current.updateNode({ id: selectedNodeId!, ...data });
+    await withAbort("updateNode", (signal) =>
+      treeApiRef.current.updateNode({ id: selectedNodeId!, ...data }, signal),
+    );
     await rawNodes.mutate();
     await contentForSelectedNode.mutate();
   };
 
   const deleteSelectedNode = async () => {
-    await treeApiRef.current.deleteNode(selectedNodeId!);
+    await withAbort("deleteNode", (signal) =>
+      treeApiRef.current.deleteNode(selectedNodeId!, signal),
+    );
     setSelectedNodeId(treeData.getNodebyId(selectedNodeId!).parentId);
     setExpansionState((prev) => {
       const next = prev.clone();
@@ -112,7 +119,9 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
       return;
     }
 
-    await treeApiRef.current.moveNode(nodeId, newParentId);
+    await withAbort("moveNode", (signal) =>
+      treeApiRef.current.moveNode(nodeId, newParentId, signal),
+    );
     await rawNodes.mutate();
   };
 

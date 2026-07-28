@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SWRConfig } from "swr";
 import { vi } from "vitest";
+import { AbortContextProvider } from "@/app/_lib/AbortContext";
 import { AuthContext, AuthContextProvider } from "@/app/_lib/AuthContext";
 import { BackendApiContextProvider, useBackendApi } from "@/app/_lib/BackendApiContext";
 import { TreePageContextProvider } from "@/app/tree/_lib/TreePageContext";
@@ -10,7 +11,9 @@ export const WithTreePageContextProvider = ({ children }: Readonly<{ children: R
   return (
     <WithBackendApiContextProvider>
       <WithMockAuthContext>
-        <TreePageContextProvider>{children}</TreePageContextProvider>
+        <AbortContextProvider>
+          <TreePageContextProvider>{children}</TreePageContextProvider>
+        </AbortContextProvider>
       </WithMockAuthContext>
     </WithBackendApiContextProvider>
   );
