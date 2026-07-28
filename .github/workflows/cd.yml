@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.19.4  # Immutable
+        uses: step-security/harden-runner@v2.20.0  # Immutable
         with:
           egress-policy: audit
           disable-telemetry: true
@@ -142,7 +142,7 @@ jobs:
     environment: release
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.19.4  # Immutable
+        uses: step-security/harden-runner@v2.20.0  # Immutable
         with:
           egress-policy: audit
           disable-telemetry: true
