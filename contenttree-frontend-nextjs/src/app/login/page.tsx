@@ -9,8 +9,8 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import TextField from "@mui/material/TextField";
 import { Controller, useForm } from "react-hook-form";
-import { useAuthContext } from "../_lib/AuthContext";
-import { useBackendApi } from "../_lib/BackendApiContext";
+import { useAuthContext } from "@/app/_lib/AuthContext";
+import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import styles from "./page.module.scss";
 
 interface LoginFormData {

@@ -36,7 +36,7 @@ jobs:
         run: npm run build
 
       - name: Run Lint
-        run: npm run lint
+        run: npm run lint:ci
 
       - name: Analyze Imports for Cyclic Dependencies
         run: npm run lint:dpdm

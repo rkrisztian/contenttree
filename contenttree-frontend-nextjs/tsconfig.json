@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "esnext"],
+    "types": ["node"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
     "noImplicitOverride": true,
@@ -21,7 +18,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowUnusedLabels": false,
-    "noUncheckedSideEffectImports": true,
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": true,
     "sourceMap": true,
@@ -32,7 +28,13 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // Next.js incorrectly adds the following settings, which are now default in TypeScript 6.
+    // See https://github.com/vercel/next.js/issues/45617#issuecomment-5123054774
+    "strict": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",

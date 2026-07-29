@@ -1,10 +1,10 @@
 import { act } from "@testing-library/react";
 import { HttpResponse, http } from "msw";
 import { describe, expect, vi } from "vitest";
+import type { ContentRespDto } from "@/app/_lib/api/types";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { renderTreePageContextHooks } from "@/test-utils/test-hooks";
-import type { ContentRespDto } from "../tree/_lib/tree-api";
 
 describe("AbortContext", () => {
   describe("useSwrWithAbort", () => {

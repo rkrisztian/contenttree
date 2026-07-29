@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
+import { AuthContext } from "@/app/_lib/AuthContext";
 import { it } from "@/test-utils/msw-ct";
 import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
-import { AuthContext } from "../_lib/AuthContext";
 import LoginPage from "./page";
 
 vi.mock("next/navigation", () => ({

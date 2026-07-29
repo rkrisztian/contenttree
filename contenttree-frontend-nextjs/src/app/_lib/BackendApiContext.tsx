@@ -57,7 +57,7 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
         setLoadingCounter((counter) => counter - 1);
 
         if (axios.isCancel(error)) {
-          return;
+          return undefined;
         }
 
         if (error.response?.data.error && error.response?.data.message) {
