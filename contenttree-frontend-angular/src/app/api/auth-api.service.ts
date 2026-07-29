@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject, Service } from '@angular/core';
 import { AppConfigService } from '../app-config.service';
 import type { LoginReqDto, LoginRespDto } from './types';
 
 export const AUTH_API_BASE_PATH = '/api/auth';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthApiService {
   private readonly http = inject(HttpClient);
   private readonly config = inject(AppConfigService);

@@ -1,6 +1,5 @@
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -21,7 +20,6 @@ import { TreeScrollService } from './tree-scroll.service';
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './tree.html',
   styleUrl: './tree.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tree {
   private readonly treePageService = inject(TreePageService);

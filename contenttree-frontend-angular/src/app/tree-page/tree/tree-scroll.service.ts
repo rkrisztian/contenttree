@@ -1,8 +1,6 @@
-import { ElementRef, Injectable, signal } from '@angular/core';
+import { ElementRef, Service, signal } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service({ autoProvided: false })
 export class TreeScrollService {
   readonly containerElementRef = signal<ElementRef<HTMLElement> | null>(null);
 

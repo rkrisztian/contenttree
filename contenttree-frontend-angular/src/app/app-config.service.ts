@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { computed, Injectable } from '@angular/core';
+import { computed, Service } from '@angular/core';
 import { environment } from '../environments/environment';
 
 export interface RemoteConfig {
@@ -8,9 +8,7 @@ export interface RemoteConfig {
 
 export const REMOTE_CONFIG_PATH = 'config.json';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AppConfigService {
   readonly remoteConfig = httpResource<RemoteConfig>(() =>
     environment.useRemoteConfig ? REMOTE_CONFIG_PATH : undefined,

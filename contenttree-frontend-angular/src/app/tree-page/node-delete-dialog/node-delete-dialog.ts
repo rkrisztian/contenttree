@@ -1,5 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,7 +15,6 @@ export interface NodeDeleteDialogData {
   imports: [MatButtonModule, MatIconModule, MatCardModule, MatDividerModule, MatIconModule],
   templateUrl: './node-delete-dialog.html',
   styleUrl: './node-delete-dialog.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeDeleteDialog {
   private readonly data = inject(DIALOG_DATA) as NodeDeleteDialogData;

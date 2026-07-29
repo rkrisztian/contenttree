@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,6 @@ import { ErrorData, ErrorService } from '../error.service';
   imports: [MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './error-card.html',
   styleUrl: './error-card.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorCard {
   private readonly errorService = inject(ErrorService);

@@ -1,5 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { debounce, form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -34,7 +34,6 @@ export interface NodeEditorFormData {
   ],
   templateUrl: './node-editor-dialog.html',
   styleUrl: './node-editor-dialog.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeEditorDialog {
   protected readonly data = inject(DIALOG_DATA) as NodeEditorDialogData;

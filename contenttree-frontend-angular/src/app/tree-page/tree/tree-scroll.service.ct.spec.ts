@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
@@ -25,7 +25,6 @@ import { TreeScrollService } from './tree-scroll.service';
       overflow: auto;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestScrollableContainer {
   readonly scrollableContainer = viewChild.required<ElementRef<HTMLElement>>('scrollableContainer');

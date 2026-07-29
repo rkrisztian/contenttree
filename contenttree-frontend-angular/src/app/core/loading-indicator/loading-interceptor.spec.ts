@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { http, HttpResponse } from 'msw';
@@ -16,7 +16,7 @@ describe('loadingInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(withInterceptors([loadingInterceptor])),
+        provideHttpClient(withXhr(), withInterceptors([loadingInterceptor])),
         TreeApiService,
         LoadingService,
       ],

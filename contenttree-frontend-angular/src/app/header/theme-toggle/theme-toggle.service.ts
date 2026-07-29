@@ -1,8 +1,6 @@
-import { effect, inject, Injectable, Renderer2, RendererFactory2, signal } from '@angular/core';
+import { effect, inject, Renderer2, RendererFactory2, Service, signal } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ThemeToggleService {
   static readonly STORAGE_KEY = 'docs-theme-storage-current-name';
   private static readonly DEFAULT_MODE = 'light';

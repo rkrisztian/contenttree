@@ -32,7 +32,9 @@ practices.
 - Keep components small and focused on a single responsibility.
 - Use `input()` and `output()` functions instead of decorators.
 - Use `computed()` for derived state.
-- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator.
+- Prefer standalone components.
+- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator, as it is
+  the default now.
 - Prefer inline templates for small components.
 - Prefer Reactive forms instead of Template-driven ones.
 - Do NOT use `ngClass`, use `class` bindings instead.
@@ -57,5 +59,6 @@ practices.
 ## Services
 
 - Design services around a single responsibility.
-- Use the `providedIn: 'root'` option for singleton services.
+- Use the `@Service()` annotation for singleton services, `@Service({ autoProvided: false })` for
+  component-scoped services.
 - Use the `inject()` function instead of constructor injection.

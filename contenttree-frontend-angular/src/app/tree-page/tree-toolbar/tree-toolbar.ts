@@ -1,12 +1,5 @@
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounce, form, FormField, minLength } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +24,6 @@ interface SearchFormData {
   imports: [MatIconModule, MatInputModule, MatButtonModule, MatIconModule, DialogModule, FormField],
   templateUrl: './tree-toolbar.html',
   styleUrls: ['./tree-toolbar.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeToolbar {
   private static readonly SEARCH_DELAY_IN_MS = 500;

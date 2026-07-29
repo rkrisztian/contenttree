@@ -1,11 +1,4 @@
-import {
-  afterNextRender,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +13,6 @@ import { TreeScrollService } from './tree/tree-scroll.service';
   selector: 'app-tree-page',
   templateUrl: './tree-page.html',
   styleUrl: './tree-page.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     Tree,
     TreeToolbar,
@@ -30,7 +22,7 @@ import { TreeScrollService } from './tree/tree-scroll.service';
     MatProgressSpinnerModule,
     MatIconModule,
   ],
-  providers: [TreePageService],
+  providers: [TreePageService, TreeScrollService],
 })
 export class TreePage {
   private readonly treePageService = inject(TreePageService);

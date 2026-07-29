@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterOutlet } from '@angular/router';
 import { AppConfigService } from './app-config.service';
@@ -11,7 +11,6 @@ import { Header } from './header/header';
   imports: [Header, MatProgressSpinner, RouterOutlet, ErrorCard],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   private readonly appConfigService = inject(AppConfigService);

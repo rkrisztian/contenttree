@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeToggleService } from './theme-toggle.service';
@@ -7,7 +7,6 @@ import { ThemeToggleService } from './theme-toggle.service';
   selector: 'app-theme-toggle',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './theme-toggle.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggle {
   private readonly themeToggleService = inject(ThemeToggleService);

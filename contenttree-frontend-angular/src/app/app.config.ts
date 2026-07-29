@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import {
   ApplicationConfig,
   inject,
@@ -16,7 +16,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([errorInterceptor, authInterceptor, loadingInterceptor])),
+    provideHttpClient(
+      withXhr(),
+      withInterceptors([errorInterceptor, authInterceptor, loadingInterceptor]),
+    ),
     provideAppInitializer(() => {
       inject(ThemeToggleService).initializeTheme();
     }),

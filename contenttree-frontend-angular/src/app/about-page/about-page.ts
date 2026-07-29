@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 
@@ -7,6 +7,5 @@ import { MatDivider } from '@angular/material/divider';
   imports: [MatCard, MatCardContent, MatDivider],
   templateUrl: './about-page.html',
   styleUrl: './about-page.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutPage {}

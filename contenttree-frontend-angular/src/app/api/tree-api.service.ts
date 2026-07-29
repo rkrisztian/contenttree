@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, Signal } from '@angular/core';
+import { computed, inject, Service, Signal } from '@angular/core';
 import { AppConfigService } from '../app-config.service';
 import type {
   ContentRespDto,
@@ -10,9 +10,7 @@ import type {
 
 export const TREE_API_BASE_PATH = '/api/tree';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class TreeApiService {
   private readonly http = inject(HttpClient);
   private readonly config = inject(AppConfigService);

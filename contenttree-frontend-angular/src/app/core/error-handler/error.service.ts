@@ -1,4 +1,4 @@
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { DestroyRef, inject, Service, signal } from '@angular/core';
 
 export interface ErrorData {
   id: string;
@@ -7,9 +7,7 @@ export interface ErrorData {
   traceId?: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ErrorService {
   static readonly TIMEOUT_IN_MS = 5000;
 

@@ -1,4 +1,4 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Service, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { decodeJwt } from 'jose';
 import { tap } from 'rxjs';
@@ -15,7 +15,7 @@ export interface LoginData {
   role: Role;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AuthService {
   private readonly authApiService = inject(AuthApiService);
   private readonly router = inject(Router);

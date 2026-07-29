@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,6 @@ import { TreePageService } from '../tree-page.service';
   imports: [MatCardModule, MatDividerModule, MatProgressSpinnerModule, MatIconModule],
   templateUrl: './content-panel.html',
   styleUrl: './content-panel.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentPanel {
   private readonly treePageService = inject(TreePageService);
