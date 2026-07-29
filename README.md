@@ -48,7 +48,6 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 		<td>
 			<ul>
 				<li><a href="https://angular.dev/">Angular</a> (component-based UI)</li>
-				<li><a href="https://openapi-ts.dev/">OpenAPI TypeScript</a> (type-safe API interactions)</li>
 				<li><a href="https://material.angular.dev/">Angular Material</a> (UI components)</li>
 			</ul>
 		</td>
@@ -64,7 +63,6 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 		<td>
 			<ul>
 				<li><a href="https://nextjs.org/">Next.js</a> (React framework)</li>
-				<li><a href="https://openapi-ts.dev/">OpenAPI TypeScript</a> (type-safe API interactions)</li>
 				<li><a href="https://mui.com/">MUI</a> (UI components)</li>
 			</ul>
 		</td>
@@ -78,6 +76,10 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 </table>
 
 - **Common Technologies:**
+	- **Main Dependencies:**
+		- [OpenAPI Typescript Codegen](https://github.com/ferdikoomen/openapi-typescript-codegen)
+		  (type-safe API interactions) ([to be migrated to
+		  `@hey-api/openapi-ts`](https://github.com/rkrisztian/contenttree/issues/120))
 	- **CI/CD & Quality:**
 		- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
 		- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
@@ -265,9 +267,9 @@ Then review the changes in the verification metadata and the lock file.
 
 ### Frontend (Angular and Next.js) and E2E Tests
 
-#### API Schema Generation
+#### Backend API Type Generation
 
-To generate the `schema.d.ts` file, run the following commands:
+To generate TypeScript types, run the following commands:
 
 ```shell
 (cd contenttree-backend && gw generateOpenApiDocs)
