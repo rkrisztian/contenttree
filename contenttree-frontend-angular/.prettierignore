@@ -1,5 +1,5 @@
-.sonarlint/**
-src/app/api/schema.d.ts
+.sonarlint
+src/app/api/types
 .editorconfig
 .gitignore
 .node_version

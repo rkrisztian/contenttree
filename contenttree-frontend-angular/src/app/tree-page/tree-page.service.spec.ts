@@ -3,7 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { http, HttpResponse } from 'msw';
 import { TREE_API_BASE_URL } from '../../test-utils/msw-mocks';
 import { it } from '../../test-utils/msw-test';
-import { ContentRespDto, TREE_API_BASE_PATH } from '../api/tree-api.service';
+import { TREE_API_BASE_PATH } from '../api/tree-api.service';
+import type { ContentRespDto } from '../api/types';
 import { ErrorService } from '../core/error-handler/error.service';
 import { TreePageService } from './tree-page.service';
 

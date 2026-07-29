@@ -3,7 +3,7 @@ import { HttpResponse, http } from "msw";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, vi } from "vitest";
 import { REMOTE_CONFIG_PATH } from "@/app/api/config/route";
-import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/tree-api";
+import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/api/tree-api";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { LOGIN_DATA } from "@/test-utils/test-data";
@@ -104,7 +104,9 @@ describe("AuthApiContext", () => {
       const hooks = await renderAuthContextHooks();
 
       await act(async () =>
-        new TreeApi(hooks.current.backendApiContext.backendApiRef).getFlatNodes(),
+        new TreeApi(hooks.current.backendApiContext.backendApiRef).getFlatNodes(
+          new AbortController().signal,
+        ),
       );
 
       expect(authorizationHeader).toBe(`Bearer ${LOGIN_DATA.token}`);

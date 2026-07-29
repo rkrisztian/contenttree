@@ -14,7 +14,7 @@
       "!dist",
       "!build",
       "!.vscode",
-      "!src/app/_lib/schema.d.ts"
+      "!src/app/_lib/api/types"
     ]
   },
   "formatter": {

@@ -13,14 +13,14 @@ import {
 } from "react";
 import type { SWRResponse } from "swr/_internal";
 import { useAbortContext, useSwrWithAbort } from "@/app/_lib/AbortContext";
+import type {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
+} from "@/app/_lib/api/types";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
-import {
-  type ContentRespDto,
-  type CreateTreeNodeReqDTO,
-  TreeApi,
-  type TreeNodeRespDTO,
-  type UpdateTreeNodeReqDTO,
-} from "./tree-api";
+import { TreeApi } from "@/app/tree/_lib/api/tree-api";
 import { TreeData } from "./tree-data";
 import { TreeExpansionState } from "./tree-expansion-state";
 

@@ -1,11 +1,11 @@
 import type { AxiosInstance, GenericAbortSignal } from "axios";
 import type { RefObject } from "react";
-import type { components } from "@/app/_lib/schema";
-
-export type TreeNodeRespDTO = components["schemas"]["TreeNodeRespDTO"];
-export type ContentRespDto = components["schemas"]["ContentRespDto"];
-export type CreateTreeNodeReqDTO = components["schemas"]["CreateTreeNodeReqDTO"];
-export type UpdateTreeNodeReqDTO = components["schemas"]["UpdateTreeNodeReqDTO"];
+import type {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
+} from "@/app/_lib/api/types";
 
 export const TREE_API_BASE_PATH = "/api/tree";
 

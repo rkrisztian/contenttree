@@ -2,7 +2,8 @@ import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { decodeJwt } from 'jose';
 import { tap } from 'rxjs';
-import { AuthApiService, LoginRespDto } from '../../api/auth-api.service';
+import { AuthApiService } from '../../api/auth-api.service';
+import type { LoginRespDto } from '../../api/types';
 
 export const LOGIN_DATA_KEY = 'loginData';
 

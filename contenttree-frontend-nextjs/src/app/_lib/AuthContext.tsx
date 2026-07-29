@@ -4,8 +4,9 @@ import axios from "axios";
 import { decodeJwt } from "jose";
 import { useRouter } from "next/navigation";
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { TREE_API_BASE_PATH } from "../tree/_lib/tree-api";
-import { AuthApi, type LoginRespDto } from "./auth-api";
+import { AuthApi } from "@/app/_lib/api/auth-api";
+import type { LoginRespDto } from "@/app/_lib/api/types";
+import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 import { useBackendApi } from "./BackendApiContext";
 
 export type AuthContextType = {

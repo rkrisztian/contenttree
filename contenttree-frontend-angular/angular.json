@@ -80,7 +80,7 @@
             "coverageReporters": ["lcov"],
             "coverageInclude": ["src/**/*.ts"],
             "coverageExclude": [
-              "src/app/api/schema.d.ts",
+              "src/app/api/types/**",
               "src/environments/**/*.ts",
               "src/test-utils/**"
             ]

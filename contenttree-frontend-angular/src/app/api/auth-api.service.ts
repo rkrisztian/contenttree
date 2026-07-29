@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable } from '@angular/core';
 import { AppConfigService } from '../app-config.service';
-import { components } from './schema';
-
-export type LoginReqDto = components['schemas']['LoginReqDto'];
-export type LoginRespDto = components['schemas']['LoginRespDto'];
+import type { LoginReqDto, LoginRespDto } from './types';
 
 export const AUTH_API_BASE_PATH = '/api/auth';
 

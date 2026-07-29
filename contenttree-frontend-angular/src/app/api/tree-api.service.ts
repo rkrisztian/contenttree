@@ -1,12 +1,12 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, Signal } from '@angular/core';
 import { AppConfigService } from '../app-config.service';
-import { components } from './schema';
-
-export type TreeNodeRespDTO = components['schemas']['TreeNodeRespDTO'];
-export type ContentRespDto = components['schemas']['ContentRespDto'];
-export type CreateTreeNodeReqDTO = components['schemas']['CreateTreeNodeReqDTO'];
-export type UpdateTreeNodeReqDTO = components['schemas']['UpdateTreeNodeReqDTO'];
+import type {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
+} from './types';
 
 export const TREE_API_BASE_PATH = '/api/tree';
 

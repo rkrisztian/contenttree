@@ -11,7 +11,7 @@ export default defineConfig([
   includeIgnoreFile(gitignorePath, { gitignoreResolution: true }),
   {
     ignores: [
-      'src/app/api/schema.d.ts',
+      'src/app/api/types/**',
       '.prettierrc.js',
       'eslint.config.js',
       'vitest.config.ts',

@@ -8,14 +8,14 @@
     "test": "playwright test",
     "test:ui": "npm run test -- --ui",
     "install:chromium": "playwright install chromium",
-    "openapi:generate": "openapi-typescript ../../contenttree-backend/build/openapi.json -o api/schema.d.ts",
+    "openapi:generate": "openapi --input ../../contenttree-backend/build/openapi.json --output api/types --exportCore false --exportServices false",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
     "@types/node": "^26.1.1",
-    "openapi-typescript": "^7.13.0",
+    "openapi-typescript-codegen": "^0.31.0",
     "prettier": "^3.9.6"
   }
 }

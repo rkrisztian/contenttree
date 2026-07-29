@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { TreeNodeRespDTO } from '../api/tree-api.service';
+import type { TreeNodeRespDTO } from '../api/types';
 import { TreeData } from './tree-data';
 import { TreeExpansionState } from './tree-expansion-state';
 

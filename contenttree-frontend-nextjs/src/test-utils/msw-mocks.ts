@@ -1,12 +1,14 @@
 import { type AnyHandler, HttpResponse, http } from "msw";
-import { AUTH_API_BASE_PATH, type LoginReqDto, type LoginRespDto } from "@/app/_lib/auth-api";
+import { AUTH_API_BASE_PATH } from "@/app/_lib/api/auth-api";
+import type {
+  ContentRespDto,
+  CreateTreeNodeReqDTO,
+  LoginReqDto,
+  LoginRespDto,
+  TreeNodeRespDTO,
+} from "@/app/_lib/api/types";
 import { REMOTE_CONFIG_PATH, type RemoteConfig } from "@/app/api/config/route";
-import {
-  type ContentRespDto,
-  type CreateTreeNodeReqDTO,
-  TREE_API_BASE_PATH,
-  type TreeNodeRespDTO,
-} from "@/app/tree/_lib/tree-api";
+import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 
 export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]}${TREE_API_BASE_PATH}`;
 export const AUTH_API_BASE_URL = `${process.env["API_BASE_URL"]}${AUTH_API_BASE_PATH}`;

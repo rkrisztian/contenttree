@@ -1,11 +1,13 @@
 import { AnyHandler, http, HttpResponse } from 'msw';
-import { AUTH_API_BASE_PATH, LoginReqDto, LoginRespDto } from '../app/api/auth-api.service';
-import {
+import { AUTH_API_BASE_PATH } from '../app/api/auth-api.service';
+import { TREE_API_BASE_PATH } from '../app/api/tree-api.service';
+import type {
   ContentRespDto,
   CreateTreeNodeReqDTO,
-  TREE_API_BASE_PATH,
+  LoginReqDto,
+  LoginRespDto,
   TreeNodeRespDTO,
-} from '../app/api/tree-api.service';
+} from '../app/api/types';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
 import { environment } from '../environments/environment';
 
