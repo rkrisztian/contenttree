@@ -26,27 +26,31 @@
         list-style: none;
 
         .tree-node {
-          display: inline-block;
-          white-space: nowrap;
-          padding: 0.25rem 0.75rem;
-          color: var(--mat-sys-on-surface-variant);
-          cursor: default;
+          display: block;
 
-          &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-          }
-
-          .tree-node-icon {
+          .tree-node-label {
             display: inline-block;
-            pointer-events: none;
-            font-size: 1.25rem;
-            width: 1.25rem;
-            height: 1.25rem;
-          }
+            white-space: nowrap;
+            padding: 0.25rem 0.75rem;
+            color: var(--mat-sys-on-surface-variant);
+            cursor: default;
 
-          .tree-node-name {
-            vertical-align: center;
-            padding-left: 0.5rem;
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            .tree-node-icon {
+              vertical-align: center;
+              pointer-events: none;
+              font-size: 1.25rem;
+              width: 1.25rem;
+              height: 1.25rem;
+            }
+
+            .tree-node-name {
+              vertical-align: center;
+              padding-left: 0.5rem;
+            }
           }
         }
       }
