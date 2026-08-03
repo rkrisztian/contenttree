@@ -2,7 +2,7 @@ import { effect, inject, Renderer2, RendererFactory2, Service, signal } from '@a
 
 @Service()
 export class ThemeToggleService {
-  static readonly STORAGE_KEY = 'docs-theme-storage-current-name';
+  static readonly STORAGE_KEY = 'appTheme';
   private static readonly DEFAULT_MODE = 'light';
 
   private readonly rendererFactory = inject(RendererFactory2);
