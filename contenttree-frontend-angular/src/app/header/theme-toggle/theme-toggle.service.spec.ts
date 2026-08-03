@@ -64,6 +64,6 @@ describe('ThemeToggleService', () => {
     service.changeMode();
 
     expect(service.mode()).toBe('dark');
-    expect(storageSetItemSpy.mock.calls).toEqual([[ThemeToggleService.STORAGE_KEY, 'dark']]);
+    expect(storageSetItemSpy).toHaveBeenCalledWith(ThemeToggleService.STORAGE_KEY, 'dark');
   });
 });
