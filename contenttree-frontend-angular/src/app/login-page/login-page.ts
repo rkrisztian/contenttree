@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 import { AuthService } from '../core/auth/auth.service';
 import { LoadingService } from '../core/loading-indicator/loading.service';
 
@@ -25,6 +26,7 @@ export interface LoginFormData {
     MatButtonModule,
     MatSnackBarModule,
     MatIconModule,
+    TranslateBlockDirective,
   ],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',

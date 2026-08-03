@@ -1,0 +1,20 @@
+<button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Select language">
+  <mat-icon>language</mat-icon>
+</button>
+
+<mat-menu #languageMenu="matMenu">
+  @for (lang of availableLanguages; track lang.code) {
+    <button
+      mat-menu-item
+      (click)="switchLanguage(lang.code)"
+      [aria-selected]="currentLanguage() === lang.code"
+      [aria-label]="lang.name"
+    >
+      @if (currentLanguage() === lang.code) {
+        <mat-icon class="check-icon">done</mat-icon>
+      }
+
+      <span>{{ lang.name }}</span>
+    </button>
+  }
+</mat-menu>

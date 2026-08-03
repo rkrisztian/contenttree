@@ -1,12 +1,12 @@
 <app-header />
 
-<main class="mat-app-background">
+<main class="mat-app-background" *translateBlock="let t">
   <div class="router-container">
     @if (remoteConfig.isLoading()) {
       <div class="loading-layout">
         <div class="loading-container">
           <mat-progress-spinner mode="indeterminate" />
-          <span>Loading...</span>
+          <span>{{ t('app.loading-indicator') }}</span>
         </div>
       </div>
     } @else {

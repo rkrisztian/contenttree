@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
+import appMessages from '../../../public/i18n/en/app.json';
+import { provideTranslateServiceForTest } from '../../test-utils/test-i18n';
 import { AuthService } from '../core/auth/auth.service';
 import { ErrorService } from '../core/error-handler/error.service';
 import { LoadingService } from '../core/loading-indicator/loading.service';
@@ -56,6 +58,12 @@ describe('Header', () => {
 
   const renderHeader = async () =>
     render(Header, {
-      providers: [LoadingService, ErrorService, AuthService, provideRouter([])],
+      providers: [
+        LoadingService,
+        ErrorService,
+        AuthService,
+        provideRouter([]),
+        provideTranslateServiceForTest(appMessages),
+      ],
     });
 });

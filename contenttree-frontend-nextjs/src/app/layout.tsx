@@ -3,11 +3,19 @@ import { ThemeProvider } from "@mui/material/styles";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { I18nProvider } from "next-i18next/client";
+import {
+  generateI18nStaticParams,
+  getResources,
+  getT,
+  initServerI18next,
+} from "next-i18next/server";
 import type { ReactNode } from "react";
 import PageWrapper from "@/app/_components/PageWrapper/PageWrapper";
 import { AuthContextProvider } from "@/app/_lib/AuthContext";
 import { BackendApiContextProvider } from "@/app/_lib/BackendApiContext";
 import theme from "@/app/theme";
+import { i18nConfig } from "@/i18n/i18n.config";
 
 export const metadata: Metadata = {
   title: "Content Tree Management Application",
@@ -21,24 +29,35 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-const AppProviders = ({ children }: Readonly<{ children: ReactNode }>) => {
+initServerI18next(i18nConfig);
+
+export const generateStaticParams = async () => generateI18nStaticParams();
+
+const AppProviders = async ({ children }: Readonly<{ children: ReactNode }>) => {
+  const { i18n, lng } = await getT();
+  const resources = getResources(i18n);
+
   return (
-    <AppRouterCacheProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BackendApiContextProvider>
-          <AuthContextProvider>{children}</AuthContextProvider>
-        </BackendApiContextProvider>
-      </ThemeProvider>
-    </AppRouterCacheProvider>
+    <I18nProvider language={lng} resources={resources}>
+      <AppRouterCacheProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <BackendApiContextProvider>
+            <AuthContextProvider>{children}</AuthContextProvider>
+          </BackendApiContextProvider>
+        </ThemeProvider>
+      </AppRouterCacheProvider>
+    </I18nProvider>
   );
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   "use server";
 
+  const { lng } = await getT();
+
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang={lng} className={roboto.variable}>
       <head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />

@@ -8,6 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import TextField from "@mui/material/TextField";
+import { useT } from "next-i18next/client";
 import { Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
@@ -26,6 +27,7 @@ export default function LoginPage() {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = useForm<LoginFormData>({ mode: "onChange", defaultValues: { username: "", password: "" } });
+  const { t } = useT("login");
 
   const onSubmit = (formData: LoginFormData) => {
     login(formData.username.trim(), formData.password.trim());
@@ -43,13 +45,13 @@ export default function LoginPage() {
               rules={{ required: true }}
               render={({ field, fieldState }) => (
                 <TextField
-                  label="Username"
+                  label={t("login-page.username-field-label")}
                   fullWidth
                   variant="outlined"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? "Username is required" : null}
                   className={styles["text-field"]}
-                  placeholder="Enter username"
+                  placeholder={t("login-page.username-field-placeholder")}
                   {...field}
                 />
               )}

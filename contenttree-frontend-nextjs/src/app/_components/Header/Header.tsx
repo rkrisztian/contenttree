@@ -19,12 +19,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { useT } from "next-i18next/client";
 import { type MouseEvent, useMemo, useState } from "react";
 import { ErrorCard } from "@/app/_components/ErrorCard/ErrorCard";
+import { LanguageToggle } from "@/app/_components/Header/LanguageToggle/LanguageToggle";
+import { ThemeToggle } from "@/app/_components/Header/ThemeToggle/ThemeToggle";
 import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import styles from "./Header.module.scss";
-import { ThemeToggle } from "./ThemeToggle/ThemeToggle";
 
 export const Header = () => {
   const { loading, errors } = useBackendApi();
@@ -36,6 +38,7 @@ export const Header = () => {
   const isNavMenuOpen = Boolean(navigationButton);
   const isErrorMenuOpen = Boolean(errorsButton);
   const isUserMenuOpen = Boolean(userButton);
+  const { t } = useT("app");
 
   const handleNavMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setNavigationButton(event.currentTarget);
@@ -65,7 +68,7 @@ export const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" className={styles["title"]}>
-          Content Tree Application
+          {t("app.header-title")}
         </Typography>
 
         {loading && (
@@ -211,6 +214,8 @@ export const Header = () => {
         </Menu>
 
         <ThemeToggle />
+
+        <LanguageToggle />
       </Toolbar>
     </AppBar>
   );
