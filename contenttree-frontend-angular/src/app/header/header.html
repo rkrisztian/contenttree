@@ -1,6 +1,6 @@
-<header>
+<header *translateBlock="let t">
   <mat-toolbar>
-    <h1>Content Tree Application</h1>
+    <h1>{{ t('app.header-title') }}</h1>
     <span class="spacer"></span>
 
     @if (isLoading()) {
@@ -65,5 +65,7 @@
     </mat-menu>
 
     <app-theme-toggle />
+
+    <app-language-toggle />
   </mat-toolbar>
 </header>

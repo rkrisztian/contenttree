@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterOutlet } from '@angular/router';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 import { AppConfigService } from './app-config.service';
 import { ErrorCard } from './core/error-handler/error-card/error-card';
 import { ErrorService } from './core/error-handler/error.service';
@@ -8,7 +9,7 @@ import { Header } from './header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, MatProgressSpinner, RouterOutlet, ErrorCard],
+  imports: [Header, MatProgressSpinner, RouterOutlet, ErrorCard, TranslateBlockDirective],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

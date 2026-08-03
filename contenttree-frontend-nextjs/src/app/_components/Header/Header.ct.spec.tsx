@@ -5,17 +5,21 @@ import { page } from "vitest/browser";
 import { render, renderHook } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
+import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { WithTreePageContextProvider } from "@/test-utils/test-providers";
+import { WithTestI18nProvider } from "../../../test-utils/test-i18n";
 import { Header } from "./Header";
 
 describe("Header", () => {
   const HeaderWithTreePageContextProvider = ({ children }: Readonly<{ children?: ReactNode }>) => (
-    <WithTreePageContextProvider>
-      <Header />
-      {children}
-    </WithTreePageContextProvider>
+    <WithTestI18nProvider resources={{ en: { app: appMessages } }}>
+      <WithTreePageContextProvider>
+        <Header />
+        {children}
+      </WithTreePageContextProvider>
+    </WithTestI18nProvider>
   );
 
   describe("Loading snipper", () => {

@@ -6,10 +6,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 import { AuthService } from '../core/auth/auth.service';
 import { ErrorCard } from '../core/error-handler/error-card/error-card';
 import { ErrorService } from '../core/error-handler/error.service';
 import { LoadingService } from '../core/loading-indicator/loading.service';
+import { LanguageToggle } from './language-toggle/language-toggle';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
 
 @Component({
@@ -23,7 +25,9 @@ import { ThemeToggle } from './theme-toggle/theme-toggle';
     MatProgressSpinnerModule,
     RouterLink,
     ThemeToggle,
+    LanguageToggle,
     ErrorCard,
+    TranslateBlockDirective,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',

@@ -44,6 +44,11 @@ updates:
         patterns:
           - "@testing-library/*"
           - jsdom
+      i18next:
+        patterns:
+          - i18next
+          - next-i18next
+          - react-i18next
     allow:
       - update-types:
           - "version-update:semver-minor"
