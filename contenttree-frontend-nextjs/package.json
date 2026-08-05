@@ -10,7 +10,6 @@
     "prebuild:docker": "npm run build",
     "prebuild": "license-report --only=prod --output=html > public/third-party-licenses.html",
     "openapi:generate": "openapi --input ../contenttree-backend/build/openapi.json --output src/app/_lib/api/types --exportCore false --exportServices false",
-    "start": "next start",
     "test": "vitest",
     "test:ct": "npm run test -- --config vitest.ct.config.ts",
     "test:ct:headless": "npm run test:ct -- --browser.headless",
