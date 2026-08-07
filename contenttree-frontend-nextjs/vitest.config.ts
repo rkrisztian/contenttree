@@ -21,6 +21,9 @@ export default defineConfig({
       exclude: ["src/app/_lib/api/types/**", "src/test-utils/**"],
       reportsDirectory: "coverage",
     },
+    alias: {
+      "next/navigation": path.resolve(__dirname, "src/test-utils/mock-next-navigation.ts"),
+    },
   },
   resolve: {
     alias: {

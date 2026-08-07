@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { afterEach, describe, expect, vi } from "vitest";
 import { REMOTE_CONFIG_PATH } from "@/app/api/config/route";
 import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/api/tree-api";
+import { mockRouter } from "@/test-utils/mock-next-navigation";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { LOGIN_DATA } from "@/test-utils/test-data";
@@ -34,12 +35,6 @@ const WithAuthContextProvider = ({ children }: Readonly<{ children: ReactNode }>
     <AuthContextProvider>{children}</AuthContextProvider>
   </WithBackendApiContextProvider>
 );
-
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-  }),
-}));
 
 describe("AuthApiContext", () => {
   afterEach(async () => {
@@ -147,6 +142,7 @@ describe("AuthApiContext", () => {
       );
 
       expect.soft(hooks.current.authContext.isAuthenticated).toBeFalsy();
+      expect.soft(mockRouter.push).toHaveBeenCalledWith("/login");
     });
   });
 });

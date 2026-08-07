@@ -6,12 +6,6 @@ import { it } from "@/test-utils/msw-ct";
 import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
 import LoginPage from "./page";
 
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-  }),
-}));
-
 describe("LoginPage", () => {
   const usernameField = page.getByPlaceholder("Enter username");
   const passwordField = page.getByPlaceholder("Enter password");

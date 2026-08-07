@@ -1,4 +1,4 @@
-import { mergeConfig } from 'vitest/config';
+import { mergeConfig, ViteUserConfig } from 'vitest/config';
 import unitTestConfig from './vitest.config';
 
 /**
@@ -40,4 +40,4 @@ export default mergeConfig(unitTestConfig, {
       reportsDirectory: 'coverage-ct',
     },
   },
-});
+} as ViteUserConfig);

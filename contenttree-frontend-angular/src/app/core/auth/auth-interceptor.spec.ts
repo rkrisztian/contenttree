@@ -78,5 +78,6 @@ describe('authInterceptor', () => {
 
     expect.soft(authService.isAuthenticated()).toBeFalsy();
     expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
+    expect.soft(TestBed.inject(Router).navigate).toHaveBeenCalledWith(['/login']);
   });
 });
