@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, vi } from "vitest";
+import { beforeEach, describe, expect } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import TreePage from "@/app/tree/page";
@@ -20,10 +20,6 @@ describe("Tree", () => {
 
     await expect.element(page.getByText("Loading...")).not.toBeInTheDocument();
     await expect.element(page.getByText("Loading tree...")).not.toBeInTheDocument();
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 
   describe("basic behavior", () => {

@@ -119,7 +119,6 @@ describe("BackendApiContext", () => {
     });
 
     afterEach(() => {
-      vi.restoreAllMocks();
       vi.useRealTimers();
     });
 

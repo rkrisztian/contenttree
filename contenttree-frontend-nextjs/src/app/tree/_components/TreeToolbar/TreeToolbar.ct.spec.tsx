@@ -18,7 +18,6 @@ describe("TreeToolbar", () => {
 
   afterEach(() => {
     vi.useRealTimers();
-    vi.restoreAllMocks();
   });
 
   it("does not allow adding/editing/deleting if no node is selected", async () => {

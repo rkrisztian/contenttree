@@ -1,6 +1,6 @@
 import { HttpResponse, http } from "msw";
 import type { ReactNode } from "react";
-import { afterEach, describe, expect, vi } from "vitest";
+import { describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render, renderHook } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
@@ -17,10 +17,6 @@ describe("Header", () => {
       {children}
     </WithTreePageContextProvider>
   );
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
 
   describe("Loading snipper", () => {
     it("shows when loading", async ({ worker }) => {
