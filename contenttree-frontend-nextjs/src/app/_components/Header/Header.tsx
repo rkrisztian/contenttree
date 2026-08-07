@@ -1,12 +1,12 @@
 "use client";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AccountTree from "@mui/icons-material/AccountTree";
-import Info from "@mui/icons-material/Info";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import InfoIcon from "@mui/icons-material/Info";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MoreVert from "@mui/icons-material/MoreVert";
-import Notifications from "@mui/icons-material/Notifications";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import AppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
@@ -81,7 +81,7 @@ export const Header = () => {
           aria-haspopup="true"
           onClick={handleNavMenuOpen}
         >
-          <MoreVert />
+          <MoreVertIcon />
         </IconButton>
         <Menu
           id="navigation-menu"
@@ -100,13 +100,13 @@ export const Header = () => {
         >
           <MenuItem component={Link} href="/tree" onClick={handleNavMenuClose}>
             <ListItemIcon>
-              <AccountTree fontSize="small" />
+              <AccountTreeIcon fontSize="small" />
             </ListItemIcon>
             Tree
           </MenuItem>
           <MenuItem component={Link} href="/about" onClick={handleNavMenuClose}>
             <ListItemIcon>
-              <Info fontSize="small" />
+              <InfoIcon fontSize="small" />
             </ListItemIcon>
             About
           </MenuItem>
@@ -122,7 +122,7 @@ export const Header = () => {
           onClick={handleErrorsMenuOpen}
         >
           <Badge badgeContent={errors.length} color="error">
-            <Notifications />
+            <NotificationsIcon />
           </Badge>
         </IconButton>
         <Menu
