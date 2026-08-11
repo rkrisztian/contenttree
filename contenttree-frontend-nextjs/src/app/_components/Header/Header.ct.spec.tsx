@@ -22,7 +22,7 @@ describe("Header", () => {
     </WithTestI18nProvider>
   );
 
-  describe("Loading snipper", () => {
+  describe("Loading spinner", () => {
     it("shows when loading", async ({ worker }) => {
       let resolveRequest!: () => void;
 

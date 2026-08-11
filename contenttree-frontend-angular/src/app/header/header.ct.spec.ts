@@ -10,7 +10,7 @@ import { LoadingService } from '../core/loading-indicator/loading.service';
 import { Header } from './header';
 
 describe('Header', () => {
-  describe('Loading snipper', () => {
+  describe('Loading spinner', () => {
     it('shows when loading', async () => {
       await renderHeader();
 

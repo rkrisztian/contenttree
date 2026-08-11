@@ -39,7 +39,7 @@ export default function PageWrapper({ children }: Readonly<{ children: ReactNode
           onClose={hideLatestError}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
-          <Box>
+          <Box role="alert">
             <ErrorCard key={latestError.id} error={latestError} />
           </Box>
         </Snackbar>
