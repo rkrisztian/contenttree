@@ -16,7 +16,7 @@ services:
   # Optional: A DB manager tool you can use if you don't have IntelliJ IDEA Ultimate subscription
   dbgate:
     profiles: [ debug ]
-    image: dbgate/dbgate:7.2.3-alpine@sha256:553a09bb9f861bea0de5196f0a6d07cdb5fb808509d79b6ddf9e930aa1c00722
+    image: dbgate/dbgate:7.2.5-alpine@sha256:4d61f9a89f1a39806c25593f0bf160626767456e74e098d06fbf1d6468c4cc18
     ports:
       - "5433:3000"
     environment:
