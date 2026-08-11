@@ -12,7 +12,9 @@ export const WithTreePageContextProvider = ({ children }: Readonly<{ children: R
     <WithBackendApiContextProvider>
       <WithMockAuthContext>
         <AbortContextProvider>
-          <TreePageContextProvider>{children}</TreePageContextProvider>
+          <WaitForRemoteConfig>
+            <TreePageContextProvider>{children}</TreePageContextProvider>
+          </WaitForRemoteConfig>
         </AbortContextProvider>
       </WithMockAuthContext>
     </WithBackendApiContextProvider>
@@ -27,12 +29,12 @@ export const WithBackendApiContextProvider = ({ children }: Readonly<{ children:
         dedupingInterval: 0,
       }}
     >
-      <WaitForRemoteConfig>{children}</WaitForRemoteConfig>
+      {children}
     </SWRConfig>
   </BackendApiContextProvider>
 );
 
-export const WithMockAuthContext = ({ children }: Readonly<{ children: ReactNode }>) => (
+const WithMockAuthContext = ({ children }: Readonly<{ children: ReactNode }>) => (
   <AuthContext.Provider
     value={{
       loginData: LOGIN_DATA,

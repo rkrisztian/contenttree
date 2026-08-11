@@ -1,17 +1,11 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { render } from "vitest-browser-react/pure";
-import TreePage from "@/app/tree/page";
 import { it } from "@/test-utils/msw-ct";
-import { WithTreePageContextProvider } from "@/test-utils/test-providers";
+import { renderTreePage } from "@/test-utils/test-components";
 
 describe("TreeToolbar", () => {
   beforeEach(async () => {
-    await render(
-      <WithTreePageContextProvider>
-        <TreePage />
-      </WithTreePageContextProvider>,
-    );
+    await renderTreePage();
 
     vi.useFakeTimers();
   });
