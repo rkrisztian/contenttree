@@ -49,6 +49,9 @@ updates:
           - i18next
           - next-i18next
           - react-i18next
+      monorepo-dependencies:
+        group-by: dependency-name
+
     allow:
       - update-types:
           - "version-update:semver-minor"
@@ -71,6 +74,9 @@ updates:
       interval: monthly
     registries:
       - docker-hardened-images
+    groups:
+      monorepo-dependencies:
+        group-by: dependency-name
 
   - package-ecosystem: github-actions
     directory: "/"
