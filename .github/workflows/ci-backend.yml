@@ -37,7 +37,7 @@ jobs:
           build-root-directory: contenttree-backend
 
       - name: (Log in to Docker Hardened Images distribution registry)
-        uses: docker/login-action@v4.5.1  # Immutable
+        uses: docker/login-action@v4.6.0  # Immutable
         with:
           registry: dhi.io
           # If username is sensitive for you, use a secret variable instead.
@@ -66,7 +66,7 @@ jobs:
 
       - name: (Log in to GitHub Container Registry)
         if: ${{ (github.event_name != 'pull_request') && success() }}
-        uses: docker/login-action@v4.5.1  # Immutable
+        uses: docker/login-action@v4.6.0  # Immutable
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
