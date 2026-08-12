@@ -14,12 +14,12 @@
       color: var(--mui-palette-primary-contrastText);
     }
     &.dragging {
-      background-color: var(--mui-palette-grey-400);
-      color: var(--mui-palette-text-secondary);
+      background-color: var(--mui-palette-action-disabled);
+      color: var(--mui-palette-text-primary);
     }
     &.dragged-over {
-      background-color: var(--mui-palette-grey-300);
-      color: var(--mui-palette-text-secondary);
+      background-color: var(--mui-palette-action-selected);
+      color: var(--mui-palette-text-primary);
     }
     &.not-found {
       color: var(--mui-palette-text-disabled);
@@ -28,10 +28,10 @@
         color: color-mix(in srgb, var(--mui-palette-primary-contrastText) 50%, transparent);
       }
       &.dragging {
-        color: color-mix(in srgb, var(--mui-palette-text-secondary) 50%, transparent);
+        color: color-mix(in srgb, var(--mui-palette-text-primary) 50%, transparent);
       }
       &.dragged-over {
-        color: color-mix(in srgb, var(--mui-palette-text-secondary) 50%, transparent);
+        color: color-mix(in srgb, var(--mui-palette-text-primary) 50%, transparent);
       }
     }
 

@@ -17,7 +17,7 @@
 .tree-preview-container {
   border: 0.0625rem solid var(--mui-palette-grey-500);
   border-radius: 0.5rem;
-  background-color: var(--mui-palette-grey-200);
+  background-color: var(--mui-palette-action-disabledBackground);
   color: var(--mui-palette-text-secondary);
   padding: 0.5rem;
 
@@ -34,11 +34,12 @@
       width: auto;
 
       &:hover {
-        background-color: var(--mui-palette-grey-300);
+        background-color: var(--mui-palette-action-hover);
       }
 
       .tree-node-icon {
         vertical-align: center;
+        color: var(--mui-palette-text-secondary);
 
         svg {
           width: 1.25rem;
