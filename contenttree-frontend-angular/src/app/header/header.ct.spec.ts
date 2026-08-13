@@ -10,6 +10,17 @@ import { LoadingService } from '../core/loading-indicator/loading.service';
 import { Header } from './header';
 
 describe('Header', () => {
+  const renderHeader = async () =>
+    render(Header, {
+      providers: [
+        LoadingService,
+        ErrorService,
+        AuthService,
+        provideRouter([]),
+        provideTranslateServiceForTest(appMessages),
+      ],
+    });
+
   describe('Loading spinner', () => {
     it('shows when loading', async () => {
       await renderHeader();
@@ -55,15 +66,4 @@ describe('Header', () => {
         .toBeVisible();
     });
   });
-
-  const renderHeader = async () =>
-    render(Header, {
-      providers: [
-        LoadingService,
-        ErrorService,
-        AuthService,
-        provideRouter([]),
-        provideTranslateServiceForTest(appMessages),
-      ],
-    });
 });
