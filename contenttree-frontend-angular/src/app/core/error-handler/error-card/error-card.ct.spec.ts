@@ -1,13 +1,18 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
+import appMessages from '../../../../../public/i18n/en/app.json';
+import { provideTranslateServiceForTest, t } from '../../../../test-utils/test-i18n';
 import { ErrorData, ErrorService } from '../error.service';
 import { ErrorCard } from './error-card';
 
 describe('ErrorCard', () => {
+  const copyButton = () =>
+    page.getByRole('button', { name: t('app.error-card.copy-button-aria-label'), exact: true });
+
   beforeEach(async () => {
     await render(ErrorCard, {
-      providers: [ErrorService],
+      providers: [ErrorService, provideTranslateServiceForTest(appMessages)],
       inputs: {
         error: {
           id: '1',
@@ -30,7 +35,7 @@ describe('ErrorCard', () => {
         /* empty */
       });
 
-    await page.getByRole('button', { name: 'Copy error data', exact: true }).click();
+    await copyButton().click();
 
     expect(clipboardWriteTextSpy).toHaveBeenCalledWith(expect.stringContaining('abcd-1234'));
   });

@@ -1,4 +1,4 @@
-<mat-card [class.with-border]="hasBorder()">
+<mat-card [class.with-border]="hasBorder()" *translateBlock="let t">
   <mat-card-title>
     <mat-icon class="error-icon" aria-hidden="true">error_outline</mat-icon>
     <h4 class="error-title">
@@ -6,7 +6,12 @@
     </h4>
     @if (closeable()) {
       <div class="flex-spacer"></div>
-      <button mat-icon-button class="error-close-button" aria-label="Close" (click)="hide()">
+      <button
+        mat-icon-button
+        class="error-close-button"
+        [aria-label]="t('app.error-card.close-button-aria-label')"
+        (click)="hide()"
+      >
         <mat-icon>close</mat-icon>
       </button>
     }
@@ -19,20 +24,24 @@
   @if (error().traceId) {
     <mat-card-content class="details-content">
       <div class="trace-id-container">
-        <span class="trace-id-label">Trace ID: </span>
+        <span class="trace-id-label">{{ t('app.error-card.trace-id-label') }} </span>
         <code>{{ error().traceId }}</code>
       </div>
     </mat-card-content>
   }
 
   <mat-card-actions>
-    <button mat-flat-button (click)="copyToClipboard(error())" aria-label="Copy error data">
+    <button
+      mat-flat-button
+      (click)="copyToClipboard(error())"
+      [aria-label]="t('app.error-card.copy-button-aria-label')"
+    >
       <mat-icon class="copy-icon">content_copy</mat-icon>
-      Copy
+      {{ t('app.error-card.copy-button-label') }}
     </button>
 
     <button mat-flat-button (click)="remove(error().id)">
-      Delete
+      {{ t('app.error-card.delete-button-label') }}
       <mat-icon>delete</mat-icon>
     </button>
   </mat-card-actions>

@@ -12,6 +12,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import { useT } from "next-i18next/client";
 import { type ErrorData, useBackendApi } from "@/app/_lib/BackendApiContext";
 import styles from "./ErrorCard.module.scss";
 
@@ -22,6 +23,7 @@ interface ErrorCardProps {
 
 export const ErrorCard = ({ error, closeable = true }: Readonly<ErrorCardProps>) => {
   const { hideLatestError, removeError, copyToClipboard } = useBackendApi();
+  const { t } = useT("app");
 
   return (
     <Card className={styles["error-card"]} elevation={2}>
@@ -30,7 +32,11 @@ export const ErrorCard = ({ error, closeable = true }: Readonly<ErrorCardProps>)
         title={error.error}
         action={
           closeable && (
-            <IconButton aria-label="Close" onClick={hideLatestError} size="small">
+            <IconButton
+              aria-label={t("app.error-card.close-button-aria-label")}
+              onClick={hideLatestError}
+              size="small"
+            >
               <CloseIcon />
             </IconButton>
           )
@@ -43,7 +49,7 @@ export const ErrorCard = ({ error, closeable = true }: Readonly<ErrorCardProps>)
         <CardContent>
           <Box className={styles["trace-id-container"]}>
             <Typography variant="caption" className={styles["trace-id-label"]}>
-              Trace ID:{" "}
+              {t("app.error-card.trace-id-label")}{" "}
             </Typography>
             <code>{error.traceId}</code>
           </Box>
@@ -52,13 +58,13 @@ export const ErrorCard = ({ error, closeable = true }: Readonly<ErrorCardProps>)
 
       <CardActions>
         <Button
-          aria-label="Copy error data"
+          aria-label={t("app.error-card.copy-button-aria-label")}
           onClick={() => copyToClipboard(error)}
           startIcon={<ContentCopyIcon />}
           variant="contained"
           color="error"
         >
-          Copy
+          {t("app.error-card.copy-button-label")}
         </Button>
 
         <Button
@@ -67,7 +73,7 @@ export const ErrorCard = ({ error, closeable = true }: Readonly<ErrorCardProps>)
           variant="contained"
           color="error"
         >
-          Delete
+          {t("app.error-card.delete-button-label")}
         </Button>
       </CardActions>
     </Card>

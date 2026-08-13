@@ -1,6 +1,13 @@
 {
   "app": {
     "header-title": "Content Tree Manager",
-    "loading-indicator": "Loading..."
+    "loading-indicator": "Loading...",
+    "error-card": {
+      "close-button-aria-label": "Close",
+      "trace-id-label": "Trace ID:",
+      "copy-button-aria-label": "Copy error data",
+      "copy-button-label": "Copy",
+      "delete-button-label": "Delete"
+    }
   }
 }

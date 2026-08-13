@@ -2,11 +2,12 @@ import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 import { ErrorData, ErrorService } from '../error.service';
 
 @Component({
   selector: 'app-error-card',
-  imports: [MatCardModule, MatIconModule, MatButtonModule],
+  imports: [MatCardModule, MatIconModule, MatButtonModule, TranslateBlockDirective],
   templateUrl: './error-card.html',
   styleUrl: './error-card.scss',
 })
