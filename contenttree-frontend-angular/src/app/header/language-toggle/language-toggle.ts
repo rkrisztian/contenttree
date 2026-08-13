@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from './language.service';
 
 @Component({
   selector: 'app-language-toggle',
-  imports: [MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [MatButtonModule, MatIconModule, MatMenuModule, TranslatePipe],
   templateUrl: './language-toggle.html',
 })
 export class LanguageToggle {

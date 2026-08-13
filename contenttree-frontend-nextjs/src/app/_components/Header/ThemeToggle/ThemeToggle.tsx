@@ -3,9 +3,11 @@
 import { DarkMode, LightMode } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { useColorScheme } from "@mui/material/styles";
+import { useT } from "next-i18next/client";
 
 export const ThemeToggle = () => {
   const { mode, setMode } = useColorScheme();
+  const { t } = useT("app");
 
   const toggleMode = () => {
     setMode(mode === "light" ? "dark" : "light");
@@ -16,9 +18,13 @@ export const ThemeToggle = () => {
       size="large"
       color="inherit"
       onClick={toggleMode}
-      aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+      aria-label={t(
+        mode === "dark"
+          ? "app.theme-toggle.theme-button-aria-label-dark"
+          : "app.theme-toggle.theme-button-aria-label-light",
+      )}
     >
-      {mode === "light" ? <LightMode /> : <DarkMode />}
+      {mode === "dark" ? <DarkMode /> : <LightMode />}
     </IconButton>
   );
 };

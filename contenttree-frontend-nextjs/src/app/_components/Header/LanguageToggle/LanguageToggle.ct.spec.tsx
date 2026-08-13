@@ -4,10 +4,17 @@ import { render } from "vitest-browser-react/pure";
 import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { WithMockAppRouterContextProvider } from "@/test-utils/test-ct-providers";
-import { WithTestI18nProvider } from "@/test-utils/test-i18n";
+import { t, WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { LanguageToggle } from "./LanguageToggle";
 
 describe("Language Toggle", () => {
+  const languageButton = () =>
+    page.getByRole("button", {
+      name: t("app.language-toggle.language-button-aria-label"),
+      exact: true,
+    });
+  const menuItemHungarian = page.getByRole("menuitem", { name: "Magyar", exact: true });
+
   it("should switch language", async () => {
     await render(
       <WithMockAppRouterContextProvider>
@@ -17,15 +24,10 @@ describe("Language Toggle", () => {
       </WithMockAppRouterContextProvider>,
     );
 
-    await page.getByRole("button", { name: "Select language", exact: true }).click();
-    await page.getByRole("menuitem", { name: "Magyar", exact: true }).click();
-    await page.getByRole("button", { name: "Select language", exact: true }).click();
+    await languageButton().click();
+    await menuItemHungarian.click();
+    await languageButton().click();
 
-    expect(
-      page
-        .getByRole("menuitem", { name: "Magyar", exact: true })
-        .element()
-        .getAttribute("aria-selected"),
-    ).toBe("true");
+    expect(menuItemHungarian.element().getAttribute("aria-selected")).toBe("true");
   });
 });

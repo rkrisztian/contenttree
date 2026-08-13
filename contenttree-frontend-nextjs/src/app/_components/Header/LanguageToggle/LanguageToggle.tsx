@@ -19,7 +19,7 @@ export const LanguageToggle = () => {
   const [langaugeButton, setLangaugeButton] = useState<null | HTMLElement>(null);
   const isLangMenuOpen = Boolean(langaugeButton);
   const changeLanguage = useChangeLanguage();
-  const { i18n } = useT();
+  const { i18n, t } = useT("app");
 
   const handleLangMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setLangaugeButton(event.currentTarget);
@@ -37,7 +37,7 @@ export const LanguageToggle = () => {
       <IconButton
         size="large"
         color="inherit"
-        aria-label="Select language"
+        aria-label={t("app.language-toggle.language-button-aria-label")}
         aria-controls="language-menu"
         aria-haspopup="true"
         onClick={handleLangMenuOpen}

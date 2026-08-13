@@ -1,4 +1,8 @@
-<button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Select language">
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="languageMenu"
+  [attr.aria-label]="'app.language-toggle.language-button-aria-label' | translate"
+>
   <mat-icon>language</mat-icon>
 </button>
 
@@ -7,8 +11,8 @@
     <button
       mat-menu-item
       (click)="switchLanguage(lang.code)"
-      [aria-selected]="currentLanguage() === lang.code"
-      [aria-label]="lang.name"
+      [attr.aria-selected]="currentLanguage() === lang.code"
+      [attr.aria-label]="lang.name"
     >
       @if (currentLanguage() === lang.code) {
         <mat-icon class="check-icon">done</mat-icon>

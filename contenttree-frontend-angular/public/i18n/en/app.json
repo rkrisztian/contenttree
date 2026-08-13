@@ -8,6 +8,13 @@
       "copy-button-aria-label": "Copy error data",
       "copy-button-label": "Copy",
       "delete-button-label": "Delete"
+    },
+    "language-toggle": {
+      "language-button-aria-label": "Select language"
+    },
+    "theme-toggle": {
+      "theme-button-aria-label-dark": "Switch to light mode",
+      "theme-button-aria-label-light": "Switch to dark mode"
     }
   }
 }

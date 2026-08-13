@@ -9,7 +9,7 @@
       <button
         mat-icon-button
         class="error-close-button"
-        [aria-label]="t('app.error-card.close-button-aria-label')"
+        [attr.aria-label]="t('app.error-card.close-button-aria-label')"
         (click)="hide()"
       >
         <mat-icon>close</mat-icon>
@@ -34,7 +34,7 @@
     <button
       mat-flat-button
       (click)="copyToClipboard(error())"
-      [aria-label]="t('app.error-card.copy-button-aria-label')"
+      [attr.aria-label]="t('app.error-card.copy-button-aria-label')"
     >
       <mat-icon class="copy-icon">content_copy</mat-icon>
       {{ t('app.error-card.copy-button-label') }}
