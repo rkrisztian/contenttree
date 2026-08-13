@@ -1,6 +1,6 @@
+import { AppConfigService } from '@/app/app-config.service';
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Service } from '@angular/core';
-import { AppConfigService } from '../app-config.service';
 import type { LoginReqDto, LoginRespDto } from './types';
 
 export const AUTH_API_BASE_PATH = '/api/auth';

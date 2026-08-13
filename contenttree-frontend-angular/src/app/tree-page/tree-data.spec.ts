@@ -1,5 +1,5 @@
+import type { TreeNodeRespDTO } from '@/app/api/types';
 import { describe, expect, it } from 'vitest';
-import type { TreeNodeRespDTO } from '../api/types';
 import { TreeData } from './tree-data';
 
 describe('TreeData', () => {

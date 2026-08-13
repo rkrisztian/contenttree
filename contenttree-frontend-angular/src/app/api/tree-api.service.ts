@@ -1,6 +1,6 @@
+import { AppConfigService } from '@/app/app-config.service';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Service, Signal } from '@angular/core';
-import { AppConfigService } from '../app-config.service';
 import type {
   ContentRespDto,
   CreateTreeNodeReqDTO,

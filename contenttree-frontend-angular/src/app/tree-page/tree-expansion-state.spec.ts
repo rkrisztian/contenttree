@@ -1,7 +1,7 @@
+import type { TreeNodeRespDTO } from '@/app/api/types';
+import { TreeData } from '@/app/tree-page/tree-data';
+import { TreeExpansionState } from '@/app/tree-page/tree-expansion-state';
 import { describe, expect, it } from 'vitest';
-import type { TreeNodeRespDTO } from '../api/types';
-import { TreeData } from './tree-data';
-import { TreeExpansionState } from './tree-expansion-state';
 
 describe('TreeExpansionState', () => {
   const testRawNodes: TreeNodeRespDTO[] = [

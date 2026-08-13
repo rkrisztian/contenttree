@@ -1,12 +1,12 @@
+import appMessages from '@/../public/i18n/en/app.json';
+import { ErrorService } from '@/app/core//error-handler/error.service';
+import { LoadingService } from '@/app/core//loading-indicator/loading.service';
+import { AuthService } from '@/app/core/auth/auth.service';
+import { provideTranslateServiceForTest } from '@/test-utils/test-i18n';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import appMessages from '../../../public/i18n/en/app.json';
-import { provideTranslateServiceForTest } from '../../test-utils/test-i18n';
-import { AuthService } from '../core/auth/auth.service';
-import { ErrorService } from '../core/error-handler/error.service';
-import { LoadingService } from '../core/loading-indicator/loading.service';
 import { Header } from './header';
 
 describe('Header', () => {

@@ -1,6 +1,6 @@
+import { environment } from '@/environments/environment';
+import { it } from '@/test-utils/msw-test';
 import { TestBed } from '@angular/core/testing';
-import { environment } from '../environments/environment';
-import { it } from '../test-utils/msw-test';
 import { AppConfigService } from './app-config.service';
 
 describe('AppConfigService', () => {

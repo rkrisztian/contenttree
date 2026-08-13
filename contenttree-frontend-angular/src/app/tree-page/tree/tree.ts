@@ -1,3 +1,7 @@
+import { AuthService } from '@/app/core/auth/auth.service';
+import { LoadingService } from '@/app/core/loading-indicator/loading.service';
+import { TreePageService } from '@/app/tree-page/tree-page.service';
+import { TreeScrollService } from '@/app/tree-page/tree/tree-scroll.service';
 import {
   afterNextRender,
   Component,
@@ -10,10 +14,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../core/auth/auth.service';
-import { LoadingService } from '../../core/loading-indicator/loading.service';
-import { TreePageService } from '../tree-page.service';
-import { TreeScrollService } from './tree-scroll.service';
 
 @Component({
   selector: 'app-tree',

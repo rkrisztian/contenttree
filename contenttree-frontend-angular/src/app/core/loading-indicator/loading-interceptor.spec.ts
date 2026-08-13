@@ -1,12 +1,12 @@
+import { TreeApiService } from '@/app/api/tree-api.service';
+import { loadingInterceptor } from '@/app/core/loading-indicator/loading-interceptor';
+import { TREE_API_BASE_URL } from '@/test-utils/msw-mocks';
+import { it } from '@/test-utils/msw-test';
 import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { http, HttpResponse } from 'msw';
 import { lastValueFrom } from 'rxjs';
-import { TREE_API_BASE_URL } from '../../../test-utils/msw-mocks';
-import { it } from '../../../test-utils/msw-test';
-import { TreeApiService } from '../../api/tree-api.service';
-import { loadingInterceptor } from './loading-interceptor';
 import { LoadingService } from './loading.service';
 
 describe('loadingInterceptor', () => {

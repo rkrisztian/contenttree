@@ -1,6 +1,6 @@
+import { it } from '@/test-utils/msw-ct';
+import { renderTreePage } from '@/test-utils/test-configurations';
 import { page } from 'vitest/browser';
-import { it } from '../../../test-utils/msw-ct';
-import { renderTreePage } from '../../../test-utils/test-configurations';
 
 describe('NodeDeleteDialog', () => {
   beforeEach(async () => {

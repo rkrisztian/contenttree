@@ -1,8 +1,8 @@
+import appMessages from '@/../public/i18n/en/app.json';
+import { provideTranslateServiceForTest } from '@/test-utils/test-i18n';
 import { TestBed } from '@angular/core/testing';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import appMessages from '../../../../public/i18n/en/app.json';
-import { provideTranslateServiceForTest } from '../../../test-utils/test-i18n';
 import { LanguageToggle } from './language-toggle';
 import { LanguageService } from './language.service';
 

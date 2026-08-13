@@ -1,3 +1,4 @@
+import { TreeNodeData } from '@/app/tree-page/tree-data';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, inject, signal } from '@angular/core';
 import { debounce, form, FormField, FormRoot, required } from '@angular/forms/signals';
@@ -7,7 +8,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TreeNodeData } from '../tree-data';
 
 export interface NodeEditorDialogData {
   createMode: boolean;

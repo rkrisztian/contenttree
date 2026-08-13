@@ -1,9 +1,9 @@
+import appMessages from '@/../public/i18n/en/app.json';
+import { ErrorData, ErrorService } from '@/app/core/error-handler/error.service';
+import { provideTranslateServiceForTest, t } from '@/test-utils/test-i18n';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import appMessages from '../../../../../public/i18n/en/app.json';
-import { provideTranslateServiceForTest, t } from '../../../../test-utils/test-i18n';
-import { ErrorData, ErrorService } from '../error.service';
 import { ErrorCard } from './error-card';
 
 describe('ErrorCard', () => {

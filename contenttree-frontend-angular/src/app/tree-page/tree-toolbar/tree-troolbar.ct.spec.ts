@@ -1,6 +1,6 @@
+import { it } from '@/test-utils/msw-ct';
+import { renderTreePage } from '@/test-utils/test-configurations';
 import { page, userEvent } from 'vitest/browser';
-import { it } from '../../../test-utils/msw-ct';
-import { renderTreePage } from '../../../test-utils/test-configurations';
 
 describe('TreeToolbar', () => {
   beforeEach(async () => {

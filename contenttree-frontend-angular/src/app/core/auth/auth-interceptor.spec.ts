@@ -1,16 +1,16 @@
+import { TreeApiService } from '@/app/api/tree-api.service';
+import { REMOTE_CONFIG_PATH } from '@/app/app-config.service';
+import { authInterceptor } from '@/app/core/auth/auth-interceptor';
+import { AuthService, LOGIN_DATA_KEY } from '@/app/core/auth/auth.service';
+import { TREE_API_BASE_URL } from '@/test-utils/msw-mocks';
+import { it } from '@/test-utils/msw-test';
+import { LOGIN_DATA } from '@/test-utils/test-data';
 import { HttpClient, provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { http, HttpResponse } from 'msw';
 import { lastValueFrom } from 'rxjs';
-import { TREE_API_BASE_URL } from '../../../test-utils/msw-mocks';
-import { it } from '../../../test-utils/msw-test';
-import { LOGIN_DATA } from '../../../test-utils/test-data';
-import { TreeApiService } from '../../api/tree-api.service';
-import { REMOTE_CONFIG_PATH } from '../../app-config.service';
-import { authInterceptor } from '../../core/auth/auth-interceptor';
-import { AuthService, LOGIN_DATA_KEY } from '../../core/auth/auth.service';
 
 describe('authInterceptor', () => {
   const initTestingModule = () => {

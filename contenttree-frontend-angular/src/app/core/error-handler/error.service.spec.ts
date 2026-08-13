@@ -1,6 +1,6 @@
+import { ErrorData, ErrorService } from '@/app/core/error-handler/error.service';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ErrorData, ErrorService } from './error.service';
 
 describe('ErrorService', () => {
   let service: ErrorService;

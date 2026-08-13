@@ -1,3 +1,7 @@
+import appMessages from '@/../public/i18n/en/app.json';
+import { environment } from '@/environments/environment';
+import { it } from '@/test-utils/msw-ct';
+import { provideTranslateServiceForTest, t } from '@/test-utils/test-i18n';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
@@ -5,10 +9,6 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, vi } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import appMessages from '../../public/i18n/en/app.json';
-import { environment } from '../environments/environment';
-import { it } from '../test-utils/msw-ct';
-import { provideTranslateServiceForTest, t } from '../test-utils/test-i18n';
 import { App } from './app';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from './app-config.service';
 import { ErrorService } from './core/error-handler/error.service';

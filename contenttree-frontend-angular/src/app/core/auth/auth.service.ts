@@ -1,9 +1,9 @@
+import { AuthApiService } from '@/app/api/auth-api.service';
+import type { LoginRespDto } from '@/app/api/types';
 import { Service, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { decodeJwt } from 'jose';
 import { tap } from 'rxjs';
-import { AuthApiService } from '../../api/auth-api.service';
-import type { LoginRespDto } from '../../api/types';
 
 export const LOGIN_DATA_KEY = 'loginData';
 

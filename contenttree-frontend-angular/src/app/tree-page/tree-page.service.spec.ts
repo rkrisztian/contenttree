@@ -1,13 +1,13 @@
+import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
+import type { ContentRespDto } from '@/app/api/types';
+import { ErrorService } from '@/app/core/error-handler/error.service';
+import { TreePageService } from '@/app/tree-page/tree-page.service';
+import { TreeScrollService } from '@/app/tree-page/tree/tree-scroll.service';
+import { TREE_API_BASE_URL } from '@/test-utils/msw-mocks';
+import { it } from '@/test-utils/msw-test';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { http, HttpResponse } from 'msw';
-import { TREE_API_BASE_URL } from '../../test-utils/msw-mocks';
-import { it } from '../../test-utils/msw-test';
-import { TREE_API_BASE_PATH } from '../api/tree-api.service';
-import type { ContentRespDto } from '../api/types';
-import { ErrorService } from '../core/error-handler/error.service';
-import { TreePageService } from './tree-page.service';
-import { TreeScrollService } from './tree/tree-scroll.service';
 
 describe('TreePageService', () => {
   let treePageService: TreePageService;

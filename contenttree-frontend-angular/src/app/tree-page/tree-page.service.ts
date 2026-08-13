@@ -1,8 +1,8 @@
+import { TreeApiService } from '@/app/api/tree-api.service';
+import type { CreateTreeNodeReqDTO, UpdateTreeNodeReqDTO } from '@/app/api/types';
+import { ErrorService } from '@/app/core/error-handler/error.service';
 import { afterNextRender, computed, inject, linkedSignal, Service, signal } from '@angular/core';
 import { tap } from 'rxjs';
-import { TreeApiService } from '../api/tree-api.service';
-import type { CreateTreeNodeReqDTO, UpdateTreeNodeReqDTO } from '../api/types';
-import { ErrorService } from '../core/error-handler/error.service';
 import { TreeData } from './tree-data';
 import { TreeExpansionState } from './tree-expansion-state';
 import { TreeScrollService } from './tree/tree-scroll.service';

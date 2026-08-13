@@ -1,6 +1,6 @@
+import { environment } from '@/environments/environment';
 import { httpResource } from '@angular/common/http';
 import { computed, Service } from '@angular/core';
-import { environment } from '../environments/environment';
 
 export interface RemoteConfig {
   apiBaseUrl: string;

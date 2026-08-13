@@ -1,4 +1,4 @@
-import { LoginData } from '../app/core/auth/auth.service';
+import { LoginData } from '@/app/core/auth/auth.service';
 import { LOGIN_RESP } from './msw-mocks';
 
 export const LOGIN_DATA = {

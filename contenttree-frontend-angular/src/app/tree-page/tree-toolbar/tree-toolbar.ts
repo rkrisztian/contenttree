@@ -1,3 +1,14 @@
+import { AuthService } from '@/app/core/auth/auth.service';
+import { LoadingService } from '@/app/core/loading-indicator/loading.service';
+import {
+  NodeDeleteDialog,
+  NodeDeleteDialogData,
+} from '@/app/tree-page/node-delete-dialog/node-delete-dialog';
+import {
+  NodeEditorDialog,
+  NodeEditorDialogData,
+  NodeEditorFormData,
+} from '@/app/tree-page/node-editor-dialog/node-editor-dialog';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -5,14 +16,6 @@ import { debounce, form, FormField, minLength } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../core/auth/auth.service';
-import { LoadingService } from '../../core/loading-indicator/loading.service';
-import { NodeDeleteDialog, NodeDeleteDialogData } from '../node-delete-dialog/node-delete-dialog';
-import {
-  NodeEditorDialog,
-  NodeEditorDialogData,
-  NodeEditorFormData,
-} from '../node-editor-dialog/node-editor-dialog';
 import { TreePageService } from '../tree-page.service';
 
 interface SearchFormData {

@@ -8,8 +8,8 @@ import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
+import { WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { WithTreePageContextProvider } from "@/test-utils/test-providers";
-import { WithTestI18nProvider } from "../../../test-utils/test-i18n";
 import { Header } from "./Header";
 
 describe("Header", () => {

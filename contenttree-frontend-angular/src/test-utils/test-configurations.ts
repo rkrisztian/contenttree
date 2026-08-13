@@ -1,9 +1,9 @@
+import { TreeApiService } from '@/app/api/tree-api.service';
+import { AuthService, LoginData } from '@/app/core/auth/auth.service';
+import { TreePage } from '@/app/tree-page/tree-page';
+import { TreePageService } from '@/app/tree-page/tree-page.service';
 import { signal } from '@angular/core';
 import { render } from 'vitest-browser-angular';
-import { TreeApiService } from '../app/api/tree-api.service';
-import { AuthService, LoginData } from '../app/core/auth/auth.service';
-import { TreePage } from '../app/tree-page/tree-page';
-import { TreePageService } from '../app/tree-page/tree-page.service';
 import { LOGIN_DATA } from './test-data';
 
 export const renderTreePage = async () => {

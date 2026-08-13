@@ -1,3 +1,5 @@
+import { AuthService } from '@/app/core/auth/auth.service';
+import { LoadingService } from '@/app/core/loading-indicator/loading.service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
@@ -7,8 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateBlockDirective } from '@ngx-translate/core';
-import { AuthService } from '../core/auth/auth.service';
-import { LoadingService } from '../core/loading-indicator/loading.service';
 
 export interface LoginFormData {
   username: string;

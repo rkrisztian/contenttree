@@ -1,8 +1,8 @@
+import { it } from '@/test-utils/msw-ct';
+import { renderTreePage } from '@/test-utils/test-configurations';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
-import { it } from '../../../test-utils/msw-ct';
-import { renderTreePage } from '../../../test-utils/test-configurations';
 
 describe('Tree', () => {
   const rootNode = page.getByRole('treeitem', { name: 'Root node', exact: true });

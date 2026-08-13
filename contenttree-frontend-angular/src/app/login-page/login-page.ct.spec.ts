@@ -1,12 +1,12 @@
+import loginMessages from '@/../public/i18n/en/login.json';
+import { AuthService } from '@/app/core/auth/auth.service';
+import { LoadingService } from '@/app/core/loading-indicator/loading.service';
+import { it } from '@/test-utils/msw-ct';
+import { provideTranslateServiceForTest, t } from '@/test-utils/test-i18n';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { render } from 'vitest-browser-angular';
 import { page, userEvent } from 'vitest/browser';
-import loginMessages from '../../../public/i18n/en/login.json';
-import { it } from '../../test-utils/msw-ct';
-import { provideTranslateServiceForTest, t } from '../../test-utils/test-i18n';
-import { AuthService } from '../core/auth/auth.service';
-import { LoadingService } from '../core/loading-indicator/loading.service';
 import { LoginPage } from './login-page';
 
 describe('LoginPage', () => {

@@ -1,4 +1,4 @@
-import type { TreeData } from './tree-data';
+import type { TreeData } from '@/app/tree-page/tree-data';
 
 export class TreeExpansionState {
   private readonly collapsedIds: Set<number>;

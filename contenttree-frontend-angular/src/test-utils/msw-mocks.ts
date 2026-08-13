@@ -1,15 +1,15 @@
-import { AnyHandler, http, HttpResponse } from 'msw';
-import { AUTH_API_BASE_PATH } from '../app/api/auth-api.service';
-import { TREE_API_BASE_PATH } from '../app/api/tree-api.service';
+import { AUTH_API_BASE_PATH } from '@/app/api/auth-api.service';
+import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
 import type {
   ContentRespDto,
   CreateTreeNodeReqDTO,
   LoginReqDto,
   LoginRespDto,
   TreeNodeRespDTO,
-} from '../app/api/types';
-import { REMOTE_CONFIG_PATH, RemoteConfig } from '../app/app-config.service';
-import { environment } from '../environments/environment';
+} from '@/app/api/types';
+import { REMOTE_CONFIG_PATH, RemoteConfig } from '@/app/app-config.service';
+import { environment } from '@/environments/environment';
+import { AnyHandler, http, HttpResponse } from 'msw';
 
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
 export const AUTH_API_BASE_URL = `${environment.apiBaseUrl}${AUTH_API_BASE_PATH}`;

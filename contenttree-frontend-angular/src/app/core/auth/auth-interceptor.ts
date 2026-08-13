@@ -1,7 +1,7 @@
+import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
 import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs';
-import { TREE_API_BASE_PATH } from '../../api/tree-api.service';
 import { AuthService } from './auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {

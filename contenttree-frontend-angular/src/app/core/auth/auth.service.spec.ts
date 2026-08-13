@@ -1,9 +1,9 @@
+import { it } from '@/test-utils/msw-test';
+import { LOGIN_DATA } from '@/test-utils/test-data';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { it } from '../../../test-utils/msw-test';
-import { LOGIN_DATA } from '../../../test-utils/test-data';
 import { AuthService, LOGIN_DATA_KEY } from './auth.service';
 
 describe('AuthService', () => {
