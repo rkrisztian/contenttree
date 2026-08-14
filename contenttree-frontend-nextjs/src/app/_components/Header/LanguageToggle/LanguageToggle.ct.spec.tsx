@@ -10,7 +10,7 @@ import { LanguageToggle } from "./LanguageToggle";
 describe("Language Toggle", () => {
   const languageButton = () =>
     page.getByRole("button", {
-      name: t("app.language-toggle.language-button-aria-label"),
+      name: t("app.header.language-button-aria-label"),
       exact: true,
     });
   const menuItemHungarian = page.getByRole("menuitem", { name: "Magyar", exact: true });

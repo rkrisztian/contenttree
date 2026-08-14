@@ -1,20 +1,28 @@
 {
   "app": {
-    "header-title": "Tartalomfa Menedzselő",
     "loading-indicator": "Betöltés...",
+    "header": {
+      "title": "Tartalomfa Menedzselő",
+      "loading-indicator-aria-label": "Betöltés",
+      "pages-menu-button-aria-label": "Oldalak",
+      "pages-menu-tree-page": "Fa",
+      "pages-menu-about-page": "A programról",
+      "errors-menu-button-aria-label_one": "Hiba értesítések, {{count}} hiba",
+      "errors-menu-button-aria-label_other": "Hiba értesítések, {{count}} hiba",
+      "errors-menu-no-errors": "Nincsenek hibák",
+      "user-menu-button-aria-label": "Felhasználó",
+      "user-menu-log-in": "Bejelentkezés",
+      "user-menu-log-out": "Kijelentkezés",
+      "theme-button-aria-label-dark": "Váltás világos módba",
+      "theme-button-aria-label-light": "Váltás sötét módba",
+      "language-button-aria-label": "Nyelv kiválasztása"
+    },
     "error-card": {
       "close-button-aria-label": "Bezárás",
       "trace-id-label": "Követési azonosító:",
       "copy-button-aria-label": "Hibaadatok másolása",
       "copy-button-label": "Másolás",
       "delete-button-label": "Törlés"
-    },
-    "language-toggle": {
-      "language-button-aria-label": "Nyelv kiválasztása"
-    },
-    "theme-toggle": {
-      "theme-button-aria-label-dark": "Váltás világos módba",
-      "theme-button-aria-label-light": "Váltás sötét módba"
     }
   }
 }

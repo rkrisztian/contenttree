@@ -68,18 +68,23 @@ export const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" className={styles["title"]}>
-          {t("app.header-title")}
+          {t("app.header.title")}
         </Typography>
 
         {loading && (
-          <CircularProgress size={24} color="inherit" disableShrink aria-label="Loading" />
+          <CircularProgress
+            size={24}
+            color="inherit"
+            disableShrink
+            aria-label={t("app.header.loading-indicator-aria-label")}
+          />
         )}
 
         {/* Pages Menu */}
         <IconButton
           size="large"
           color="inherit"
-          aria-label="Pages"
+          aria-label={t("app.header.pages-menu-button-aria-label")}
           aria-controls="navigation-menu"
           aria-haspopup="true"
           onClick={handleNavMenuOpen}
@@ -105,13 +110,13 @@ export const Header = () => {
             <ListItemIcon>
               <AccountTreeIcon fontSize="small" />
             </ListItemIcon>
-            Tree
+            {t("app.header.pages-menu-tree-page")}
           </MenuItem>
           <MenuItem component={Link} href="/about" onClick={handleNavMenuClose}>
             <ListItemIcon>
               <InfoIcon fontSize="small" />
             </ListItemIcon>
-            About
+            {t("app.header.pages-menu-about-page")}
           </MenuItem>
         </Menu>
 
@@ -119,8 +124,8 @@ export const Header = () => {
         <IconButton
           size="large"
           color="inherit"
-          aria-label={errorNotificationsAriaLabel(errors.length)}
-          aria-controls="error-menu"
+          aria-label={t("app.header.errors-menu-button-aria-label", { count: errors.length })}
+          aria-controls="errors-menu"
           aria-haspopup="true"
           onClick={handleErrorsMenuOpen}
         >
@@ -129,7 +134,7 @@ export const Header = () => {
           </Badge>
         </IconButton>
         <Menu
-          id="error-menu"
+          id="errors-menu"
           anchorEl={errorsButton}
           anchorOrigin={{
             vertical: "bottom",
@@ -142,7 +147,7 @@ export const Header = () => {
           }}
           open={isErrorMenuOpen}
           onClose={handleErrorsMenuClose}
-          className={styles["error-menu"]}
+          className={styles["errors-menu"]}
           sx={{
             maxHeight: 480,
             width: "320px",
@@ -151,7 +156,7 @@ export const Header = () => {
         >
           {errors.length === 0 ? (
             <MenuItem disabled>
-              <Box className={styles["empty-state"]}>No errors</Box>
+              <Box className={styles["empty-state"]}>{t("app.header.errors-menu-no-errors")}</Box>
             </MenuItem>
           ) : (
             <Box className={styles["error-list-container"]}>
@@ -166,7 +171,7 @@ export const Header = () => {
         <IconButton
           size="large"
           color="inherit"
-          aria-label="User"
+          aria-label={t("app.header.user-menu-button-aria-label")}
           aria-controls="user-menu"
           aria-haspopup="true"
           onClick={handleUserMenuOpen}
@@ -200,7 +205,7 @@ export const Header = () => {
                 <ListItemIcon>
                   <LogoutIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Log Out" />
+                <ListItemText primary={t("app.header.user-menu-log-out")} />
               </MenuItem>
             </>
           ) : (
@@ -208,7 +213,7 @@ export const Header = () => {
               <ListItemIcon>
                 <LoginIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Log In" />
+              <ListItemText primary={t("app.header.user-menu-log-in")} />
             </MenuItem>
           )}
         </Menu>
@@ -219,18 +224,4 @@ export const Header = () => {
       </Toolbar>
     </AppBar>
   );
-};
-
-const errorNotificationsAriaLabel = (errorCount: number) => {
-  let label = "Error notifications";
-
-  if (errorCount) {
-    label += `, ${errorCount} error`;
-
-    if (errorCount > 1) {
-      label += "s";
-    }
-  }
-
-  return label;
 };

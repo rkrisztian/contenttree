@@ -8,7 +8,7 @@ import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
-import { WithTestI18nProvider } from "@/test-utils/test-i18n";
+import { t, WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import { Header } from "./Header";
 
@@ -23,6 +23,9 @@ describe("Header", () => {
   );
 
   describe("Loading spinner", () => {
+    const loadingMenuButton = () =>
+      page.getByLabelText(t("app.header.loading-indicator-aria-label"));
+
     it("shows when loading", async ({ worker }) => {
       let resolveRequest!: () => void;
 
@@ -40,22 +43,27 @@ describe("Header", () => {
 
       await render(<HeaderWithTreePageContextProvider />);
 
-      await expect.element(page.getByLabelText("Loading")).toBeVisible();
+      await expect.element(loadingMenuButton()).toBeVisible();
 
       await vi.waitUntil(() => resolveRequest);
       resolveRequest();
 
-      await expect.element(page.getByLabelText("Loading")).not.toBeInTheDocument();
+      await expect.element(loadingMenuButton()).not.toBeInTheDocument();
     });
   });
 
   describe("Error notifications menu", () => {
+    const errorNotificationsButtonWithZeroErrors = () =>
+      page.getByLabelText(t("app.header.errors-menu-button-aria-label_other", { count: 0 }));
+    const errorNotificationsButtonWithOneError = () =>
+      page.getByLabelText(t("app.header.errors-menu-button-aria-label_one", { count: 1 }));
+    const errorNotificationsButtonWithTwoErrors = () =>
+      page.getByLabelText(t("app.header.errors-menu-button-aria-label_other", { count: 2 }));
+
     it("shows error badge count when there are no errors", async () => {
       await render(<HeaderWithTreePageContextProvider />);
 
-      await expect
-        .element(page.getByLabelText("Error notifications", { exact: true }))
-        .toBeVisible();
+      await expect.element(errorNotificationsButtonWithZeroErrors()).toBeVisible();
     });
 
     it("shows error badge count when there are errors", async ({ worker }) => {
@@ -70,15 +78,11 @@ describe("Header", () => {
         { wrapper: HeaderWithTreePageContextProvider },
       );
 
-      await expect
-        .element(page.getByLabelText("Error notifications, 1 error", { exact: true }))
-        .toBeVisible();
+      await expect.element(errorNotificationsButtonWithOneError()).toBeVisible();
 
       await act(async () => hooks.current.treePageContext.rawNodes.mutate());
 
-      await expect
-        .element(page.getByLabelText("Error notifications, 2 errors", { exact: true }))
-        .toBeVisible();
+      await expect.element(errorNotificationsButtonWithTwoErrors()).toBeVisible();
     });
   });
 });

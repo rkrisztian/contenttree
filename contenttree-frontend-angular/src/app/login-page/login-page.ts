@@ -17,7 +17,6 @@ export interface LoginFormData {
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [
     FormRoot,
     FormField,

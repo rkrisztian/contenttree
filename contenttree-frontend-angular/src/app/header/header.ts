@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateBlockDirective } from '@ngx-translate/core';
+import { PluralTranslatePipe } from '../core/i18n/plural-translate.pipe';
 import { LanguageToggle } from './language-toggle/language-toggle';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
 
@@ -28,6 +29,7 @@ import { ThemeToggle } from './theme-toggle/theme-toggle';
     LanguageToggle,
     ErrorCard,
     TranslateBlockDirective,
+    PluralTranslatePipe,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -44,20 +46,6 @@ export class Header {
   protected readonly currentUsername = computed<string | null>(
     () => this.authService.loginData()?.username ?? null,
   );
-
-  protected readonly errorNotificationsAriaLabel = (errorCount: number) => {
-    let label = 'Error notifications';
-
-    if (errorCount) {
-      label += `, ${errorCount} error`;
-
-      if (errorCount > 1) {
-        label += 's';
-      }
-    }
-
-    return label;
-  };
 
   protected readonly login = (): void => {
     this.router.navigate(['/login']);

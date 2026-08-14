@@ -37,7 +37,7 @@ export const LanguageToggle = () => {
       <IconButton
         size="large"
         color="inherit"
-        aria-label={t("app.language-toggle.language-button-aria-label")}
+        aria-label={t("app.header.language-button-aria-label")}
         aria-controls="language-menu"
         aria-haspopup="true"
         onClick={handleLangMenuOpen}

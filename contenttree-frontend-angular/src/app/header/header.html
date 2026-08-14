@@ -1,23 +1,31 @@
 <header *translateBlock="let t">
   <mat-toolbar>
-    <h1>{{ t('app.header-title') }}</h1>
+    <h1>{{ t('app.header.title') }}</h1>
     <span class="spacer"></span>
 
     @if (isLoading()) {
-      <mat-progress-spinner diameter="24" [mode]="'indeterminate'" aria-label="Loading" />
+      <mat-progress-spinner
+        diameter="24"
+        [mode]="'indeterminate'"
+        [attr.aria-label]="t('app.header.loading-indicator-aria-label')"
+      />
     }
 
-    <button mat-icon-button [matMenuTriggerFor]="pagesMenu" aria-label="Pages">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="pagesMenu"
+      [attr.aria-label]="t('app.header.pages-menu-button-aria-label')"
+    >
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #pagesMenu="matMenu">
       <button mat-menu-item routerLink="/tree">
         <mat-icon>account_tree</mat-icon>
-        <span>Tree</span>
+        <span>{{ t('app.header.pages-menu-tree-page') }}</span>
       </button>
       <button mat-menu-item routerLink="/about">
         <mat-icon>info</mat-icon>
-        <span>About</span>
+        <span>{{ t('app.header.pages-menu-about-page') }}</span>
       </button>
     </mat-menu>
 
@@ -26,13 +34,15 @@
       [matMenuTriggerFor]="errorsMenu"
       [matBadge]="errors().length"
       [matBadgeHidden]="!errors().length"
-      [attr.aria-label]="errorNotificationsAriaLabel(errors().length)"
+      [attr.aria-label]="
+        'app.header.errors-menu-button-aria-label' | pluralTranslate: { count: errors().length }
+      "
     >
       <mat-icon>notifications</mat-icon>
     </button>
-    <mat-menu #errorsMenu="matMenu" class="error-menu">
+    <mat-menu #errorsMenu="matMenu" class="errors-menu">
       @if (!errors().length) {
-        <div class="empty-state">No errors</div>
+        <div class="empty-state">{{ t('app.header.errors-menu-no-errors') }}</div>
       } @else {
         <div (click)="$event.stopPropagation()" (keypress)="$event.stopPropagation()" tabindex="-1">
           <ul class="error-list">
@@ -46,7 +56,11 @@
       }
     </mat-menu>
 
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="userMenu"
+      [attr.aria-label]="t('app.header.user-menu-button-aria-label')"
+    >
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu" class="user-menu">
@@ -54,12 +68,12 @@
         <div class="username">{{ currentUsername() }}</div>
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
-          <span>Log Out</span>
+          <span>{{ t('app.header.user-menu-log-out') }}</span>
         </button>
       } @else {
         <button mat-menu-item (click)="login()">
           <mat-icon>login</mat-icon>
-          <span>Log In</span>
+          <span>{{ t('app.header.user-menu-log-in') }}</span>
         </button>
       }
     </mat-menu>

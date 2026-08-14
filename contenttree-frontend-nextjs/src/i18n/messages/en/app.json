@@ -1,20 +1,28 @@
 {
   "app": {
-    "header-title": "Content Tree Manager",
     "loading-indicator": "Loading...",
+    "header": {
+      "title": "Content Tree Manager",
+      "loading-indicator-aria-label": "Loading",
+      "pages-menu-button-aria-label": "Pages",
+      "pages-menu-tree-page": "Tree",
+      "pages-menu-about-page": "About",
+      "errors-menu-button-aria-label_one": "Error notifications, {{count}} error",
+      "errors-menu-button-aria-label_other": "Error notifications, {{count}} errors",
+      "errors-menu-no-errors": "No errors",
+      "user-menu-button-aria-label": "User",
+      "user-menu-log-in": "Log In",
+      "user-menu-log-out": "Log Out",
+      "theme-button-aria-label-dark": "Switch to light mode",
+      "theme-button-aria-label-light": "Switch to dark mode",
+      "language-button-aria-label": "Select language"
+    },
     "error-card": {
       "close-button-aria-label": "Close",
       "trace-id-label": "Trace ID:",
       "copy-button-aria-label": "Copy error data",
       "copy-button-label": "Copy",
       "delete-button-label": "Delete"
-    },
-    "language-toggle": {
-      "language-button-aria-label": "Select language"
-    },
-    "theme-toggle": {
-      "theme-button-aria-label-dark": "Switch to light mode",
-      "theme-button-aria-label-light": "Switch to dark mode"
     }
   }
 }

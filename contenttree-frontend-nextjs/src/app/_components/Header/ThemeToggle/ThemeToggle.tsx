@@ -20,8 +20,8 @@ export const ThemeToggle = () => {
       onClick={toggleMode}
       aria-label={t(
         mode === "dark"
-          ? "app.theme-toggle.theme-button-aria-label-dark"
-          : "app.theme-toggle.theme-button-aria-label-light",
+          ? "app.header.theme-button-aria-label-dark"
+          : "app.header.theme-button-aria-label-light",
       )}
     >
       {mode === "dark" ? <DarkMode /> : <LightMode />}
