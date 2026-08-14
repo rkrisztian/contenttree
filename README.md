@@ -245,6 +245,11 @@ npm test
 
 ## Contribution
 
+> [!NOTE]
+> This repository serves as a demonstration of my skills and a personal learning exercise. It is not
+> set up to accept external contributions. The following guidelines are provided for informational
+> purposes only.
+
 The following IDEs are recommended for use:
 
 - **Backend:**
@@ -261,9 +266,12 @@ You can change dependencies (e.g., update dependency versions) by running the fo
 ```shell
 cd contenttree-backend
 gw build --write-verification-metadata pgp,sha256 --export-keys --write-locks
+git diff gradle/verification-*
 ```
 
-Then review the changes in the verification metadata and the lock file.
+Then review the changes in the verification metadata and the lock file. Once done, update
+the `origin` and `reason` fields of `trusted-key`s and checksums with your own verification info,
+and delete unused versions in `verification-metadata.xml`.
 
 ### Frontend (Angular and Next.js) and E2E Tests
 

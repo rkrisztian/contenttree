@@ -1,5 +1,7 @@
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
+import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
 	java
@@ -209,7 +211,7 @@ testing {
 		withType<JvmTestSuite> {
 			targets.all {
 				testTask.configure {
-					testLogging { events("skipped", "failed") }
+					testLogging { lifecycle.events(SKIPPED); quiet.events(FAILED) }
 					jvmArgs(
 						"-javaagent:${mockitoAgent.get().asPath}",
 						// Disable CDS to silence "Sharing is only supported for boot loader classes..."
