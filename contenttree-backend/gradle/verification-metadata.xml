@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<verification-metadata xmlns="https://schema.gradle.org/dependency-verification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://schema.gradle.org/dependency-verification https://schema.gradle.org/dependency-verification/dependency-verification-1.3.xsd">
+<verification-metadata xmlns="https://schema.gradle.org/dependency-verification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://schema.gradle.org/dependency-verification https://schema.gradle.org/dependency-verification/dependency-verification-1.4.xsd">
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>true</verify-signatures>
@@ -9,28 +9,26 @@
          <trust file=".*-sources[.]jar" regex="true"/>
          <trust file="gradle-.*-src.zip" regex="true"/>
       </trusted-artifacts>
-      <ignored-keys>
-         <ignored-key id="C33B56C147B01975" reason="Key couldn't be downloaded from any key server"/>
-      </ignored-keys>
       <trusted-keys>
          <trusted-key id="04543577D6A9CC626239C50C7ECBD740FF06AEB5">
             <trusting group="com.sun.istack"/>
             <trusting group="org.glassfish.jaxb"/>
          </trusted-key>
+         <trusted-key id="06D0369BE1D0B06997DA66E8C33B56C147B01975" group="org.sonarsource.scanner.gradle" name="sonarqube-gradle-plugin" version="7.4.0.8496"/>
          <trusted-key id="077E8893A6DCC33DD4A4D5B256E73BA9A0B592D0" group="org.apache.logging.log4j"/>
          <trusted-key id="0785B3EFF60B1B1BEA94E0BB7C25280EAE63EBE5" group="^org[.]apache[.]httpcomponents($|([.].*))" regex="true"/>
          <trusted-key id="07A4FA67A8222F1B39F9EDAEF8052E4E1BD0DB31" group="^org[.]neo4j($|([.].*))" regex="true"/>
          <trusted-key id="07E20F0103D9DFC697C490D0368557390486F2C5" group="org.awaitility"/>
          <trusted-key id="0B1B71E813C226033B16D8C5F0D228D8FF31B515" group="^io[.]zipkin($|([.].*))" regex="true"/>
          <trusted-key id="0B743A794876D3C78AB542A118D239B1CBCD2236" group="org.glassfish.jersey" name="jersey-bom" version="4.0.2"/>
-         <trusted-key id="0D35D3F60078655126908E8AF3D1600878E85A3D" group="io.netty" name="netty-bom"/>
+         <trusted-key id="0D35D3F60078655126908E8AF3D1600878E85A3D" group="io.netty" name="netty-bom" version="4.2.15.Final"/>
          <trusted-key id="10F3C7A02ECA55E502BADCF3991EFB94DB91127D" group="org.ow2" name="ow2" version="1.5.1"/>
          <trusted-key id="1452F35849B50750F6A3BBB4B54011358B352F85" group="^org[.]hibernate($|([.].*))" regex="true"/>
          <trusted-key id="147B691A19097624902F4EA9689CBE64F4BC997F" group="org.mockito"/>
          <trusted-key id="19BEAB2D799C020F17C69126B16698A4ADF4D638" group="org.checkerframework"/>
          <trusted-key id="1A55F091AD28C07F831FA44D7905DE25C78AD456" group="com.google.protobuf"/>
-         <trusted-key id="1A75005E142192223D6A7C3B76E0008D166740A8" group="org.mongodb" name="mongodb-driver-bom"/>
-         <trusted-key id="1AA8CF92D409A73393D0B736BFF2EE42C8282E76" group="org.apache.activemq" name="activemq-bom"/>
+         <trusted-key id="1A75005E142192223D6A7C3B76E0008D166740A8" group="org.mongodb" name="mongodb-driver-bom" version="5.8.0"/>
+         <trusted-key id="1AA8CF92D409A73393D0B736BFF2EE42C8282E76" group="org.apache.activemq" name="activemq-bom" version="6.2.6"/>
          <trusted-key id="1D04A424F505394DBED15D451D0690E353BE126D" group="net.minidev"/>
          <trusted-key id="1E046C19ED2873D8C08AF7B8A0632691B78E3422" group="net.sourceforge.pmd"/>
          <trusted-key id="206DF7C48E3D6CB145DDA835FF844A3256C7FB01" group="de.siegmar" name="fastcsv" version="3.7.0"/>
@@ -40,7 +38,7 @@
             <trusting group="^com[.]fasterxml($|([.].*))" regex="true"/>
             <trusting group="^tools[.]jackson($|([.].*))" regex="true"/>
          </trusted-key>
-         <trusted-key id="28417C95E8906D108392822354A43F3254868410" group="^org[.]apache($|([.].*))" regex="true"/>
+         <trusted-key id="28417C95E8906D108392822354A43F3254868410" group="org.apache.artemis"/>
          <trusted-key id="2B34821418CF19CF1F2A8352953E02E4F573B46F" group="jakarta.platform"/>
          <trusted-key id="2DB4F1EF0FA761ECC4EA935C86FDC7E2A11262CB">
             <trusting group="commons-codec"/>
@@ -67,7 +65,6 @@
             <trusting group="io.spring.gradle"/>
             <trusting group="^org[.]springframework($|([.].*))" regex="true"/>
          </trusted-key>
-         <trusted-key id="498AAC354AA5CB36FAAB7608B6E83A2D2E447E56" group="org.apache.cassandra" name="java-driver-bom" version="4.19.2"/>
          <trusted-key id="4C5F68D09D42BA7FAC888DF9A929EA2321FDBF8F">
             <trusting group="net.sf.saxon"/>
             <trusting group="org.xmlresolver"/>
@@ -95,9 +92,8 @@
          <trusted-key id="7616EB882DAF57A11477AAF559A252FB1199D873" group="com.google.code.findbugs" name="jsr305" version="3.0.2"/>
          <trusted-key id="7B121B76A7ED6CE6E60AD51784E913A8E3A748C0" group="org.bouncycastle" name="bcprov-jdk18on" version="1.84"/>
          <trusted-key id="7BC4E55593A4E7E5F991BE0E9EB72C54FB72F2A7" group="org.jmolecules" name="jmolecules-bom" version="2025.0.2"/>
-         <trusted-key id="7C7271B83AAE727A2941690666F8E4860BF74983" group="org.jooq" name="jooq-bom"/>
+         <trusted-key id="7C7271B83AAE727A2941690666F8E4860BF74983" group="org.jooq" name="jooq-bom" version="3.21.5"/>
          <trusted-key id="80F6D6B0D90C6747753344CAB5A9E81B565E89E0" group="org.tomlj" name="tomlj" version="1.0.0"/>
-         <trusted-key id="81BE0C38ACE8AEDC7735A05F4C2AFF633F3A7223" group="org.seleniumhq.selenium" name="selenium-bom" version="4.37.0"/>
          <trusted-key id="82F94BBDF95C247BBD21396B9A0B94DEC0FFA7EE" group="org.webjars" name="webjars-locator-lite" version="1.1.3"/>
          <trusted-key id="84789D24DF77A32433CE1F079EB80E92EB2135B1" group="org.apache" name="apache"/>
          <trusted-key id="86C0144909739E0EE3D1B545305F296EAC47556B" group="org.postgresql" name="postgresql" version="42.7.11"/>
@@ -123,7 +119,7 @@
          <trusted-key id="BDB5FA4FE719D787FB3D3197F6D4A1D411E9D1AE" group="com.google.guava"/>
          <trusted-key id="BE685132AFD2740D9095F9040CC0B712FEE75827" group="org.assertj"/>
          <trusted-key id="C3259D20DAEC4ACE6D57CC83340B090F727518D8" group="com.google.j2objc" name="j2objc-annotations" version="3.1"/>
-         <trusted-key id="C663D2F64DA2CA09DB28D9ABD3FA67D522C55256" group="org.apache.pulsar" name="pulsar-bom"/>
+         <trusted-key id="C663D2F64DA2CA09DB28D9ABD3FA67D522C55256" group="org.apache.pulsar" name="pulsar-bom" version="4.2.2"/>
          <trusted-key id="C668130C58722C9DC1C0FC633F1EB974E7AB9B37" group="biz.aQute.bnd" name="biz.aQute.bnd.annotation" version="7.1.0"/>
          <trusted-key id="C7BE5BCC9FEC15518CFDA882B0F3710FA64900E7">
             <trusting group="com.google.code.gson"/>
@@ -154,7 +150,7 @@
             <trusting group="commons-logging"/>
             <trusting group="org.apache.commons"/>
          </trusted-key>
-         <trusted-key id="F5FEBA84EB26C56457B2CF819E31AB27445478DB" group="org.infinispan"/>
+         <trusted-key id="F5FEBA84EB26C56457B2CF819E31AB27445478DB" group="org.infinispan" name="infinispan-bom" version="16.1.4"/>
          <trusted-key id="FA1703B1D287CAEA3A60F931E0130A3ED5A2079E" group="org.webjars" name="swagger-ui" version="5.32.11"/>
          <trusted-key id="FA7929F83AD44C4590F6CC6815C71C0A4E0B8EDD" group="net.java.dev.jna"/>
          <trusted-key id="FC411CD3CB7DCB0ABC9801058118B3BCDB1A5000" group="jakarta.xml.bind"/>
@@ -172,11 +168,6 @@
          </artifact>
          <artifact name="gradle-execfork-plugin-0.2.0.module">
             <sha256 value="7b239eb029b2e4cab00dddf1df204ef4bbf88e78a43619c26fbb1e49bc53c642" origin="Generated by Gradle" reason="Artifact is not signed"/>
-         </artifact>
-      </component>
-      <component group="com.google.errorprone" name="error_prone_parent" version="2.38.0">
-         <artifact name="error_prone_parent-2.38.0.pom">
-            <sha256 value="e62458a6a3e63081bc7c57b3c0fac9f04f76ce32f606532db69fe2b3d47b934c" origin="Generated by Gradle"/>
          </artifact>
       </component>
       <component group="io.spring.dependency-management" name="io.spring.dependency-management.gradle.plugin" version="1.1.7">
@@ -218,32 +209,14 @@
             <sha256 value="b828951047e27a6345e9c609575455ef551f762df5334cd03e8c7d4ede766101" origin="Generated by Gradle" reason="Artifact is not signed"/>
          </artifact>
       </component>
-      <component group="org.ow2" name="ow2" version="1.5.1">
-         <artifact name="ow2-1.5.1.pom">
-            <sha256 value="321ddbb7ee6fe4f53dea6b4cd6db74154d6bfa42391c1f763b361b9f485acf05" origin="Generated by Gradle"/>
-         </artifact>
-      </component>
       <component group="org.sonarqube" name="org.sonarqube.gradle.plugin" version="7.4.0.8496">
          <artifact name="org.sonarqube.gradle.plugin-7.4.0.8496.pom">
             <sha256 value="a812121b3ada10ddfa0eebbc0c5b754d4f401db8088e9798355ba44724a23050" origin="Generated by Gradle" reason="Artifact is not signed"/>
          </artifact>
       </component>
-      <component group="org.sonarsource.scanner.gradle" name="sonarqube-gradle-plugin" version="7.4.0.8496">
-         <artifact name="sonarqube-gradle-plugin-7.4.0.8496.jar">
-            <sha256 value="3944b0343fbdc5cb1f9126d6f2539e39fed6e4d56afee8660391a3d328c417bb" origin="Generated by Gradle" reason="A key couldn't be downloaded"/>
-         </artifact>
-         <artifact name="sonarqube-gradle-plugin-7.4.0.8496.module">
-            <sha256 value="3e0bcba3ae2ccbf1d6da8eb3fcd11a6454e5e6757eb9a4b0ba6443ffa45abfd3" origin="Generated by Gradle" reason="A key couldn't be downloaded"/>
-         </artifact>
-      </component>
       <component group="org.sonatype.oss" name="oss-parent" version="7">
          <artifact name="oss-parent-7.pom">
             <sha256 value="b51f8867c92b6a722499557fc3a1fdea77bdf9ef574722fe90ce436a29559454" origin="Generated by Gradle" reason="Artifact is not signed"/>
-         </artifact>
-      </component>
-      <component group="org.sonatype.oss" name="oss-parent" version="9">
-         <artifact name="oss-parent-9.pom">
-            <sha256 value="fb40265f982548212ff82e362e59732b2187ec6f0d80182885c14ef1f982827a" origin="Generated by Gradle"/>
          </artifact>
       </component>
       <component group="org.springdoc" name="springdoc-openapi-gradle-plugin" version="1.9.0">
