@@ -1,1 +1,8 @@
-{}
+{
+  "tree-page": {
+    "content-panel": {
+      "loading-indicator": "Tartalom betöltése...",
+      "node-not-selected": "Válasszon ki egy faelemet a tartalmának megtekintéséhez"
+    }
+  }
+}

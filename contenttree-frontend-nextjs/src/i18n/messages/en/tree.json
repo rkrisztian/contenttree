@@ -1,1 +1,8 @@
-{}
+{
+  "tree-page": {
+    "content-panel": {
+      "loading-indicator": "Loading content...",
+      "node-not-selected": "Select a node to view its content"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import treeMessages from '@/../public/i18n/en/tree.json';
 import { TreeApiService } from '@/app/api/tree-api.service';
 import { AuthService, LoginData } from '@/app/core/auth/auth.service';
 import { TreePage } from '@/app/tree-page/tree-page';
@@ -5,6 +6,7 @@ import { TreePageService } from '@/app/tree-page/tree-page.service';
 import { signal } from '@angular/core';
 import { render } from 'vitest-browser-angular';
 import { LOGIN_DATA } from './test-data';
+import { provideTranslateServiceForTest } from './test-i18n';
 
 export const renderTreePage = async () => {
   return render(TreePage, {
@@ -19,6 +21,7 @@ export const renderTreePage = async () => {
           isManager: signal(true).asReadonly(),
         } satisfies Partial<AuthService>,
       },
+      provideTranslateServiceForTest(treeMessages),
     ],
   });
 };

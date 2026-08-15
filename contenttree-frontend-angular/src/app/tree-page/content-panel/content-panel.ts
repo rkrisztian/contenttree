@@ -4,10 +4,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-panel',
-  imports: [MatCardModule, MatDividerModule, MatProgressSpinnerModule, MatIconModule],
+  imports: [
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    TranslateBlockDirective,
+  ],
   templateUrl: './content-panel.html',
   styleUrl: './content-panel.scss',
 })

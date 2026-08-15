@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<mat-card appearance="outlined" *translateBlock="let t">
   @if (selectedNode() != null) {
     <mat-card-header>
       <mat-card-title>
@@ -13,10 +13,10 @@
     @if (content.isLoading()) {
       <div class="loading">
         <mat-spinner diameter="32"></mat-spinner>
-        <span>Loading content...</span>
+        <span>{{ t('tree-page.content-panel.loading-indicator') }}</span>
       </div>
     } @else if (selectedNode() === null || !content.hasValue()) {
-      <p class="node-not-selected">Select a node to view its content</p>
+      <p class="node-not-selected">{{ t('tree-page.content-panel.node-not-selected') }}</p>
     } @else {
       <pre class="content-data">{{ content.value().data }}</pre>
     }
