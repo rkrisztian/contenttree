@@ -11,8 +11,9 @@ import { LoginPage } from './login-page';
 
 describe('LoginPage', () => {
   const usernameField = () => page.getByPlaceholder(t('login-page.username-field-placeholder'));
-  const passwordField = page.getByPlaceholder('Enter password');
-  const loginButton = page.getByRole('button', { name: 'Log in', exact: true });
+  const passwordField = () => page.getByPlaceholder(t('login-page.password-field-placeholder'));
+  const loginButton = () =>
+    page.getByRole('button', { name: t('login-page.log-in-button-label'), exact: true });
 
   const mockLoginFn = vi.fn().mockImplementation(() => of(undefined));
 
@@ -34,24 +35,24 @@ describe('LoginPage', () => {
 
   it('should submit form and navigate on successful login', async () => {
     await userEvent.fill(usernameField(), 'admin');
-    await userEvent.fill(passwordField, 'secret');
+    await userEvent.fill(passwordField(), 'secret');
 
-    await expect.element(loginButton).toBeEnabled();
+    await expect.element(loginButton()).toBeEnabled();
 
-    await loginButton.click();
+    await loginButton().click();
 
     expect(mockLoginFn).toHaveBeenCalledWith('admin', 'secret');
   });
 
   it('should not submit form when fields are empty', async () => {
     await userEvent.fill(usernameField(), 'admin');
-    await userEvent.fill(passwordField, 'secret');
+    await userEvent.fill(passwordField(), 'secret');
 
-    await expect.element(loginButton).toBeEnabled();
+    await expect.element(loginButton()).toBeEnabled();
 
     await userEvent.clear(usernameField());
-    await userEvent.clear(passwordField);
+    await userEvent.clear(passwordField());
 
-    await expect.element(loginButton).toBeDisabled();
+    await expect.element(loginButton()).toBeDisabled();
   });
 });

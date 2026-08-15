@@ -36,7 +36,7 @@ export default function LoginPage() {
   return (
     <Box className={styles["container"]}>
       <Card className={styles["card"]}>
-        <CardHeader className={styles["card-header"]} title="Login"></CardHeader>
+        <CardHeader className={styles["card-header"]} title={t("login-page.title")}></CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} id="login-form">
             <Controller
@@ -49,7 +49,7 @@ export default function LoginPage() {
                   fullWidth
                   variant="outlined"
                   error={!!fieldState.error}
-                  helperText={fieldState.error ? "Username is required" : null}
+                  helperText={fieldState.error ? t("login-page.username-field-required") : null}
                   className={styles["text-field"]}
                   placeholder={t("login-page.username-field-placeholder")}
                   {...field}
@@ -63,14 +63,14 @@ export default function LoginPage() {
               rules={{ required: true }}
               render={({ field, fieldState }) => (
                 <TextField
-                  label="Password"
+                  label={t("login-page.password-field-label")}
                   fullWidth
                   type="password"
                   variant="outlined"
                   error={!!fieldState.error}
-                  helperText={fieldState.error ? "Password is required" : null}
+                  helperText={fieldState.error ? t("login-page.password-field-required") : null}
                   className={styles["text-field"]}
-                  placeholder="Enter password"
+                  placeholder={t("login-page.password-field-placeholder")}
                   {...field}
                 />
               )}
@@ -85,9 +85,9 @@ export default function LoginPage() {
             disabled={!isValid || isSubmitting || loading}
             startIcon={<LoginIcon />}
           >
-            Log in
+            {t("login-page.log-in-button-label")}
           </Button>
-        </CardActions>{" "}
+        </CardActions>
       </Card>
     </Box>
   );

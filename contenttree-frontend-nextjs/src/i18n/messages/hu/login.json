@@ -1,6 +1,12 @@
 {
   "login-page": {
+    "title": "Belépés",
     "username-field-label": "Felhasználónév",
-    "username-field-placeholder": "Adja meg a felhasználónevét"
+    "username-field-placeholder": "Adja meg a felhasználónevét",
+    "username-field-required": "A felhasználónév megadása kötelező",
+    "password-field-label": "Jelszó",
+    "password-field-placeholder": "Adja meg a jelszavát",
+    "password-field-required": "A jelszó megadása kötelező",
+    "log-in-button-label": "Belépés"
   }
 }

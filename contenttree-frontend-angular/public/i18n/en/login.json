@@ -1,6 +1,12 @@
 {
   "login-page": {
+    "title": "Login",
     "username-field-label": "Username",
-    "username-field-placeholder": "Enter username"
+    "username-field-placeholder": "Enter username",
+    "username-field-required": "Username is required",
+    "password-field-label": "Password",
+    "password-field-placeholder": "Enter password",
+    "password-field-required": "Password is required",
+    "log-in-button-label": "Log in"
   }
 }

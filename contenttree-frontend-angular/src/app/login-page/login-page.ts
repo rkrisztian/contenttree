@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslateBlockDirective } from '@ngx-translate/core';
+import { TranslateBlockDirective, TranslateService } from '@ngx-translate/core';
 
 export interface LoginFormData {
   username: string;
@@ -31,8 +31,9 @@ export interface LoginFormData {
   styleUrl: './login-page.scss',
 })
 export class LoginPage {
-  readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
   private readonly loadingService = inject(LoadingService);
+  private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly loginModel = signal<LoginFormData>({
@@ -42,8 +43,12 @@ export class LoginPage {
   protected readonly loginForm = form(
     this.loginModel,
     (schemaPath) => {
-      required(schemaPath.username, { message: 'Username is required' });
-      required(schemaPath.password, { message: 'Password is required' });
+      required(schemaPath.username, {
+        message: this.translate.translate('login-page.username-field-required'),
+      });
+      required(schemaPath.password, {
+        message: this.translate.translate('login-page.password-field-required'),
+      });
     },
     {
       submission: {
