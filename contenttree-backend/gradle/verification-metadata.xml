@@ -96,7 +96,7 @@
          <trusted-key id="80F6D6B0D90C6747753344CAB5A9E81B565E89E0" group="org.tomlj" name="tomlj" version="1.0.0"/>
          <trusted-key id="82F94BBDF95C247BBD21396B9A0B94DEC0FFA7EE" group="org.webjars" name="webjars-locator-lite" version="1.1.3"/>
          <trusted-key id="84789D24DF77A32433CE1F079EB80E92EB2135B1" group="org.apache" name="apache"/>
-         <trusted-key id="86C0144909739E0EE3D1B545305F296EAC47556B" group="org.postgresql" name="postgresql" version="42.7.11"/>
+         <trusted-key id="86C0144909739E0EE3D1B545305F296EAC47556B" group="org.postgresql" name="postgresql" version="42.7.13"/>
          <trusted-key id="8756C4F765C9AC3CB6B85D62379CE192D401AB61">
             <trusting group="org.jetbrains"/>
             <trusting group="org.rnorth.duct-tape"/>

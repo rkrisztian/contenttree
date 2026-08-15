@@ -81,7 +81,7 @@ configurations.all {
 }
 
 // Temporary fixes for vulnerabilities in direct dependencies:
-extra["postgresql.version"] = "42.7.11"
+extra["postgresql.version"] = "42.7.13"
 
 dependencyLocking {
 	lockAllConfigurations()
