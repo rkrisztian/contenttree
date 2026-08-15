@@ -10,7 +10,7 @@ export class LanguageService {
   readonly currentLanguage = computed(() => this.translate.currentLang()!);
 
   readonly availableLanguages = [
-    { code: 'en', name: 'English' },
+    { code: 'en', name: 'English (US)' },
     { code: 'hu', name: 'Magyar' },
   ];
 

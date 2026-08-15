@@ -11,7 +11,7 @@ import { type MouseEvent, useState } from "react";
 import { i18nConfig } from "@/i18n/i18n.config";
 
 const availableLanguages: Record<string, { name: string }> = {
-  en: { name: "English" },
+  en: { name: "English (US)" },
   hu: { name: "Magyar" },
 };
 
