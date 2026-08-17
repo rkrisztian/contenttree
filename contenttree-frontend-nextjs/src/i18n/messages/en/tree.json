@@ -3,6 +3,16 @@
     "content-panel": {
       "loading-indicator": "Loading content...",
       "node-not-selected": "Select a node to view its content"
+    },
+    "node-delete-dialog": {
+      "title": "Delete Node",
+      "close-button-aria-label": "Close",
+      "delete-confirmation_one": "Are you sure you want to delete <strong>{{nodeName}}</strong>?",
+      "delete-confirmation_other": "Are you sure you want to delete <strong>{{nodeName}}</strong> and its following children?",
+      "nodes-to-be-deleted-aria-label": "Nodes to be deleted",
+      "cancel-button-label": "Cancel",
+      "delete-button-label_one": "Delete",
+      "delete-button-label_other": "Delete All"
     }
   }
 }

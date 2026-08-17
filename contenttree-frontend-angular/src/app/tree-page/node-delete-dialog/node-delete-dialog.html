@@ -1,21 +1,23 @@
-<mat-card>
+<mat-card *translateBlock="let t">
   <mat-card-header>
-    <mat-card-title>Delete Node</mat-card-title>
+    <mat-card-title>{{ t('tree-page.node-delete-dialog.title') }}</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
-    <p class="instruction-text">
-      Are you sure you want to delete
-      <strong>{{ nodeToDelete.name }}</strong>
-      @if (allNodesToDelete.length > 1) {
-        and its following children
-      }
-      ?
-    </p>
+    <p
+      class="instruction-text"
+      [innerHTML]="
+        'tree-page.node-delete-dialog.delete-confirmation'
+          | pluralTranslate: { count: allNodesToDelete.length, nodeName: nodeToDelete.name }
+      "
+    ></p>
 
     @if (allNodesToDelete.length > 1) {
       <div class="tree-preview-container">
-        <ul class="tree-preview-list" aria-label="Nodes to be deleted">
+        <ul
+          class="tree-preview-list"
+          [attr.aria-label]="t('tree-page.node-delete-dialog.nodes-to-be-deleted-aria-label')"
+        >
           @for (node of allNodesToDelete; track node.id) {
             <li
               class="tree-node"
@@ -39,13 +41,15 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-stroked-button (click)="cancel()">Cancel</button>
+    <button mat-stroked-button (click)="cancel()">
+      {{ t('tree-page.node-delete-dialog.cancel-button-label') }}
+    </button>
     <button mat-flat-button class="delete-button" (click)="confirm()">
       <mat-icon>delete</mat-icon>
-      Delete
-      @if (allNodesToDelete.length > 1) {
-        All
-      }
+      {{
+        'tree-page.node-delete-dialog.delete-button-label'
+          | pluralTranslate: { count: allNodesToDelete.length }
+      }}
     </button>
   </mat-card-actions>
 </mat-card>

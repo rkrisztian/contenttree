@@ -3,6 +3,16 @@
     "content-panel": {
       "loading-indicator": "Tartalom betöltése...",
       "node-not-selected": "Válasszon ki egy faelemet a tartalmának megtekintéséhez"
+    },
+    "node-delete-dialog": {
+      "title": "Faelem törlése",
+      "close-button-aria-label": "Bezárás",
+      "delete-confirmation_one": "Biztosan törli a(z) <strong>{{nodeName}}</strong> faelemet?",
+      "delete-confirmation_other": "Biztosan törli a(z) <strong>{{nodeName}}</strong> faelemet és az alábbi gyerekeit?",
+      "nodes-to-be-deleted-aria-label": "Törlendő faelemek",
+      "cancel-button-label": "Mégse",
+      "delete-button-label_one": "Törlés",
+      "delete-button-label_other": "Mind törlése"
     }
   }
 }

@@ -14,6 +14,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
+import { Trans, useT } from "next-i18next/client";
 import type { TreeNodeData } from "@/app/tree/_lib/tree-data";
 import styles from "./NodeDeleteDialog.module.scss";
 
@@ -29,6 +30,7 @@ export interface NodeDeleteDialogData {
 
 export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDeleteDialogProps>) => {
   const nodeToDelete = data.allNodesToDelete[0]!;
+  const { t } = useT("tree");
 
   const handleClose = () => {
     onClose();
@@ -47,21 +49,32 @@ export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDelet
       fullWidth
     >
       <DialogTitle className={styles["dialog-header"]} id="node-delete-dialog-title">
-        Delete Node
+        {t("tree-page.node-delete-dialog.title")}
       </DialogTitle>
-      <IconButton onClick={onClose} aria-label="Close" className={styles["close-button"]}>
+      <IconButton
+        onClick={onClose}
+        aria-label={t("tree-page.node-delete-dialog.close-button-aria-label")}
+        className={styles["close-button"]}
+      >
         <CloseIcon />
       </IconButton>
 
       <DialogContent dividers>
         <Typography variant="body1" className={styles["instruction-text"]}>
-          Are you sure you want to delete <strong>{nodeToDelete.name}</strong>
-          {data.allNodesToDelete.length > 1 && " and its following children"}?
+          <Trans
+            t={t}
+            i18nKey="tree-page.node-delete-dialog.delete-confirmation"
+            values={{ count: data.allNodesToDelete.length, nodeName: nodeToDelete.name }}
+            components={{ strong: <strong /> }}
+          />
         </Typography>
 
         {data.allNodesToDelete.length > 1 && (
           <Box className={styles["tree-preview-container"]}>
-            <List aria-label="Nodes to be deleted" className={styles["tree-preview-list"]}>
+            <List
+              aria-label={t("tree-page.node-delete-dialog.nodes-to-be-deleted-aria-label")}
+              className={styles["tree-preview-list"]}
+            >
               {data.allNodesToDelete.map((node) => (
                 <Box key={node.id}>
                   <ListItem
@@ -84,7 +97,7 @@ export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDelet
 
       <DialogActions className={styles["dialog-actions"]}>
         <Button variant="outlined" onClick={handleClose} startIcon={<CancelIcon />}>
-          Cancel
+          {t("tree-page.node-delete-dialog.cancel-button-label")}
         </Button>
         <Button
           variant="contained"
@@ -92,8 +105,9 @@ export const NodeDeleteDialog = ({ data, onClose, onDelete }: Readonly<NodeDelet
           onClick={handleConfirm}
           startIcon={<DeleteIcon />}
         >
-          Delete
-          {data.allNodesToDelete.length > 1 && " All"}
+          {t("tree-page.node-delete-dialog.delete-button-label", {
+            count: data.allNodesToDelete.length,
+          })}
         </Button>
       </DialogActions>
     </Dialog>

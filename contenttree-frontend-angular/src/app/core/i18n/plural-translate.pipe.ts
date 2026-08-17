@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class PluralTranslatePipe implements PipeTransform {
   private readonly translate = inject(TranslateService);
 
-  transform(keyPrefix: string, params?: Record<string, unknown>): string {
+  transform: TranslateService['instant'] = (keyPrefix, params, lang) => {
     const count = params?.['count'] as number | undefined;
 
     if (count == null) {
@@ -22,7 +22,11 @@ export class PluralTranslatePipe implements PipeTransform {
     }
 
     return untracked(
-      this.translate.translate(count === 1 ? `${keyPrefix}_one` : `${keyPrefix}_other`, params),
+      this.translate.translate(
+        count === 1 ? `${keyPrefix}_one` : `${keyPrefix}_other`,
+        params,
+        lang,
+      ),
     );
-  }
+  };
 }
