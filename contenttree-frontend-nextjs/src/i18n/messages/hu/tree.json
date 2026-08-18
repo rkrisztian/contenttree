@@ -1,5 +1,10 @@
 {
   "tree-page": {
+    "tree": {
+      "aria-label": "Tartalom fa",
+      "node-matched-aria-label": "{{nodeName}} egyezik",
+      "toggle-button-aria-label": "{{nodeName}} kibontása/bezárása"
+    },
     "content-panel": {
       "loading-indicator": "Tartalom betöltése...",
       "node-not-selected": "Válasszon ki egy faelemet a tartalmának megtekintéséhez"

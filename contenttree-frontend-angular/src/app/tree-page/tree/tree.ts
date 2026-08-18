@@ -14,10 +14,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tree',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, TranslateBlockDirective],
   templateUrl: './tree.html',
   styleUrl: './tree.scss',
 })

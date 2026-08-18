@@ -1,14 +1,22 @@
 import { it } from '@/test-utils/msw-ct';
 import { renderTreePage } from '@/test-utils/test-configurations';
+import { t } from '@/test-utils/test-i18n';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 
 describe('Tree', () => {
-  const rootNode = page.getByRole('treeitem', { name: 'Root node', exact: true });
-  const childNode1 = page.getByRole('treeitem', { name: 'Child node', exact: true });
-  const grandChildNode = page.getByRole('treeitem', { name: 'Grandchild node', exact: true });
-  const childNode2 = page.getByRole('treeitem', { name: 'Child node 2', exact: true });
+  const node = (name: string) => page.getByRole('treeitem', { name, exact: true });
+  const toggleButton = (name: string) =>
+    page.getByRole('button', {
+      name: t('tree-page.tree.toggle-button-aria-label', { nodeName: name }),
+      exact: true,
+    });
+
+  const rootNode = node('Root node');
+  const childNode1 = node('Child node');
+  const grandChildNode = node('Grandchild node');
+  const childNode2 = node('Child node 2');
 
   beforeEach(async () => {
     await renderTreePage();
@@ -42,24 +50,22 @@ describe('Tree', () => {
     });
 
     it('can collapse and expand a node', async () => {
-      await page.getByRole('button', { name: `Toggle Child node`, exact: true }).click();
+      await toggleButton('Child node').click();
 
       await expect.element(childNode1).toHaveAttribute('aria-expanded', 'false');
       await expect.element(grandChildNode).not.toBeInTheDocument();
 
-      await page.getByRole('button', { name: `Toggle Child node`, exact: true }).click();
+      await toggleButton('Child node').click();
 
       await expect.element(childNode1).toHaveAttribute('aria-expanded', 'true');
       await expect.element(grandChildNode).toBeVisible();
     });
 
     it('can move nodes', async () => {
-      await grandChildNode.dropTo(page.getByRole('treeitem', { name: 'Root node', exact: true }));
+      await grandChildNode.dropTo(rootNode);
       await TestBed.inject(ApplicationRef).whenStable();
 
-      await expect
-        .element(page.getByRole('button', { name: `Toggle Child node`, exact: true }))
-        .not.toBeInTheDocument();
+      await expect.element(toggleButton('Child node')).not.toBeInTheDocument();
 
       for (const node of [rootNode, childNode1, grandChildNode, childNode2]) {
         await expect.element(node).toBeVisible();

@@ -1,5 +1,10 @@
 {
   "tree-page": {
+    "tree": {
+      "aria-label": "Content tree",
+      "node-matched-aria-label": "{{nodeName}} matched",
+      "toggle-button-aria-label": "Toggle {{nodeName}}"
+    },
     "content-panel": {
       "loading-indicator": "Loading content...",
       "node-not-selected": "Select a node to view its content"

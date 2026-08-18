@@ -8,6 +8,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import clsx from "clsx";
+import { useT } from "next-i18next/client";
 import { type DragEvent, type KeyboardEvent, type MouseEvent, useState } from "react";
 import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
@@ -28,6 +29,7 @@ export const Tree = () => {
   } = useTreePage();
   const [draggedNodeId, setDraggedNodeId] = useState<number | null>(null);
   const [dragoverNodeId, setDragoverNodeId] = useState<number | null>(null);
+  const { t } = useT("tree");
 
   const toggleExpanded = (event: MouseEvent | null, nodeId: number) => {
     event?.stopPropagation();
@@ -105,7 +107,7 @@ export const Tree = () => {
   };
 
   return (
-    <Box role="tree" aria-label="Content tree" className={styles["tree"]}>
+    <Box role="tree" aria-label={t("tree-page.tree.aria-label")} className={styles["tree"]}>
       {treeData.nodes.map((node) => {
         const foundStatus = foundNodes && (foundNodes.has(node.id) ? "found" : "notFound");
 
@@ -116,7 +118,11 @@ export const Tree = () => {
                 role="treeitem"
                 aria-level={node.depth}
                 sx={{ marginLeft: `${node.depth * 1.75}rem` }}
-                aria-label={node.name + (foundStatus === "found" ? " matched" : "")}
+                aria-label={
+                  foundStatus === "found"
+                    ? t("tree-page.tree.node-matched-aria-label", { nodeName: node.name })
+                    : node.name
+                }
                 aria-expanded={expansionState.isExpanded(node.id)}
                 aria-selected={selectedNodeId === node.id}
                 onClick={() => toggleSelect(node.id)}
@@ -138,7 +144,9 @@ export const Tree = () => {
                     className={styles["node-icon"]}
                     tabIndex={-1}
                     onClick={(event) => toggleExpanded(event, node.id)}
-                    aria-label={`Toggle ${node.name}`}
+                    aria-label={t("tree-page.tree.toggle-button-aria-label", {
+                      nodeName: node.name,
+                    })}
                   >
                     {expansionState.isExpanded(node.id) ? (
                       <ExpandMoreIcon fontSize="inherit" />

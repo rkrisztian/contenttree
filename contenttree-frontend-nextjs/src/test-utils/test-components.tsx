@@ -6,7 +6,7 @@ import { WithTreePageContextProvider } from "./test-providers";
 
 export const renderTreePage = async () =>
   await render(
-    <WithTestI18nProvider resources={{ en: { treelogin: treeMessages } }}>
+    <WithTestI18nProvider namespace="tree" messages={treeMessages}>
       <WithTreePageContextProvider>
         <TreePage />
       </WithTreePageContextProvider>

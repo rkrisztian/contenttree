@@ -1,5 +1,10 @@
 {
   "tree-page": {
+    "tree": {
+      "aria-label": "Content tree",
+      "node-matched-aria-label": "{{nodeName}} matched",
+      "toggle-button-aria-label": "Toggle {{nodeName}}"
+    },
     "content-panel": {
       "loading-indicator": "Loading content...",
       "node-not-selected": "Select a node to view its content"
@@ -23,7 +28,10 @@
       "node-name-field-required": "Node name is required",
       "node-content-field-label": "Content",
       "node-content-field-placeholder": "Enter node content",
-      "node-content-field-required": "Node content is required"
+      "node-content-field-required": "Node content is required",
+      "cancel-button-label": "Cancel",
+      "add-button-label": "Add Node",
+      "edit-button-label": "Edit Node"
     }
   }
 }

@@ -1,61 +1,69 @@
-<div role="tree" aria-label="Content tree">
-  @for (node of treeData().nodes; track node.name) {
-    @let foundStatus = getFoundStatus(node.id);
+<ng-container *translateBlock="let t">
+  <div role="tree" [attr.aria-label]="t('tree-page.tree.aria-label')">
+    @for (node of treeData().nodes; track node.name) {
+      @let foundStatus = getFoundStatus(node.id);
 
-    @if (expansionState().isVisible(node.id)) {
-      <div>
-        <div
-          #treeitem
-          role="treeitem"
-          [attr.aria-level]="node.depth"
-          [style]="{ marginLeft: `${node.depth * 1.75}rem` }"
-          [attr.aria-label]="node.name + (foundStatus === 'found' ? ' matched' : '')"
-          [attr.aria-expanded]="expansionState().isExpanded(node.id)"
-          [attr.aria-selected]="isSelected(node.id)"
-          (click)="toggleSelect(node.id)"
-          (keydown)="handleKeyDown($event, node.id)"
-          [class.not-found]="foundStatus === 'notFound'"
-          [attr.tabindex]="isSelected(node.id) ? 0 : -1"
-          [attr.draggable]="isManager() && !isLoading()"
-          [class.dragging]="isDragging(node.id)"
-          [class.dragged-over]="isDraggedOver(node.id)"
-          (dragstart)="startDragging($event, node.id)"
-          (dragover)="startDragover($event, node.id)"
-          (dragend)="stopDragging()"
-          (drop)="stopDragover($event, node.id)"
-        >
-          @if (node.children.length) {
-            <button
-              matIconButton
-              matTreeNodeToggle
-              tabindex="-1"
-              [attr.aria-label]="`Toggle ${node.name}`"
-              (click)="toggleExpanded($event, node.id)"
-            >
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{ expansionState().isExpanded(node.id) ? 'expand_more' : 'chevron_right' }}
-              </mat-icon>
-            </button>
-          } @else {
-            <!-- Use a disabled button to provide padding for tree leaf. -->
-            <button matIconButton disabled>&nbsp;</button>
-          }
-
-          <mat-icon>
+      @if (expansionState().isVisible(node.id)) {
+        <div>
+          <div
+            #treeitem
+            role="treeitem"
+            [attr.aria-level]="node.depth"
+            [style]="{ marginLeft: `${node.depth * 1.75}rem` }"
+            [attr.aria-label]="
+              foundStatus === 'found'
+                ? t('tree-page.tree.node-matched-aria-label', { nodeName: node.name })
+                : node.name
+            "
+            [attr.aria-expanded]="expansionState().isExpanded(node.id)"
+            [attr.aria-selected]="isSelected(node.id)"
+            (click)="toggleSelect(node.id)"
+            (keydown)="handleKeyDown($event, node.id)"
+            [class.not-found]="foundStatus === 'notFound'"
+            [attr.tabindex]="isSelected(node.id) ? 0 : -1"
+            [attr.draggable]="isManager() && !isLoading()"
+            [class.dragging]="isDragging(node.id)"
+            [class.dragged-over]="isDraggedOver(node.id)"
+            (dragstart)="startDragging($event, node.id)"
+            (dragover)="startDragover($event, node.id)"
+            (dragend)="stopDragging()"
+            (drop)="stopDragover($event, node.id)"
+          >
             @if (node.children.length) {
-              folder
+              <button
+                matIconButton
+                matTreeNodeToggle
+                tabindex="-1"
+                [attr.aria-label]="
+                  t('tree-page.tree.toggle-button-aria-label', { nodeName: node.name })
+                "
+                (click)="toggleExpanded($event, node.id)"
+              >
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{ expansionState().isExpanded(node.id) ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+              </button>
             } @else {
-              insert_drive_file
+              <!-- Use a disabled button to provide padding for tree leaf. -->
+              <button matIconButton disabled>&nbsp;</button>
             }
-          </mat-icon>
 
-          <span class="node-label">{{ node.name }}</span>
+            <mat-icon>
+              @if (node.children.length) {
+                folder
+              } @else {
+                insert_drive_file
+              }
+            </mat-icon>
 
-          @if (foundStatus === 'found') {
-            <mat-icon class="found-icon">check</mat-icon>
-          }
+            <span class="node-label">{{ node.name }}</span>
+
+            @if (foundStatus === 'found') {
+              <mat-icon class="found-icon">check</mat-icon>
+            }
+          </div>
         </div>
-      </div>
+      }
     }
-  }
-</div>
+  </div>
+</ng-container>
