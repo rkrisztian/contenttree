@@ -9,6 +9,17 @@
       "loading-indicator": "Loading content...",
       "node-not-selected": "Select a node to view its content"
     },
+    "toolbar": {
+      "search-field-label": "Search nodes",
+      "search-field-3-chars-required": "At least 3 characters are required",
+      "search-field-clear-button-aria-label": "Clear search",
+      "add-new-node-button-aria-label": "Add new node",
+      "add-new-node-button-label": "Add",
+      "edit-selected-node-button-aria-label": "Edit selected node",
+      "edit-selected-node-button-label": "Edit",
+      "delete-selected-node-button-aria-label": "Delete selected node",
+      "delete-selected-node-button-label": "Delete"
+    },
     "node-delete-dialog": {
       "title": "Delete Node",
       "close-button-aria-label": "Close",

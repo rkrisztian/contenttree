@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import { useT } from "next-i18next/client";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/app/_lib/AuthContext";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
@@ -38,10 +39,10 @@ export const TreeToolbar = () => {
     updateSelectedNode,
     deleteSelectedNode,
   } = useTreePage();
+  const { t } = useT("tree");
 
   const [searchInputValue, setSearchInputValue] = useState(searchText);
   const hasInvalidLength = searchInputValue.length > 0 && searchInputValue.length < 3;
-  const invalidMessage = hasInvalidLength ? "At least 3 characters are required" : "";
 
   const [nodeEditorDialogData, setNodeEditorDialogData] = useState<NodeEditorDialogData | null>(
     null,
@@ -103,12 +104,14 @@ export const TreeToolbar = () => {
       <FormControl fullWidth variant="outlined" error={hasInvalidLength}>
         <TextField
           type="search"
-          label="Search nodes"
+          label={t("tree-page.toolbar.search-field-label")}
           value={searchInputValue}
           onChange={(e) => setSearchInputValue(e.target.value)}
           variant="outlined"
           error={hasInvalidLength}
-          helperText={hasInvalidLength ? invalidMessage : undefined}
+          helperText={
+            hasInvalidLength ? t("tree-page.toolbar.search-field-3-chars-required") : undefined
+          }
           slotProps={{
             input: {
               startAdornment: (
@@ -120,7 +123,7 @@ export const TreeToolbar = () => {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => setSearchInputValue("")}
-                    aria-label="Clear search"
+                    aria-label={t("tree-page.toolbar.search-field-clear-button-aria-label")}
                     size="small"
                   >
                     <CloseIcon />
@@ -137,20 +140,20 @@ export const TreeToolbar = () => {
           variant="contained"
           onClick={() => openNodeEditorDialog(true)}
           disabled={!isManager || (!!treeData.rootNodeId && !selectedNodeId) || !!loading}
-          aria-label="Add new node"
+          aria-label={t("tree-page.toolbar.add-new-node-button-aria-label")}
           startIcon={<AddIcon />}
         >
-          Add
+          {t("tree-page.toolbar.add-new-node-button-label")}
         </Button>
 
         <Button
           variant="contained"
           onClick={() => openNodeEditorDialog(false)}
           disabled={!isManager || !selectedNodeId || !!loading}
-          aria-label="Edit selected node"
+          aria-label={t("tree-page.toolbar.edit-selected-node-button-aria-label")}
           startIcon={<EditIcon />}
         >
-          Edit
+          {t("tree-page.toolbar.edit-selected-node-button-label")}
         </Button>
 
         <Button
@@ -160,10 +163,10 @@ export const TreeToolbar = () => {
           disabled={
             !isManager || !selectedNodeId || selectedNodeId === treeData.rootNodeId || !!loading
           }
-          aria-label="Delete selected node"
+          aria-label={t("tree-page.toolbar.delete-selected-node-button-aria-label")}
           startIcon={<DeleteIcon />}
         >
-          Delete
+          {t("tree-page.toolbar.delete-selected-node-button-label")}
         </Button>
       </Box>
 

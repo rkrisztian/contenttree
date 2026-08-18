@@ -16,6 +16,7 @@ import { debounce, form, FormField, minLength } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { TranslateBlockDirective, TranslateService } from '@ngx-translate/core';
 import { TreePageService } from '../tree-page.service';
 
 interface SearchFormData {
@@ -24,7 +25,15 @@ interface SearchFormData {
 
 @Component({
   selector: 'app-tree-toolbar',
-  imports: [MatIconModule, MatInputModule, MatButtonModule, MatIconModule, DialogModule, FormField],
+  imports: [
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    DialogModule,
+    FormField,
+    TranslateBlockDirective,
+  ],
   templateUrl: './tree-toolbar.html',
   styleUrls: ['./tree-toolbar.scss'],
 })
@@ -34,6 +43,7 @@ export class TreeToolbar {
   private readonly treePageService = inject(TreePageService);
   private readonly loadingService = inject(LoadingService);
   private readonly authService = inject(AuthService);
+  private readonly translate = inject(TranslateService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -48,7 +58,9 @@ export class TreeToolbar {
   protected readonly searchForm = form(this.searchModel, (schemaPath) => {
     debounce(schemaPath.searchText, TreeToolbar.SEARCH_DELAY_IN_MS);
 
-    minLength(schemaPath.searchText, 3, { message: 'At least 3 characters are required' });
+    minLength(schemaPath.searchText, 3, {
+      message: this.translate.translate('tree-page.toolbar.search-field-3-chars-required'),
+    });
   });
 
   protected readonly isLoading = this.loadingService.isLoading;

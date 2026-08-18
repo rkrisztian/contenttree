@@ -4,11 +4,17 @@ import { t } from '@/test-utils/test-i18n';
 import { Locator, page, userEvent } from 'vitest/browser';
 
 describe('NodeEditorDialog', () => {
-  const addNewNodeButton = page.getByRole('button', { name: 'Add new node', exact: true });
-  const editSelectedNodeButton = page.getByRole('button', {
-    name: 'Edit selected node',
-    exact: true,
-  });
+  const node = (name: string) => page.getByRole('treeitem', { name, exact: true });
+  const addNewNodeButton = () =>
+    page.getByRole('button', {
+      name: t('tree-page.toolbar.add-new-node-button-aria-label'),
+      exact: true,
+    });
+  const editSelectedNodeButton = () =>
+    page.getByRole('button', {
+      name: t('tree-page.toolbar.edit-selected-node-button-aria-label'),
+      exact: true,
+    });
   const addNodeButton = (dialog: Locator) =>
     dialog.getByRole('button', {
       name: t('tree-page.node-editor-dialog.add-button-label'),
@@ -39,7 +45,7 @@ describe('NodeEditorDialog', () => {
   });
 
   it('can add new node', async () => {
-    await addNewNodeButton.click();
+    await addNewNodeButton().click();
 
     const dialog = page.getByRole('dialog');
 
@@ -56,17 +62,15 @@ describe('NodeEditorDialog', () => {
     await vi.runAllTimersAsync();
 
     await expect.element(dialog).not.toBeInTheDocument();
-    await expect
-      .element(page.getByRole('treeitem', { name: 'test node', exact: true }))
-      .toBeVisible();
+    await expect.element(node('test node')).toBeVisible();
 
-    await page.getByRole('treeitem', { name: 'test node', exact: true }).click();
+    await node('test node').click();
 
     await expect.element(page.getByText('test content', { exact: true })).toBeVisible();
   });
 
   it('it does not allow adding node with validation errors', async () => {
-    await addNewNodeButton.click();
+    await addNewNodeButton().click();
 
     const dialog = page.getByRole('dialog');
 
@@ -90,7 +94,7 @@ describe('NodeEditorDialog', () => {
   });
 
   it('can edit existing node', async () => {
-    await editSelectedNodeButton.click();
+    await editSelectedNodeButton().click();
 
     const dialog = page.getByRole('dialog');
 
@@ -107,10 +111,7 @@ describe('NodeEditorDialog', () => {
     await vi.runAllTimersAsync();
 
     await expect.element(dialog).not.toBeInTheDocument();
-    await expect
-      .element(page.getByRole('treeitem', { name: 'changed node', exact: true }))
-      .toBeVisible();
-
+    await expect.element(node('changed node')).toBeVisible();
     await expect.element(page.getByText('changed content', { exact: true })).toBeVisible();
   });
 });

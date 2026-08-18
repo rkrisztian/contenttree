@@ -9,6 +9,17 @@
       "loading-indicator": "Tartalom betöltése...",
       "node-not-selected": "Válasszon ki egy faelemet a tartalmának megtekintéséhez"
     },
+    "toolbar": {
+      "search-field-label": "Faelemek keresése",
+      "search-field-3-chars-required": "Legalább három karakter kötelező",
+      "search-field-clear-button-aria-label": "Keresés törlése",
+      "add-new-node-button-aria-label": "Új faelem hozzáadása",
+      "add-new-node-button-label": "Hozzáadás",
+      "edit-selected-node-button-aria-label": "Kiválasztott faelem szerkesztése",
+      "edit-selected-node-button-label": "Szerkesztés",
+      "delete-selected-node-button-aria-label": "Kiválasztott faelem törlése",
+      "delete-selected-node-button-label": "Törlés"
+    },
     "node-delete-dialog": {
       "title": "Faelem törlése",
       "close-button-aria-label": "Bezárás",

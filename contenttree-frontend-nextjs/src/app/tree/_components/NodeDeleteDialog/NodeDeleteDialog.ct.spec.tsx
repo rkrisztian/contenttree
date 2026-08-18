@@ -6,10 +6,11 @@ import { t } from "@/test-utils/test-i18n";
 
 describe("NodeDeleteDialog", () => {
   const node = (name: string) => page.getByRole("treeitem", { name, exact: true });
-  const deleteSelectedNodeButton = page.getByRole("button", {
-    name: "Delete selected node",
-    exact: true,
-  });
+  const deleteSelectedNodeButton = () =>
+    page.getByRole("button", {
+      name: t("tree-page.toolbar.delete-selected-node-button-aria-label"),
+      exact: true,
+    });
   const listedNode = (dialog: Locator, name: string) =>
     dialog.getByRole("listitem").getByText(name, { exact: true });
   const deleteButton = (dialog: Locator, count: number) =>
@@ -24,7 +25,7 @@ describe("NodeDeleteDialog", () => {
 
   it("can delete existing node", async () => {
     await node("Child node").click();
-    await deleteSelectedNodeButton.click();
+    await deleteSelectedNodeButton().click();
 
     const dialog = page.getByRole("dialog");
 
