@@ -19,9 +19,6 @@ describe("Tree", () => {
 
   beforeEach(async () => {
     await renderTreePage();
-
-    await expect.element(page.getByText("Loading...")).not.toBeInTheDocument();
-    await expect.element(page.getByText("Loading tree...")).not.toBeInTheDocument();
   });
 
   describe("basic behavior", () => {
@@ -85,6 +82,10 @@ describe("Tree", () => {
   });
 
   describe("keyboard navigation", () => {
+    beforeEach(async () => {
+      await expect.element(rootNode).toBeVisible();
+    });
+
     it("should focus items with ArrowDown and ArrowUp keys", async () => {
       rootNode.element().focus();
 

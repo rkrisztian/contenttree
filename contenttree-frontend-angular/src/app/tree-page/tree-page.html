@@ -1,4 +1,4 @@
-<div class="page-layout">
+<div class="page-layout" *translateBlock="let t">
   <mat-card appearance="outlined" class="tree-panel">
     <mat-card-header>
       <app-tree-toolbar />
@@ -10,13 +10,13 @@
       @if (rawNodes.isLoading()) {
         <div class="loading-container">
           <mat-spinner diameter="32"></mat-spinner>
-          <span>Loading tree...</span>
+          <span>{{ t('tree-page.tree.loading-indicator') }}</span>
         </div>
       } @else if (treeData().rootNodeId == null) {
         <div class="empty-state">
           <mat-icon class="empty-icon">inbox</mat-icon>
-          <h3>Tree is Empty</h3>
-          <p>Add a root node to begin organizing your data.</p>
+          <h3>{{ t('tree-page.tree.tree-is-empty') }}</h3>
+          <p>{{ t('tree-page.tree.add-root-node-text') }}</p>
         </div>
       } @else {
         <app-tree />

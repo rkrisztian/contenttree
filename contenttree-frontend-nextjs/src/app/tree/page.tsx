@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { useT } from "next-i18next/client";
 import { ContentPanel } from "@/app/tree/_components/ContentPanel/ContentPanel";
 import { Tree } from "@/app/tree/_components/Tree/Tree";
 import { TreeToolbar } from "@/app/tree/_components/TreeToolbar/TreeToolbar";
@@ -38,11 +39,13 @@ export default function TreePage() {
 }
 
 const TreeContent = ({ isLoading, hasRootNode }: { isLoading: boolean; hasRootNode: boolean }) => {
+  const { t } = useT("tree");
+
   if (isLoading) {
     return (
       <Box className={styles["loading-container"]}>
         <CircularProgress size={32} />
-        <Typography>Loading tree...</Typography>
+        <Typography>{t("tree-page.tree.loading-indicator")}</Typography>
       </Box>
     );
   }
@@ -51,9 +54,9 @@ const TreeContent = ({ isLoading, hasRootNode }: { isLoading: boolean; hasRootNo
       <Box className={styles["empty-state"]}>
         <InboxIcon className={styles["empty-icon"]} />
         <Typography variant="h5" component="h3">
-          Tree is Empty
+          {t("tree-page.tree.tree-is-empty")}
         </Typography>
-        <Typography variant="body1">Add a root node to begin organizing your data.</Typography>
+        <Typography variant="body1">{t("tree-page.tree.add-root-node-text")}</Typography>
       </Box>
     );
   }

@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslateBlockDirective } from '@ngx-translate/core';
 import { ContentPanel } from './content-panel/content-panel';
 import { TreePageService } from './tree-page.service';
 import { TreeToolbar } from './tree-toolbar/tree-toolbar';
@@ -21,6 +22,7 @@ import { TreeScrollService } from './tree/tree-scroll.service';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    TranslateBlockDirective,
   ],
   providers: [TreePageService, TreeScrollService],
 })
