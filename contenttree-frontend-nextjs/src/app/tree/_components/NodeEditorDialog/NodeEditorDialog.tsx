@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
+import { useT } from "next-i18next/client";
 import { Controller, useForm } from "react-hook-form";
 import type { TreeNodeData } from "@/app/tree/_lib/tree-data";
 import styles from "./NodeEditorDialog.module.scss";
@@ -46,6 +47,7 @@ export default function NodeEditorDialog({
       content: data.createMode ? "" : data.content!,
     },
   });
+  const { t } = useT("tree");
 
   const onSubmit = (formData: NodeEditorFormData) => {
     onSave(data.createMode, {
@@ -64,9 +66,17 @@ export default function NodeEditorDialog({
       aria-labelledby="node-editor-dialog-title"
     >
       <DialogTitle className={styles["dialog-header"]} id="node-editor-dialog-title">
-        {data.createMode ? "Add Node" : "Edit Node"}
+        {t(
+          data.createMode
+            ? "tree-page.node-editor-dialog.add-title"
+            : "tree-page.node-editor-dialog.edit-title",
+        )}
       </DialogTitle>
-      <IconButton onClick={onClose} aria-label="Close" className={styles["close-button"]}>
+      <IconButton
+        onClick={onClose}
+        aria-label={t("tree-page.node-editor-dialog.close-button-aria-label")}
+        className={styles["close-button"]}
+      >
         <CloseIcon />
       </IconButton>
 
@@ -78,13 +88,17 @@ export default function NodeEditorDialog({
             rules={{ required: true }}
             render={({ field, fieldState }) => (
               <TextField
-                label="Name"
+                label={t("tree-page.node-editor-dialog.node-name-field-label")}
                 fullWidth
                 variant="outlined"
                 error={!!fieldState.error}
-                helperText={fieldState.error ? "Node name is required" : null}
+                helperText={
+                  fieldState.error
+                    ? t("tree-page.node-editor-dialog.node-name-field-required")
+                    : null
+                }
                 className={styles["text-field"]}
-                placeholder="Enter node name"
+                placeholder={t("tree-page.node-editor-dialog.node-name-field-placeholder")}
                 {...field}
               />
             )}
@@ -96,15 +110,19 @@ export default function NodeEditorDialog({
             rules={{ required: true }}
             render={({ field, fieldState }) => (
               <TextField
-                label="Content"
+                label={t("tree-page.node-editor-dialog.node-content-field-label")}
                 fullWidth
                 multiline
                 rows={10}
                 variant="outlined"
                 error={!!fieldState.error}
-                helperText={fieldState.error ? "Node content is required" : null}
+                helperText={
+                  fieldState.error
+                    ? t("tree-page.node-editor-dialog.node-content-field-required")
+                    : null
+                }
                 className={styles["text-field"]}
-                placeholder="Enter node content"
+                placeholder={t("tree-page.node-editor-dialog.node-content-field-placeholder")}
                 {...field}
               />
             )}
@@ -114,7 +132,7 @@ export default function NodeEditorDialog({
 
       <DialogActions className={styles["dialog-actions"]}>
         <Button onClick={onClose} variant="outlined" startIcon={<CancelIcon />}>
-          Cancel
+          {t("tree-page.node-editor-dialog.cancel-button-label")}
         </Button>
         <Button
           type="submit"
@@ -123,7 +141,11 @@ export default function NodeEditorDialog({
           disabled={!isValid || isSubmitting}
           startIcon={data.createMode ? <AddIcon /> : <EditIcon />}
         >
-          {data.createMode ? "Add Node" : "Edit Node"}
+          {t(
+            data.createMode
+              ? "tree-page.node-editor-dialog.add-button-label"
+              : "tree-page.node-editor-dialog.edit-button-label",
+          )}
         </Button>
       </DialogActions>
     </Dialog>

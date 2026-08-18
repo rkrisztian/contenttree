@@ -10,9 +10,9 @@ describe("NodeDeleteDialog", () => {
     name: "Delete selected node",
     exact: true,
   });
-  const dialogNode = (dialog: Locator, name: string) =>
+  const listedNode = (dialog: Locator, name: string) =>
     dialog.getByRole("listitem").getByText(name, { exact: true });
-  const dialogDeleteButton = (dialog: Locator, count: number) =>
+  const deleteButton = (dialog: Locator, count: number) =>
     dialog.getByRole("button", {
       name: t("tree-page.node-delete-dialog.delete-button-label", { count }),
       exact: true,
@@ -30,10 +30,10 @@ describe("NodeDeleteDialog", () => {
 
     await expect.element(dialog).toBeVisible();
     for (const name of ["Child node", "Grandchild node"]) {
-      await expect.element(dialogNode(dialog, name)).toBeVisible();
+      await expect.element(listedNode(dialog, name)).toBeVisible();
     }
 
-    await dialogDeleteButton(dialog, 2).click();
+    await deleteButton(dialog, 2).click();
 
     await expect.element(dialog).not.toBeInTheDocument();
     for (const name of ["Root node", "Child node 2"]) {

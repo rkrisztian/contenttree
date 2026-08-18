@@ -13,6 +13,20 @@
       "cancel-button-label": "Mégse",
       "delete-button-label_one": "Törlés",
       "delete-button-label_other": "Mind törlése"
+    },
+    "node-editor-dialog": {
+      "add-title": "Faelem hozzáadása",
+      "edit-title": "Faelem szerkesztése",
+      "close-button-aria-label": "Bezárás",
+      "node-name-field-label": "Név",
+      "node-name-field-placeholder": "Adja meg a faelemnevet",
+      "node-name-field-required": "A faelemnév megadása kötelező",
+      "node-content-field-label": "Tartalom",
+      "node-content-field-placeholder": "Adja meg a faelem-tartalmat",
+      "node-content-field-required": "A faelem-tartalom megadása kötelező",
+      "cancel-button-label": "Mégse",
+      "add-button-label": "Faelem hozzáadása",
+      "edit-button-label": "Faelem szerkesztése"
     }
   }
 }

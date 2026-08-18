@@ -13,6 +13,17 @@
       "cancel-button-label": "Cancel",
       "delete-button-label_one": "Delete",
       "delete-button-label_other": "Delete All"
+    },
+    "node-editor-dialog": {
+      "add-title": "Add Node",
+      "edit-title": "Edit Node",
+      "close-button-aria-label": "Close",
+      "node-name-field-label": "Name",
+      "node-name-field-placeholder": "Enter node name",
+      "node-name-field-required": "Node name is required",
+      "node-content-field-label": "Content",
+      "node-content-field-placeholder": "Enter node content",
+      "node-content-field-required": "Node content is required"
     }
   }
 }

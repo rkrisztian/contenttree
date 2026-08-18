@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { TranslateBlockDirective, TranslateService } from '@ngx-translate/core';
 
 export interface NodeEditorDialogData {
   createMode: boolean;
@@ -31,12 +32,14 @@ export interface NodeEditorFormData {
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    TranslateBlockDirective,
   ],
   templateUrl: './node-editor-dialog.html',
   styleUrl: './node-editor-dialog.scss',
 })
 export class NodeEditorDialog {
   protected readonly data = inject(DIALOG_DATA) as NodeEditorDialogData;
+  private readonly translate = inject(TranslateService);
   private readonly dialogRef = inject(DialogRef);
 
   private readonly nodeEditorModel = signal<NodeEditorFormData>({
@@ -49,8 +52,14 @@ export class NodeEditorDialog {
       debounce(schemaPath.name, 250);
       debounce(schemaPath.content, 250);
 
-      required(schemaPath.name, { message: 'Node name is required' });
-      required(schemaPath.content, { message: 'Node content is required' });
+      required(schemaPath.name, {
+        message: this.translate.translate('tree-page.node-editor-dialog.node-name-field-required'),
+      });
+      required(schemaPath.content, {
+        message: this.translate.translate(
+          'tree-page.node-editor-dialog.node-content-field-required',
+        ),
+      });
     },
     {
       submission: {

@@ -1,8 +1,33 @@
 import { it } from '@/test-utils/msw-ct';
 import { renderTreePage } from '@/test-utils/test-configurations';
-import { page, userEvent } from 'vitest/browser';
+import { t } from '@/test-utils/test-i18n';
+import { Locator, page, userEvent } from 'vitest/browser';
 
 describe('NodeEditorDialog', () => {
+  const addNewNodeButton = page.getByRole('button', { name: 'Add new node', exact: true });
+  const editSelectedNodeButton = page.getByRole('button', {
+    name: 'Edit selected node',
+    exact: true,
+  });
+  const addNodeButton = (dialog: Locator) =>
+    dialog.getByRole('button', {
+      name: t('tree-page.node-editor-dialog.add-button-label'),
+      exact: true,
+    });
+  const editNodeButton = (dialog: Locator) =>
+    dialog.getByRole('button', {
+      name: t('tree-page.node-editor-dialog.edit-button-label'),
+      exact: true,
+    });
+  const nodeNameField = (dialog: Locator) =>
+    dialog.getByPlaceholder(t('tree-page.node-editor-dialog.node-name-field-placeholder'));
+  const nodeNameRequired = (dialog: Locator) =>
+    dialog.getByText(t('tree-page.node-editor-dialog.node-name-field-required'));
+  const nodeContentField = (dialog: Locator) =>
+    dialog.getByPlaceholder(t('tree-page.node-editor-dialog.node-content-field-placeholder'));
+  const nodeContentRequired = (dialog: Locator) =>
+    dialog.getByText(t('tree-page.node-editor-dialog.node-content-field-required'));
+
   beforeEach(async () => {
     await renderTreePage();
 
@@ -14,28 +39,23 @@ describe('NodeEditorDialog', () => {
   });
 
   it('can add new node', async () => {
-    await page.getByRole('button', { name: 'Add new node', exact: true }).click();
+    await addNewNodeButton.click();
 
     const dialog = page.getByRole('dialog');
 
     await expect.element(dialog).toBeVisible();
-    await expect
-      .element(dialog.getByRole('button', { name: 'Add Node', exact: true }))
-      .toBeDisabled();
+    await expect.element(addNodeButton(dialog)).toBeDisabled();
 
-    await userEvent.fill(dialog.getByPlaceholder('Enter node name'), 'test node');
-    await userEvent.fill(dialog.getByPlaceholder('Enter node content'), 'test content');
+    await userEvent.fill(nodeNameField(dialog), 'test node');
+    await userEvent.fill(nodeContentField(dialog), 'test content');
     await vi.runAllTimersAsync();
 
-    await expect
-      .element(dialog.getByRole('button', { name: 'Add Node', exact: true }))
-      .toBeEnabled();
+    await expect.element(addNodeButton(dialog)).toBeEnabled();
 
-    await dialog.getByRole('button', { name: 'Add Node', exact: true }).click();
+    await addNodeButton(dialog).click();
     await vi.runAllTimersAsync();
 
     await expect.element(dialog).not.toBeInTheDocument();
-
     await expect
       .element(page.getByRole('treeitem', { name: 'test node', exact: true }))
       .toBeVisible();
@@ -46,54 +66,44 @@ describe('NodeEditorDialog', () => {
   });
 
   it('it does not allow adding node with validation errors', async () => {
-    await page.getByRole('button', { name: 'Add new node', exact: true }).click();
+    await addNewNodeButton.click();
 
     const dialog = page.getByRole('dialog');
 
-    await expect
-      .element(dialog.getByRole('button', { name: 'Add Node', exact: true }))
-      .toBeInTheDocument();
+    await expect.element(addNodeButton(dialog)).toBeInTheDocument();
 
-    await userEvent.fill(dialog.getByPlaceholder('Enter node name'), 'test node');
-    await userEvent.fill(dialog.getByPlaceholder('Enter node content'), 'test content');
+    await userEvent.fill(nodeNameField(dialog), 'test node');
+    await userEvent.fill(nodeContentField(dialog), 'test content');
     await vi.runAllTimersAsync();
 
-    await expect
-      .element(dialog.getByRole('button', { name: 'Add Node', exact: true }))
-      .toBeEnabled();
+    await expect.element(addNodeButton(dialog)).toBeEnabled();
 
-    await userEvent.clear(dialog.getByPlaceholder('Enter node name'));
-    await userEvent.clear(dialog.getByPlaceholder('Enter node content'));
+    await userEvent.clear(nodeNameField(dialog));
+    await userEvent.clear(nodeContentField(dialog));
     await vi.runAllTimersAsync();
 
-    await expect.element(dialog.getByPlaceholder('Enter node name')).toBeInvalid();
-    await expect.element(dialog.getByPlaceholder('Enter node name')).toBeInvalid();
-    await expect.element(dialog.getByText('Node name is required')).toBeVisible();
-    await expect.element(dialog.getByText('Node content is required')).toBeVisible();
-    await expect
-      .element(dialog.getByRole('button', { name: 'Add Node', exact: true }))
-      .toBeDisabled();
+    await expect.element(nodeNameField(dialog)).toBeInvalid();
+    await expect.element(nodeContentField(dialog)).toBeInvalid();
+    await expect.element(nodeNameRequired(dialog)).toBeVisible();
+    await expect.element(nodeContentRequired(dialog)).toBeVisible();
+    await expect.element(addNodeButton(dialog)).toBeDisabled();
   });
 
   it('can edit existing node', async () => {
-    await page.getByRole('button', { name: 'Edit selected node', exact: true }).click();
+    await editSelectedNodeButton.click();
 
     const dialog = page.getByRole('dialog');
 
     await expect.element(dialog).toBeVisible();
-    await expect
-      .element(dialog.getByRole('button', { name: 'Edit Node', exact: true }))
-      .toBeEnabled();
+    await expect.element(editNodeButton(dialog)).toBeEnabled();
 
-    await userEvent.fill(dialog.getByPlaceholder('Enter node name'), 'changed node');
-    await userEvent.fill(dialog.getByPlaceholder('Enter node content'), 'changed content');
+    await userEvent.fill(nodeNameField(dialog), 'changed node');
+    await userEvent.fill(nodeContentField(dialog), 'changed content');
     await vi.runAllTimersAsync();
 
-    await expect
-      .element(dialog.getByRole('button', { name: 'Edit Node', exact: true }))
-      .toBeEnabled();
+    await expect.element(editNodeButton(dialog)).toBeEnabled();
 
-    await dialog.getByRole('button', { name: 'Edit Node', exact: true }).click();
+    await editNodeButton(dialog).click();
     await vi.runAllTimersAsync();
 
     await expect.element(dialog).not.toBeInTheDocument();
