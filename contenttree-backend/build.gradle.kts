@@ -15,6 +15,18 @@ plugins {
 	alias(libs.plugins.sonarqube)
 }
 
+buildscript {
+	configurations.all {
+		// Temporary vulnerability fixes in transitive dependencies of plugins:
+		resolutionStrategy.eachDependency {
+			when (requested.run { "${group}:${name}" }) {
+				"org.apache.httpcomponents.core5:httpcore5" -> useVersion("5.4.3")
+				"org.apache.httpcomponents.client5:httpclient5" -> useVersion("5.6.3")
+			}
+		}
+	}
+}
+
 group = "contenttree"
 version = providers.fileContents(layout.projectDirectory.file("../.version")).asText.get().trim()
 
@@ -71,16 +83,20 @@ dependencies {
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 }
 
-// Temporary fixes for vulnerabilities in transitive dependencies:
+// Temporary vulnerability fixes in transitive dependencies:
 configurations.all {
 	resolutionStrategy.eachDependency {
-		if (requested.group == "org.apache.tomcat.embed") {
-			useVersion("11.0.22")
+		if (requested.group == "org.apache.tomcat.embed") useVersion("11.0.22")
+		if (requested.group == "org.apache.logging.log4j") useVersion("2.25.5")
+
+		when (requested.run { "${group}:${name}" }) {
+			"com.fasterxml.jackson.core:jackson-databind" -> useVersion("2.21.5")
+			"tools.jackson.core:jackson-databind" -> useVersion("3.1.5")
 		}
 	}
 }
 
-// Temporary fixes for vulnerabilities in direct dependencies:
+// Temporary vulnerability fixes in direct dependencies:
 extra["postgresql.version"] = "42.7.13"
 
 dependencyLocking {
