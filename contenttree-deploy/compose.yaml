@@ -55,6 +55,7 @@ services:
       - "8080:8080"
     environment:
       - API_BASE_URL=http://localhost:8081
+    env_file: etc/frontend/config
     networks:
       - app-network
     ulimits:
@@ -75,6 +76,7 @@ services:
       - "8084:3000"
     environment:
       - API_BASE_URL=http://localhost:8081
+    env_file: etc/frontend/config
     networks:
       - app-network
     ulimits:

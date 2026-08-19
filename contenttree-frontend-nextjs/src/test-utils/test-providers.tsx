@@ -48,8 +48,8 @@ const WithMockAuthContext = ({ children }: Readonly<{ children: ReactNode }>) =>
   </AuthContext.Provider>
 );
 
-const WaitForRemoteConfig = ({ children }: Readonly<{ children: ReactNode }>) => {
-  const { remoteConfigLoading } = useBackendApi();
+export const WaitForRemoteConfig = ({ children }: Readonly<{ children: ReactNode }>) => {
+  const { remoteConfig } = useBackendApi();
 
-  return remoteConfigLoading ? <p>Loading...</p> : children;
+  return remoteConfig ? children : <p>Loading...</p>;
 };

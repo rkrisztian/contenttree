@@ -4,9 +4,10 @@ import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
-import { REMOTE_CONFIG_PATH, type RemoteConfig } from "@/app/api/config/route";
+import { REMOTE_CONFIG_PATH } from "@/app/api/config/route";
 import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
+import { REMOTE_CONFIG_RESP } from "@/test-utils/msw-mocks";
 import { t, WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import PageWrapper from "./PageWrapper";
@@ -30,11 +31,7 @@ describe("PageWrapper", () => {
           () =>
             new Promise((resolve) => {
               resolveRequest = () => {
-                resolve(
-                  HttpResponse.json({
-                    apiBaseUrl: process.env["API_BASE_URL"]!,
-                  } satisfies RemoteConfig),
-                );
+                resolve(HttpResponse.json(REMOTE_CONFIG_RESP));
               };
             }),
         ),

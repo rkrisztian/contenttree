@@ -22,7 +22,7 @@ export type BackendApiContextType = {
   removeError: (errorId: string) => void;
   hideLatestError: () => void;
   copyToClipboard: (errorData: ErrorData) => Promise<void>;
-  remoteConfigLoading: boolean;
+  remoteConfig: RemoteConfig | undefined;
 };
 
 export interface ErrorData {
@@ -40,7 +40,7 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
   const loading = !!loadingCounter;
   const [errors, setErrors] = useState<ErrorData[]>([]);
   const [latestError, setLatestError] = useState<ErrorData | null>(null);
-  const [remoteConfigLoading, setRemoteConfigLoading] = useState(true);
+  const [remoteConfig, setRemoteConfig] = useState<RemoteConfig | undefined>();
 
   const initBackendApi = async () => {
     backendApiRef.current.interceptors.request.use((config) => {
@@ -80,10 +80,10 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
     );
 
     setLoadingCounter((counter) => counter + 1);
-    const apiBaseUrl = (await axios.get<RemoteConfig>(REMOTE_CONFIG_PATH)).data.apiBaseUrl;
-    backendApiRef.current.defaults.baseURL = apiBaseUrl;
+    const newRemoteConfig = (await axios.get<RemoteConfig>(REMOTE_CONFIG_PATH)).data;
+    backendApiRef.current.defaults.baseURL = newRemoteConfig.apiBaseUrl;
     setLoadingCounter((counter) => counter - 1);
-    setRemoteConfigLoading(false);
+    setRemoteConfig(newRemoteConfig);
   };
 
   const addAndShowError = (newErrorData: Omit<ErrorData, "id">) => {
@@ -136,7 +136,7 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
         removeError,
         hideLatestError,
         copyToClipboard,
-        remoteConfigLoading,
+        remoteConfig,
       }}
     >
       <SWRConfig

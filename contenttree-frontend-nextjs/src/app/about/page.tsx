@@ -16,7 +16,7 @@ export default async function AboutPage() {
       </Typography>
 
       <Grid container spacing={4}>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
               <Typography variant="h4" component="h3" gutterBottom>
@@ -42,7 +42,7 @@ export default async function AboutPage() {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
               <Typography variant="h4" component="h3" gutterBottom>

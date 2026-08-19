@@ -12,7 +12,7 @@ describe("BackendApiContext", () => {
     it("should load remote config", async () => {
       const hooks = await renderTreePageContextHooks();
 
-      expect(hooks.current.backendApiContext.remoteConfigLoading).toBeFalsy();
+      expect(hooks.current.backendApiContext.remoteConfig).toBeDefined();
       expect(hooks.current.backendApiContext.backendApiRef.current.defaults.baseURL).toEqual(
         process.env["API_BASE_URL"],
       );
