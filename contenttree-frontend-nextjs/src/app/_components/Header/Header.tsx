@@ -7,6 +7,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import PolicyIcon from "@mui/icons-material/Policy";
 import AppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
@@ -117,6 +118,12 @@ export const Header = () => {
               <InfoIcon fontSize="small" />
             </ListItemIcon>
             {t("app.header.pages-menu-about-page")}
+          </MenuItem>
+          <MenuItem component={Link} href="/privacy-policy" onClick={handleNavMenuClose}>
+            <ListItemIcon>
+              <PolicyIcon fontSize="small" />
+            </ListItemIcon>
+            {t("app.header.pages-menu-privacy-policy-page")}
           </MenuItem>
         </Menu>
 

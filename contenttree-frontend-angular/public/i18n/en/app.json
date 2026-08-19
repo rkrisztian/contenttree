@@ -7,6 +7,7 @@
       "pages-menu-button-aria-label": "Pages",
       "pages-menu-tree-page": "Tree",
       "pages-menu-about-page": "About",
+      "pages-menu-privacy-policy-page": "Privacy Policy",
       "errors-menu-button-aria-label_one": "Error notifications, {{count}} error",
       "errors-menu-button-aria-label_other": "Error notifications, {{count}} errors",
       "errors-menu-no-errors": "No errors",

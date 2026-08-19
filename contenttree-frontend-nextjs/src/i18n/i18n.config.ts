@@ -6,5 +6,5 @@ export const i18nConfig: I18nConfig = {
   localeInPath: false,
   resourceLoader: (language, namespace) => import(`@/i18n/messages/${language}/${namespace}.json`),
   defaultNS: "app",
-  ns: ["about", "app", "login", "tree"],
+  ns: ["about", "app", "login", "tree", "privacy-policy"],
 };

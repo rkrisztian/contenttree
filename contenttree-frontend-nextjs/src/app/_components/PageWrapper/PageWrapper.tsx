@@ -14,7 +14,7 @@ import styles from "./PageWrapper.module.scss";
 const ERROR_TIMEOUT_IN_MS = 5000;
 
 export default function PageWrapper({ children }: Readonly<{ children: ReactNode }>) {
-  const { remoteConfigLoading, latestError, hideLatestError } = useBackendApi();
+  const { remoteConfig, latestError, hideLatestError } = useBackendApi();
   const { t } = useT("app");
 
   return (
@@ -22,13 +22,13 @@ export default function PageWrapper({ children }: Readonly<{ children: ReactNode
       <Header />
 
       <Box component="main" className={styles["main"]}>
-        {remoteConfigLoading ? (
+        {remoteConfig ? (
+          children
+        ) : (
           <Box className={styles["remote-config-loading"]}>
             <CircularProgress size={40} />
             <Typography variant="body1">{t("app.loading-indicator")}</Typography>
           </Box>
-        ) : (
-          children
         )}
       </Box>
 

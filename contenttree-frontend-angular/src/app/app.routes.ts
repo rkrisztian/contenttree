@@ -22,6 +22,12 @@ export const routes: Routes = [
     path: 'about',
     loadComponent: () => import('./about-page/about-page').then((m) => m.AboutPage),
   },
+  {
+    path: 'privacy-policy',
+    loadComponent: () =>
+      import('./privacy-policy-page/privacy-policy-page').then((m) => m.PrivacyPolicyPage),
+    providers: [providePageTranslation('privacy-policy')],
+  },
 ];
 
 function providePageTranslation(path: string) {

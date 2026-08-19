@@ -1,1 +1,9 @@
-{ "apiBaseUrl": "@@API_BASE_URL@@" }
+{
+  "apiBaseUrl": "@@API_BASE_URL@@",
+  "company": {
+    "name": "@@COMPANY_NAME@@",
+    "address": "@@COMPANY_ADDRESS@@",
+    "privacyEmail": "@@COMPANY_PRIVACY_EMAIL@@",
+    "dataRetentionDays": @@COMPANY_DATA_RETENTION_DAYS@@
+  }
+}

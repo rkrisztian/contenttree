@@ -41,7 +41,7 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: (Create Docker Secret Files)
+      - name: (Create Docker Files)
         run: |
           cat >etc/db/username <<'EOF'
           ${{ secrets.DB_USERNAME }}
@@ -70,6 +70,13 @@ jobs:
             END IF;
           END;
           '  LANGUAGE PLPGSQL;
+          EOF
+
+          cat >etc/frontend/config <<'EOF'
+          COMPANY_NAME=Example Company
+          COMPANY_ADDRESS=Example Address
+          COMPANY_PRIVACY_EMAIL=example@company.com
+          COMPANY_DATA_RETENTION_DAYS=90
           EOF
         working-directory: contenttree-deploy
 

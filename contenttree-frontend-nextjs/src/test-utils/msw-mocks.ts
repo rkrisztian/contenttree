@@ -30,17 +30,25 @@ const INITIAL_CONTENTS: Record<string, ContentRespDto> = {
 let rawNodes = INITIAL_RAW_NODES;
 let contents = INITIAL_CONTENTS;
 
-export const LOGIN_RESP = {
+export const LOGIN_RESP: Readonly<LoginRespDto> = {
   token:
     "eyJhbGciOiJIUzI1NiJ9." +
     "eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4NDg5MzA5MiwiZXhwIjoxNzg0ODk2NjkyfQ." +
     "erJgVOVJrKzySG52n62y3dhCpk-ecAfAugWZqmyM0v8",
-} as LoginRespDto;
+};
+
+export const REMOTE_CONFIG_RESP: Readonly<RemoteConfig> = {
+  apiBaseUrl: process.env["API_BASE_URL"]!,
+  company: {
+    name: "Example Company",
+    address: "Example Address",
+    privacyEmail: "example@company.com",
+    dataRetentionDays: 90,
+  },
+};
 
 export const handlers: AnyHandler[] = [
-  http.get(REMOTE_CONFIG_PATH, () =>
-    HttpResponse.json({ apiBaseUrl: process.env["API_BASE_URL"]! } satisfies RemoteConfig),
-  ),
+  http.get(REMOTE_CONFIG_PATH, () => HttpResponse.json(REMOTE_CONFIG_RESP)),
 
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
 

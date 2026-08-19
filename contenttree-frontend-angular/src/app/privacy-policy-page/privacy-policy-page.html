@@ -1,0 +1,251 @@
+<ng-container *translateBlock="let t">
+  <h2>{{ t('privacy-policy.title') }}</h2>
+
+  <div class="card-container">
+    <mat-card>
+      <mat-card-content>
+        <p>
+          <strong>{{ t('privacy-policy.last-updated-label') }}:</strong>
+          {{ t('privacy-policy.last-updated-date') }}
+        </p>
+        <p>
+          <strong>{{ t('privacy-policy.effective-for') }}:</strong>
+          {{ t('privacy-policy.effective-for-description') }}
+        </p>
+
+        <p [innerHTML]="t('privacy-policy.intro-1', { companyName: company().name })"></p>
+
+        <p>{{ t('privacy-policy.intro-2') }}</p>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-1-title') }}</h3>
+          <p>
+            {{ t('privacy-policy.section-1-text', { companyName: company().name }) }}
+          </p>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-2-title') }}</h3>
+          <p>{{ t('privacy-policy.section-2-intro') }}</p>
+
+          <h4>{{ t('privacy-policy.section-2a-title') }}</h4>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-2a-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-2a-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-2a-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-2a-item-2-text') }}
+            </li>
+          </ul>
+
+          <h4>{{ t('privacy-policy.section-2b-title') }}</h4>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-2b-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-2b-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-2b-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-2b-item-2-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-2b-item-3-label') }}</strong
+              >:
+              <ul>
+                <li>
+                  <em>{{ t('privacy-policy.section-2b-item-3a-label') }}:</em>{{ ' '
+                  }}<span [innerHTML]="t('privacy-policy.section-2b-item-3a-text')"></span>
+                </li>
+                <li>
+                  <em>{{ t('privacy-policy.section-2b-item-3b-label') }}:</em>{{ ' '
+                  }}<span [innerHTML]="t('privacy-policy.section-2b-item-3b-text')"></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <div class="highlight">
+            <strong>{{ t('privacy-policy.section-2-highlight-label') }}:</strong>
+            {{ t('privacy-policy.section-2-highlight-text') }}
+          </div>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-3-title') }}</h3>
+          <p>{{ t('privacy-policy.section-3-intro') }}</p>
+          <ol>
+            <li>
+              <strong>{{ t('privacy-policy.section-3-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-3-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-3-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-3-item-2-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-3-item-3-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-3-item-3-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-3-item-4-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-3-item-4-text') }}
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-4-title') }}</h3>
+          <p>{{ t('privacy-policy.section-4-intro') }}</p>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-4-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-4-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-4-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-4-item-2-text') }}
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-5-title') }}</h3>
+          <p>{{ t('privacy-policy.section-5-intro') }}</p>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-5-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-5-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-5-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-5-item-2-text') }}
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-6-title') }}</h3>
+
+          <h4>{{ t('privacy-policy.section-6a-title') }}</h4>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-2-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-3-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-3-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-4-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-4-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-5-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-5-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6a-item-6-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6a-item-6-text') }}
+            </li>
+          </ul>
+
+          <h4>{{ t('privacy-policy.section-6b-title') }}</h4>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-6b-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6b-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6b-item-2-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6b-item-2-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-6b-item-3-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-6b-item-3-text') }}
+            </li>
+          </ul>
+
+          <div class="highlight">
+            <strong>{{ t('privacy-policy.section-6b-highlight-label') }}:</strong>
+            {{ t('privacy-policy.section-6b-highlight-text') }}
+          </div>
+
+          <h4>{{ t('privacy-policy.section-6c-title') }}</h4>
+          <p>{{ t('privacy-policy.section-6c-text') }}</p>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-7-title') }}</h3>
+          <ul>
+            <li>
+              <strong>{{ t('privacy-policy.section-7-item-1-label') }}</strong
+              >:
+              {{ t('privacy-policy.section-7-item-1-text') }}
+            </li>
+            <li>
+              <strong>{{ t('privacy-policy.section-7-item-2-label') }}</strong
+              >:
+              {{
+                'privacy-policy.section-7-item-2-text'
+                  | pluralTranslate: { count: company().dataRetentionDays }
+              }}
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-8-title') }}</h3>
+          <p>{{ t('privacy-policy.section-8-text') }}</p>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-9-title') }}</h3>
+          <p>{{ t('privacy-policy.section-9-text') }}</p>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-10-title') }}</h3>
+          <p>{{ t('privacy-policy.section-10-text') }}</p>
+        </section>
+
+        <section>
+          <h3>{{ t('privacy-policy.section-11-title') }}</h3>
+          <address>
+            <strong>{{ company().name }}</strong
+            ><br />
+            {{ company().address }}<br />
+            Email: <a href="mailto:{{ company().privacyEmail }}">{{ company().privacyEmail }}</a>
+          </address>
+        </section>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-container>
