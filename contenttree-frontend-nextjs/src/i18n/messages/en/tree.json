@@ -3,6 +3,7 @@
     "tree": {
       "loading-indicator": "Loading tree...",
       "tree-is-empty": "Tree is Empty",
+      "add-root-node-text": "Add a root node to begin organizing your data.",
       "aria-label": "Content tree",
       "node-matched-aria-label": "{{nodeName}} matched",
       "toggle-button-aria-label": "Toggle {{nodeName}}"
