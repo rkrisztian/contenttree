@@ -49,6 +49,7 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 			<ul>
 				<li><a href="https://angular.dev/">Angular</a> (component-based UI)</li>
 				<li><a href="https://material.angular.dev/">Angular Material</a> (UI components)</li>
+				<li><a href="https://ngx-translate.org/">ngx-translate</a> (I18n)</li>
 			</ul>
 		</td>
 		<td>
@@ -64,6 +65,7 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 			<ul>
 				<li><a href="https://nextjs.org/">Next.js</a> (React framework)</li>
 				<li><a href="https://mui.com/">MUI</a> (UI components)</li>
+				<li><a href="https://github.com/i18next/next-i18next">next-i18next</a> (I18n)</li>
 			</ul>
 		</td>
 		<td>
@@ -269,9 +271,9 @@ gw build --write-verification-metadata pgp,sha256 --export-keys --write-locks
 git diff gradle/verification-*
 ```
 
-Then review the changes in the verification metadata and the lock file. Once done, update
-the `origin` and `reason` fields of `trusted-key`s and checksums with your own verification info,
-and delete unused versions in `verification-metadata.xml`.
+Then review the changes in the verification metadata and the lock file. Once done, update the
+`origin` and `reason` fields of `trusted-key`s and checksums with your own verification info, and
+delete unused versions in `verification-metadata.xml`.
 
 ### Frontend (Angular and Next.js) and E2E Tests
 
