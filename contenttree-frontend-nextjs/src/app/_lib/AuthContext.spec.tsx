@@ -2,12 +2,11 @@ import { act, renderHook } from "@testing-library/react";
 import { HttpResponse, http } from "msw";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, vi } from "vitest";
-import { REMOTE_CONFIG_PATH } from "@/app/api/config/route";
 import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/api/tree-api";
 import { mockRouter } from "@/test-utils/mock-next-navigation";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
-import { LOGIN_DATA } from "@/test-utils/test-data";
+import { TEST_LOGIN_DATA, TEST_REMOTE_CONFIG } from "@/test-utils/test-data";
 import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
 import {
   AuthContextProvider,
@@ -23,7 +22,7 @@ type AuthContextHooks = {
 
 const renderAuthContextHooks = async (): Promise<AuthContextHooks> =>
   (
-    await act(() =>
+    await act(async () =>
       renderHook(() => ({ backendApiContext: useBackendApi(), authContext: useAuthContext() }), {
         wrapper: WithAuthContextProvider,
       }),
@@ -44,10 +43,10 @@ describe("AuthApiContext", () => {
 
   describe("login data", () => {
     it("should initialize from localStorage when stored", async () => {
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
       const hooks = await renderAuthContextHooks();
 
-      expect.soft(hooks.current.authContext.loginData).toEqual(LOGIN_DATA);
+      expect.soft(hooks.current.authContext.loginData).toEqual(TEST_LOGIN_DATA);
       expect.soft(hooks.current.authContext.isAuthenticated).toBeTruthy();
     });
 
@@ -95,7 +94,7 @@ describe("AuthApiContext", () => {
           return HttpResponse.json([{ id: 1, name: "Root node" }]);
         }),
       );
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
       const hooks = await renderAuthContextHooks();
 
       await act(async () =>
@@ -104,7 +103,7 @@ describe("AuthApiContext", () => {
         ),
       );
 
-      expect(authorizationHeader).toBe(`Bearer ${LOGIN_DATA.token}`);
+      expect(authorizationHeader).toBe(`Bearer ${TEST_LOGIN_DATA.token}`);
     });
 
     it("should not add Authorization header for unprotected API even when logged in", async ({
@@ -112,7 +111,7 @@ describe("AuthApiContext", () => {
     }) => {
       let authorizationHeader: string | null = null;
       server.use(
-        http.get(REMOTE_CONFIG_PATH, ({ request }) => {
+        http.get(`${TEST_REMOTE_CONFIG.apiBaseUrl}/test-path`, ({ request }) => {
           authorizationHeader = request.headers.get("Authorization");
           return HttpResponse.json({});
         }),
@@ -120,7 +119,7 @@ describe("AuthApiContext", () => {
       const hooks = await renderAuthContextHooks();
 
       await act(async () =>
-        hooks.current.backendApiContext.backendApiRef.current.get(REMOTE_CONFIG_PATH),
+        hooks.current.backendApiContext.backendApiRef.current.get("/test-path"),
       );
 
       expect(authorizationHeader).toBeNull();
@@ -132,7 +131,7 @@ describe("AuthApiContext", () => {
           return new HttpResponse(null, { status: 401 });
         }),
       );
-      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(LOGIN_DATA));
+      localStorage.setItem(LOGIN_DATA_KEY, JSON.stringify(TEST_LOGIN_DATA));
       const hooks = await renderAuthContextHooks();
 
       await act(async () =>

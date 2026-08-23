@@ -42,6 +42,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const loginDataRef = useRef(loginData);
   const isAuthenticated = !!loginData;
   const isManager = isAuthenticated && ["ADMIN", "MANAGER"].includes(loginData.role);
+  const [ready, setReady] = useState(false);
 
   const initAuth = () => {
     backendApiRef.current.interceptors.request.use((config) => {
@@ -69,6 +70,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         return Promise.reject(error);
       },
     );
+
+    setReady(true);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies(initAuth): only need to run once
@@ -101,7 +104,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ loginData, isAuthenticated, login, logout, isManager }}>
-      {children}
+      {ready && children}
     </AuthContext.Provider>
   );
 };

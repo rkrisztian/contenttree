@@ -9,10 +9,9 @@ import type { ErrorData } from "./BackendApiContext";
 
 describe("BackendApiContext", () => {
   describe("AppConfigService", () => {
-    it("should load remote config", async () => {
+    it("should set base URL", async () => {
       const hooks = await renderTreePageContextHooks();
 
-      expect(hooks.current.backendApiContext.remoteConfig).toBeDefined();
       expect(hooks.current.backendApiContext.backendApiRef.current.defaults.baseURL).toEqual(
         process.env["API_BASE_URL"],
       );
@@ -60,7 +59,6 @@ describe("BackendApiContext", () => {
       );
 
       const hooks = await renderTreePageContextHooks();
-
       await act(async () =>
         expect(hooks.current.treePageContext.moveNode(2, 3)).rejects.toThrow(
           expect.objectContaining({
@@ -69,13 +67,12 @@ describe("BackendApiContext", () => {
           }),
         ),
       );
-      act(() =>
-        expect(hooks.current.backendApiContext.latestError).toMatchObject({
-          error: "Content tree service error",
-          message: "Node cannot be moved into a descendant",
-          traceId: "0123456789abcdef0123456789abcdef",
-        }),
-      );
+
+      expect(hooks.current.backendApiContext.latestError).toMatchObject({
+        error: "Content tree service error",
+        message: "Node cannot be moved into a descendant",
+        traceId: "0123456789abcdef0123456789abcdef",
+      });
     });
 
     it("should set loading state on network connection", async ({ server }) => {

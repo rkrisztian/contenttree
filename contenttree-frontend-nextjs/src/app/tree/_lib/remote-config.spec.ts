@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GET } from "./route";
+import { getRemoteConfig } from "./remote-config";
 
-describe("GET /api/config", () => {
+describe("getRemoteConfig", () => {
   beforeEach(() => {
     vi.stubEnv("API_BASE_URL", "https://api.example.com");
     vi.stubEnv("COMPANY_NAME", "Acme Corp");
@@ -12,15 +12,12 @@ describe("GET /api/config", () => {
 
   afterEach(() => {
     vi.unstubAllEnvs();
-    vi.restoreAllMocks();
   });
 
   it("returns the configured values", async () => {
-    const res = await GET();
-    const body = await res.json();
+    const config = await getRemoteConfig();
 
-    expect.soft(res.status).toBe(200);
-    expect.soft(body).toEqual({
+    expect(config).toEqual({
       apiBaseUrl: "https://api.example.com",
       company: {
         name: "Acme Corp",
@@ -37,16 +34,9 @@ describe("GET /api/config", () => {
     "COMPANY_ADDRESS",
     "COMPANY_PRIVACY_EMAIL",
     "COMPANY_DATA_RETENTION_DAYS",
-  ])("returns 500 when %s is missing", async (varName) => {
+  ])("throws when %s is missing", async (varName) => {
     vi.stubEnv(varName, "");
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    const res = await GET();
-    const body = await res.json();
-
-    expect.soft(res.status).toBe(500);
-    expect.soft(body.error).toBe("Configuration error");
-    expect.soft(body.message).toContain(varName);
-    expect.soft(consoleError).toHaveBeenCalled();
+    await expect(getRemoteConfig()).rejects.toThrow(new RegExp(varName));
   });
 });

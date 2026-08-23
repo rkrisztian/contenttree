@@ -10,7 +10,7 @@ export type TreePageContextHooks = {
 
 export const renderTreePageContextHooks = async (): Promise<TreePageContextHooks> =>
   (
-    await act(() =>
+    await act(async () =>
       renderHook(() => ({ backendApiContext: useBackendApi(), treePageContext: useTreePage() }), {
         wrapper: ({ children }: Readonly<{ children: ReactNode }>) => {
           return (

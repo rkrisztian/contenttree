@@ -1,5 +1,4 @@
-// TODO: Refactor so this component can be a server component.
-"use client";
+"use server";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -8,14 +7,14 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import { Trans, useT } from "next-i18next/client";
-import { useBackendApi } from "../_lib/BackendApiContext";
+import { getT } from "next-i18next/server";
+import { Trans } from "react-i18next/TransWithoutContext";
+import { getRemoteConfig } from "@/app/tree/_lib/remote-config";
 import styles from "./page.module.scss";
 
-export default function PrivacyPolicyPage() {
-  const { remoteConfig } = useBackendApi();
-  const company = remoteConfig!.company;
-  const { t } = useT("privacy-policy");
+export default async function PrivacyPolicyPage() {
+  const company = (await getRemoteConfig()).company;
+  const { t, i18n } = await getT("privacy-policy");
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
@@ -39,6 +38,7 @@ export default function PrivacyPolicyPage() {
               <Typography>
                 <Trans
                   t={t}
+                  i18n={i18n}
                   i18nKey="privacy-policy.intro-1"
                   values={{ companyName: company.name }}
                   components={{ strong: <strong /> }}
@@ -95,6 +95,7 @@ export default function PrivacyPolicyPage() {
                         <em>{t("privacy-policy.section-2b-item-3a-label")}:</em>{" "}
                         <Trans
                           t={t}
+                          i18n={i18n}
                           i18nKey="privacy-policy.section-2b-item-3a-text"
                           components={{ code: <code /> }}
                         />
@@ -103,6 +104,7 @@ export default function PrivacyPolicyPage() {
                         <em>{t("privacy-policy.section-2b-item-3b-label")}:</em>{" "}
                         <Trans
                           t={t}
+                          i18n={i18n}
                           i18nKey="privacy-policy.section-2b-item-3b-text"
                           components={{ code: <code /> }}
                         />
