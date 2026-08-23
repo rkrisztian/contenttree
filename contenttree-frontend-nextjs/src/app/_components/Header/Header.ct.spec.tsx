@@ -4,10 +4,10 @@ import { describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render, renderHook } from "vitest-browser-react/pure";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
-import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
+import { TEST_REMOTE_CONFIG } from "@/test-utils/test-data";
 import { t, WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import { Header } from "./Header";
@@ -68,19 +68,24 @@ describe("Header", () => {
 
     it("shows error badge count when there are errors", async ({ worker }) => {
       worker.use(
-        http.get(`${TREE_API_BASE_URL}`, () => {
+        http.get(`${TEST_REMOTE_CONFIG.apiBaseUrl}/test-path`, () => {
           return HttpResponse.error();
         }),
       );
 
-      const { result: hooks, act } = await renderHook(
-        () => ({ backendApiContext: useBackendApi(), treePageContext: useTreePage() }),
-        { wrapper: HeaderWithTreePageContextProvider },
+      const { result: hooks, act } = await renderHook(() => useBackendApi(), {
+        wrapper: HeaderWithTreePageContextProvider,
+      });
+
+      await act(async () =>
+        expect(hooks.current.backendApiRef.current.get("/test-path")).rejects.toThrow(),
       );
 
       await expect.element(errorNotificationsButtonWithOneError()).toBeVisible();
 
-      await act(async () => hooks.current.treePageContext.rawNodes.mutate());
+      await act(async () =>
+        expect(hooks.current.backendApiRef.current.get("/test-path")).rejects.toThrow(),
+      );
 
       await expect.element(errorNotificationsButtonWithTwoErrors()).toBeVisible();
     });

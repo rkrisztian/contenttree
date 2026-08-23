@@ -7,7 +7,6 @@ import type {
   LoginRespDto,
   TreeNodeRespDTO,
 } from "@/app/_lib/api/types";
-import { REMOTE_CONFIG_PATH, type RemoteConfig } from "@/app/api/config/route";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 
 export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]}${TREE_API_BASE_PATH}`;
@@ -37,19 +36,7 @@ export const LOGIN_RESP: Readonly<LoginRespDto> = {
     "erJgVOVJrKzySG52n62y3dhCpk-ecAfAugWZqmyM0v8",
 };
 
-export const REMOTE_CONFIG_RESP: Readonly<RemoteConfig> = {
-  apiBaseUrl: process.env["API_BASE_URL"]!,
-  company: {
-    name: "Example Company",
-    address: "Example Address",
-    privacyEmail: "example@company.com",
-    dataRetentionDays: 90,
-  },
-};
-
 export const handlers: AnyHandler[] = [
-  http.get(REMOTE_CONFIG_PATH, () => HttpResponse.json(REMOTE_CONFIG_RESP)),
-
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {

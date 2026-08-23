@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { SWRConfig } from "swr";
-import { REMOTE_CONFIG_PATH, type RemoteConfig } from "@/app/api/config/route";
+import type { RemoteConfig } from "../tree/_lib/remote-config";
 
 export type BackendApiContextType = {
   backendApiRef: RefObject<AxiosInstance>;
@@ -22,7 +22,6 @@ export type BackendApiContextType = {
   removeError: (errorId: string) => void;
   hideLatestError: () => void;
   copyToClipboard: (errorData: ErrorData) => Promise<void>;
-  remoteConfig: RemoteConfig | undefined;
 };
 
 export interface ErrorData {
@@ -34,15 +33,23 @@ export interface ErrorData {
 
 export const BackendApiContext = createContext<BackendApiContextType | undefined>(undefined);
 
-export const BackendApiContextProvider = ({ children }: { children: ReactNode }) => {
-  const backendApiRef = useRef<AxiosInstance>(axios.create({ timeout: 10000 }));
+export const BackendApiContextProvider = ({
+  remoteConfig,
+  children,
+}: {
+  remoteConfig: RemoteConfig;
+  children: ReactNode;
+}) => {
+  const backendApiRef = useRef<AxiosInstance>(
+    axios.create({ timeout: 10000, baseURL: remoteConfig.apiBaseUrl }),
+  );
   const [loadingCounter, setLoadingCounter] = useState(0);
   const loading = !!loadingCounter;
   const [errors, setErrors] = useState<ErrorData[]>([]);
   const [latestError, setLatestError] = useState<ErrorData | null>(null);
-  const [remoteConfig, setRemoteConfig] = useState<RemoteConfig | undefined>();
+  const [ready, setReady] = useState(false);
 
-  const initBackendApi = async () => {
+  const initBackendApi = () => {
     backendApiRef.current.interceptors.request.use((config) => {
       setLoadingCounter((counter) => counter + 1);
       return config;
@@ -79,11 +86,7 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
       },
     );
 
-    setLoadingCounter((counter) => counter + 1);
-    const newRemoteConfig = (await axios.get<RemoteConfig>(REMOTE_CONFIG_PATH)).data;
-    backendApiRef.current.defaults.baseURL = newRemoteConfig.apiBaseUrl;
-    setLoadingCounter((counter) => counter - 1);
-    setRemoteConfig(newRemoteConfig);
+    setReady(true);
   };
 
   const addAndShowError = (newErrorData: Omit<ErrorData, "id">) => {
@@ -136,19 +139,20 @@ export const BackendApiContextProvider = ({ children }: { children: ReactNode })
         removeError,
         hideLatestError,
         copyToClipboard,
-        remoteConfig,
       }}
     >
-      <SWRConfig
-        value={{
-          revalidateIfStale: false,
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false,
-          shouldRetryOnError: false,
-        }}
-      >
-        {children}
-      </SWRConfig>
+      {ready && (
+        <SWRConfig
+          value={{
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            shouldRetryOnError: false,
+          }}
+        >
+          {children}
+        </SWRConfig>
+      )}
     </BackendApiContext.Provider>
   );
 };

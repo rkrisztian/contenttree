@@ -19,7 +19,7 @@ describe("AbortContext", () => {
             resolveRequest = () => {
               resolve(
                 HttpResponse.json({
-                  data: "test content 2",
+                  data: "dummy content",
                 } as ContentRespDto),
               );
             };

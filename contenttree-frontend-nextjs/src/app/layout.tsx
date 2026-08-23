@@ -16,6 +16,7 @@ import { AuthContextProvider } from "@/app/_lib/AuthContext";
 import { BackendApiContextProvider } from "@/app/_lib/BackendApiContext";
 import theme from "@/app/theme";
 import { i18nConfig } from "@/i18n/i18n.config";
+import { getRemoteConfig } from "./tree/_lib/remote-config";
 
 export const metadata: Metadata = {
   title: "Content Tree Management Application",
@@ -36,13 +37,14 @@ export const generateStaticParams = async () => generateI18nStaticParams();
 const AppProviders = async ({ children }: Readonly<{ children: ReactNode }>) => {
   const { i18n, lng } = await getT();
   const resources = getResources(i18n);
+  const remoteConfig = await getRemoteConfig();
 
   return (
     <I18nProvider language={lng} resources={resources}>
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <BackendApiContextProvider>
+          <BackendApiContextProvider remoteConfig={remoteConfig}>
             <AuthContextProvider>{children}</AuthContextProvider>
           </BackendApiContextProvider>
         </ThemeProvider>
