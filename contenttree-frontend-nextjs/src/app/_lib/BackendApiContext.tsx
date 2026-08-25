@@ -71,7 +71,7 @@ export const BackendApiContextProvider = ({
           addAndShowError({
             error: error.response.data.error,
             message: error.response.data.message,
-            traceId: error.response.data.traceId || error.response.data.trace,
+            traceId: error.response.data.traceId,
           });
         } else if (error.request) {
           addAndShowError({

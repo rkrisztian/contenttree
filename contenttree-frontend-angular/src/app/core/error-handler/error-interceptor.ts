@@ -15,7 +15,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           errorService.addAndShow({
             error: response.error.error,
             message: response.error.message,
-            traceId: response.error.traceId || response.error.trace,
+            traceId: response.error.traceId,
           });
         } else {
           console.log('Unknown error: ', response);

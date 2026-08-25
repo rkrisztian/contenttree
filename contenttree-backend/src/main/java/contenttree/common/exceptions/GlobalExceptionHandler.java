@@ -5,6 +5,7 @@ import contenttree.common.config.TraceIdFilter;
 import contenttree.tree.exceptions.ContentTreeServiceException;
 import jakarta.validation.ValidationException;
 import org.apache.commons.lang3.Strings;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -113,7 +114,7 @@ public class GlobalExceptionHandler {
 						message,
 						extractPath(req),
 						traceId,
-						includeStacktrace() ? ex.getLocalizedMessage() : null));
+						includeStacktrace() ? ExceptionUtils.getStackTrace(ex) : null));
 	}
 
 	private static String getOrCreateTraceId() {

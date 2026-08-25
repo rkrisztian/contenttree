@@ -50,7 +50,7 @@ describe("BackendApiContext", () => {
               message: "Node cannot be moved into a descendant",
               path: `${TREE_API_BASE_PATH}/move`,
               traceId: "0123456789abcdef0123456789abcdef",
-              trace: "Node cannot be moved into a descendant",
+              trace: "Dummy stacktrace (dev mode only)",
               timestamp: "2026-01-01T11:12:13.001234567Z",
             },
             { status: 400 },
