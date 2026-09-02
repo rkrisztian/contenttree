@@ -12,9 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.20.0  # Immutable
+        uses: step-security/harden-runner@v2.20.1  # Immutable
         with:
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            analysis-sensorcache-eu-central-1-prod.s3.eu-central-1.amazonaws.com:443
+            api.github.com:443
+            api.sonarcloud.io:443
+            auth.docker.io:443
+            binaries.sonarsource.com:443
+            cdn.playwright.dev:443
+            dhi.io:443
+            dna-visualization-scannerdata-eu-central-1-prod.s3.eu-central-1.amazonaws.com:443
+            fonts.googleapis.com:443
+            fonts.gstatic.com:443
+            ghcr.io:443
+            github.com:443
+            keyserver.ubuntu.com:443
+            playwright.download.prss.microsoft.com:443
+            production.cloudfront.docker.com:443
+            registry-1.docker.io:443
+            registry.npmjs.org:443
+            release-assets.githubusercontent.com:443
+            scanner.sonarcloud.io:443
+            sonarcloud.io:443
+            storage.googleapis.com:443
+          disable-telemetry: true
 
       - name: Check out code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1

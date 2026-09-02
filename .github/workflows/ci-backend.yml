@@ -12,9 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.20.0  # Immutable
+        uses: step-security/harden-runner@v2.20.1  # Immutable
         with:
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            analysis-sensorcache-eu-central-1-prod.s3.eu-central-1.amazonaws.com:443
+            api.azul.com:443
+            api.github.com:443
+            api.sonarcloud.io:443
+            auth.docker.io:443
+            cdn.azul.com:443
+            config-endpoint.liquibase.com:443
+            config.liquibase.com:443
+            dhi.io:443
+            dna-visualization-scannerdata-eu-central-1-prod.s3.eu-central-1.amazonaws.com:443
+            ghcr.io:443
+            github.com:443
+            plugins-artifacts.gradle.org:443
+            plugins.gradle.org:443
+            production.cloudfront.docker.com:443
+            registry-1.docker.io:443
+            release-assets.githubusercontent.com:443
+            repo.maven.apache.org:443
+            repo1.maven.org:443
+            scanner.sonarcloud.io:443
+            services.gradle.org:443
+            sonarcloud.io:443
           disable-telemetry: true
 
       - name: Check out code

@@ -19,9 +19,28 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.20.0  # Immutable
+        uses: step-security/harden-runner@v2.20.1  # Immutable
         with:
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            *.microsoft.com:443
+            api.github.com:443
+            cdn.playwright.dev:443
+            config-endpoint.liquibase.com:443
+            config.liquibase.com:443
+            dhi.io:443
+            ghcr.io:443
+            github.com:443
+            pkg-containers.githubusercontent.com:443
+            playwright.dev:443
+            plugins-artifacts.gradle.org:443
+            plugins.gradle.org:443
+            production.cloudfront.docker.com:443
+            registry.npmjs.org:443
+            release-assets.githubusercontent.com:443
+            repo.maven.apache.org:443
+            services.gradle.org:443
+            storage.googleapis.com:443
           disable-telemetry: true
 
       - name: Check out code
@@ -150,9 +169,19 @@ jobs:
     environment: release
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.20.0  # Immutable
+        uses: step-security/harden-runner@v2.20.1  # Immutable
         with:
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            ghcr.io:443
+            github.com:443
+            pkg-containers.githubusercontent.com:443
+            plugins-artifacts.gradle.org:443
+            plugins.gradle.org:443
+            release-assets.githubusercontent.com:443
+            repo.maven.apache.org:443
+            services.gradle.org:443
           disable-telemetry: true
 
       - name: Check out code
