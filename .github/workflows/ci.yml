@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual trigger'
+        required: true
+        default: 'Manual pipeline run'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -13,6 +19,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Changes
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -58,7 +65,7 @@ jobs:
   backend:
     name: Backend
     needs: changes
-    if: ${{ (needs.changes.outputs.backend == 'true') && !cancelled()  }}
+    if: ${{ ((needs.changes.outputs.backend == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
     permissions:
       contents: write  # Needed by the `dependency-submission` action.
       packages: write  # Needed for publishing docker images to GHCR.
@@ -68,7 +75,7 @@ jobs:
   frontend-angular:
     name: Frontend (Angular)
     needs: changes
-    if: ${{ (needs.changes.outputs.frontend-angular == 'true') && !cancelled()  }}
+    if: ${{ ((needs.changes.outputs.frontend-angular == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
     permissions:
       contents: read
       packages: write  # Needed for publishing docker images to GHCR.
@@ -78,7 +85,7 @@ jobs:
   frontend-nextjs:
     name: Frontend (Next.js)
     needs: changes
-    if: ${{ (needs.changes.outputs.frontend-nextjs == 'true') && !cancelled()  }}
+    if: ${{ ((needs.changes.outputs.frontend-nextjs == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
     permissions:
       contents: read
       packages: write  # Needed for publishing docker images to GHCR.
@@ -88,7 +95,7 @@ jobs:
   deploy-ci:
     name: Deploy (CI)
     needs: changes
-    if: ${{ (needs.changes.outputs.deploy == 'true') && !cancelled()  }}
+    if: ${{ ((needs.changes.outputs.deploy == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
     permissions:
       contents: read
     uses: ./.github/workflows/ci-deploy.yml
