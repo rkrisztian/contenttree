@@ -20,8 +20,8 @@ buildscript {
 		// Temporary vulnerability fixes in transitive dependencies of plugins:
 		resolutionStrategy.eachDependency {
 			when (requested.run { "${group}:${name}" }) {
-				"org.apache.httpcomponents.core5:httpcore5" -> useVersion("5.4.3")
-				"org.apache.httpcomponents.client5:httpclient5" -> useVersion("5.6.3")
+				// Syntax: `"GROUP:ARTIFACT" -> useVersion("VERSION")`
+				else -> {}
 			}
 		}
 	}
@@ -86,18 +86,19 @@ dependencies {
 // Temporary vulnerability fixes in transitive dependencies:
 configurations.all {
 	resolutionStrategy.eachDependency {
-		if (requested.group == "org.apache.tomcat.embed") useVersion("11.0.22")
-		if (requested.group == "org.apache.logging.log4j") useVersion("2.25.5")
-
+		when (requested.group) {
+			// Syntax: `"GROUP" -> useVersion("VERSION")`
+			else -> {}
+		}
 		when (requested.run { "${group}:${name}" }) {
-			"com.fasterxml.jackson.core:jackson-databind" -> useVersion("2.21.5")
-			"tools.jackson.core:jackson-databind" -> useVersion("3.1.5")
+			// Syntax: `"GROUP:ARTIFACT" -> useVersion("VERSION")`
+			else -> {}
 		}
 	}
 }
 
 // Temporary vulnerability fixes in direct dependencies:
-extra["postgresql.version"] = "42.7.13"
+// Syntax: `extra["ARTIFACT.version"] = "VERSION"`
 
 dependencyLocking {
 	lockAllConfigurations()
