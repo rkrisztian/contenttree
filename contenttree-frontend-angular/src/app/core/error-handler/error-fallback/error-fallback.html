@@ -1,0 +1,8 @@
+<div class="error-state" *translateBlock="let t">
+  <mat-icon class="error-icon">cloud_off</mat-icon>
+  <p>{{ t('app.error-fallback.error-loading') }}</p>
+  <button mat-flat-button (click)="reload.emit()">
+    <mat-icon>refresh</mat-icon>
+    {{ t('app.error-fallback.reload-button-label') }}
+  </button>
+</div>

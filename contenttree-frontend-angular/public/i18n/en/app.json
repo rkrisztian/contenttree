@@ -24,6 +24,10 @@
       "copy-button-aria-label": "Copy error data",
       "copy-button-label": "Copy",
       "delete-button-label": "Delete"
+    },
+    "error-fallback": {
+      "error-loading": "Error loading content",
+      "reload-button-label": "Reload"
     }
   }
 }

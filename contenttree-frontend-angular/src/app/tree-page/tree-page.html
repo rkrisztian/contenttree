@@ -12,6 +12,8 @@
           <mat-spinner diameter="32"></mat-spinner>
           <span>{{ t('tree-page.tree.loading-indicator') }}</span>
         </div>
+      } @else if (rawNodes.error()) {
+        <app-error-fallback (reload)="rawNodes.reload()" />
       } @else if (treeData().rootNodeId == null) {
         <div class="empty-state">
           <mat-icon class="empty-icon">inbox</mat-icon>

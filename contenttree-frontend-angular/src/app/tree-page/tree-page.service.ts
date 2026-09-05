@@ -13,10 +13,9 @@ export class TreePageService {
   private readonly treeScrollService = inject(TreeScrollService);
   private readonly errorService = inject(ErrorService);
 
-  private readonly _rawNodes = this.treeApiService.rawNodes;
-  readonly rawNodes = this._rawNodes.asReadonly();
+  readonly rawNodes = this.treeApiService.rawNodes;
   readonly treeData = computed(
-    () => new TreeData(this._rawNodes.hasValue() ? this._rawNodes.value() : []),
+    () => new TreeData(this.rawNodes.hasValue() ? this.rawNodes.value() : []),
   );
 
   readonly expansionState = signal(new TreeExpansionState(), {
@@ -30,10 +29,9 @@ export class TreePageService {
     computation: (rootNodeId, previousRootNodeId) =>
       previousRootNodeId?.value ? previousRootNodeId.value : rootNodeId,
   });
-  private readonly _contentForSelectedNode = this.treeApiService.contentForSelectedNode(
+  readonly contentForSelectedNode = this.treeApiService.contentForSelectedNode(
     computed(() => this.selectedNodeId()),
   );
-  readonly contentForSelectedNode = this._contentForSelectedNode.asReadonly();
 
   readonly searchText = signal('');
   private readonly _foundNodes = this.treeApiService.foundNodes(this.searchText);
@@ -43,8 +41,8 @@ export class TreePageService {
 
   constructor() {
     afterNextRender(() => {
-      if (this._rawNodes.error()) {
-        this._rawNodes.reload();
+      if (this.rawNodes.error()) {
+        this.rawNodes.reload();
       }
     });
   }
@@ -59,7 +57,7 @@ export class TreePageService {
     return this.treeApiService.createNode(node).pipe(
       tap(() => {
         this.treeScrollService.saveScrollPosition();
-        this._rawNodes.reload();
+        this.rawNodes.reload();
       }),
     );
   };
@@ -68,8 +66,8 @@ export class TreePageService {
     return this.treeApiService.updateNode({ id: this.selectedNodeId()!, ...data }).pipe(
       tap(() => {
         this.treeScrollService.saveScrollPosition();
-        this._rawNodes.reload();
-        this._contentForSelectedNode.reload();
+        this.rawNodes.reload();
+        this.contentForSelectedNode.reload();
       }),
     );
   };
@@ -78,7 +76,7 @@ export class TreePageService {
     this.treeApiService.deleteNode(this.selectedNodeId()!).pipe(
       tap(() => {
         this.treeScrollService.saveScrollPosition();
-        this._rawNodes.reload();
+        this.rawNodes.reload();
         this.selectedNodeId.set(this.treeData().getNodebyId(this.selectedNodeId()!).parentId);
         this.expansionState().sync(this.treeData());
       }),
@@ -97,7 +95,7 @@ export class TreePageService {
     return this.treeApiService.moveNode(nodeId, newParentId).pipe(
       tap(() => {
         this.treeScrollService.saveScrollPosition();
-        this._rawNodes.reload();
+        this.rawNodes.reload();
       }),
     );
   };
