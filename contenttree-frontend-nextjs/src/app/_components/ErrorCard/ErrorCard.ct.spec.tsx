@@ -27,7 +27,6 @@ describe("ErrorService", () => {
             }
           />
         </WithBackendApiContextProvider>
-        ,
       </WithTestI18nProvider>,
     );
   });

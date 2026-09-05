@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { useT } from "next-i18next/client";
+import { ErrorFallback } from "@/app/_components/ErrorFallback/ErrorFallback";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./ContentPanel.module.scss";
 
@@ -45,7 +46,9 @@ const NodeContent = () => {
       </output>
     );
   }
-
+  if (contentForSelectedNode.error) {
+    return <ErrorFallback reload={() => contentForSelectedNode.mutate()} />;
+  }
   if (!selectedNodeId || !contentForSelectedNode.data) {
     return (
       <p className={styles["node-not-selected"]}>

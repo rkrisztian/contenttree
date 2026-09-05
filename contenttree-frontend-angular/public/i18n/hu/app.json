@@ -24,6 +24,10 @@
       "copy-button-aria-label": "Hibaadatok másolása",
       "copy-button-label": "Másolás",
       "delete-button-label": "Törlés"
+    },
+    "error-fallback": {
+      "error-loading": "Hiba a betöltéskor",
+      "reload-button-label": "Újratöltés"
     }
   }
 }

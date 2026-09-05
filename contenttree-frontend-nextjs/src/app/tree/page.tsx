@@ -12,11 +12,10 @@ import { ContentPanel } from "@/app/tree/_components/ContentPanel/ContentPanel";
 import { Tree } from "@/app/tree/_components/Tree/Tree";
 import { TreeToolbar } from "@/app/tree/_components/TreeToolbar/TreeToolbar";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
+import { ErrorFallback } from "../_components/ErrorFallback/ErrorFallback";
 import styles from "./page.module.scss";
 
 export default function TreePage() {
-  const { rawNodes: flatNodes, treeData } = useTreePage();
-
   return (
     <Box className={styles["page-layout"]}>
       <Card className={styles["tree-panel"]} elevation={2}>
@@ -27,7 +26,7 @@ export default function TreePage() {
         <Divider />
 
         <CardContent className={styles["tree"]}>
-          <TreeContent isLoading={flatNodes.isLoading} hasRootNode={!!treeData.rootNodeId} />
+          <TreeContent />
         </CardContent>
       </Card>
 
@@ -38,10 +37,11 @@ export default function TreePage() {
   );
 }
 
-const TreeContent = ({ isLoading, hasRootNode }: { isLoading: boolean; hasRootNode: boolean }) => {
+const TreeContent = () => {
+  const { rawNodes: flatNodes, treeData } = useTreePage();
   const { t } = useT("tree");
 
-  if (isLoading) {
+  if (flatNodes.isLoading) {
     return (
       <Box className={styles["loading-container"]}>
         <CircularProgress size={32} />
@@ -49,7 +49,10 @@ const TreeContent = ({ isLoading, hasRootNode }: { isLoading: boolean; hasRootNo
       </Box>
     );
   }
-  if (!hasRootNode) {
+  if (flatNodes.error) {
+    return <ErrorFallback reload={() => flatNodes.mutate()} />;
+  }
+  if (!treeData.rootNodeId) {
     return (
       <Box className={styles["empty-state"]}>
         <InboxIcon className={styles["empty-icon"]} />
