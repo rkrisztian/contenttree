@@ -30,7 +30,7 @@ jobs:
       deploy: ${{ steps.filter.outputs.deploy }}
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.20.1  # Immutable
+        uses: step-security/harden-runner@v2.21.1  # Immutable
         with:
           egress-policy: block
           allowed-endpoints: >
