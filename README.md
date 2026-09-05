@@ -93,7 +93,7 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 ### Prerequisites
 
 - **Backend:**
-	- [Java Development Kit](https://www.java.com/en/) 25 or later
+	- [Java Development Kit](https://www.java.com/en/) 25 or later ()
 	- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 	- _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
 - **Frontend (Angular and Next.js):**
@@ -101,7 +101,8 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 	  and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
 
 You can install Java and Node.js using
-[a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers).
+[a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers). This
+project was developed with [jenv](https://www.jenv.be/) and [nvs](https://github.com/jasongin/nvs).
 
 The backend application (when using the `dev` profile) and the integration tests automatically pull
 the PostgreSQL database image. To enable this, ensure that you are logged in to
