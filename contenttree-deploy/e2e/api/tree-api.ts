@@ -19,13 +19,13 @@ export const createNode = async (
 };
 
 export const listNodes = async (request: APIRequestContext, headers: Headers) => {
-  const listResponse = await request.get(apiUrl, { headers });
+  const listResponse = await request.get<TreeNodeRespDTO[]>(apiUrl, { headers });
 
   if (!listResponse.ok()) {
     throw new Error(`Failed to list nodes: ${await listResponse.text()}`);
   }
 
-  return (await listResponse.json()) as TreeNodeRespDTO[];
+  return await listResponse.json();
 };
 
 export const deleteNode = async (request: APIRequestContext, headers: Headers, nodeId: number) => {
