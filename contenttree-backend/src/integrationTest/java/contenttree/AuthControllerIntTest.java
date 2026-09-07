@@ -56,7 +56,6 @@ class AuthControllerIntTest {
 	}
 
 	@Test
-	@SuppressWarnings("NullAway")
 	void shouldAllowAccessingProtectedEndpointAfterLogin() throws Exception {
 		final var json = mockMvc.perform(post("/api/auth/login")
 						.contentType(APPLICATION_JSON)
