@@ -22,12 +22,15 @@ export default defineConfig({
       reportsDirectory: "coverage",
     },
     alias: {
-      "next/navigation": path.resolve(__dirname, "src/test-utils/mock-next-navigation.ts"),
+      "next/navigation": path.resolve(
+        import.meta.dirname,
+        "src/test-utils/mock-next-navigation.ts",
+      ),
     },
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
 });
