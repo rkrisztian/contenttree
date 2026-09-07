@@ -88,10 +88,12 @@ configurations.all {
 	resolutionStrategy.eachDependency {
 		when (requested.group) {
 			// Syntax: `"GROUP" -> useVersion("VERSION")`
+			"org.apache.tomcat.embed" -> useVersion("11.0.25")
 			else -> {}
 		}
 		when (requested.run { "${group}:${name}" }) {
 			// Syntax: `"GROUP:ARTIFACT" -> useVersion("VERSION")`
+			"org.apache.commons:commons-lang3" -> useVersion("3.20.0")
 			else -> {}
 		}
 	}
