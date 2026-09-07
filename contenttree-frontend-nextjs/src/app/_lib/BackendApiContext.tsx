@@ -48,6 +48,8 @@ export const BackendApiContextProvider = ({
   const [errors, setErrors] = useState<ErrorData[]>([]);
   const [latestError, setLatestError] = useState<ErrorData | null>(null);
   const [ready, setReady] = useState(false);
+  // React Strict Mode workaround
+  const initializedRef = useRef(false);
 
   const initBackendApi = () => {
     backendApiRef.current.interceptors.request.use((config) => {
@@ -85,8 +87,6 @@ export const BackendApiContextProvider = ({
         return Promise.reject(error);
       },
     );
-
-    setReady(true);
   };
 
   const addAndShowError = (newErrorData: Omit<ErrorData, "id">) => {
@@ -123,9 +123,12 @@ export const BackendApiContextProvider = ({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies(initBackendApi): only need to run once
   useEffect(() => {
+    if (initializedRef.current) return;
+
     initBackendApi();
 
-    return () => {};
+    initializedRef.current = true;
+    setReady(true);
   }, []);
 
   return (

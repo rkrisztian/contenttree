@@ -40,7 +40,6 @@ export const Tree = () => {
     setExpansionState((prev) => {
       const next = prev.clone();
 
-      // React Strict Mode workaround
       if (prev.isExpanded(nodeId) !== origExpanded) {
         return next;
       }

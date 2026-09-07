@@ -43,6 +43,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const isAuthenticated = !!loginData;
   const isManager = isAuthenticated && ["ADMIN", "MANAGER"].includes(loginData.role);
   const [ready, setReady] = useState(false);
+  // React Strict Mode workaround
+  const initializedRef = useRef(false);
 
   const initAuth = () => {
     backendApiRef.current.interceptors.request.use((config) => {
@@ -70,15 +72,16 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         return Promise.reject(error);
       },
     );
-
-    setReady(true);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies(initAuth): only need to run once
   useEffect(() => {
+    if (initializedRef.current) return;
+
     initAuth();
 
-    return () => {};
+    initializedRef.current = true;
+    setReady(true);
   }, []);
 
   const login = async (username: string, password: string) => {
