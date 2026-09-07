@@ -3,7 +3,7 @@ import { LoginReqDto } from './types/models/LoginReqDto.js';
 import { LoginRespDto } from './types/models/LoginRespDto.js';
 
 export const login = async (request: APIRequestContext, username: string, password: string) => {
-  const loginResponse = await request.post('/api/auth/login', {
+  const loginResponse = await request.post<LoginRespDto>('/api/auth/login', {
     data: { username, password } as LoginReqDto,
   });
 
@@ -11,7 +11,7 @@ export const login = async (request: APIRequestContext, username: string, passwo
     throw new Error(`Failed to login: ${await loginResponse.text()}`);
   }
 
-  const loginData = (await loginResponse.json()) as LoginRespDto;
+  const loginData = await loginResponse.json();
 
   if (!loginData.token) {
     throw new Error('Token not found in login response');

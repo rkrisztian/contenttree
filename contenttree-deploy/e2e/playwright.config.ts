@@ -12,7 +12,10 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined,
   reporter: [['html'], ['list']],
   use: {
-    trace: 'retain-on-failure',
+    trace: {
+      mode: 'retain-on-failure',
+      snapshots: { dom: true, aria: true, screen: true },
+    },
     screenshot: 'only-on-failure',
   },
   projects: [

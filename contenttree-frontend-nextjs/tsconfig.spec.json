@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "lib": ["dom", "esnext"],
     "types": ["node"],
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "incremental": true,

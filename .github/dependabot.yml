@@ -51,7 +51,6 @@ updates:
           - react-i18next
       monorepo-dependencies:
         group-by: dependency-name
-
     allow:
       - update-types:
           - "version-update:semver-minor"
