@@ -17,7 +17,6 @@ export class TreePage {
     this.page.getByRole('button', { name: `Toggle ${name}}` });
   private readonly content = (content: string) => this.page.getByText(content, { exact: true });
   private readonly dialog = () => this.page.getByRole('dialog');
-  private readonly loadingTreeIndicator = () => this.page.getByText('Loading tree...');
 
   constructor(private readonly page: Page) {}
 
@@ -61,7 +60,8 @@ export class TreePage {
     oldParent: string,
   ) => {
     await this.node(name).dragTo(this.node(newParent));
-    await expect(this.loadingTreeIndicator()).not.toBeInViewport();
+    await this.waitForTreeToFinishLoading();
+    await expect(this.node(oldParent)).toBeInViewport();
     await expect(this.toggleButton(oldParent)).not.toBeInViewport();
   };
 
@@ -71,7 +71,11 @@ export class TreePage {
   };
 
   readonly expectNodeDoesNotExist = async (name: string) => {
-    await expect(this.loadingTreeIndicator()).not.toBeInViewport();
+    await this.waitForTreeToFinishLoading();
     await expect(this.node(name)).not.toBeInViewport();
+  };
+
+  private readonly waitForTreeToFinishLoading = async () => {
+    await expect(this.addNodeButton()).toBeEnabled();
   };
 }
