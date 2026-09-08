@@ -24,7 +24,7 @@ import NodeEditorDialog, {
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./TreeToolbar.module.scss";
 
-const DEBOUNCE_DELAY = 500; // ms
+const SEARCH_DELAY_IN_MS = 500;
 
 export const TreeToolbar = () => {
   const { loading } = useBackendApi();
@@ -57,7 +57,7 @@ export const TreeToolbar = () => {
       if (!hasInvalidLength && searchInputValue !== searchText) {
         setSearchText(searchInputValue);
       }
-    }, DEBOUNCE_DELAY);
+    }, SEARCH_DELAY_IN_MS);
 
     return () => clearTimeout(timer);
   }, [searchInputValue, hasInvalidLength]);

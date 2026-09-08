@@ -38,6 +38,8 @@ export interface NodeEditorFormData {
   styleUrl: './node-editor-dialog.scss',
 })
 export class NodeEditorDialog {
+  private static readonly VALIDATION_DELAY_IN_MS = 250;
+
   protected readonly data = inject(DIALOG_DATA) as NodeEditorDialogData;
   private readonly translate = inject(TranslateService);
   private readonly dialogRef = inject(DialogRef);
@@ -49,8 +51,8 @@ export class NodeEditorDialog {
   protected readonly nodeEditorForm = form(
     this.nodeEditorModel,
     (schemaPath) => {
-      debounce(schemaPath.name, 250);
-      debounce(schemaPath.content, 250);
+      debounce(schemaPath.name, NodeEditorDialog.VALIDATION_DELAY_IN_MS);
+      debounce(schemaPath.content, NodeEditorDialog.VALIDATION_DELAY_IN_MS);
 
       required(schemaPath.name, {
         message: this.translate.translate('tree-page.node-editor-dialog.node-name-field-required'),

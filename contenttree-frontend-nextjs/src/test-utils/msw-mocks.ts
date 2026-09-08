@@ -6,6 +6,7 @@ import type {
   LoginReqDto,
   LoginRespDto,
   TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
 } from "@/app/_lib/api/types";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 
@@ -87,7 +88,7 @@ export const handlers: AnyHandler[] = [
   }),
 
   http.post(TREE_API_BASE_URL, async ({ request }) => {
-    const node = (await request.json()) as CreateTreeNodeReqDTO;
+    const node = (await request.json()) as UpdateTreeNodeReqDTO;
 
     if (node.name === "changed node") {
       rawNodes = [
