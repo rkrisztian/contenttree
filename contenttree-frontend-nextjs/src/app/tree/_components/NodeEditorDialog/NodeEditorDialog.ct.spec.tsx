@@ -1,9 +1,8 @@
-import { afterEach, beforeEach, describe, expect, vi } from "vitest";
+import { beforeEach, describe, expect } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
 import { it } from "@/test-utils/msw-ct";
 import { renderTreePage } from "@/test-utils/test-components";
 import { t } from "@/test-utils/test-i18n";
-import { VALIDATION_DELAY_IN_MS } from "./NodeEditorDialog";
 
 describe("NodeEditorDialog", () => {
   const node = (name: string) => page.getByRole("treeitem", { name, exact: true });
@@ -38,12 +37,6 @@ describe("NodeEditorDialog", () => {
 
   beforeEach(async () => {
     await renderTreePage();
-
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   it("can add new node", async () => {
@@ -56,7 +49,6 @@ describe("NodeEditorDialog", () => {
 
     await userEvent.fill(nodeNameField(dialog), "test node");
     await userEvent.fill(nodeContentField(dialog), "test content");
-    await vi.advanceTimersByTimeAsync(VALIDATION_DELAY_IN_MS);
 
     await expect.element(addNodeButton(dialog)).toBeEnabled();
 
@@ -79,13 +71,11 @@ describe("NodeEditorDialog", () => {
 
     await userEvent.fill(nodeNameField(dialog), "test node");
     await userEvent.fill(nodeContentField(dialog), "test content");
-    await vi.advanceTimersByTimeAsync(VALIDATION_DELAY_IN_MS);
 
     await expect.element(addNodeButton(dialog)).toBeEnabled();
 
     await userEvent.clear(nodeNameField(dialog));
     await userEvent.clear(nodeContentField(dialog));
-    await vi.advanceTimersByTimeAsync(VALIDATION_DELAY_IN_MS);
 
     await expect.element(nodeNameField(dialog)).toBeInvalid();
     await expect.element(nodeContentField(dialog)).toBeInvalid();
@@ -104,7 +94,6 @@ describe("NodeEditorDialog", () => {
 
     await userEvent.fill(nodeNameField(dialog), "changed node");
     await userEvent.fill(nodeContentField(dialog), "changed content");
-    await vi.advanceTimersByTimeAsync(VALIDATION_DELAY_IN_MS);
 
     await expect.element(editNodeButton(dialog)).toBeEnabled();
 
