@@ -1,4 +1,4 @@
-FROM dhi.io/node:24.18.0-alpine3.24@sha256:342c79ff1f01e60ae61a1da3e07108838cad8317aca2c242168173acacf74eaf
+FROM dhi.io/node:24.20.0-alpine3.24@sha256:7b9165f2b8f0ebd5291db9ebfbb0484bcf38f7855a33419a10c0660db29e5398
 
 WORKDIR /app
 
