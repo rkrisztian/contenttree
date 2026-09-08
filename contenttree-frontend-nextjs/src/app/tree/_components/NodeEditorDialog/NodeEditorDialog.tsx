@@ -8,10 +8,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
 import { useT } from "next-i18next/client";
 import { Controller, useForm } from "react-hook-form";
 import type { TreeNodeData } from "@/app/tree/_lib/tree-data";
+import { DebouncedTextField } from "../DebouncedTextField";
 import styles from "./NodeEditorDialog.module.scss";
 
 interface NodeEditorDialogProps {
@@ -30,6 +30,8 @@ export interface NodeEditorFormData {
   name: string;
   content: string;
 }
+
+export const VALIDATION_DELAY_IN_MS = 250;
 
 export default function NodeEditorDialog({
   data,
@@ -87,7 +89,8 @@ export default function NodeEditorDialog({
             control={control}
             rules={{ required: true }}
             render={({ field, fieldState }) => (
-              <TextField
+              <DebouncedTextField
+                debounceProps={{ field, delayMs: VALIDATION_DELAY_IN_MS }}
                 label={t("tree-page.node-editor-dialog.node-name-field-label")}
                 fullWidth
                 variant="outlined"
@@ -99,7 +102,6 @@ export default function NodeEditorDialog({
                 }
                 className={styles["text-field"]}
                 placeholder={t("tree-page.node-editor-dialog.node-name-field-placeholder")}
-                {...field}
               />
             )}
           />
@@ -109,7 +111,8 @@ export default function NodeEditorDialog({
             control={control}
             rules={{ required: true }}
             render={({ field, fieldState }) => (
-              <TextField
+              <DebouncedTextField
+                debounceProps={{ field, delayMs: VALIDATION_DELAY_IN_MS }}
                 label={t("tree-page.node-editor-dialog.node-content-field-label")}
                 fullWidth
                 multiline
@@ -123,7 +126,6 @@ export default function NodeEditorDialog({
                 }
                 className={styles["text-field"]}
                 placeholder={t("tree-page.node-editor-dialog.node-content-field-placeholder")}
-                {...field}
               />
             )}
           />

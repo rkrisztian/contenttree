@@ -6,6 +6,7 @@ import type {
   LoginReqDto,
   LoginRespDto,
   TreeNodeRespDTO,
+  UpdateTreeNodeReqDTO,
 } from '@/app/api/types';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '@/app/app-config.service';
 import { environment } from '@/environments/environment';
@@ -101,7 +102,7 @@ export const handlers: AnyHandler[] = [
   }),
 
   http.post(TREE_API_BASE_URL, async ({ request }) => {
-    const node = (await request.json()) as CreateTreeNodeReqDTO;
+    const node = (await request.json()) as UpdateTreeNodeReqDTO;
 
     if (node.name === 'changed node') {
       rawNodes = [
