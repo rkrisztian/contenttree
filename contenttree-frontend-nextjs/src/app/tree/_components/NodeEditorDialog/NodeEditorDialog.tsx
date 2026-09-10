@@ -31,6 +31,8 @@ export interface NodeEditorFormData {
   content: string;
 }
 
+export const ERROR_DELAY_IN_MS = 250;
+
 export default function NodeEditorDialog({
   data,
   onClose,
@@ -46,6 +48,7 @@ export default function NodeEditorDialog({
       name: data.createMode ? "" : data.selectedNode!.name,
       content: data.createMode ? "" : data.content!,
     },
+    delayError: ERROR_DELAY_IN_MS,
   });
   const { t } = useT("tree");
 
