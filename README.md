@@ -93,7 +93,7 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 ### Prerequisites
 
 - **Backend:**
-	- [Java Development Kit](https://www.java.com/en/) 25 or later ()
+	- [Java Development Kit](https://www.java.com/en/) 25 or later
 	- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 	- _(Optional)_ [GNG](https://github.com/gdubw/gng) (provides the `gw` command)
 - **Frontend (Angular and Next.js):**
