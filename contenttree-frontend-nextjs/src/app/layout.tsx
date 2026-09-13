@@ -33,7 +33,7 @@ const roboto = Roboto({
 
 const AppProviders = async ({ children }: Readonly<{ children: ReactNode }>) => {
   const { i18n, lng } = await getT();
-  const resources = getResources(i18n);
+  const resources = getResources(i18n, undefined, [lng, i18nConfig.fallbackLng]);
   const remoteConfig = await getRemoteConfig();
 
   return (

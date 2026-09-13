@@ -7,4 +7,5 @@ export const i18nConfig: I18nConfig = {
   resourceLoader: (language, namespace) => import(`@/i18n/messages/${language}/${namespace}.json`),
   defaultNS: "app",
   ns: ["about", "app", "login", "tree", "privacy-policy"],
+  i18nextOptions: { preload: [] },
 };
