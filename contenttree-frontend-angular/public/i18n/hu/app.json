@@ -1,5 +1,7 @@
 {
   "app": {
+    "title": "Tartalomfa Menedzselő",
+    "description": "Next.js gyakorlati tapasztalat bemutató",
     "loading-indicator": "Betöltés...",
     "header": {
       "title": "Tartalomfa Menedzselő",

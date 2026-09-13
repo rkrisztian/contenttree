@@ -1,5 +1,7 @@
 {
   "app": {
+    "title": "Content Tree Manager",
+    "description": "Demonstrates hands-on experience with Next.js",
     "loading-indicator": "Loading...",
     "header": {
       "title": "Content Tree Manager",
