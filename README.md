@@ -291,3 +291,13 @@ To generate TypeScript types, run the following commands:
 
 **Note:** `generateOpenApiDocs` is a standalone task because it is incompatible with Gradle's
 configuration cache.
+
+## Design Considerations
+
+### Usage of LLMs
+
+In general, I strive not to rely on LLMs heavily. I intend to write code that I understand as much
+as possible, without introducing technical debts and security vulnerabilities unknowingly. I have
+also had relatively bad experience with using LLMs for code generation (e.g., outdated knowledge,
+context window limitations, etc.). For this reason, this project no longer uses `AGENT.md` and
+related files.
