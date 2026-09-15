@@ -47,17 +47,16 @@ export const BackendApiContextProvider = ({
   const loading = !!loadingCounter;
   const [errors, setErrors] = useState<ErrorData[]>([]);
   const [latestError, setLatestError] = useState<ErrorData | null>(null);
-  const [ready, setReady] = useState(false);
-  // React Strict Mode workaround
-  const initializedRef = useRef(false);
+  const [initialized, setInitialized] = useState(false);
 
-  const initBackendApi = () => {
-    backendApiRef.current.interceptors.request.use((config) => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies(addAndShowError): react compiler memoizes it
+  useEffect(() => {
+    const requestInterceptor = backendApiRef.current.interceptors.request.use((config) => {
       setLoadingCounter((counter) => counter + 1);
       return config;
     });
 
-    backendApiRef.current.interceptors.response.use(
+    const responseInterceptor = backendApiRef.current.interceptors.response.use(
       (response) => {
         setLoadingCounter((counter) => counter - 1);
         return response;
@@ -87,7 +86,14 @@ export const BackendApiContextProvider = ({
         return Promise.reject(error);
       },
     );
-  };
+
+    setInitialized(true);
+
+    return () => {
+      backendApiRef.current.interceptors.request.eject(requestInterceptor);
+      backendApiRef.current.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   const addAndShowError = (newErrorData: Omit<ErrorData, "id">) => {
     const errorData = {
@@ -121,16 +127,6 @@ export const BackendApiContextProvider = ({
     await navigator.clipboard.writeText(details);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies(initBackendApi): only need to run once
-  useEffect(() => {
-    if (initializedRef.current) return;
-
-    initBackendApi();
-
-    initializedRef.current = true;
-    setReady(true);
-  }, []);
-
   return (
     <BackendApiContext.Provider
       value={{
@@ -144,7 +140,7 @@ export const BackendApiContextProvider = ({
         copyToClipboard,
       }}
     >
-      {ready && (
+      {initialized && (
         <SWRConfig
           value={{
             revalidateIfStale: false,

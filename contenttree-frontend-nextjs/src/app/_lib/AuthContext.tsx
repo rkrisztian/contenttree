@@ -42,12 +42,11 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const loginDataRef = useRef(loginData);
   const isAuthenticated = !!loginData;
   const isManager = isAuthenticated && ["ADMIN", "MANAGER"].includes(loginData.role);
-  const [ready, setReady] = useState(false);
-  // React Strict Mode workaround
-  const initializedRef = useRef(false);
+  const [initialized, setInitialized] = useState(false);
 
-  const initAuth = () => {
-    backendApiRef.current.interceptors.request.use((config) => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: backendApiRef is created once
+  useEffect(() => {
+    const requestInterceptor = backendApiRef.current.interceptors.request.use((config) => {
       if (!loginDataRef.current || !isProtectedPath(config.url)) {
         return config;
       }
@@ -56,7 +55,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       return config;
     });
 
-    backendApiRef.current.interceptors.response.use(
+    const responseInterceptor = backendApiRef.current.interceptors.response.use(
       (response) => {
         return response;
       },
@@ -72,16 +71,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         return Promise.reject(error);
       },
     );
-  };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies(initAuth): only need to run once
-  useEffect(() => {
-    if (initializedRef.current) return;
+    setInitialized(true);
 
-    initAuth();
-
-    initializedRef.current = true;
-    setReady(true);
+    return () => {
+      backendApiRef.current.interceptors.request.eject(requestInterceptor);
+      backendApiRef.current.interceptors.response.eject(responseInterceptor);
+    };
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -107,7 +103,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ loginData, isAuthenticated, login, logout, isManager }}>
-      {ready && children}
+      {initialized && children}
     </AuthContext.Provider>
   );
 };

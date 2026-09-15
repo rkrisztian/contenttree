@@ -14,6 +14,7 @@ export const AbortContext = createContext<AbortContextType | undefined>(undefine
 
 export const AbortContextProvider = ({ children }: { children: ReactNode }) => {
   const controllers = useRef(new Map<string, AbortController>());
+  const [initialized, setInitialized] = useState(false);
 
   const withAbort = async <Data,>(
     category: string,
@@ -47,20 +48,17 @@ export const AbortContextProvider = ({ children }: { children: ReactNode }) => {
     controllers.current.delete(category);
   };
 
-  // React Strict Mode workaround
-  const [finalRender, setFinalRender] = useState(false);
-
   useEffect(() => {
-    setFinalRender(true);
+    setInitialized(true);
 
     return () => {
-      if (finalRender) {
-        controllers.current.values().forEach((controller) => {
-          controller.abort();
-        });
-      }
+      if (!initialized) return;
+
+      controllers.current.values().forEach((controller) => {
+        controller.abort();
+      });
     };
-  }, [finalRender]);
+  }, [initialized]);
 
   return <AbortContext.Provider value={{ withAbort }}>{children}</AbortContext.Provider>;
 };

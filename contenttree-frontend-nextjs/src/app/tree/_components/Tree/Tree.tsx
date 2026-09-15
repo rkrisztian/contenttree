@@ -34,15 +34,12 @@ export const Tree = () => {
   const toggleExpanded = (event: MouseEvent | null, nodeId: number) => {
     event?.stopPropagation();
 
-    // React Strict Mode workaround
-    const origExpanded = expansionState.isExpanded(nodeId);
+    const origIsExpanded = expansionState.isExpanded(nodeId);
 
     setExpansionState((prev) => {
       const next = prev.clone();
 
-      if (prev.isExpanded(nodeId) !== origExpanded) {
-        return next;
-      }
+      if (next.isExpanded(nodeId) !== origIsExpanded) return next;
 
       next.toggleExpanded(nodeId, treeData);
       return next;
