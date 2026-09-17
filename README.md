@@ -296,8 +296,8 @@ configuration cache.
 
 ### Usage of LLMs
 
-In general, I strive not to rely on LLMs heavily. I intend to write code that I understand as much
-as possible, without introducing technical debts and security vulnerabilities unknowingly. I have
-also had relatively bad experience with using LLMs for code generation (e.g., outdated knowledge,
-context window limitations, etc.). For this reason, this project no longer uses `AGENT.md` and
-related files.
+In this project, I strive not to rely on LLMs heavily. I intend to write code that I understand as
+much as possible, reducing the chance of introducing technical debts and security vulnerabilities
+unknowingly. I have also had relatively bad experience with using LLMs for code generation so far
+(e.g., outdated knowledge, context window limitations, etc.). For this reason, this project no
+longer uses `AGENT.md` and related files.
