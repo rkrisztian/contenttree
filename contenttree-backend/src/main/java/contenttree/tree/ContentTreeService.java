@@ -22,7 +22,7 @@ public class ContentTreeService {
 	private final TreeNodeWithContentRepository treeNodeWithContentRepository;
 
 	public ContentTreeService(TreeNodeRepository treeNodeRepository,
-	                          TreeNodeWithContentRepository treeNodeWithContentRepository) {
+							  TreeNodeWithContentRepository treeNodeWithContentRepository) {
 		this.treeNodeRepository = treeNodeRepository;
 		this.treeNodeWithContentRepository = treeNodeWithContentRepository;
 	}
@@ -39,14 +39,12 @@ public class ContentTreeService {
 		return treeNodeWithContentRepository.save(node);
 	}
 
-	public TreeNodeWithContent updateNode(TreeNodeWithContent node) {
-		final var oldNode = treeNodeWithContentRepository.findById(node.getId());
+	public void updateNode(TreeNodeWithContent node) {
+		final var oldNode = treeNodeWithContentRepository.findById(node.getId())
+				.orElseThrow(NodeNotFoundException::new);
 
-		node.setParent(
-				oldNode.orElseThrow(NodeNotFoundException::new)
-						.getParent());
-
-		return treeNodeWithContentRepository.save(node);
+		node.setParent(oldNode.getParent());
+		treeNodeWithContentRepository.save(node);
 	}
 
 	@Transactional
