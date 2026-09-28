@@ -31,7 +31,7 @@ public interface ContentTreeMapper {
 			return null;
 		}
 
-		final TreeNodeWithContent parent = new TreeNodeWithContent();
+		final var parent = new TreeNodeWithContent();
 		parent.setId(parentId);
 		return parent;
 	}

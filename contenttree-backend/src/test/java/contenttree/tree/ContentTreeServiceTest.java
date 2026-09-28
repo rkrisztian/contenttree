@@ -21,8 +21,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
@@ -92,12 +90,12 @@ class ContentTreeServiceTest {
 
 		@Test
 		void shouldUpdateExistingNode() {
-			given(treeNodeWithContentRepository.findById(rootNode.getId())).willReturn(Optional.of(rootNode));
-			given(treeNodeWithContentRepository.save(rootNode)).willReturn(rootNode);
+			given(treeNodeWithContentRepository.findById(childNode.getId())).willReturn(Optional.of(childNode));
 
-			service.updateNode(rootNode);
+			service.updateNode(createTreeNodeWithContent(childNode.getId(), "updated name", "updated content", childNode.getParent().getId()));
 
-			then(treeNodeWithContentRepository).should().save(rootNode);
+			assertThat(childNode.getName()).isEqualTo("updated name");
+			assertThat(childNode.getContent()).isEqualTo("updated content");
 		}
 
 		@Test
@@ -141,14 +139,11 @@ class ContentTreeServiceTest {
 		void shouldMoveNodeToValidParent() {
 			given(treeNodeRepository.findById(childNode.getId()))
 					.willReturn(Optional.of(asTreeNode(childNode)));
-			given(treeNodeRepository.findById(childNode2.getId()))
-					.willReturn(Optional.of(asTreeNode(childNode2)));
-			given(treeNodeRepository.save(any(TreeNode.class))).will(returnsFirstArg());
+			given(treeNodeRepository.existsById(childNode2.getId())).willReturn(true);
 
-			var updatedChildNode = service.moveNode(childNode.getId(), childNode2.getId());
+			service.moveNode(childNode.getId(), childNode2.getId());
 
-			then(treeNodeRepository).should().save(updatedChildNode);
-			assertThat(updatedChildNode.getParent().getId()).isEqualTo(childNode2.getId());
+			then(treeNodeRepository).should().setParentId(childNode.getId(), childNode2.getId());
 		}
 
 		@SuppressWarnings("java:S5778")  // Trivial getter
@@ -195,7 +190,7 @@ class ContentTreeServiceTest {
 	}
 
 	private TreeNodeWithContent createTreeNodeWithContent(Long id, String name, String content,
-	                                                      @Nullable Long parentId) {
+														  @Nullable Long parentId) {
 		var node = new TreeNodeWithContent();
 		node.setId(id);
 		node.setName(name);

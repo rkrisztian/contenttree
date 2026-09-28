@@ -75,8 +75,7 @@ class ContentTreeControllerTest {
 		@Test
 		@WithMockUser(username = "testUser", roles = {"MANAGER"})
 		void shouldReturn400WhenServiceThrowsValidationException() throws Exception {
-			given(service.moveNode(1L, 1L))
-					.willThrow(new MoveNodeException("Dummy text"));
+			willThrow(new MoveNodeException("Dummy text")).given(service).moveNode(1L, 1L);
 
 			mockMvc.perform(post("/api/tree/move")
 							.param("nodeId", "1")
@@ -87,7 +86,7 @@ class ContentTreeControllerTest {
 		@Test
 		@WithMockUser(username = "testUser", roles = {"MANAGER"})
 		void shouldReturn404WhenMovingNodeToNonExistentParent() throws Exception {
-			given(service.moveNode(1L, 1L)).willThrow(new ParentNodeNotFoundException());
+			willThrow(new ParentNodeNotFoundException()).given(service).moveNode(1L, 1L);
 
 			mockMvc.perform(post("/api/tree/move")
 							.param("nodeId", "1")

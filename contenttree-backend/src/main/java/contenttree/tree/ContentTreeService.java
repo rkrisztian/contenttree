@@ -39,12 +39,13 @@ public class ContentTreeService {
 		return treeNodeWithContentRepository.save(node);
 	}
 
-	public void updateNode(TreeNodeWithContent node) {
-		final var oldNode = treeNodeWithContentRepository.findById(node.getId())
+	@Transactional
+	public void updateNode(TreeNodeWithContent input) {
+		final var node = treeNodeWithContentRepository.findById(input.getId())
 				.orElseThrow(NodeNotFoundException::new);
 
-		node.setParent(oldNode.getParent());
-		treeNodeWithContentRepository.save(node);
+		node.setName(input.getName());
+		node.setContent(input.getContent());
 	}
 
 	@Transactional
@@ -73,12 +74,18 @@ public class ContentTreeService {
 	}
 
 	@Transactional
-	public TreeNode moveNode(Long nodeId, Long newParentId) {
+	public void moveNode(Long nodeId, Long newParentId) {
+		validateMove(nodeId, newParentId);
+		treeNodeRepository.setParentId(nodeId, newParentId);
+	}
+
+	@SuppressWarnings("PMD.CyclomaticComplexity")  // This method already does only one thing.
+	private void validateMove(Long nodeId, Long newParentId) {
 		if (Objects.equals(newParentId, nodeId)) {
 			throw new MoveNodeException("Parent node cannot be self");
 		}
 
-		final TreeNode node = treeNodeRepository.findById(nodeId)
+		final var node = treeNodeRepository.findById(nodeId)
 				.orElseThrow(NodeNotFoundException::new);
 
 		if (node.isRoot()) {
@@ -90,13 +97,9 @@ public class ContentTreeService {
 		if (treeNodeRepository.isDescendant(newParentId, nodeId)) {
 			throw new MoveNodeException("Node cannot be moved into a descendant");
 		}
-
-		final TreeNode newParent = treeNodeRepository.findById(newParentId)
-				.orElseThrow(ParentNodeNotFoundException::new);
-
-		node.setParent(newParent);
-
-		return treeNodeRepository.save(node);
+		if (!treeNodeRepository.existsById(newParentId)) {
+			throw new ParentNodeNotFoundException();
+		}
 	}
 
 }
