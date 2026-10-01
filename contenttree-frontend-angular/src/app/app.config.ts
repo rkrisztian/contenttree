@@ -5,7 +5,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withAutoCleanupInjectors } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
@@ -18,7 +18,7 @@ import { ThemeToggleService } from './header/theme-toggle/theme-toggle.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes, withAutoCleanupInjectors()),
     provideHttpClient(
       withXhr(),
       withInterceptors([errorInterceptor, authInterceptor, loadingInterceptor]),
