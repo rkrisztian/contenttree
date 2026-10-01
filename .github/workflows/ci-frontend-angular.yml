@@ -1,4 +1,4 @@
-name: CI Pipeline - Frontend (Angular)
+name: CI - Frontend (Angular)
 
 on:
   workflow_call:

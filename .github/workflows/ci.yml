@@ -103,3 +103,12 @@ jobs:
       contents: read
     uses: ./.github/workflows/ci-deploy.yml
     secrets: inherit
+
+  dependency-review:
+    name: "(PR) Dependency Review"
+    needs: [ backend, frontend-angular, frontend-nextjs, deploy-ci ]
+    if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.user.login != 'dependabot[bot]') && !cancelled() }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci-pr-dependency-review.yml
+    secrets: inherit
