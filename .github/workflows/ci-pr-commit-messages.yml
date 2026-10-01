@@ -1,4 +1,4 @@
-name: PR - Commit Messages
+name: CI - (PR) Commit Messages
 
 on:
   pull_request:

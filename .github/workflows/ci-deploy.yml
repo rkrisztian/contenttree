@@ -1,4 +1,4 @@
-name: CI Pipeline - Deploy (CI)
+name: CI - Deploy (CI)
 
 on:
   workflow_call:

@@ -1,19 +1,12 @@
-name: PR - Dependency Review
+name: CI - (PR) Dependency Review
 
 on:
-  pull_request:
-    branches: [ main ]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
-  cancel-in-progress: true
+  workflow_call:
 
 jobs:
   dependency-review:
     name: Dependency Review
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: (Harden Runner)
         uses: step-security/harden-runner@v2.21.1  # Immutable
@@ -35,5 +28,3 @@ jobs:
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294  # v5.0.0
         with:
           show-patched-versions: true
-          retry-on-snapshot-warnings: true
-          retry-on-snapshot-warnings-timeout: 300
