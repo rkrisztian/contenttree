@@ -54,7 +54,7 @@
     "jsdom": "^30.0.1",
     "msw": "^2.15.0",
     "openapi-typescript-codegen": "^0.31.0",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.69.0",
     "vitest": "^4.1.11",
