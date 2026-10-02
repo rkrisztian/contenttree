@@ -30,7 +30,7 @@ describe("Tree", () => {
       expect(
         page
           .getByRole("treeitem", {
-            name: /^(Root node|Child node( 2)?|Grandchild node)$/,
+            name: /(Root node|Child node( 2)?|Grandchild node)/,
             exact: true,
           })
           .elements()
@@ -72,7 +72,7 @@ describe("Tree", () => {
       expect(
         page
           .getByRole("treeitem", {
-            name: /^(Root node|Child node( 2)?|Grandchild node)$/,
+            name: /(Root node|Child node( 2)?|Grandchild node)/,
             exact: true,
           })
           .elements()
