@@ -122,6 +122,7 @@ tasks.withType<JavaCompile>().configureEach {
 				warnOnGenericInferenceFailure = true
 				assertsEnabled = true
 				handleTestAssertionLibraries = true
+				errorproneArgs.add("-Xep:JSpecifyUnrecognizedAnnotationLocation:WARN")
 			}
 		}
 	}
