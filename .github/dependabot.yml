@@ -34,8 +34,13 @@ updates:
           - typescript
       eslint:
         patterns:
-          - "@eslint/*"
           - eslint
+          - "@eslint/*"
+          - "*-eslint"
+      prettier:
+        patterns:
+          - prettier
+          - "@prettier/*"
       vitest:
         patterns:
           - "@vitest/*"
