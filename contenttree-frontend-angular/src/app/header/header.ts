@@ -47,11 +47,7 @@ export class Header {
     () => this.authService.loginData()?.username ?? null,
   );
 
-  protected readonly login = (): void => {
-    this.router.navigate(['/login']);
-  };
+  protected readonly login = async () => this.router.navigate(['/login']);
 
-  protected readonly logout = (): void => {
-    this.authService.logout();
-  };
+  protected readonly logout = async () => this.authService.logout();
 }

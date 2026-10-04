@@ -9,7 +9,7 @@ import type {
   UpdateTreeNodeReqDTO,
 } from '@/app/api/types';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '@/app/app-config.service';
-import { environment } from '@/environments/environment';
+import { environment } from '@/environments/environment.development';
 import { AnyHandler, http, HttpResponse } from 'msw';
 
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
@@ -73,7 +73,7 @@ export const handlers: AnyHandler[] = [
       case 'NonExisting':
         return HttpResponse.json([]);
       default:
-        throw new Error(`Unexpected text: ${queryParams.get('text')}`);
+        throw new Error(`Unexpected text: ${queryParams.get('text') ?? '(null)'}`);
     }
   }),
 
@@ -155,7 +155,7 @@ export const handlers: AnyHandler[] = [
     }
 
     throw new Error(
-      `Unexpected move: ${queryParams.get('nodeId')} to ${queryParams.get('newParentId')}`,
+      `Unexpected move: ${queryParams.get('nodeId') ?? '(null)'} to ${queryParams.get('newParentId') ?? '(null)'}`,
     );
   }),
 

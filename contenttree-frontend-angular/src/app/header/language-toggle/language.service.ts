@@ -25,9 +25,9 @@ export class LanguageService {
 
   readonly initLanguage = () => {
     this.translate.use(
-      this.getStoredLanguage() ||
-        this.translate.getBrowserLang() ||
-        this.translate.getCurrentLang()!,
+      this.getStoredLanguage() ??
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- string might be empty
+        (this.translate.getBrowserLang() || this.translate.getCurrentLang()!),
     );
   };
 

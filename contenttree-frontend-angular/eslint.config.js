@@ -22,11 +22,16 @@ export default defineConfig([
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
-      tseslint.configs.recommended,
-      tseslint.configs.stylistic,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
       angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
@@ -45,6 +50,7 @@ export default defineConfig([
         },
       ],
       eqeqeq: ['error', 'always', { null: 'ignore' }],
+      '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
   {

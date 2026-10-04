@@ -26,8 +26,7 @@ export class TreePageService {
   // Ensure that after editing a node, selectedNode gets the updated data.
   readonly selectedNodeId = linkedSignal<number | null, number | null>({
     source: () => this.treeData().rootNodeId,
-    computation: (rootNodeId, previousRootNodeId) =>
-      previousRootNodeId?.value ? previousRootNodeId.value : rootNodeId,
+    computation: (rootNodeId, previousRootNodeId) => previousRootNodeId?.value ?? rootNodeId,
   });
   readonly contentForSelectedNode = this.treeApiService.contentForSelectedNode(
     computed(() => this.selectedNodeId()),

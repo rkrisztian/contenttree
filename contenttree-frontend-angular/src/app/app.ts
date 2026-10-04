@@ -26,10 +26,10 @@ export class App {
 
   constructor() {
     effect(() => {
-      this.title.setTitle(this.translateService.translate('app.title')());
+      this.title.setTitle(this.translateService.translate('app.title')() as string);
       this.meta.updateTag({
         name: 'description',
-        content: this.translateService.translate('app.description')(),
+        content: this.translateService.translate('app.description')() as string,
       });
     });
   }

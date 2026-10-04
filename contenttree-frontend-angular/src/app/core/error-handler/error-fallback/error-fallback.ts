@@ -10,5 +10,5 @@ import { TranslateBlockDirective } from '@ngx-translate/core';
   styleUrl: './error-fallback.scss',
 })
 export class ErrorFallback {
-  readonly reload = output<void>();
+  readonly reload = output();
 }

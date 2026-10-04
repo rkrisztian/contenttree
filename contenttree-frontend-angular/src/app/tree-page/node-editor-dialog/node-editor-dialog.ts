@@ -65,6 +65,7 @@ export class NodeEditorDialog {
     },
     {
       submission: {
+        // eslint-disable-next-line @typescript-eslint/require-await -- nothing to await
         action: async () => {
           this.confirm();
         },

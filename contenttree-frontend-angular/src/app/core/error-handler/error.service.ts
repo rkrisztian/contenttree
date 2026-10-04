@@ -4,7 +4,7 @@ export interface ErrorData {
   id: string;
   error: string;
   message: string;
-  traceId?: string;
+  traceId?: string | undefined;
 }
 
 @Service()
@@ -22,7 +22,9 @@ export class ErrorService {
   private timeout: number | undefined;
 
   constructor() {
-    this.destroyRef.onDestroy(() => clearTimeout(this.timeout));
+    this.destroyRef.onDestroy(() => {
+      clearTimeout(this.timeout);
+    });
   }
 
   private readonly createError = (newErrorData: Omit<ErrorData, 'id'>) => ({
@@ -37,7 +39,9 @@ export class ErrorService {
     this._latestError.set(errorData);
 
     clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => this._latestError.set(null), ErrorService.TIMEOUT_IN_MS);
+    this.timeout = setTimeout(() => {
+      this._latestError.set(null);
+    }, ErrorService.TIMEOUT_IN_MS);
   };
 
   readonly remove = (errorId: string) => {

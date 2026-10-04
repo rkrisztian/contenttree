@@ -22,9 +22,7 @@ describe('AppConfigService', () => {
     expect(appConfigService.apiBaseUrl()).toBe('test-config-path');
   });
 
-  it('should load local config in development environment ', async () => {
-    await vi.waitUntil(() => appConfigService.apiBaseUrl() != null);
-
+  it('should load local config in development environment ', () => {
     expect(appConfigService.apiBaseUrl()).toBe(environment.apiBaseUrl);
   });
 });

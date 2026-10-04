@@ -1,14 +1,16 @@
 import { effect, inject, Renderer2, RendererFactory2, Service, signal } from '@angular/core';
 
+type THEMES = 'light' | 'dark';
+
 @Service()
 export class ThemeToggleService {
   static readonly STORAGE_KEY = 'appTheme';
-  private static readonly DEFAULT_MODE = 'light';
+  private static readonly DEFAULT_MODE = 'light' satisfies THEMES;
 
   private readonly rendererFactory = inject(RendererFactory2);
 
   private readonly renderer: Renderer2;
-  private readonly _mode = signal<'light' | 'dark'>(ThemeToggleService.DEFAULT_MODE);
+  private readonly _mode = signal<THEMES>(ThemeToggleService.DEFAULT_MODE);
   readonly mode = this._mode.asReadonly();
 
   constructor() {
@@ -45,6 +47,6 @@ export class ThemeToggleService {
       storedMode = ThemeToggleService.DEFAULT_MODE;
     }
 
-    return (storedMode as 'light' | 'dark') || null;
+    return storedMode as THEMES | null;
   };
 }

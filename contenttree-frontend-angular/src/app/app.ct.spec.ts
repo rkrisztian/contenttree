@@ -19,6 +19,7 @@ import { LoadingService } from './core/loading-indicator/loading.service';
   selector: 'app-test-component',
   template: `<p>Page loaded</p>`,
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Stateless component
 export class TestComponent {}
 
 describe('App', () => {
@@ -44,7 +45,7 @@ describe('App', () => {
         ),
       );
 
-      render(App, {
+      void render(App, {
         providers: [
           LoadingService,
           ErrorService,
@@ -70,7 +71,7 @@ describe('App', () => {
   });
 
   describe('Latest error alert', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.useFakeTimers();
     });
 

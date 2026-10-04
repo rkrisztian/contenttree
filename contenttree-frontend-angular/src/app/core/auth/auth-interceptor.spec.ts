@@ -22,7 +22,7 @@ describe('authInterceptor', () => {
     });
   };
 
-  afterEach(async () => {
+  afterEach(() => {
     localStorage.removeItem(LOGIN_DATA_KEY);
   });
 
@@ -78,6 +78,7 @@ describe('authInterceptor', () => {
 
     expect.soft(authService.isAuthenticated()).toBeFalsy();
     expect.soft(localStorage.getItem(LOGIN_DATA_KEY)).toBeNull();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect.soft(TestBed.inject(Router).navigate).toHaveBeenCalledWith(['/login']);
   });
 });
