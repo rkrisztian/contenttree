@@ -11,7 +11,6 @@ import TextField from "@mui/material/TextField";
 import { useT } from "next-i18next/client";
 import { Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "@/app/_lib/AuthContext";
-import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import styles from "./page.module.scss";
 
 interface LoginFormData {
@@ -20,7 +19,6 @@ interface LoginFormData {
 }
 
 export default function LoginPage() {
-  const { loading } = useBackendApi();
   const { login } = useAuthContext();
   const {
     control,
@@ -29,8 +27,8 @@ export default function LoginPage() {
   } = useForm<LoginFormData>({ mode: "onChange", defaultValues: { username: "", password: "" } });
   const { t } = useT("login");
 
-  const onSubmit = (formData: LoginFormData) => {
-    login(formData.username.trim(), formData.password.trim());
+  const onSubmit = async (formData: LoginFormData) => {
+    await login(formData.username.trim(), formData.password.trim());
   };
 
   return (
@@ -82,7 +80,7 @@ export default function LoginPage() {
             type="submit"
             form="login-form"
             variant="contained"
-            disabled={!isValid || isSubmitting || loading}
+            disabled={!isValid || isSubmitting}
             startIcon={<LoginIcon />}
           >
             {t("login-page.log-in-button-label")}

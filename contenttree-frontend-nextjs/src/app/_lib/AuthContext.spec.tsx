@@ -36,7 +36,7 @@ const WithAuthContextProvider = ({ children }: Readonly<{ children: ReactNode }>
 );
 
 describe("AuthApiContext", () => {
-  afterEach(async () => {
+  afterEach(() => {
     localStorage.removeItem(LOGIN_DATA_KEY);
     vi.clearAllMocks();
   });

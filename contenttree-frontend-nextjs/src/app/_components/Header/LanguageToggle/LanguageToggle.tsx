@@ -27,7 +27,7 @@ export const LanguageToggle = () => {
 
   const handleLangMenuClose = (lng?: string) => {
     if (lng) {
-      changeLanguage(lng);
+      void changeLanguage(lng);
     }
     setLangaugeButton(null);
   };

@@ -28,7 +28,7 @@ export interface ErrorData {
   id: string;
   error: string;
   message: string;
-  traceId?: string;
+  traceId?: string | undefined;
 }
 
 export const BackendApiContext = createContext<BackendApiContextType | undefined>(undefined);
@@ -68,7 +68,7 @@ export const BackendApiContextProvider = ({
           return undefined;
         }
 
-        if (error.response?.data.error && error.response?.data.message) {
+        if (isErrorData(error.response?.data)) {
           addAndShowError({
             error: error.response.data.error,
             message: error.response.data.message,
@@ -160,4 +160,8 @@ export const useBackendApi = () => {
   const context = useContext(BackendApiContext);
   if (!context) throw new Error("useBackendApi must be used within a BackendApiContextProvider");
   return context;
+};
+
+const isErrorData = (value: unknown): value is Omit<ErrorData, "id"> => {
+  return value !== null && typeof value === "object" && "error" in value && "message" in value;
 };

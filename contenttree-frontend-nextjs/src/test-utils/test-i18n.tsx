@@ -21,7 +21,7 @@ export const WithTestI18nProvider = ({
 };
 
 const initTestI18n = (resources: Resource, namespace = i18nConfig.defaultNS!) => {
-  i18next.init({
+  void i18next.init({
     lng: "en",
     fallbackLng: i18nConfig.fallbackLng,
     ns: i18nConfig.ns!,

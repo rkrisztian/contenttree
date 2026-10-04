@@ -23,6 +23,6 @@ export default {
   },
   define: {
     // Can't access `process` in the browser: https://github.com/vitest-dev/vitest/issues/6667
-    "process.env": { API_BASE_URL: unitTestConfig.test?.env?.["API_BASE_URL"] },
+    "process.env": { API_BASE_URL: unitTestConfig.test!.env!["API_BASE_URL"] },
   },
 };

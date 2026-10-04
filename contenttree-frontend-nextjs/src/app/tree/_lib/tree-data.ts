@@ -48,7 +48,7 @@ export class TreeData {
       if (node.parentId === null) {
         rootNodeId = node.id;
       } else {
-        const parent = this.getNodebyId(node.parentId)!;
+        const parent = this.getNodebyId(node.parentId);
         parent.children.push(node.id);
       }
     }

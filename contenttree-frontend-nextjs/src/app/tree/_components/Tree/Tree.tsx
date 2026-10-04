@@ -70,7 +70,7 @@ export const Tree = () => {
     event.preventDefault();
     if (!event.dataTransfer) return;
 
-    moveNode(draggedNodeId!, newParentId);
+    void moveNode(draggedNodeId!, newParentId);
     stopDragging();
   };
 

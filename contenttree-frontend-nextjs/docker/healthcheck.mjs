@@ -3,7 +3,9 @@ const TIMEOUT_IN_MS = 5000;
 
 try {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_IN_MS);
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, TIMEOUT_IN_MS);
   const res = await fetch(URL, { signal: controller.signal });
 
   clearTimeout(timeoutId);

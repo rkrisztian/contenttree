@@ -43,4 +43,4 @@ const readRemoteConfig = (): RemoteConfig => {
   };
 };
 
-export const getRemoteConfig = cache(async () => readRemoteConfig());
+export const getRemoteConfig = cache(async () => readRemoteConfig()); // NOSONAR: must be async

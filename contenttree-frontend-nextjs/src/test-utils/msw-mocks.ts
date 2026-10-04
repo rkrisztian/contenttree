@@ -10,8 +10,8 @@ import type {
 } from "@/app/_lib/api/types";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 
-export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]}${TREE_API_BASE_PATH}`;
-export const AUTH_API_BASE_URL = `${process.env["API_BASE_URL"]}${AUTH_API_BASE_PATH}`;
+export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]!}${TREE_API_BASE_PATH}`;
+export const AUTH_API_BASE_URL = `${process.env["API_BASE_URL"]!}${AUTH_API_BASE_PATH}`;
 
 const INITIAL_RAW_NODES: TreeNodeRespDTO[] = [
   { id: 1, name: "Root node" },
@@ -59,7 +59,7 @@ export const handlers: AnyHandler[] = [
       case "NonExisting":
         return HttpResponse.json([]);
       default:
-        throw new Error(`Unexpected text: ${queryParams.get("text")}`);
+        throw new Error(`Unexpected text: ${queryParams.get("text") ?? "(null)"}`);
     }
   }),
 
@@ -141,7 +141,7 @@ export const handlers: AnyHandler[] = [
     }
 
     throw new Error(
-      `Unexpected move: ${queryParams.get("nodeId")} to ${queryParams.get("newParentId")}`,
+      `Unexpected move: ${queryParams.get("nodeId") ?? "(null)"} to ${queryParams.get("newParentId") ?? "(null)"}`,
     );
   }),
 

@@ -130,4 +130,4 @@ const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData =
 };
 
 const convertStringToLoginData = (loginDataStr: string | null): LoginData | null =>
-  loginDataStr ? JSON.parse(loginDataStr) : null;
+  loginDataStr ? (JSON.parse(loginDataStr) as LoginData) : null;

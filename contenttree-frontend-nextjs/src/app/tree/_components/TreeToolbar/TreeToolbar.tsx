@@ -59,7 +59,9 @@ export const TreeToolbar = () => {
       }
     }, SEARCH_DELAY_IN_MS);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [searchInputValue, hasInvalidLength]);
 
   const openNodeEditorDialog = (createMode: boolean): void => {
@@ -76,9 +78,9 @@ export const TreeToolbar = () => {
 
   const addOrEditNode = (createMode: boolean, data: NodeEditorFormData) => {
     if (createMode) {
-      createNode({ ...data, ...(selectedNodeId ? { parentId: selectedNodeId } : {}) });
+      void createNode({ ...data, ...(selectedNodeId ? { parentId: selectedNodeId } : {}) });
     } else {
-      updateSelectedNode(data);
+      void updateSelectedNode(data);
     }
 
     setNodeEditorDialogData(null);
@@ -95,7 +97,7 @@ export const TreeToolbar = () => {
   };
 
   const deleteNode = (): void => {
-    deleteSelectedNode();
+    void deleteSelectedNode();
     setNodeDeleteDialogData(null);
   };
 

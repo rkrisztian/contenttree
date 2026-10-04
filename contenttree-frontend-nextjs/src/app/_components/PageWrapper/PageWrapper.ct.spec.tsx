@@ -19,7 +19,7 @@ describe("PageWrapper", () => {
   );
 
   describe("Latest error alert", () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.useFakeTimers();
     });
 
