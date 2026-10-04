@@ -78,7 +78,7 @@ describe('ErrorService', () => {
     expect.soft(service.latestError()).toBeNull();
   });
 
-  it('should hide the error automatically after timeout', async () => {
+  it('should hide the error automatically after timeout', () => {
     const errorData = addError(service, { error: 'Dummy error', message: 'Dummy message.' });
 
     vi.advanceTimersByTime(ErrorService.TIMEOUT_IN_MS);
@@ -87,7 +87,7 @@ describe('ErrorService', () => {
     expect.soft(service.latestError()).toBeNull();
   });
 
-  it('should always show and hide the latest error', async () => {
+  it('should always show and hide the latest error', () => {
     const firstHalfTimeout = Math.floor(ErrorService.TIMEOUT_IN_MS / 2);
     const secondHalfTimeout =
       ErrorService.TIMEOUT_IN_MS - Math.floor(ErrorService.TIMEOUT_IN_MS / 2);

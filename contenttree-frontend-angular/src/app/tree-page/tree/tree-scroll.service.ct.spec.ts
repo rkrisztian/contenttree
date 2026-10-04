@@ -56,6 +56,7 @@ describe('TreeScrollService', () => {
 
     await expect
       .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
 
     service.saveScrollPosition();
@@ -67,6 +68,7 @@ describe('TreeScrollService', () => {
 
     await expect
       .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
   });
 });

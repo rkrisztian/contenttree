@@ -46,7 +46,7 @@
         mat-flat-button
         type="submit"
         form="login-form"
-        [disabled]="loginForm().invalid() || loading()"
+        [disabled]="loginForm().invalid() || loginForm().submitting()"
       >
         <mat-icon>login</mat-icon>
         {{ t('login-page.log-in-button-label') }}

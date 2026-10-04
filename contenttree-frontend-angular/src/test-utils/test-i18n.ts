@@ -11,8 +11,8 @@ export const provideTranslateServiceForTest = (messages: unknown) => {
   });
 };
 
-export const t: TranslateService['instant'] = (...args) =>
-  TestBed.inject(TranslateService).instant(...args);
+export const t: (...args: Parameters<TranslateService['instant']>) => string = (...args) =>
+  TestBed.inject(TranslateService).instant(...args) as string;
 
-export const pluralTranslate: TranslateService['instant'] = (...args) =>
-  TestBed.inject(PluralTranslatePipe).transform(...args);
+export const pluralTranslate = (...args: Parameters<PluralTranslatePipe['transform']>) =>
+  TestBed.inject(PluralTranslatePipe).transform(...args) as string;

@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs';
-import { ErrorService } from './error.service';
+import { ErrorData, ErrorService } from './error.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const errorService = inject(ErrorService);
@@ -11,7 +11,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       error: (response: HttpErrorResponse) => {
         if (response.status === 0) {
           errorService.addAndShow({ error: 'Unexpected error', message: response.message });
-        } else if (response.error.error && response.error.message) {
+        } else if (isErrorData(response.error)) {
           errorService.addAndShow({
             error: response.error.error,
             message: response.error.message,
@@ -23,4 +23,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       },
     }),
   );
+};
+
+const isErrorData = (value: unknown): value is Omit<ErrorData, 'id'> => {
+  return value !== null && typeof value === 'object' && 'error' in value && 'message' in value;
 };

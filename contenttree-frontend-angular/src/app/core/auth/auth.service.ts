@@ -3,7 +3,7 @@ import type { LoginRespDto } from '@/app/api/types';
 import { Service, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { decodeJwt } from 'jose';
-import { tap } from 'rxjs';
+import { concatMap, from } from 'rxjs';
 
 export const LOGIN_DATA_KEY = 'loginData';
 
@@ -41,15 +41,15 @@ export class AuthService {
 
   readonly login = (username: string, password: string) =>
     this.authApiService.login({ username, password }).pipe(
-      tap((loginRespDto) => {
+      concatMap((loginRespDto) => {
         this._loginData.set(convertLoginRespDtoToLoginData(loginRespDto));
-        this.router.navigate(['/tree']);
+        return from(this.router.navigate(['/tree']));
       }),
     );
 
-  readonly logout = () => {
+  readonly logout = async () => {
     this._loginData.set(null);
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
   };
 }
 
@@ -64,4 +64,4 @@ const convertLoginRespDtoToLoginData = (loginRespDto: LoginRespDto): LoginData =
 };
 
 const convertStringToLoginData = (loginDataStr: string | null): LoginData | null =>
-  loginDataStr ? JSON.parse(loginDataStr) : null;
+  loginDataStr ? (JSON.parse(loginDataStr) as LoginData) : null;

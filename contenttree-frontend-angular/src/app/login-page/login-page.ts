@@ -1,7 +1,6 @@
 import { AuthService } from '@/app/core/auth/auth.service';
 import { LoadingService } from '@/app/core/loading-indicator/loading.service';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, signal } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateBlockDirective, TranslateService } from '@ngx-translate/core';
+import { lastValueFrom } from 'rxjs';
 
 export interface LoginFormData {
   username: string;
@@ -34,7 +34,6 @@ export class LoginPage {
   private readonly authService = inject(AuthService);
   private readonly loadingService = inject(LoadingService);
   private readonly translate = inject(TranslateService);
-  private readonly destroyRef = inject(DestroyRef);
 
   private readonly loginModel = signal<LoginFormData>({
     username: '',
@@ -53,7 +52,7 @@ export class LoginPage {
     {
       submission: {
         action: async () => {
-          this.login();
+          await this.login();
         },
       },
     },
@@ -61,10 +60,8 @@ export class LoginPage {
 
   protected readonly loading = this.loadingService.isLoading;
 
-  protected readonly login = (): void => {
-    this.authService
-      .login(this.loginForm.username().value(), this.loginForm.password().value())
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
-  };
+  protected readonly login = () =>
+    lastValueFrom(
+      this.authService.login(this.loginForm.username().value(), this.loginForm.password().value()),
+    );
 }

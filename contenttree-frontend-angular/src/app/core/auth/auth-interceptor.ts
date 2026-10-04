@@ -19,7 +19,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: (response: HttpErrorResponse) => {
         if (response.status === 401) {
-          authService.logout();
+          void authService.logout();
         }
       },
     }),

@@ -8,4 +8,5 @@ import { MatDivider } from '@angular/material/divider';
   templateUrl: './about-page.html',
   styleUrl: './about-page.scss',
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Stateless component
 export class AboutPage {}

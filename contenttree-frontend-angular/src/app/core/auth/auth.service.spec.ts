@@ -3,7 +3,7 @@ import { LOGIN_DATA } from '@/test-utils/test-data';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, of } from 'rxjs';
 import { AuthService, LOGIN_DATA_KEY } from './auth.service';
 
 describe('AuthService', () => {
@@ -11,13 +11,15 @@ describe('AuthService', () => {
 
   const initTestingModule = () => {
     TestBed.configureTestingModule({
-      providers: [{ provide: Router, useValue: { navigate: vi.fn() } }],
+      providers: [
+        { provide: Router, useValue: { navigate: vi.fn().mockImplementation(() => of(true)) } },
+      ],
     });
 
     authService = TestBed.inject(AuthService);
   };
 
-  afterEach(async () => {
+  afterEach(() => {
     localStorage.removeItem(LOGIN_DATA_KEY);
   });
 
@@ -57,7 +59,7 @@ describe('AuthService', () => {
     it('should clear login data from local storage', async () => {
       initTestingModule();
 
-      authService.logout();
+      await authService.logout();
       await TestBed.inject(ApplicationRef).whenStable();
 
       expect.soft(authService.loginData()).toBeNull();
