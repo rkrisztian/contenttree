@@ -36,7 +36,7 @@ describe("LoginPage", () => {
     );
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
