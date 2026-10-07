@@ -21,5 +21,5 @@ export const it = itBase.extend<{
 });
 
 it.beforeAll(async () => {
-  await worker.start({ quiet: true });
+  await worker.start({ quiet: true, onUnhandledFrame: "error" });
 });

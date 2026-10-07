@@ -10,7 +10,7 @@ import type {
 } from '@/app/api/types';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '@/app/app-config.service';
 import { environment } from '@/environments/environment.development';
-import { AnyHandler, http, HttpResponse } from 'msw';
+import { http, HttpHandler, HttpResponse } from 'msw/http';
 
 export const TREE_API_BASE_URL = `${environment.apiBaseUrl}${TREE_API_BASE_PATH}`;
 export const AUTH_API_BASE_URL = `${environment.apiBaseUrl}${AUTH_API_BASE_PATH}`;
@@ -49,7 +49,7 @@ export const REMOTE_CONFIG_RESP: Readonly<RemoteConfig> = {
   },
 };
 
-export const handlers: AnyHandler[] = [
+export const handlers: HttpHandler[] = [
   http.get(REMOTE_CONFIG_PATH, () => HttpResponse.json(REMOTE_CONFIG_RESP)),
 
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
@@ -167,6 +167,15 @@ export const handlers: AnyHandler[] = [
     }
 
     throw new Error(`Unexpected login: ${username}:${password}`);
+  }),
+
+  http.options(TREE_API_BASE_URL, () => {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        allow: 'GET,HEAD,POST,PUT,OPTIONS',
+      },
+    });
   }),
 
   http.all('http://localhost:63315/*', () => undefined),

@@ -21,7 +21,7 @@ export const it = itBase.extend<{
 });
 
 it.beforeAll(() => {
-  server.listen();
+  server.listen({ onUnhandledFrame: "error" });
 });
 
 it.afterAll(() => {

@@ -1,5 +1,5 @@
 import { act } from "@testing-library/react";
-import { HttpResponse, http } from "msw";
+import { HttpResponse, http } from "msw/http";
 import { describe, expect } from "vitest";
 import type { ContentRespDto } from "@/app/_lib/api/types";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";

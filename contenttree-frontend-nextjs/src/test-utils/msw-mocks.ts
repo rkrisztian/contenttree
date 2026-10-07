@@ -1,4 +1,4 @@
-import { type AnyHandler, HttpResponse, http } from "msw";
+import { type HttpHandler, HttpResponse, http } from "msw/http";
 import { AUTH_API_BASE_PATH } from "@/app/_lib/api/auth-api";
 import type {
   ContentRespDto,
@@ -37,7 +37,7 @@ export const LOGIN_RESP: Readonly<LoginRespDto> = {
     "erJgVOVJrKzySG52n62y3dhCpk-ecAfAugWZqmyM0v8",
 };
 
-export const handlers: AnyHandler[] = [
+export const handlers: HttpHandler[] = [
   http.get(TREE_API_BASE_URL, () => HttpResponse.json(rawNodes)),
 
   http.get(`${TREE_API_BASE_URL}/content/:id`, ({ params }) => {
@@ -153,6 +153,15 @@ export const handlers: AnyHandler[] = [
     }
 
     throw new Error(`Unexpected login: ${username}:${password}`);
+  }),
+
+  http.options(TREE_API_BASE_URL, () => {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        allow: "GET,HEAD,POST,PUT,OPTIONS",
+      },
+    });
   }),
 
   http.all("http://localhost:63315/*", () => undefined),

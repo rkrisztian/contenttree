@@ -9,7 +9,7 @@ import { HttpClient, provideHttpClient, withInterceptors, withXhr } from '@angul
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import { lastValueFrom } from 'rxjs';
 
 describe('authInterceptor', () => {

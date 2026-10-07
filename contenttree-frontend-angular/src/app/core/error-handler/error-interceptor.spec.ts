@@ -3,7 +3,7 @@ import { TREE_API_BASE_URL } from '@/test-utils/msw-mocks';
 import { it } from '@/test-utils/msw-test';
 import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import { lastValueFrom } from 'rxjs';
 import { errorInterceptor } from './error-interceptor';
 import { ErrorService } from './error.service';
