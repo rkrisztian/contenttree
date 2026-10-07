@@ -7,7 +7,7 @@ import { TREE_API_BASE_URL } from '@/test-utils/msw-mocks';
 import { it } from '@/test-utils/msw-test';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 
 describe('TreePageService', () => {
   let treePageService: TreePageService;

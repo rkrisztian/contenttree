@@ -5,7 +5,7 @@ import { it } from '@/test-utils/msw-test';
 import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import { lastValueFrom } from 'rxjs';
 import { LoadingService } from './loading.service';
 

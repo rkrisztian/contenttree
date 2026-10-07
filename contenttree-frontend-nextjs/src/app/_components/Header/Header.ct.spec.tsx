@@ -1,4 +1,4 @@
-import { HttpResponse, http } from "msw";
+import { HttpResponse, http } from "msw/http";
 import type { ReactNode } from "react";
 import { describe, expect, vi } from "vitest";
 import { page } from "vitest/browser";

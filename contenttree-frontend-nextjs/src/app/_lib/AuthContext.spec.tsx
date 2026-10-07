@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
-import { HttpResponse, http } from "msw";
+import { HttpResponse, http } from "msw/http";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, vi } from "vitest";
 import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/api/tree-api";

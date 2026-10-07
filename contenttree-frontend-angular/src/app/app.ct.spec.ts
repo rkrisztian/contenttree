@@ -6,7 +6,7 @@ import { provideTranslateServiceForTest, t } from '@/test-utils/test-i18n';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import { describe, expect, vi } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
