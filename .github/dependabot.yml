@@ -27,11 +27,28 @@ updates:
     schedule:
       interval: monthly
     groups:
+      security-batch:
+        applies-to: security-updates
+        patterns:
+          - "*"
       angular:
         patterns:
           - "@angular/*"
           - angular-*
-          - typescript
+          - rxjs
+          - tslib
+      nextjs-and-react:
+        patterns:
+          - next
+          - react
+          - react-*
+          - "@types/react*"
+          - "@types/react-*"
+          - "@vitejs/plugin-react"
+          - babel-plugin-react-compiler
+          - "@mui/*"
+          - "@emotion/*"
+          - swr
       eslint:
         patterns:
           - eslint
@@ -54,8 +71,27 @@ updates:
           - i18next
           - next-i18next
           - react-i18next
-      monorepo-dependencies:
+      other-direct-dependencies:
+        patterns:
+          - jose
+          - "@fontsource/*"
+          - "@ngx-translate/*"
+          - openapi-typescript-codegen
+          - msw
+          - dpdm
+          - typescript
+          - axios
+          - clsx
+          - "@types/node"
+          - "@biomejs/biome"
+          - license-report
+          - sass
+          - "@playwright/test"
         group-by: dependency-name
+      # These should all be transitive dependencies:
+      all-other-dependencies:
+        patterns:
+          - "*"
     allow:
       - update-types:
           - "version-update:semver-minor"
