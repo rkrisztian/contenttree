@@ -36,6 +36,8 @@ services:
       - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:8084
       - THC_PATH=/actuator/health/readiness
       - THC_PORT=8082
+      # Not using Kubernetes in this deployment:
+      - BPL_SPRING_CLOUD_BINDINGS_DISABLED=true
     secrets:
       - backend_config
       - backend_prod_data_sql
