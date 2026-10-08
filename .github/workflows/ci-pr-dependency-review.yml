@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
-        uses: step-security/harden-runner@v2.21.1  # Immutable
+        uses: step-security/harden-runner@v2.22.0  # Immutable
         with:
           egress-policy: block
           allowed-endpoints: >
