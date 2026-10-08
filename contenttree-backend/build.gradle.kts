@@ -21,6 +21,7 @@ buildscript {
 		resolutionStrategy.eachDependency {
 			when (requested.run { "${group}:${name}" }) {
 				// Syntax: `"GROUP:ARTIFACT" -> useVersion("VERSION")`
+				"tools.jackson:jackson-bom" -> useVersion("3.1.7")
 				else -> {}
 			}
 		}
@@ -83,7 +84,7 @@ dependencies {
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 }
 
-// Temporary vulnerability fixes in transitive dependencies:
+// Temporary vulnerability fixes in non-Spring-Boot-managed transitive dependencies:
 configurations.all {
 	resolutionStrategy.eachDependency {
 		when (requested.group) {
@@ -99,8 +100,11 @@ configurations.all {
 	}
 }
 
-// Temporary vulnerability fixes in direct dependencies:
+// Temporary vulnerability fixes in Spring-Boot-managed dependencies:
+// See: https://docs.spring.io/spring-boot/appendix/dependency-versions/properties.html
 // Syntax: `extra["ARTIFACT.version"] = "VERSION"`
+extra["jackson-2-bom.version"] = "2.21.7"
+extra["jackson-bom.version"] = "3.1.7"
 
 dependencyLocking {
 	lockAllConfigurations()
