@@ -4,7 +4,11 @@ import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
-import { renderTreePageContextHooks, type TreePageContextHooks } from "@/test-utils/test-hooks";
+import {
+  renderTreePageContextHooks,
+  type TreePageContextHooks,
+  waitForTreePageContextToLoad,
+} from "@/test-utils/test-hooks";
 import type { ErrorData } from "./BackendApiContext";
 
 describe("BackendApiContext", () => {
@@ -26,6 +30,7 @@ describe("BackendApiContext", () => {
         }),
       );
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
 
       await act(async () =>
         expect(hooks.current.treePageContext.moveNode(2, 3)).rejects.toThrow(
@@ -57,8 +62,9 @@ describe("BackendApiContext", () => {
           );
         }),
       );
-
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
+
       await act(async () =>
         expect(hooks.current.treePageContext.moveNode(2, 3)).rejects.toThrow(
           expect.objectContaining({
@@ -76,8 +82,9 @@ describe("BackendApiContext", () => {
     });
 
     it("should set loading state on network connection", async ({ server }) => {
+      const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
       let resolveRequest!: () => void;
-
       server.use(
         http.get(
           `${TREE_API_BASE_URL}/content/:id`,
@@ -90,8 +97,8 @@ describe("BackendApiContext", () => {
         ),
       );
 
-      const hooks = await renderTreePageContextHooks();
-
+      act(() => hooks.current.treePageContext.toggleSelect(2));
+      await act(() => vi.waitUntil(() => !!resolveRequest));
       await act(async () =>
         vi.waitUntil(() => hooks.current.treePageContext.contentForSelectedNode.isLoading),
       );
@@ -113,6 +120,7 @@ describe("BackendApiContext", () => {
     beforeEach(async () => {
       vi.useFakeTimers();
       hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
     });
 
     afterEach(() => {

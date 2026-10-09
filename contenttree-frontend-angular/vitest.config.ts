@@ -11,6 +11,10 @@ export default defineConfig({
     coverage: {
       reportsDirectory: 'coverage',
     },
+    environmentOptions: {
+      // Fixes CORS issues (JSDOM has `http://localhost/` as the default document URL).
+      jsdom: { url: 'http://localhost:8081/' },
+    },
   },
   resolve: {
     alias: {

@@ -11,6 +11,10 @@ export default defineConfig({
     setupFiles: ["src/test-utils/vitest.setup.ts"],
     isolate: false,
     environment: "jsdom",
+    environmentOptions: {
+      // Fixes CORS issues (JSDOM has `http://localhost/` as the default document URL).
+      jsdom: { url: "http://localhost:8081/" },
+    },
     globals: true,
     env: loadEnv("development", process.cwd(), ""),
     testTimeout: 5000,

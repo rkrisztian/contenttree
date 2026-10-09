@@ -4,14 +4,14 @@ import { describe, expect, vi } from "vitest";
 import type { ContentRespDto } from "@/app/_lib/api/types";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
-import { renderTreePageContextHooks } from "@/test-utils/test-hooks";
+import { renderTreePageContextHooks, waitForTreePageContextToLoad } from "@/test-utils/test-hooks";
 
 describe("AbortContext", () => {
   describe("useSwrWithAbort", () => {
     it("should abort previous request with the same category", async ({ server }) => {
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
       let resolveRequest!: () => void;
-
       server.use(
         http.get(`${TREE_API_BASE_URL}/content/:id`, async ({ params }) => {
           expect(params["id"]).toEqual("2");

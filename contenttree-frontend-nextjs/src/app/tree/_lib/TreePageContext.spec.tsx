@@ -4,7 +4,7 @@ import { describe, expect } from "vitest";
 import type { ContentRespDto } from "@/app/_lib/api/types";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
-import { renderTreePageContextHooks } from "@/test-utils/test-hooks";
+import { renderTreePageContextHooks, waitForTreePageContextToLoad } from "@/test-utils/test-hooks";
 
 describe("TreePageContext", () => {
   describe("rootNode and contentForSelectedNode", () => {
@@ -22,6 +22,7 @@ describe("TreePageContext", () => {
       );
 
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
 
       expect.soft(hooks.current.treePageContext.treeData.rootNodeId).toBe(1);
       expect.soft(hooks.current.treePageContext.contentForSelectedNode.data).toEqual(testContent);
@@ -36,6 +37,7 @@ describe("TreePageContext", () => {
       );
 
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
 
       expect(hooks.current.treePageContext.treeData.rootNodeId).toBeNullable();
       expect(hooks.current.treePageContext.contentForSelectedNode.data).toBeNullable();
@@ -70,6 +72,7 @@ describe("TreePageContext", () => {
       },
     ])("$name", async ({ nodeId, newParentId, shouldFail, expectedNodes }) => {
       const hooks = await renderTreePageContextHooks();
+      await waitForTreePageContextToLoad(hooks);
 
       await act(async () => hooks.current.treePageContext.moveNode(nodeId, newParentId));
 

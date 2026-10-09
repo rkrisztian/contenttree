@@ -1,5 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { vi } from "vitest";
 import { type BackendApiContextType, useBackendApi } from "@/app/_lib/BackendApiContext";
 import { type TreePageContextType, useTreePage } from "@/app/tree/_lib/TreePageContext";
 import { WithTreePageContextProvider } from "./test-providers";
@@ -33,5 +34,12 @@ const TestTreePage = ({ children }: Readonly<{ children: ReactNode }>) => {
       {/* Trigger effect for setting default selected node */}
       {contentForSelectedNode.data && ""}
     </>
+  );
+};
+
+export const waitForTreePageContextToLoad = async (hooks: TreePageContextHooks) => {
+  await act(async () => vi.waitUntil(() => !hooks.current.treePageContext.rawNodes.isLoading));
+  await act(async () =>
+    vi.waitUntil(() => !hooks.current.treePageContext.contentForSelectedNode.isLoading),
   );
 };
