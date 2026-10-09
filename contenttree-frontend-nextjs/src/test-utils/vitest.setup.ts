@@ -1,7 +1,6 @@
-import { afterEach } from "node:test";
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
-import { afterAll, beforeAll, expect, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, expect, vi } from "vitest";
 
 expect.extend(matchers);
 
@@ -20,6 +19,6 @@ afterEach(() => {
 });
 
 afterAll(() => {
-  // Prevent race conditions (reset module cache so each test gets fresh provider/context instances).
+  // Prevent module state pollution (reset module cache so each test gets fresh provider/context instances).
   vi.resetModules();
 });
