@@ -82,11 +82,13 @@ The app consists of a Spring Boot backend, an Angular and Next.js frontends.
 		- [OpenAPI Typescript Codegen](https://github.com/ferdikoomen/openapi-typescript-codegen)
 		  (type-safe API interactions) ([to be migrated to
 		  `@hey-api/openapi-ts`](https://github.com/rkrisztian/contenttree/issues/120))
+	- **Test Dependencies:**
+		- [Mock Service Worker](https://mswjs.io/) (API mocking)
+		- [Playwright](https://playwright.dev/) (end-to-end testing)
 	- **CI/CD & Quality:**
 		- [GitHub](https://github.com/) (repository hosting, CI/CD & dependency management)
 		- [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) (code quality &
 		  security analysis)
-		- [Playwright](https://playwright.dev/) (end-to-end testing)
 
 ## Running the Application
 
