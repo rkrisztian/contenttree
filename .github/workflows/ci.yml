@@ -25,6 +25,7 @@ jobs:
       pull-requests: read
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
+      backend-nestjs: ${{ steps.filter.outputs.backend-nestjs }}
       frontend-angular: ${{ steps.filter.outputs.frontend-angular }}
       frontend-nextjs: ${{ steps.filter.outputs.frontend-nextjs }}
       deploy: ${{ steps.filter.outputs.deploy }}
@@ -52,6 +53,10 @@ jobs:
               - 'contenttree-backend/**'
               - '.github/workflows/ci.yml'
               - '.github/workflows/ci-backend.yml'
+            backend-nestjs:
+              - 'contenttree-backend-nestjs/**'
+              - '.github/workflows/ci.yml'
+              - '.github/workflows/ci-backend-nestjs.yml'
             frontend-angular:
               - 'contenttree-frontend-angular/**'
               - '.github/workflows/ci.yml'
@@ -73,6 +78,16 @@ jobs:
       contents: write  # Needed by the `dependency-submission` action.
       packages: write  # Needed for publishing docker images to GHCR.
     uses: ./.github/workflows/ci-backend.yml
+    secrets: inherit
+
+  backend-nestjs:
+    name: Backend (NestJS)
+    needs: changes
+    if: ${{ ((needs.changes.outputs.backend-nestjs == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
+    permissions:
+      contents: read
+      packages: write  # Needed for publishing docker images to GHCR.
+    uses: ./.github/workflows/ci-backend-nestjs.yml
     secrets: inherit
 
   frontend-angular:

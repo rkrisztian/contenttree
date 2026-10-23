@@ -26,7 +26,7 @@ jobs:
         with:
           account: user
           token: ${{ github.token }}
-          image-names: "contenttree-frontend-angular contenttree-backend"
+          image-names: "contenttree-backend contenttree-backend-nestjs contenttree-frontend-angular contenttree-frontend-nextjs"
           image-tags: "*-snapshot"
           cut-off: 1month
           keep-n-most-recent: 2
@@ -36,7 +36,7 @@ jobs:
         with:
           account: user
           token: ${{ github.token }}
-          image-names: "contenttree-frontend-angular contenttree-backend"
+          image-names: "contenttree-backend contenttree-backend-nestjs contenttree-frontend-angular contenttree-frontend-nextjs"
           image-tags: "*-rc"
           cut-off: 1month
           keep-n-most-recent: 2
