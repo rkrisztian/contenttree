@@ -4,7 +4,7 @@ Backend (Spring Boot):
 Backend (NestJS):
 [![Backend Quality Gate Status (NestJS)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend-nestjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend-nestjs)
 Frontend (Angular):
-[![Frontend Quality Gate Status (Angular)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-angular)\
+[![Frontend Quality Gate Status (Angular)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-angular)
 Frontend (Next.js):
 [![Frontend Quality Gate Status (Next.js)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-nextjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-nextjs)
 
