@@ -1,6 +1,6 @@
 [![CI Pipeline](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml/badge.svg)](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml)
 Backend (Spring Boot):
-[![Backend (Spring Boot) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend)
+[![Backend (Spring Boot) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend-springboot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend-springboot)
 Backend (NestJS):
 [![Backend (NestJS) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend-nestjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend-nestjs)
 Frontend (Angular):
