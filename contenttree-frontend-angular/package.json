@@ -11,7 +11,7 @@
     "watch": "ng build --watch --configuration development",
     "build:docker": "docker build --tag contenttree-frontend-angular:latest .",
     "prebuild:docker": "npm run build",
-    "openapi:generate": "openapi --input ../contenttree-backend/build/openapi.json --output src/app/api/types --exportCore false --exportServices false",
+    "openapi:generate": "openapi --input ../contenttree-backend-springboot/build/openapi.json --output src/app/api/types --exportCore false --exportServices false",
     "test": "ng test",
     "test:ct": "npm run test -- --configuration ct",
     "test:ct:headless": "npm run test:ct -- --headless",

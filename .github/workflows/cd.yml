@@ -70,13 +70,13 @@ jobs:
           ${{ secrets.DB_PASSWORD }}
           EOF
 
-          cat >etc/backend/application.properties <<'EOF'
+          cat >etc/backend-springboot/application.properties <<'EOF'
           spring.datasource.username=${{ secrets.DB_USERNAME }}
           spring.datasource.password=${{ secrets.DB_PASSWORD }}
           app.jwt.secret=${{ secrets.JWT_SECRET }}
           EOF
 
-          cat >etc/backend/prod_data.sql <<'EOF'
+          cat >etc/backend-springboot/prod_data.sql <<'EOF'
           -- Prod-like data initialization script (used for E2E testing)
           DO
           '
@@ -107,7 +107,7 @@ jobs:
           down-flags: '--volumes'
           cwd: contenttree-deploy
         env:
-          BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-snapshot
+          BACKEND_SPRINGBOOT_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_ANGULAR_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_NEXTJS_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-snapshot
 
@@ -145,15 +145,15 @@ jobs:
 
       - name: Push Release Candidate Images
         run: |
-          docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
+          docker tag ${BACKEND_SPRINGBOOT_IMAGE_OLD} ${BACKEND_SPRINGBOOT_IMAGE_NEW}
           docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker tag ${FRONTEND_NEXTJS_IMAGE_OLD} ${FRONTEND_NEXTJS_IMAGE_NEW}
-          docker push ${BACKEND_IMAGE_NEW}
+          docker push ${BACKEND_SPRINGBOOT_IMAGE_NEW}
           docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${FRONTEND_NEXTJS_IMAGE_NEW}
         env:
-          BACKEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-snapshot
-          BACKEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-rc
+          BACKEND_SPRINGBOOT_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-snapshot
+          BACKEND_SPRINGBOOT_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_NEXTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-snapshot
@@ -202,18 +202,18 @@ jobs:
 
       - name: Push Release Images
         run: |
-          docker pull ${BACKEND_IMAGE_OLD}
+          docker pull ${BACKEND_SPRINGBOOT_IMAGE_OLD}
           docker pull ${FRONTEND_ANGULAR_IMAGE_OLD}
           docker pull ${FRONTEND_NEXTJS_IMAGE_OLD}
-          docker tag ${BACKEND_IMAGE_OLD} ${BACKEND_IMAGE_NEW}
+          docker tag ${BACKEND_SPRINGBOOT_IMAGE_OLD} ${BACKEND_SPRINGBOOT_IMAGE_NEW}
           docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker tag ${FRONTEND_NEXTJS_IMAGE_OLD} ${FRONTEND_NEXTJS_IMAGE_NEW}
-          docker push ${BACKEND_IMAGE_NEW}
+          docker push ${BACKEND_SPRINGBOOT_IMAGE_NEW}
           docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${FRONTEND_NEXTJS_IMAGE_NEW}
         env:
-          BACKEND_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}-rc
-          BACKEND_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend:${{ env.PROJECT_VERSION }}
+          BACKEND_SPRINGBOOT_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-rc
+          BACKEND_SPRINGBOOT_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}
           FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}
           FRONTEND_NEXTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-rc

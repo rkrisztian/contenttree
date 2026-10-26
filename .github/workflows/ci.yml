@@ -24,7 +24,7 @@ jobs:
     permissions:
       pull-requests: read
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
+      backend-springboot: ${{ steps.filter.outputs.backend-springboot }}
       backend-nestjs: ${{ steps.filter.outputs.backend-nestjs }}
       frontend-angular: ${{ steps.filter.outputs.frontend-angular }}
       frontend-nextjs: ${{ steps.filter.outputs.frontend-nextjs }}
@@ -49,10 +49,10 @@ jobs:
         id: filter
         with:
           filters: |
-            backend:
-              - 'contenttree-backend/**'
+            backend-springboot:
+              - 'contenttree-backend-springboot/**'
               - '.github/workflows/ci.yml'
-              - '.github/workflows/ci-backend.yml'
+              - '.github/workflows/ci-backend-springboot.yml'
             backend-nestjs:
               - 'contenttree-backend-nestjs/**'
               - '.github/workflows/ci.yml'
@@ -70,14 +70,14 @@ jobs:
               - '.github/workflows/ci.yml'
               - '.github/workflows/ci-deploy.yml'
 
-  backend:
-    name: Backend
+  backend-springboot:
+    name: Backend (Spring Boot)
     needs: changes
-    if: ${{ ((needs.changes.outputs.backend == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
+    if: ${{ ((needs.changes.outputs.backend-springboot == 'true') || (github.event_name == 'workflow_dispatch')) && !cancelled() }}
     permissions:
       contents: write  # Needed by the `dependency-submission` action.
       packages: write  # Needed for publishing docker images to GHCR.
-    uses: ./.github/workflows/ci-backend.yml
+    uses: ./.github/workflows/ci-backend-springboot.yml
     secrets: inherit
 
   backend-nestjs:
@@ -121,7 +121,7 @@ jobs:
 
   dependency-review:
     name: "(PR) Dependency Review"
-    needs: [ backend, backend-nestjs, frontend-angular, frontend-nextjs, deploy-ci ]
+    needs: [ backend-springboot, backend-nestjs, frontend-angular, frontend-nextjs, deploy-ci ]
     if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.user.login != 'dependabot[bot]') && !cancelled() }}
     permissions:
       contents: read

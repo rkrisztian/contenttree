@@ -1,12 +1,12 @@
 [![CI Pipeline](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml/badge.svg)](https://github.com/rkrisztian/contenttree/actions/workflows/ci.yml)
 Backend (Spring Boot):
-[![Backend Quality Gate Status (Spring Boot)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend)
+[![Backend (Spring Boot) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend)
 Backend (NestJS):
-[![Backend Quality Gate Status (NestJS)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend-nestjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend-nestjs)
+[![Backend (NestJS) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-backend-nestjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-backend-nestjs)
 Frontend (Angular):
-[![Frontend Quality Gate Status (Angular)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-angular)
+[![Frontend (Angular) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-angular)
 Frontend (Next.js):
-[![Frontend Quality Gate Status (Next.js)](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-nextjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-nextjs)
+[![Frontend (Next.js) Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=contenttree-frontend-nextjs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=contenttree-frontend-nextjs)
 
 # Content Tree Management App
 
@@ -18,7 +18,7 @@ to another parent, as well as search nodes by name or content.
 
 ## Used technology stack
 
-The app consists of a Spring Boot and NestJS backend, an Angular and Next.js frontends.
+The app consists of a Spring Boot and NestJS backends, an Angular and Next.js frontends.
 
 > [!NOTE]
 > The NestJS backend is in its early phase of development, and misses a few features and deployment
@@ -144,11 +144,11 @@ docker login dhi.io
 
 ### Backend (Spring Boot)
 
-Navigate to the `contenttree-backend` folder and start the Spring Boot application. This command
-also triggers Docker Compose to start the PostgreSQL database defined in `compose.yaml`.
+Navigate to the `contenttree-backend-springboot` folder and start the Spring Boot application. This
+command also triggers Docker Compose to start the PostgreSQL database defined in `compose.yaml`.
 
 ```bash
-cd contenttree-backend
+cd contenttree-backend-springboot
 gw bootRun
 ```
 
@@ -167,7 +167,7 @@ at [http://localhost:5433/](http://localhost:5433/) after running the `bootRun` 
 way:
 
 ```shell
-cd contenttree-backend
+cd contenttree-backend-springboot
 gw bootRun --args='--spring.docker.compose.profiles.active=debug'
 ```
 
@@ -189,7 +189,7 @@ the DbGate UI at [http://localhost:5433/](http://localhost:5433/) after running 
 following way:
 
 ```shell
-cd contenttree-backend
+cd contenttree-backend-nestjs
 COMPOSE_PROFILES=debug npm run start
 ```
 
@@ -223,15 +223,15 @@ available at [http://localhost:3000/tree](http://localhost:3000/tree).
 
 For test users with different roles, see the following files:
 
-* Spring Boot backend:
-  [`002_test-data.sql`](contenttree-backend/src/main/resources/db/changelog/002_test-data.sql)
-* NestJS backend:
-  [`002_test-data.ts`](contenttree-backend-nestjs/src/migrations/002_test-data.ts)
+* Backend (Spring Boot): [`002_test-data.sql`
+  ](contenttree-backend-springboot/src/main/resources/db/changelog/002_test-data.sql)
+* Backend (NestJS): [`002_test-data.ts`
+  ](contenttree-backend-nestjs/src/migrations/002_test-data.ts)
 
 The passwords for these users were generated using BCrypt:
 
-* Spring Boot backend: [`BCryptPasswordEncoder`](https://www.baeldung.com/linux/bcrypt-hash)
-* NestJS backend: [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+* Backend (Spring Boot): [`BCryptPasswordEncoder`](https://www.baeldung.com/linux/bcrypt-hash)
+* Backend (NestJS): [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
 
 ## Deploying the Application
 
@@ -239,7 +239,7 @@ To test the application in a production-like deployment, it is possible to creat
 the local machine by executing the following commands:
 
 ```shell
-(cd contenttree-backend && gw bootBuildImage)
+(cd contenttree-backend-springboot && gw bootBuildImage)
 (cd contenttree-backend-nestjs && npm run build:docker)
 (cd contenttree-frontend-angular && npm run build:docker)
 (cd contenttree-frontend-nextjs && npm run build:docker)
@@ -256,7 +256,7 @@ only.
 Execute backend tests (including integration tests) using Gradle:
 
 ```shell
-cd contenttree-backend
+cd contenttree-backend-springboot
 gw check
 ```
 
@@ -326,9 +326,9 @@ npm test
 
 The following IDEs are recommended for use:
 
-- **Backend:**
+- **Backend (Spring Boot):**
 	- [IntelliJ IDEA](https://www.jetbrains.com/idea/) (with or without the Ultimate subscription)
-- **Frontend (Angular & Next.js):**
+- **Backend (NestJS), Frontend (Angular & Next.js):**
 	- [Visual Studio Code](https://code.visualstudio.com/)
 
 ### Backend (Spring Boot)
@@ -338,7 +338,7 @@ The following IDEs are recommended for use:
 You can change dependencies (e.g., update dependency versions) by running the following commands:
 
 ```shell
-cd contenttree-backend
+cd contenttree-backend-springboot
 gw build --write-verification-metadata pgp,sha256 --export-keys --write-locks
 git diff gradle/verification-*
 ```
@@ -354,7 +354,7 @@ delete unused versions in `verification-metadata.xml`.
 To generate TypeScript types, run the following commands:
 
 ```shell
-(cd contenttree-backend && gw generateOpenApiDocs)
+(cd contenttree-backend-springboot && gw generateOpenApiDocs)
 (cd contenttree-frontend-angular && npm run openapi:generate)
 (cd contenttree-frontend-nextjs && npm run openapi:generate)
 (cd contenttree-deploy/e2e && npm run openapi:generate)
