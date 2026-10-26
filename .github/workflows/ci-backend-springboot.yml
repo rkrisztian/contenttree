@@ -1,4 +1,4 @@
-name: CI - Backend
+name: CI - Backend (Spring Boot)
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ jobs:
     name: Build
     defaults:
       run:
-        working-directory: contenttree-backend
+        working-directory: contenttree-backend-springboot
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
@@ -49,7 +49,7 @@ jobs:
       - name: (Set up JDK)
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6  # v6.0.1
         with:
-          java-version-file: 'contenttree-backend/.java-version'
+          java-version-file: 'contenttree-backend-springboot/.java-version'
           # For consistency with the JVM choice in the Docker build
           distribution: 'zulu'
 
@@ -57,7 +57,7 @@ jobs:
         uses: burrunan/gradle-cache-action@404534c34a2faa40430357a3183522a845b04f3b  # v3.0.3
         with:
           read-only: ${{ github.ref != 'refs/heads/main' }}
-          build-root-directory: contenttree-backend
+          build-root-directory: contenttree-backend-springboot
 
       - name: (Log in to Docker Hardened Images distribution registry)
         uses: docker/login-action@v4.6.0  # Immutable
@@ -79,7 +79,7 @@ jobs:
         uses: gradle/actions/dependency-submission@3f5f9adaf7d9fecd50b5935e54106014257a94e6  # v6.4.0
         with:
           dependency-graph: generate-and-submit
-          build-root-directory: contenttree-backend
+          build-root-directory: contenttree-backend-springboot
 
       - name: SonarQubeCloud Scan
         if: ${{ ((github.event_name != 'pull_request') || (github.event.pull_request.user.login != 'dependabot[bot]')) && !cancelled() }}
