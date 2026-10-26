@@ -315,9 +315,9 @@ sonar {
 	properties {
 		val testTasks = tasks.withType<Test>().map { it.name }
 
-		property("sonar.projectKey", "contenttree-backend")
+		property("sonar.projectKey", "contenttree-backend-springboot")
 		property("sonar.organization", "rkrisztian")
-		property("sonar.projectName", "contenttree-backend")
+		property("sonar.projectName", "contenttree-backend-springboot")
 		property("sonar.coverage.exclusions", listOf("**/DocsConfig.java", "**/OpenApiConfig.java"))
 		property("sonar.tests", testTasks.flatMap { sourceSets[it].allSource.srcDirs }.toSet())
 		property(
