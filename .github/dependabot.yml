@@ -152,9 +152,26 @@ updates:
     schedule:
       interval: monthly
     groups:
+      general:
+        patterns:
+          - actions/checkout
+          - actions/upload-artifact
+          - actions/dependency-review-action
+          - actions/cache/restore
+          - pkgdeps/git-tag-action
       docker:
         patterns:
           - "docker/*"
+          - hoverkraft-tech/compose-action
+          - snok/container-retention-policy
+      gradle:
+        patterns:
+          - actions/setup-java
+          - burrunan/gradle-cache-action
+          - gradle/actions/dependency-submission
+      all-other-dependencies:
+        patterns:
+          - "*"
 
 registries:
   docker-hardened-images:
