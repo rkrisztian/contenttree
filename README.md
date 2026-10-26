@@ -53,10 +53,12 @@ integrations.
 		<td>
 			<ul>
 				<li><a href="https://github.com/nestjs/nest">NestJS</a> (REST API)</li>
+				<li><a href="https://papooch.github.io/nestjs-cls/">NestJS CLS</a> (async context)</li>
 			</ul>
 		</td>
 		<td>
 			<ul>
+				<li><a href="https://oxc.rs/">Oxlint</a> (code linting)</li>
 			</ul>
 		</td>
 	</tr>
@@ -86,7 +88,7 @@ integrations.
 		</td>
 		<td>
 			<ul>
-				<li><a href="https://oxc.rs/">Oxlint</a> (code linting)</li>
+				<li><a href="https://biomejs.dev/">Biome</a> (code linting and formatting)</li>
 			</ul>
 		</td>
 	</tr>
