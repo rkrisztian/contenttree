@@ -49,6 +49,21 @@ updates:
           - "@mui/*"
           - "@emotion/*"
           - swr
+      nestjs:
+        patterns:
+          - "@nestjs-cls/*"
+          - "@nestjs/*"
+          - nestjs-cls
+          - class-transformer
+          - class-validator
+          - passport
+          - passport-jwt
+          - "@types/passport-jwt"
+          - typeorm
+          - pg
+          - reflect-metadata
+          - "@types/express"
+          - source-map-support
       eslint:
         patterns:
           - eslint
@@ -58,6 +73,9 @@ updates:
         patterns:
           - prettier
           - "@prettier/*"
+      oxlint:
+        patterns:
+          - oxlint*
       vitest:
         patterns:
           - "@vitest/*"
@@ -71,6 +89,14 @@ updates:
           - i18next
           - next-i18next
           - react-i18next
+      bcrypt:
+        patterns:
+          - bcrypt
+          - "@types/bcrypt"
+      supertest:
+        patterns:
+          - supertest
+          - "@types/supertest"
       other-direct-dependencies:
         patterns:
           - jose
@@ -87,6 +113,9 @@ updates:
           - license-report
           - sass
           - "@playwright/test"
+          - concurrently
+          - wait-on
+          - "@testcontainers/postgresql"
         group-by: dependency-name
       # These should all be transitive dependencies:
       all-other-dependencies:
