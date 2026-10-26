@@ -6,8 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { ClsModule } from 'nestjs-cls';
 import { DataSource } from 'typeorm';
-import { AllExceptionsFilter } from '../common/exception-handler/all-exceptions.filter.js';
-import { TracingLogger } from '../common/tracing/tracing-logger.service.js';
+import { configureAppUses } from '../app.config.js';
 import { TracingModule } from '../common/tracing/tracing.module.js';
 import { Migration001Init20261015090000 } from '../migrations/001_init.js';
 
@@ -92,9 +91,7 @@ export const createTestApp = async ({
   ).compile();
 
   app = moduleFixture.createNestApplication();
-  app.useLogger(app.get(TracingLogger));
-  app.useGlobalFilters(new AllExceptionsFilter());
-
+  configureAppUses(app);
   await app.init();
 };
 

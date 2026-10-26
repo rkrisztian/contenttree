@@ -2,6 +2,8 @@ import { INestApplication, UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { configureAppUses } from '../app.config.js';
+import { TracingModule } from '../common/tracing/tracing.module.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 
@@ -12,6 +14,7 @@ describe('AuthController', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [TracingModule],
       controllers: [AuthController],
       providers: [
         {
@@ -25,6 +28,7 @@ describe('AuthController', () => {
 
     service = moduleFixture.get<AuthService>(AuthService);
     app = moduleFixture.createNestApplication();
+    configureAppUses(app);
     await app.init();
   });
 

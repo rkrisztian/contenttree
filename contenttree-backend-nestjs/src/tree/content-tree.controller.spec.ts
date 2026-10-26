@@ -1,9 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, it, vi } from 'vitest';
+import { configureAppUses } from '../app.config.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/roles/roles.guard.js';
+import { TracingModule } from '../common/tracing/tracing.module.js';
 import { ContentTreeController } from './content-tree.controller.js';
 import { ContentTreeService } from './content-tree.service.js';
 import { MoveNodeException } from './exception/move-node.exception.js';
@@ -25,6 +27,7 @@ describe('ContentTreeController', () => {
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [TracingModule],
       controllers: [ContentTreeController],
       providers: [
         {
@@ -41,11 +44,23 @@ describe('ContentTreeController', () => {
 
     service = moduleFixture.get<ContentTreeService>(ContentTreeService);
     app = moduleFixture.createNestApplication();
+    configureAppUses(app);
     await app.init();
   });
 
   afterEach(async () => {
     await app.close();
+  });
+
+  describe('Validation', () => {
+    it('should return 400 when sending invalid request', async () => {
+      await request(app.getHttpServer())
+        .get('/api/tree/search')
+        .query({ text: 'text', invalidField: 'invalidField' })
+        .expect(400);
+
+      await app.close();
+    });
   });
 
   describe('DeleteNode', () => {
@@ -107,12 +122,11 @@ describe('ContentTreeController', () => {
       const appWithRoles = moduleFixture.createNestApplication();
       await appWithRoles.init();
 
-      const response = await request(appWithRoles.getHttpServer())
+      await request(appWithRoles.getHttpServer())
         .get('/api/tree/search')
         .query({ text: 'text' })
         .expect(403);
 
-      expect(response.status).toBe(403);
       await appWithRoles.close();
     });
 
@@ -137,18 +151,13 @@ describe('ContentTreeController', () => {
       const appWithRoles = moduleFixture.createNestApplication();
       await appWithRoles.init();
 
-      const response = await request(appWithRoles.getHttpServer())
-        .delete('/api/tree/1')
-        .expect(403);
+      await request(appWithRoles.getHttpServer()).delete('/api/tree/1').expect(403);
 
-      expect(response.status).toBe(403);
       await appWithRoles.close();
     });
 
     it('should return 200 when deleting with ADMIN role', async () => {
-      const response = await request(app.getHttpServer()).delete('/api/tree/1').expect(200);
-
-      expect(response.status).toBe(200);
+      await request(app.getHttpServer()).delete('/api/tree/1').expect(200);
     });
   });
 });

@@ -9,7 +9,7 @@ export class TracingLogger implements LoggerService {
         case 'production':
           return ['log'];
         case 'test':
-          return ['warn'];
+          return ['error'];
         default:
           return ['debug'];
       }
