@@ -178,7 +178,7 @@ also triggers Docker Compose to start the PostgreSQL database defined in `compos
 
 ```bash
 cd contenttree-backend-nestjs
-npm run start
+npm start
 ```
 
 Once the backend is running, the API documentation is available at
@@ -190,7 +190,7 @@ following way:
 
 ```shell
 cd contenttree-backend-nestjs
-COMPOSE_PROFILES=debug npm run start
+COMPOSE_PROFILES=debug npm start
 ```
 
 ### Frontend (Angular)
@@ -208,13 +208,17 @@ available at [http://localhost:4200/tree](http://localhost:4200/tree).
 
 ### Frontend (Next.js)
 
-Navigate to the `contenttree-frontend-nextjs` folder and start the Angular development server.
+Navigate to the `contenttree-frontend-nextjs` folder and start the Next.js development server.
 
 ```shell
 cd contenttree-frontend-nextjs
 npm ci
-npm run dev
+npm start
 ```
+
+> [!NOTE]
+> In this project, `npm start` is alias for `npm run dev`, matching the Angular & NestJS stacks,
+> and because a standalone output is built for Docker.
 
 This runs the development web server. Once the frontend is running, the application will be
 available at [http://localhost:3000/tree](http://localhost:3000/tree).

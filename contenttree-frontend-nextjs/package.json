@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "start": "npm run dev",
     "build": "next build",
     "build:docker": "docker build --tag contenttree-frontend-nextjs:latest .",
     "prebuild:docker": "npm run build",
