@@ -1,3 +1,3 @@
 export class ContentRespDto {
-  constructor(public content: string) {}
+  constructor(public data: string) {}
 }

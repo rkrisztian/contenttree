@@ -85,7 +85,7 @@ describe('ContentTreeController', () => {
 
       await request(app.getHttpServer())
         .post('/api/tree/move')
-        .send({ nodeId: 1, newParentId: 1 })
+        .query({ nodeId: 1, newParentId: 1 })
         .expect(400);
     });
 
@@ -94,7 +94,7 @@ describe('ContentTreeController', () => {
 
       await request(app.getHttpServer())
         .post('/api/tree/move')
-        .send({ nodeId: 1, newParentId: 1 })
+        .query({ nodeId: 1, newParentId: 1 })
         .expect(404);
     });
   });

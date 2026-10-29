@@ -24,3 +24,7 @@ out/
 # System files
 .DS_Store
 Thumbs.db
+
+# SonarQube for IDE / SonarScanner
+.sonar/
+.scannerwork/

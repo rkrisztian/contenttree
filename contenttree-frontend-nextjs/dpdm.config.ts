@@ -1,7 +1,7 @@
 import { defineConfig } from "dpdm";
 
 export default defineConfig({
-  files: ["**/*.ts?(x)"],
+  files: ["src/**/*.ts?(x)"],
   tree: false,
   warning: false,
 });
