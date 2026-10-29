@@ -91,8 +91,8 @@ export class ContentTreeController {
   @ApiBearerAuth('JWT-auth')
   @Roles(Role.MANAGER)
   async moveNode(
-    @Body('nodeId', ParseIntPipe) nodeId: number,
-    @Body('newParentId', ParseIntPipe) newParentId: number,
+    @Query('nodeId', ParseIntPipe) nodeId: number,
+    @Query('newParentId', ParseIntPipe) newParentId: number,
   ): Promise<void> {
     await this.service.moveNode(nodeId, newParentId);
   }

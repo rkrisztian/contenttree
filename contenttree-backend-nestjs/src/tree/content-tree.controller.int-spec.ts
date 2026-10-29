@@ -118,7 +118,7 @@ describe('ContentTreeController', () => {
 
       await request(getTestApp().getHttpServer())
         .post('/api/tree/move')
-        .send({
+        .query({
           nodeId: grandchildNode.id,
           newParentId: rootNode.id,
         })
@@ -141,7 +141,7 @@ describe('ContentTreeController', () => {
 
       const response = await request(getTestApp().getHttpServer())
         .post('/api/tree/move')
-        .send({
+        .query({
           nodeId: childNode.id,
           newParentId: grandGrandchildNode.id,
         })

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { downNotSupported, up } from './util/migration-util.js';
 
-export class Migration002TestData20261015090100 implements MigrationInterface {
+export class Migration002TestData20261015090101 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (process.env.NODE_ENV !== 'production') {
       await up(SCRIPT, queryRunner);
@@ -13,7 +13,7 @@ export class Migration002TestData20261015090100 implements MigrationInterface {
   }
 }
 
-const SCRIPT = String.raw`
+const SCRIPT = `
 --liquibase formatted sql
 
 --changeset rkrisztian:1
