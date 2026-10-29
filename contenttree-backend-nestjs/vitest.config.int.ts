@@ -1,4 +1,3 @@
-import { loadEnv } from 'vite';
 import { defineConfig } from 'vitest/config';
 import unitTestConfig from './vitest.config.js';
 
@@ -9,7 +8,6 @@ export default defineConfig({
     ...unitTestConfig.test,
     include: ['**/*.int-spec.ts'],
     setupFiles: ['src/test-utils/vitest.int.setup.ts'],
-    env: loadEnv('development', process.cwd(), ''),
     coverage: {
       ...unitTestConfig.test?.coverage,
       reportsDirectory: 'coverage-int',
