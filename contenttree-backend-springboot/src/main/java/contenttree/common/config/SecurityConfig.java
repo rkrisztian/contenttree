@@ -64,8 +64,8 @@ public class SecurityConfig {
 		configuration.setAllowedOrigins(Arrays.asList(allowedOrigins));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(List.of("*"));
-		configuration.setMaxAge(3600L);
 		configuration.setAllowCredentials(true);
+		configuration.setMaxAge(86_400L);
 
 		final var source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/api/**", configuration);

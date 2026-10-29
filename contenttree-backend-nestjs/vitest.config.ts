@@ -1,3 +1,4 @@
+import { loadEnv } from 'vite';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -19,5 +20,6 @@ export default defineConfig({
       ],
       reportsDirectory: 'coverage',
     },
+    env: loadEnv('development', process.cwd(), ''),
   },
 });
