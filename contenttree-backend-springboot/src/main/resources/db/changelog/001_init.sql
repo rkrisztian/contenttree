@@ -8,19 +8,19 @@
 --   `application.yaml` under `spring.datasource.hikari.connection-init-sql`. If deep trees are
 --   common, consider migrating to a Materialized Path (`path` column) strategy.
 
-CREATE TABLE "public"."tree_node" (
+CREATE TABLE "tree_node" (
 	"id" BIGINT NOT NULL,
 	"name" VARCHAR(255) NOT NULL,
 	"content" TEXT NOT NULL,
 	"parent_id" BIGINT NULL,
 	CONSTRAINT "tree_node_pkey" PRIMARY KEY ("id"),
 	CONSTRAINT "fk_tree_node_parent_id" FOREIGN KEY ("parent_id")
-		REFERENCES "public"."tree_node" ("id")
+		REFERENCES "tree_node" ("id")
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 );
 
-CREATE SEQUENCE public.tree_node_seq
+CREATE SEQUENCE tree_node_seq
 	START WITH 1
 	INCREMENT BY 50
 	NO MINVALUE
@@ -55,7 +55,7 @@ CREATE TABLE users (
     role VARCHAR(20) NOT NULL CHECK (role IN ('READER', 'MANAGER', 'ADMIN'))
 );
 
-CREATE SEQUENCE public.users_seq
+CREATE SEQUENCE users_seq
 	START WITH 1
 	INCREMENT BY 1
 	NO MINVALUE

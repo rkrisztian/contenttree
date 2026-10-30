@@ -18,7 +18,7 @@ const bootstrap = async () => {
   }
 
   app.set('trust proxy', 'loopback');
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3001);
 
   Logger.log(`listening on ${await app.getUrl()}`);
 };

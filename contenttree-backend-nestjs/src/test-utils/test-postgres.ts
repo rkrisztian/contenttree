@@ -45,11 +45,11 @@ export const resetTestDatabase = async () => {
 };
 
 export const createTestApp = async ({
-  entities,
+  entities = [],
   metadata = {},
   overrides = (builder) => builder,
 }: {
-  entities: Function[];
+  entities?: Function[];
   metadata?: ModuleMetadata;
   overrides?: (builder: TestingModuleBuilder) => TestingModuleBuilder;
 }) => {

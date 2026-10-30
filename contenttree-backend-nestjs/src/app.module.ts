@@ -7,13 +7,20 @@ import { ClsModule } from 'nestjs-cls';
 import path from 'node:path';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module.js';
+import { SqlInitService } from './common/sql-init.service.js';
 import { TracingModule } from './common/tracing/tracing.module.js';
 import { HealthController } from './health.controller.js';
 import { TreeModule } from './tree/tree.module.js';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [
+        '.env',
+        ...(process.env.NESTJS_SECRETS_FILE ? [process.env.NESTJS_SECRETS_FILE] : []),
+      ],
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -51,5 +58,6 @@ import { TreeModule } from './tree/tree.module.js';
     TracingModule,
   ],
   controllers: [HealthController],
+  providers: [SqlInitService],
 })
 export class AppModule {}

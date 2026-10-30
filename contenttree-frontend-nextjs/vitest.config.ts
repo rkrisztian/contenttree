@@ -13,7 +13,7 @@ export default defineConfig({
     environment: "jsdom",
     environmentOptions: {
       // Fixes CORS issues (JSDOM has `http://localhost/` as the default document URL).
-      jsdom: { url: "http://localhost:8081/" },
+      jsdom: { url: "http://localhost:3000/" },
     },
     globals: true,
     env: loadEnv("development", process.cwd(), ""),

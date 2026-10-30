@@ -18,11 +18,41 @@ to another parent, as well as search nodes by name or content.
 
 ## Used technology stack
 
-The app consists of a Spring Boot and NestJS backends, an Angular and Next.js frontends.
+The repository holds four applications: two backends (Spring Boot and NestJS) and two frontends
+(Angular and Next.js).
 
 > [!NOTE]
-> The NestJS backend is in its early phase of development, and misses a few features and deployment
-integrations.
+> The NestJS backend is in an early phase of development and is missing a few features and
+> deployment integrations.
+
+### Topology
+
+The frontends and backends are deployed as two independent stacks (each with its own database),
+mapped as follows, with published ports indicated where applicable:
+
+```mermaid
+flowchart LR
+	subgraph Frontends["Frontends"]
+		FE1["Angular<br/>:8080 (nginx)<br/>:4200 (dev)"]
+		FE2["Next.js<br/>:3000"]
+	end
+	subgraph Backends["Backends"]
+		BE1["Spring Boot<br/>:8081"]
+		BE2["NestJS<br/>:3001"]
+	end
+	subgraph Databases["Databases"]
+		DB1["PostgreSQL<br/>:5432 (dev only)"]
+		DB2["PostgreSQL<br/>:5432 (dev only)"]
+	end
+	FE1 -->|"API calls"| BE1
+	FE2 -->|"API calls"| BE2
+	BE1 -->|"queries"| DB1
+	BE2 -->|"queries"| DB2
+```
+
+Configurable backend targets per frontend are planned but not yet implemented.
+
+### Dependencies
 
 <table>
 	<tr>

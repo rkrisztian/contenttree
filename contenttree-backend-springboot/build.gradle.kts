@@ -221,9 +221,9 @@ tasks.bootBuildImage {
 		if (publishImage.get()) {
 			"ghcr.io/${
 				providers.environmentVariable("GHCR_USER").get()
-			}/contenttree-backend:${version}-snapshot"
+			}/contenttree-backend-springboot:${version}-snapshot"
 		} else {
-			"contenttree-backend:latest"
+			"contenttree-backend-springboot:latest"
 		}
 	}
 	publish = publishImage

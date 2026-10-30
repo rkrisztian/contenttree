@@ -105,7 +105,7 @@ test&param=1
 first%20second
 ', 1);
 
-SELECT setval('public.tree_node_seq', 54);
+SELECT setval('tree_node_seq', 54);
 
 --changeset rkrisztian:2
 --comment Add test users
@@ -116,4 +116,4 @@ INSERT INTO users (id, name, password_hash, role) VALUES
 	(2, 'manager', '$2a$10$YWShFGZJKsaq.sZki6hjQO37v84bDorEpqyzcmqNC4qJSbwt54.dK', 'MANAGER'),
 	(3, 'reader', '$2a$10$YWShFGZJKsaq.sZki6hjQO37v84bDorEpqyzcmqNC4qJSbwt54.dK', 'READER');
 
-SELECT setval('public.users_seq', 4);
+SELECT setval('users_seq', 4);

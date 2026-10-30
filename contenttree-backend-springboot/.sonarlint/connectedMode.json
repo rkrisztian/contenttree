@@ -1,5 +1,5 @@
 {
-    "sonarCloudOrganization": "rkrisztian",
-    "projectKey": "contenttree-backend",
-    "region": "EU"
+	"sonarCloudOrganization": "rkrisztian",
+	"projectKey": "contenttree-backend-springboot",
+	"region": "EU"
 }

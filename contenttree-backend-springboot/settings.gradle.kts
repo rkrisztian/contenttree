@@ -4,4 +4,4 @@ buildCache {
 	}
 }
 
-rootProject.name = "contenttree"
+rootProject.name = "contenttree-backend-springboot"

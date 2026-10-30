@@ -1,5 +1,5 @@
 services:
-  db:
+  db-springboot:
     # Should be the same as in `../contenttree-backend-springboot/compose.yaml`:
     image: dhi.io/postgres:18.4-alpine3.23@sha256:b18a3537d1273920565544b084a80918be565cadaf381112769b4bcf760b7555
     environment:
@@ -7,7 +7,29 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
       POSTGRES_DB: contenttree
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data-springboot:/var/lib/postgresql/data
+    secrets:
+      - db_username
+      - db_password
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "/bin/bash", "-c", "pg_isready -U $(cat $${POSTGRES_USER_FILE}) -d contenttree" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_interval: 3s
+      start_period: 20s
+
+  db-nestjs:
+    # Should be the same as in `../contenttree-backend-nestjs/compose.yaml`:
+    image: dhi.io/postgres:18.4-alpine3.23@sha256:b18a3537d1273920565544b084a80918be565cadaf381112769b4bcf760b7555
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/db_username
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: contenttree
+    volumes:
+      - db-data-nestjs:/var/lib/postgresql/data
     secrets:
       - db_username
       - db_password
@@ -23,24 +45,24 @@ services:
 
   backend-springboot:
     depends_on:
-      db:
+      db-springboot:
         condition: service_healthy
     image: ${BACKEND_SPRINGBOOT_IMAGE:-contenttree-backend-springboot:latest}
     ports:
       - "8081:8081"
       - "8082:8082"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contenttree
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-springboot:5432/contenttree
       - SPRING_CONFIG_IMPORT=file:/run/secrets/backend_springboot_config[.properties]
-      - SPRING_SQL_INIT_DATA_LOCATIONS=file:/run/secrets/backend_springboot_prod_data_sql
-      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:8084
+      - SPRING_SQL_INIT_DATA_LOCATIONS=file:/run/secrets/backend_prod_data_sql
+      - APP_CORS_ALLOWED_ORIGINS=http://localhost:8080
       - THC_PATH=/actuator/health/readiness
       - THC_PORT=8082
       # Not using Kubernetes in this deployment:
       - BPL_SPRING_CLOUD_BINDINGS_DISABLED=true
     secrets:
       - backend_springboot_config
-      - backend_springboot_prod_data_sql
+      - backend_prod_data_sql
     networks:
       - app-network
     healthcheck:
@@ -50,6 +72,32 @@ services:
       retries: 3
       start_interval: 3s
       start_period: 30s
+
+  backend-nestjs:
+    depends_on:
+      db-nestjs:
+        condition: service_healthy
+    image: ${BACKEND_NESTJS_IMAGE:-contenttree-backend-nestjs:latest}
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=db-nestjs
+      - DB_NAME=contenttree
+      - NESTJS_SECRETS_FILE=/run/secrets/backend_nestjs_env_secrets
+      - SQL_INIT_LOCATION=/run/secrets/backend_prod_data_sql
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000
+    secrets:
+      - backend_nestjs_env_secrets
+      - backend_prod_data_sql
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "node", "healthcheck.mjs" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_interval: 3s
+      start_period: 10s
 
   frontend-angular:
     image: ${FRONTEND_ANGULAR_IMAGE:-contenttree-frontend-angular:latest}
@@ -75,9 +123,9 @@ services:
   frontend-nextjs:
     image: ${FRONTEND_NEXTJS_IMAGE:-contenttree-frontend-nextjs:latest}
     ports:
-      - "8084:3000"
+      - "3000:3000"
     environment:
-      - API_BASE_URL=http://localhost:8081
+      - API_BASE_URL=http://localhost:3001
     env_file: etc/frontend/config
     networks:
       - app-network
@@ -94,7 +142,9 @@ services:
       start_period: 10s
 
 volumes:
-  db-data:
+  db-data-springboot:
+    driver: local
+  db-data-nestjs:
     driver: local
 
 networks:
@@ -108,5 +158,7 @@ secrets:
     file: etc/db/password
   backend_springboot_config:
     file: etc/backend-springboot/application.properties
-  backend_springboot_prod_data_sql:
-    file: etc/backend-springboot/prod_data.sql
+  backend_nestjs_env_secrets:
+    file: etc/backend-nestjs/env_secrets
+  backend_prod_data_sql:
+    file: etc/backend/prod_data.sql

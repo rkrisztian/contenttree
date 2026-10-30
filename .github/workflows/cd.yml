@@ -21,26 +21,7 @@ jobs:
       - name: (Harden Runner)
         uses: step-security/harden-runner@v2.22.2  # Immutable
         with:
-          egress-policy: block
-          allowed-endpoints: >
-            *.microsoft.com:443
-            api.github.com:443
-            cdn.playwright.dev:443
-            config-endpoint.liquibase.com:443
-            config.liquibase.com:443
-            dhi.io:443
-            ghcr.io:443
-            github.com:443
-            pkg-containers.githubusercontent.com:443
-            playwright.dev:443
-            plugins-artifacts.gradle.org:443
-            plugins.gradle.org:443
-            production.cloudfront.docker.com:443
-            registry.npmjs.org:443
-            release-assets.githubusercontent.com:443
-            repo.maven.apache.org:443
-            services.gradle.org:443
-            storage.googleapis.com:443
+          egress-policy: audit
           disable-telemetry: true
 
       - name: Check out code
@@ -76,7 +57,13 @@ jobs:
           app.jwt.secret=${{ secrets.JWT_SECRET }}
           EOF
 
-          cat >etc/backend-springboot/prod_data.sql <<'EOF'
+          cat >etc/backend-nestjs/env_secrets <<'EOF'
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          EOF
+
+          cat >etc/backend/prod_data.sql <<'EOF'
           -- Prod-like data initialization script (used for E2E testing)
           DO
           '
@@ -85,7 +72,7 @@ jobs:
               INSERT INTO users (id, name, password_hash, role) VALUES
                 (1, ''admin'', ''${{ secrets.ADMIN_PASSWORD_HASHED }}'', ''ADMIN'');
 
-              PERFORM setval(''public.users_seq'', (SELECT COALESCE(MAX(id), 1) FROM users));
+              PERFORM setval(''users_seq'', (SELECT COALESCE(MAX(id), 1) FROM users));
             END IF;
           END;
           '  LANGUAGE PLPGSQL;
@@ -108,6 +95,7 @@ jobs:
           cwd: contenttree-deploy
         env:
           BACKEND_SPRINGBOOT_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-snapshot
+          BACKEND_NESTJS_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-backend-nestjs:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_ANGULAR_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_NEXTJS_IMAGE: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-snapshot
 
@@ -146,14 +134,18 @@ jobs:
       - name: Push Release Candidate Images
         run: |
           docker tag ${BACKEND_SPRINGBOOT_IMAGE_OLD} ${BACKEND_SPRINGBOOT_IMAGE_NEW}
+          docker tag ${BACKEND_NESTJS_IMAGE_OLD} ${BACKEND_NESTJS_IMAGE_NEW}
           docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker tag ${FRONTEND_NEXTJS_IMAGE_OLD} ${FRONTEND_NEXTJS_IMAGE_NEW}
           docker push ${BACKEND_SPRINGBOOT_IMAGE_NEW}
+          docker push ${BACKEND_NESTJS_IMAGE_NEW}
           docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${FRONTEND_NEXTJS_IMAGE_NEW}
         env:
           BACKEND_SPRINGBOOT_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-snapshot
           BACKEND_SPRINGBOOT_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-rc
+          BACKEND_NESTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-nestjs:${{ env.PROJECT_VERSION }}-snapshot
+          BACKEND_NESTJS_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-nestjs:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-snapshot
           FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_NEXTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-snapshot
@@ -203,17 +195,22 @@ jobs:
       - name: Push Release Images
         run: |
           docker pull ${BACKEND_SPRINGBOOT_IMAGE_OLD}
+          docker pull ${BACKEND_NESTJS_IMAGE_OLD}
           docker pull ${FRONTEND_ANGULAR_IMAGE_OLD}
           docker pull ${FRONTEND_NEXTJS_IMAGE_OLD}
           docker tag ${BACKEND_SPRINGBOOT_IMAGE_OLD} ${BACKEND_SPRINGBOOT_IMAGE_NEW}
+          docker tag ${BACKEND_NESTJS_IMAGE_OLD} ${BACKEND_NESTJS_IMAGE_NEW}
           docker tag ${FRONTEND_ANGULAR_IMAGE_OLD} ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker tag ${FRONTEND_NEXTJS_IMAGE_OLD} ${FRONTEND_NEXTJS_IMAGE_NEW}
           docker push ${BACKEND_SPRINGBOOT_IMAGE_NEW}
+          docker push ${BACKEND_NESTJS_IMAGE_NEW}
           docker push ${FRONTEND_ANGULAR_IMAGE_NEW}
           docker push ${FRONTEND_NEXTJS_IMAGE_NEW}
         env:
           BACKEND_SPRINGBOOT_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}-rc
           BACKEND_SPRINGBOOT_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-springboot:${{ env.PROJECT_VERSION }}
+          BACKEND_NESTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-backend-nestjs:${{ env.PROJECT_VERSION }}-rc
+          BACKEND_NESTJS_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-backend-nestjs:${{ env.PROJECT_VERSION }}
           FRONTEND_ANGULAR_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}-rc
           FRONTEND_ANGULAR_IMAGE_NEW: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-angular:${{ env.PROJECT_VERSION }}
           FRONTEND_NEXTJS_IMAGE_OLD: ghcr.io/${{ github.repository_owner }}/contenttree-frontend-nextjs:${{ env.PROJECT_VERSION }}-rc
