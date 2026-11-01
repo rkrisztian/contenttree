@@ -12,7 +12,7 @@ import { getTraceId } from '../tracing/trace-context.js';
 interface ErrorResponseBody {
   error?: string;
   message: string;
-  traceId: string;
+  traceId?: string;
 }
 
 @Catch()
@@ -33,14 +33,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       return;
     }
 
-    // TODO ensure Trace ID is always defined
-    const traceId = req.traceId ?? getTraceId() ?? 'undefined';
-
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-
+    const summary = `${req.method} ${req.originalUrl} -> ${status}`;
     const { message, error } = this.extractMessageAndError(exception);
-    const summary = `${req.method} ${req.originalUrl} -> ${status} [traceId=${traceId}]`;
 
     if (status >= 500) {
       this.logger.error(summary, exception instanceof Error ? exception.stack : String(exception));
@@ -48,13 +44,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
       this.logger.warn(`${summary} ${JSON.stringify(message)}`);
     }
 
-    const body: ErrorResponseBody = {
+    const traceId = req.traceId ?? getTraceId();
+
+    res.status(status).json({
       message,
       ...(error ? { error } : {}),
-      traceId,
-    };
-
-    res.status(status).json(body);
+      ...(traceId ? { traceId } : {}),
+    } satisfies ErrorResponseBody);
   }
 
   private extractMessageAndError(exception: unknown): { message: string; error?: string } {
@@ -63,7 +59,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
       if (typeof payload === 'string') {
         return { message: payload };
-      } else if (payload && typeof payload === 'object') {
+      }
+      if (payload && typeof payload === 'object') {
         const p = payload as Record<string, unknown>;
 
         return {

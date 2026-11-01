@@ -17,29 +17,23 @@ export class TracingLogger implements LoggerService {
   });
 
   log(message: unknown, ...rest: unknown[]): void {
-    this.delegate.log(message, ...this.appendTraceIdAsContext(rest));
+    this.delegate.log(message, ...this.withTraceId(rest));
   }
   error(message: unknown, ...rest: unknown[]): void {
-    this.delegate.error(message, ...this.appendTraceIdAsContext(rest));
+    this.delegate.error(message, ...this.withTraceId(rest));
   }
   warn(message: unknown, ...rest: unknown[]): void {
-    this.delegate.warn(message, ...this.appendTraceIdAsContext(rest));
+    this.delegate.warn(message, ...this.withTraceId(rest));
   }
   debug(message: unknown, ...rest: unknown[]): void {
-    this.delegate.debug(message, ...this.appendTraceIdAsContext(rest));
+    this.delegate.debug(message, ...this.withTraceId(rest));
   }
   verbose(message: unknown, ...rest: unknown[]): void {
-    this.delegate.verbose(message, ...this.appendTraceIdAsContext(rest));
+    this.delegate.verbose(message, ...this.withTraceId(rest));
   }
 
-  private appendTraceIdAsContext(rest: unknown[]): unknown[] {
+  private withTraceId(rest: unknown[]): unknown[] {
     const traceId = getTraceId();
-    if (!traceId) return rest;
-
-    const last = rest.at(-1);
-    if (typeof last === 'string') {
-      return [...rest.slice(0, -1), `${last}:${traceId}`];
-    }
-    return [...rest, `trace:${traceId}`];
+    return traceId ? [{ traceId }, ...rest] : rest;
   }
 }
