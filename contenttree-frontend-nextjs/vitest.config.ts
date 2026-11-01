@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
+const env = loadEnv("development", process.cwd(), "");
+
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -13,10 +15,10 @@ export default defineConfig({
     environment: "jsdom",
     environmentOptions: {
       // Fixes CORS issues (JSDOM has `http://localhost/` as the default document URL).
-      jsdom: { url: "http://localhost:3000/" },
+      jsdom: { url: env.API_BASE_URL },
     },
     globals: true,
-    env: loadEnv("development", process.cwd(), ""),
+    env,
     testTimeout: 5000,
     coverage: {
       enabled: true,

@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { defineConfig } from 'vitest/config';
+import { environment } from './src/environments/environment.development.js';
 
 /**
  * Vitest config for unit testing, consumed by Angular's `@angular/build:unit-test` builder
@@ -13,7 +14,7 @@ export default defineConfig({
     },
     environmentOptions: {
       // Fixes CORS issues (JSDOM has `http://localhost/` as the default document URL).
-      jsdom: { url: 'http://localhost:8081/' },
+      jsdom: { url: environment.apiBaseUrl },
     },
   },
   resolve: {
