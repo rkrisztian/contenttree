@@ -7,7 +7,6 @@ import { TracingModule } from '../common/tracing/tracing.module.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 
-/* oxlint-disable unbound-method */
 describe('AuthController', () => {
   let service: AuthService;
   let app: INestApplication;

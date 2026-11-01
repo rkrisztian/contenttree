@@ -12,7 +12,6 @@ import { MoveNodeException } from './exception/move-node.exception.js';
 import { NodeNotFoundException } from './exception/node-not-found.exception.js';
 import { ParentNodeNotFoundException } from './exception/parent-node-not-found.exception.js';
 
-/* oxlint-disable unbound-method */
 describe('ContentTreeController', () => {
   let service: ContentTreeService;
   let app: INestApplication;

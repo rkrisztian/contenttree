@@ -15,7 +15,6 @@ vi.mock('bcrypt', () => ({
   compare: compareMock,
 }));
 
-/* oxlint-disable unbound-method */
 describe('AuthService', () => {
   let service: AuthService;
   let userRepo: UserRepository;
