@@ -12,7 +12,7 @@ services:
       - db_username
       - db_password
     networks:
-      - app-network
+      - app-network-springboot
     healthcheck:
       test: [ "CMD", "/bin/bash", "-c", "pg_isready -U $(cat $${POSTGRES_USER_FILE}) -d contenttree" ]
       interval: 30s
@@ -34,7 +34,7 @@ services:
       - db_username
       - db_password
     networks:
-      - app-network
+      - app-network-nestjs
     healthcheck:
       test: [ "CMD", "/bin/bash", "-c", "pg_isready -U $(cat $${POSTGRES_USER_FILE}) -d contenttree" ]
       interval: 30s
@@ -64,7 +64,7 @@ services:
       - backend_springboot_config
       - backend_prod_data_sql
     networks:
-      - app-network
+      - app-network-springboot
     healthcheck:
       test: [ "CMD", "/workspace/health-check" ]
       interval: 30s
@@ -90,7 +90,7 @@ services:
       - backend_nestjs_env_secrets
       - backend_prod_data_sql
     networks:
-      - app-network
+      - app-network-nestjs
     healthcheck:
       test: [ "CMD", "node", "healthcheck.mjs" ]
       interval: 30s
@@ -107,7 +107,7 @@ services:
       - API_BASE_URL=http://localhost:8081
     env_file: etc/frontend/config
     networks:
-      - app-network
+      - app-network-springboot
     ulimits:
       nofile:
         soft: 65535
@@ -128,7 +128,7 @@ services:
       - API_BASE_URL=http://localhost:3001
     env_file: etc/frontend/config
     networks:
-      - app-network
+      - app-network-nestjs
     ulimits:
       nofile:
         soft: 65535
@@ -148,7 +148,9 @@ volumes:
     driver: local
 
 networks:
-  app-network:
+  app-network-springboot:
+    driver: bridge
+  app-network-nestjs:
     driver: bridge
 
 secrets:

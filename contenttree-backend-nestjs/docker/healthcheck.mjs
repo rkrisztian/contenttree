@@ -1,4 +1,5 @@
-const URL = 'http://localhost:3000/api/ping';
+const PORT = process.env.NESTJS_PORT ?? 3001;
+const URL = `http://localhost:${PORT}/api/ping`;
 const TIMEOUT_IN_MS = 5000;
 
 try {

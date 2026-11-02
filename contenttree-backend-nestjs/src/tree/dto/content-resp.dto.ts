@@ -1,3 +1,7 @@
 export class ContentRespDto {
-  constructor(public data: string) {}
+  data: string;
+
+  constructor(data: string) {
+    this.data = data;
+  }
 }

@@ -26,8 +26,8 @@ export class ContentTreeMapper {
   static readonly toTreeNodeRespDTO = (node: TreeNode): TreeNodeRespDTO => {
     return {
       id: node.id,
-      parentId: node.parentId,
       name: node.name,
+      ...(node.parentId ? { parentId: node.parentId } : {}),
     };
   };
 }
