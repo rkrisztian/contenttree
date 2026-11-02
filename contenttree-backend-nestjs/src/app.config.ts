@@ -1,4 +1,5 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AllExceptionsFilter } from './common/exception-handler/all-exceptions.filter.js';
 import { TracingLogger } from './common/tracing/tracing-logger.service.js';
@@ -29,3 +30,22 @@ export const configureAppUses = (app: INestApplication) => {
     maxAge: 86400,
   });
 };
+
+export const createOpenApiDoc = (app: INestApplication) =>
+  SwaggerModule.createDocument(
+    app,
+    new DocumentBuilder()
+      .setTitle('Content Tree Management App API')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'JWT',
+          description: 'Enter JWT token',
+          in: 'header',
+        },
+        'JWT-auth',
+      )
+      .build(),
+  );

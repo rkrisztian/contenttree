@@ -10,5 +10,5 @@ export class CreateTreeNodeReqDTO {
 
   @IsInt()
   @IsOptional()
-  parentId?: number | null;
+  parentId?: number;
 }

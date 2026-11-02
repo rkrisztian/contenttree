@@ -21,10 +21,6 @@ to another parent, as well as search nodes by name or content.
 The repository holds four applications: two backends (Spring Boot and NestJS) and two frontends
 (Angular and Next.js).
 
-> [!NOTE]
-> The NestJS backend is in an early phase of development and is missing a few features and
-> deployment integrations.
-
 ### Topology
 
 The frontends and backends are deployed as two independent stacks (each with its own database),
@@ -389,9 +385,10 @@ To generate TypeScript types, run the following commands:
 
 ```shell
 (cd contenttree-backend-springboot && gw generateOpenApiDocs)
-(cd contenttree-frontend-angular && npm run openapi:generate)
-(cd contenttree-frontend-nextjs && npm run openapi:generate)
-(cd contenttree-deploy/e2e && npm run openapi:generate)
+(cd contenttree-frontend-angular && npm run generate:openapi)
+(cd contenttree-backend-nestjs && npm run generate:openapi)
+(cd contenttree-frontend-nextjs && npm run generate:openapi)
+(cd contenttree-deploy/e2e && npm run generate:openapi)
 ```
 
 **Note:** `generateOpenApiDocs` is a standalone task because it is incompatible with Gradle's

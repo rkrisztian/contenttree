@@ -13,6 +13,7 @@
     "start": "concurrently --kill-others \"docker compose up\" \"wait-on tcp:5432 && nest start --watch -p tsconfig.dev.json\"",
     "start:debug": "concurrently --kill-others \"docker compose up\" \"wait-on tcp:5432 && nest start --watch --watch -p tsconfig.dev.json --debug\"",
     "start:prod": "concurrently --kill-others \"docker compose up\" \"wait-on tcp:5432 && NODE_ENV=production node dist/main\"",
+    "generate:openapi": "GENERATE_OPENAPI_DOCS=true npx nest start -p tsconfig.dev.json",
     "lint": "oxlint --type-aware src/",
     "lint:dpdm": "dpdm",
     "test": "vitest",
