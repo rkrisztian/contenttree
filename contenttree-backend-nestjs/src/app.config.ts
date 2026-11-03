@@ -1,5 +1,4 @@
 import { INestApplication, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet';
 import { AllExceptionsFilter } from './common/exception-handler/all-exceptions.filter.js';
 import { TracingLogger } from './common/tracing/tracing-logger.service.js';
 
@@ -20,15 +19,16 @@ export const configureAppUses = (app: INestApplication) => {
   }
 
   app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      maxErrorMessagesLength: 10,
+    }),
   );
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useLogger(app.get(TracingLogger));
-  app.use(
-    helmet({
-      frameguard: { action: 'deny' },
-    }),
-  );
+  app.useSecurityHeaders();
   app.enableCors({
     origin: process.env.CORS_ALLOWED_ORIGINS?.split(',').filter(Boolean),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
