@@ -49,25 +49,25 @@ describe('TreeScrollService', () => {
     service.containerElementRef.set(componentInstance.scrollableContainer());
 
     await expect
-      .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
+      .element(page.getByRole('region', { name: 'Scrollable container' }))
       .toMatchObject({ scrollTop: 0 });
 
-    await page.getByText('Test number 1', { exact: true }).wheel({ delta: { y: 500 } });
+    await page.getByText('Test number 1').wheel({ delta: { y: 500 } });
 
     await expect
-      .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
+      .element(page.getByRole('region', { name: 'Scrollable container' }))
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
 
     service.saveScrollPosition();
     componentInstance.showContents.set(false);
-    await expect.element(page.getByText('Test number 1', { exact: true })).not.toBeInTheDocument();
+    await expect.element(page.getByText('Test number 1')).not.toBeInTheDocument();
     componentInstance.showContents.set(true);
-    await expect.element(page.getByText('Test number 1', { exact: true })).toBeInTheDocument();
+    await expect.element(page.getByText('Test number 1')).toBeInTheDocument();
     service.restoreScrollPosition();
 
     await expect
-      .element(page.getByRole('region', { name: 'Scrollable container', exact: true }))
+      .element(page.getByRole('region', { name: 'Scrollable container' }))
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       .toMatchObject({ scrollTop: expect.toSatisfy((value) => value >= 500) });
   });

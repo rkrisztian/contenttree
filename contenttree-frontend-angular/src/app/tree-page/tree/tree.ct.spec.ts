@@ -6,11 +6,10 @@ import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 
 describe('Tree', () => {
-  const node = (name: string) => page.getByRole('treeitem', { name, exact: true });
+  const node = (name: string) => page.getByRole('treeitem', { name });
   const toggleButton = (name: string) =>
     page.getByRole('button', {
       name: t('tree-page.tree.toggle-button-aria-label', { nodeName: name }),
-      exact: true,
     });
 
   const rootNode = node('Root node');
@@ -30,10 +29,7 @@ describe('Tree', () => {
 
       expect(
         page
-          .getByRole('treeitem', {
-            name: /(Root node|Child node( 2)?|Grandchild node)/,
-            exact: true,
-          })
+          .getByRole('treeitem', { name: /(Root node|Child node( 2)?|Grandchild node)/ })
           .elements()
           .map((element) => element.ariaLabel),
       ).toEqual(['Root node', 'Child node', 'Grandchild node', 'Child node 2']);
@@ -73,10 +69,7 @@ describe('Tree', () => {
 
       expect(
         page
-          .getByRole('treeitem', {
-            name: /(Root node|Child node( 2)?|Grandchild node)/,
-            exact: true,
-          })
+          .getByRole('treeitem', { name: /(Root node|Child node( 2)?|Grandchild node)/ })
           .elements()
           .map((element) => element.ariaLabel),
       ).toEqual(['Root node', 'Child node', 'Child node 2', 'Grandchild node']);

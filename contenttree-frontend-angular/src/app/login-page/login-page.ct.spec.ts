@@ -12,8 +12,7 @@ import { LoginPage } from './login-page';
 describe('LoginPage', () => {
   const usernameField = () => page.getByPlaceholder(t('login-page.username-field-placeholder'));
   const passwordField = () => page.getByPlaceholder(t('login-page.password-field-placeholder'));
-  const loginButton = () =>
-    page.getByRole('button', { name: t('login-page.log-in-button-label'), exact: true });
+  const loginButton = () => page.getByRole('button', { name: t('login-page.log-in-button-label') });
 
   const mockLoginFn = vi.fn().mockImplementation(() => of(undefined));
 

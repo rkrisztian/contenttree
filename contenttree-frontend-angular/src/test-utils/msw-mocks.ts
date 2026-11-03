@@ -178,7 +178,7 @@ export const handlers: HttpHandler[] = [
     });
   }),
 
-  http.all('http://localhost:63315/*', () => undefined),
+  http.all('http://localhost:23315/*', () => undefined),
 ];
 
 export const resetMswMocks = () => {

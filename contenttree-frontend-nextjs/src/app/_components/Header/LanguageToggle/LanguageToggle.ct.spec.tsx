@@ -9,11 +9,8 @@ import { LanguageToggle } from "./LanguageToggle";
 
 describe("Language Toggle", () => {
   const languageButton = () =>
-    page.getByRole("button", {
-      name: t("app.header.language-button-aria-label"),
-      exact: true,
-    });
-  const menuItemHungarian = page.getByRole("menuitem", { name: "Magyar", exact: true });
+    page.getByRole("button", { name: t("app.header.language-button-aria-label") });
+  const menuItemHungarian = page.getByRole("menuitem", { name: "Magyar" });
 
   it("should switch language", async () => {
     await render(

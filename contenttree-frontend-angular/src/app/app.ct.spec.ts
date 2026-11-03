@@ -55,18 +55,14 @@ describe('App', () => {
       });
       TestBed.inject(Router).initialNavigation();
 
-      await expect
-        .element(page.getByText(t('app.loading-indicator'), { exact: true }))
-        .toBeVisible();
-      await expect.element(page.getByText('Page loaded', { exact: true })).not.toBeInTheDocument();
+      await expect.element(page.getByText(t('app.loading-indicator'))).toBeVisible();
+      await expect.element(page.getByText('Page loaded')).not.toBeInTheDocument();
 
       await vi.waitUntil(() => resolveRequest);
       resolveRequest();
 
-      await expect
-        .element(page.getByText(t('app.loading-indicator'), { exact: true }))
-        .not.toBeInTheDocument();
-      await expect.element(page.getByText('Page loaded', { exact: true })).toBeVisible();
+      await expect.element(page.getByText(t('app.loading-indicator'))).not.toBeInTheDocument();
+      await expect.element(page.getByText('Page loaded')).toBeVisible();
     });
   });
 

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import unitTestConfig from './vitest.config.js';
 
-// Not using `mergeConfig`, as it would extend the include/exclude patterns instead of overriding.
+// Not using `mergeConfig`, as it would extend certain options instead of overriding.
 export default defineConfig({
   ...unitTestConfig,
   test: {

@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 import { HttpResponse, http } from "msw/http";
 import type { ReactNode } from "react";
-import { afterEach, describe, expect, vi } from "vitest";
+import { afterEach, describe, expect } from "vitest";
 import { TREE_API_BASE_PATH, TreeApi } from "@/app/tree/_lib/api/tree-api";
 import { mockRouter } from "@/test-utils/mock-next-navigation";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
@@ -38,7 +38,6 @@ const WithAuthContextProvider = ({ children }: Readonly<{ children: ReactNode }>
 describe("AuthApiContext", () => {
   afterEach(() => {
     localStorage.removeItem(LOGIN_DATA_KEY);
-    vi.clearAllMocks();
   });
 
   describe("login data", () => {

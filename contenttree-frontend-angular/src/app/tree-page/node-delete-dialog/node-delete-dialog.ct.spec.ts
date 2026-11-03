@@ -4,17 +4,15 @@ import { pluralTranslate } from '@/test-utils/test-i18n';
 import { Locator, page } from 'vitest/browser';
 
 describe('NodeDeleteDialog', () => {
-  const node = (name: string) => page.getByRole('treeitem', { name, exact: true });
+  const node = (name: string) => page.getByRole('treeitem', { name });
   const deleteSelectedNodeButton = page.getByRole('button', {
     name: 'Delete selected node',
-    exact: true,
   });
   const listedNode = (dialog: Locator, name: string) =>
-    dialog.getByRole('listitem').getByText(name, { exact: true });
+    dialog.getByRole('listitem').getByText(name);
   const deleteButton = (dialog: Locator, count: number) =>
     dialog.getByRole('button', {
       name: pluralTranslate('tree-page.node-delete-dialog.delete-button-label', { count }),
-      exact: true,
     });
 
   beforeEach(async () => {

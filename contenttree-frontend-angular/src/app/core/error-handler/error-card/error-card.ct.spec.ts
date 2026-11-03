@@ -8,7 +8,7 @@ import { ErrorCard } from './error-card';
 
 describe('ErrorCard', () => {
   const copyButton = () =>
-    page.getByRole('button', { name: t('app.error-card.copy-button-aria-label'), exact: true });
+    page.getByRole('button', { name: t('app.error-card.copy-button-aria-label') });
 
   beforeEach(async () => {
     await render(ErrorCard, {

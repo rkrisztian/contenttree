@@ -5,18 +5,16 @@ import { renderTreePage } from "@/test-utils/test-components";
 import { t } from "@/test-utils/test-i18n";
 
 describe("NodeDeleteDialog", () => {
-  const node = (name: string) => page.getByRole("treeitem", { name, exact: true });
+  const node = (name: string) => page.getByRole("treeitem", { name });
   const deleteSelectedNodeButton = () =>
     page.getByRole("button", {
       name: t("tree-page.toolbar.delete-selected-node-button-aria-label"),
-      exact: true,
     });
   const listedNode = (dialog: Locator, name: string) =>
-    dialog.getByRole("listitem").getByText(name, { exact: true });
+    dialog.getByRole("listitem").getByText(name);
   const deleteButton = (dialog: Locator, count: number) =>
     dialog.getByRole("button", {
       name: t("tree-page.node-delete-dialog.delete-button-label", { count }),
-      exact: true,
     });
 
   beforeEach(async () => {

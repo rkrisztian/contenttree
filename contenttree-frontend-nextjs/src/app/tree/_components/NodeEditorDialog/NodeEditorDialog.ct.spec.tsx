@@ -6,27 +6,15 @@ import { t } from "@/test-utils/test-i18n";
 import { ERROR_DELAY_IN_MS } from "./NodeEditorDialog";
 
 describe("NodeEditorDialog", () => {
-  const node = (name: string) => page.getByRole("treeitem", { name, exact: true });
+  const node = (name: string) => page.getByRole("treeitem", { name });
   const addNewNodeButton = () =>
-    page.getByRole("button", {
-      name: t("tree-page.toolbar.add-new-node-button-aria-label"),
-      exact: true,
-    });
+    page.getByRole("button", { name: t("tree-page.toolbar.add-new-node-button-aria-label") });
   const editSelectedNodeButton = () =>
-    page.getByRole("button", {
-      name: t("tree-page.toolbar.edit-selected-node-button-aria-label"),
-      exact: true,
-    });
+    page.getByRole("button", { name: t("tree-page.toolbar.edit-selected-node-button-aria-label") });
   const addNodeButton = (dialog: Locator) =>
-    dialog.getByRole("button", {
-      name: t("tree-page.node-editor-dialog.add-button-label"),
-      exact: true,
-    });
+    dialog.getByRole("button", { name: t("tree-page.node-editor-dialog.add-button-label") });
   const editNodeButton = (dialog: Locator) =>
-    dialog.getByRole("button", {
-      name: t("tree-page.node-editor-dialog.edit-button-label"),
-      exact: true,
-    });
+    dialog.getByRole("button", { name: t("tree-page.node-editor-dialog.edit-button-label") });
   const nodeNameField = (dialog: Locator) =>
     dialog.getByPlaceholder(t("tree-page.node-editor-dialog.node-name-field-placeholder"));
   const nodeNameRequired = (dialog: Locator) =>
@@ -67,7 +55,7 @@ describe("NodeEditorDialog", () => {
 
     await node("test node").click();
 
-    await expect.element(page.getByText("test content", { exact: true })).toBeVisible();
+    await expect.element(page.getByText("test content")).toBeVisible();
   });
 
   it("it does not allow adding node with validation errors", async () => {
@@ -112,6 +100,6 @@ describe("NodeEditorDialog", () => {
 
     await expect.element(dialog).not.toBeInTheDocument();
     await expect.element(node("changed node")).toBeVisible();
-    await expect.element(page.getByText("changed content", { exact: true })).toBeVisible();
+    await expect.element(page.getByText("changed content")).toBeVisible();
   });
 });

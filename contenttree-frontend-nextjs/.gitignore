@@ -11,8 +11,7 @@
 !.yarn/versions
 
 # testing
-__screenshots__/
-.vitest-attachments
+/.vitest
 /coverage
 /coverage-ct
 

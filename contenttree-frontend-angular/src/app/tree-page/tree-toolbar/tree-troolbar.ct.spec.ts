@@ -16,19 +16,14 @@ describe('TreeToolbar', () => {
 
   describe('Add/Edit/Delete buttons', () => {
     const addNewNodeButton = () =>
-      page.getByRole('button', {
-        name: t('tree-page.toolbar.add-new-node-button-aria-label'),
-        exact: true,
-      });
+      page.getByRole('button', { name: t('tree-page.toolbar.add-new-node-button-aria-label') });
     const editSelectedNodeButton = () =>
       page.getByRole('button', {
         name: t('tree-page.toolbar.edit-selected-node-button-aria-label'),
-        exact: true,
       });
     const deleteSelectedNodeButton = () =>
       page.getByRole('button', {
         name: t('tree-page.toolbar.delete-selected-node-button-aria-label'),
-        exact: true,
       });
 
     it('does not allow deleting the root node', async () => {
@@ -36,7 +31,7 @@ describe('TreeToolbar', () => {
     });
 
     it('does not allow adding/editing/deleting if no node is selected', async () => {
-      await page.getByRole('treeitem', { name: 'Root node', exact: true }).click();
+      await page.getByRole('treeitem', { name: 'Root node' }).click();
 
       for (const button of [
         addNewNodeButton(),
@@ -54,14 +49,12 @@ describe('TreeToolbar', () => {
     const matchedNode = (nodeName: string) =>
       page.getByRole('treeitem', {
         name: t('tree-page.tree.node-matched-aria-label', { nodeName }),
-        exact: true,
       });
     const threeCharsRequired = () =>
       page.getByText(t('tree-page.toolbar.search-field-3-chars-required'));
     const clearSearchButton = () =>
       page.getByRole('button', {
         name: t('tree-page.toolbar.search-field-clear-button-aria-label'),
-        exact: true,
       });
 
     it('can search for nodes', async () => {
@@ -72,7 +65,7 @@ describe('TreeToolbar', () => {
       await expect.element(matchedNode('Grandchild node')).toBeVisible();
 
       for (const name of ['Root node', 'Child node', 'Child node 2']) {
-        await expect.element(page.getByRole('treeitem', { name, exact: true })).toBeVisible();
+        await expect.element(page.getByRole('treeitem', { name })).toBeVisible();
       }
     });
 

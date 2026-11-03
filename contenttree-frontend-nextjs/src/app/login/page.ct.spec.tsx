@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, vi } from "vitest";
+import { beforeEach, describe, expect, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react/pure";
 import { AuthContext } from "@/app/_lib/AuthContext";
@@ -11,8 +11,7 @@ import LoginPage from "./page";
 describe("LoginPage", () => {
   const usernameField = () => page.getByPlaceholder(t("login-page.username-field-placeholder"));
   const passwordField = () => page.getByPlaceholder(t("login-page.password-field-placeholder"));
-  const loginButton = () =>
-    page.getByRole("button", { name: t("login-page.log-in-button-label"), exact: true });
+  const loginButton = () => page.getByRole("button", { name: t("login-page.log-in-button-label") });
 
   const mockLoginFn = vi.fn();
 
@@ -34,10 +33,6 @@ describe("LoginPage", () => {
         </WithBackendApiContextProvider>
       </WithTestI18nProvider>,
     );
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
   });
 
   it("should submit form and navigate on successful login", async () => {

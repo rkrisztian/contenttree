@@ -6,9 +6,9 @@ import { page } from 'vitest/browser';
 import { ErrorFallback } from './error-fallback';
 
 describe('ErrorFallback', () => {
-  const errorText = () => page.getByText(t('app.error-fallback.error-loading'), { exact: true });
+  const errorText = () => page.getByText(t('app.error-fallback.error-loading'));
   const reloadButton = () =>
-    page.getByRole('button', { name: t('app.error-fallback.reload-button-label'), exact: true });
+    page.getByRole('button', { name: t('app.error-fallback.reload-button-label') });
 
   it('should render error message and reload button', async () => {
     await render(ErrorFallback, {

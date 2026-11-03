@@ -7,7 +7,7 @@ import { page } from 'vitest/browser';
 import { PrivacyPolicyPage } from './privacy-policy-page';
 
 describe('PrivacyPolicyPage', () => {
-  const elementsWithCompanyName = page.getByText(REMOTE_CONFIG_RESP.company.name);
+  const elementsWithCompanyName = page.getByText(REMOTE_CONFIG_RESP.company.name, { exact: false });
 
   beforeEach(async () => {
     await render(PrivacyPolicyPage, {
