@@ -13,6 +13,7 @@ import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import { Header } from "./Header";
 
 describe("Header", () => {
+  // biome-ignore lint/correctness/noComponentHookFactories: safe here
   const HeaderWithTreePageContextProvider = ({ children }: Readonly<{ children?: ReactNode }>) => (
     <WithTestI18nProvider resources={{ en: { app: appMessages } }}>
       <WithTreePageContextProvider>

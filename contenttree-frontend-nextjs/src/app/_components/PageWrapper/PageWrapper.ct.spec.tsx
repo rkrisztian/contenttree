@@ -10,6 +10,7 @@ import { WithTreePageContextProvider } from "@/test-utils/test-providers";
 import PageWrapper from "./PageWrapper";
 
 describe("PageWrapper", () => {
+  // biome-ignore lint/correctness/noComponentHookFactories: safe here
   const TestPageWrapper = ({ children }: Readonly<{ children?: ReactNode }>) => (
     <WithTestI18nProvider namespace="app" messages={appMessages}>
       <WithTreePageContextProvider>
@@ -28,6 +29,7 @@ describe("PageWrapper", () => {
     });
 
     it("shows the latest error", async () => {
+      // biome-ignore lint/correctness/noComponentHookFactories: safe here
       const TestPage = () => {
         const { addAndShowError } = useBackendApi();
         // biome-ignore lint/correctness/useExhaustiveDependencies: one-time effect
