@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { AppForDocsModule } from './app-for-docs.module.js';
-import { configureAppUses } from './app.config.js';
+import { commonAppOptions, configureAppUses } from './app.config.js';
 import { AppModule } from './app.module.js';
 
 const main = async () => {
@@ -20,6 +20,7 @@ const bootstrap = async () => {
   const app = (
     await NestFactory.create<NestExpressApplication>(AppModule, {
       bufferLogs: process.env.NODE_ENV !== 'production',
+      ...commonAppOptions,
     })
   ).enableShutdownHooks();
 
@@ -36,7 +37,7 @@ const bootstrap = async () => {
 };
 
 async function generateOpenApiDocs() {
-  const app = await NestFactory.create(AppForDocsModule, { logger: false });
+  const app = await NestFactory.create(AppForDocsModule, { logger: false, ...commonAppOptions });
   const document = createOpenApiDoc(app);
   const outputPath = 'build/openapi.json';
 

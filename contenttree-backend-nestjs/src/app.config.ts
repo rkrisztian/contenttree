@@ -1,7 +1,15 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { AllExceptionsFilter } from './common/exception-handler/all-exceptions.filter.js';
 import { TracingLogger } from './common/tracing/tracing-logger.service.js';
+
+/**
+ * Common configuration that should be reused in integration tests.
+ */
+export const commonAppOptions: NestApplicationOptions = {
+  routeConflictPolicy: { duplicate: 'error', shadow: 'warn' },
+  routeResolutionStrategy: 'specificity',
+};
 
 /**
  * Common configuration that should be reused in integration tests.
