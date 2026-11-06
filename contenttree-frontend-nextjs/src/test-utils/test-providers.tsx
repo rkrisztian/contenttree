@@ -23,7 +23,6 @@ export const WithBackendApiContextProvider = ({ children }: Readonly<{ children:
   <BackendApiContextProvider remoteConfig={TEST_REMOTE_CONFIG}>
     <SWRConfig
       value={{
-        provider: () => new Map(),
         dedupingInterval: 0,
       }}
     >

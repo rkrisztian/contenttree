@@ -1,6 +1,6 @@
 import { act } from "@testing-library/react";
 import { HttpResponse, http } from "msw/http";
-import { describe, expect } from "vitest";
+import { describe, expect, vi } from "vitest";
 import type { ContentRespDto } from "@/app/_lib/api/types";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
@@ -24,8 +24,10 @@ describe("TreePageContext", () => {
       const hooks = await renderTreePageContextHooks();
       await waitForTreePageContextToLoad(hooks);
 
-      expect.soft(hooks.current.treePageContext.treeData.rootNodeId).toBe(1);
-      expect.soft(hooks.current.treePageContext.contentForSelectedNode.data).toEqual(testContent);
+      await vi.waitFor(() => {
+        expect.soft(hooks.current.treePageContext.treeData.rootNodeId).toBe(1);
+        expect.soft(hooks.current.treePageContext.contentForSelectedNode.data).toEqual(testContent);
+      });
     });
 
     it("should return null if there are no elements", async ({ server }) => {
@@ -39,8 +41,10 @@ describe("TreePageContext", () => {
       const hooks = await renderTreePageContextHooks();
       await waitForTreePageContextToLoad(hooks);
 
-      expect(hooks.current.treePageContext.treeData.rootNodeId).toBeNullable();
-      expect(hooks.current.treePageContext.contentForSelectedNode.data).toBeNullable();
+      await vi.waitFor(() => {
+        expect.soft(hooks.current.treePageContext.treeData.rootNodeId).toBeNullable();
+        expect.soft(hooks.current.treePageContext.contentForSelectedNode.data).toBeNullable();
+      });
     });
   });
 

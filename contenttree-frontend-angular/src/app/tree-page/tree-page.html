@@ -13,7 +13,7 @@
           <span>{{ t('tree-page.tree.loading-indicator') }}</span>
         </div>
       } @else if (rawNodes.error()) {
-        <app-error-fallback (reload)="rawNodes.reload()" />
+        <app-reloadable-error (reload)="rawNodes.reload()" />
       } @else if (treeData().rootNodeId == null) {
         <div class="empty-state">
           <mat-icon class="empty-icon">inbox</mat-icon>

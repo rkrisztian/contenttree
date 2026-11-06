@@ -8,28 +8,19 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { useT } from "next-i18next/client";
+import { Suspense } from "react";
 import { ContentPanel } from "@/app/tree/_components/ContentPanel/ContentPanel";
 import { Tree } from "@/app/tree/_components/Tree/Tree";
 import { TreeToolbar } from "@/app/tree/_components/TreeToolbar/TreeToolbar";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
-import { ErrorFallback } from "../_components/ErrorFallback/ErrorFallback";
+import { ReloadableError } from "../_components/ReloadableError/ReloadableError";
+import { ErrorBoundary } from "../_lib/ErrorBoundary";
 import styles from "./page.module.scss";
 
 export default function TreePage() {
   return (
     <Box className={styles["page-layout"]}>
-      <Card className={styles["tree-panel"]} elevation={2}>
-        <CardContent>
-          <TreeToolbar />
-        </CardContent>
-
-        <Divider />
-
-        <CardContent className={styles["tree"]}>
-          <TreeContent />
-        </CardContent>
-      </Card>
-
+      <TreePanel />
       <Box className={styles["content-panel-container"]}>
         <ContentPanel />
       </Box>
@@ -37,21 +28,32 @@ export default function TreePage() {
   );
 }
 
+const TreePanel = () => {
+  const { rawNodes: flatNodes } = useTreePage();
+
+  return (
+    <Card className={styles["tree-panel"]} elevation={2}>
+      <CardContent>
+        <TreeToolbar />
+      </CardContent>
+
+      <Divider />
+
+      <CardContent className={styles["tree"]}>
+        <ErrorBoundary fallback={<ReloadableError reload={() => flatNodes.mutate()} />}>
+          <Suspense fallback={<LoadingTreeContent />}>
+            <TreeContent />
+          </Suspense>
+        </ErrorBoundary>
+      </CardContent>
+    </Card>
+  );
+};
+
 const TreeContent = () => {
-  const { rawNodes: flatNodes, treeData } = useTreePage();
+  const { treeData } = useTreePage();
   const { t } = useT("tree");
 
-  if (flatNodes.isLoading) {
-    return (
-      <Box className={styles["loading-container"]}>
-        <CircularProgress size={32} />
-        <Typography>{t("tree-page.tree.loading-indicator")}</Typography>
-      </Box>
-    );
-  }
-  if (flatNodes.error) {
-    return <ErrorFallback reload={() => flatNodes.mutate()} />;
-  }
   if (!treeData.rootNodeId) {
     return (
       <Box className={styles["empty-state"]}>
@@ -65,4 +67,15 @@ const TreeContent = () => {
   }
 
   return <Tree />;
+};
+
+export const LoadingTreeContent = () => {
+  const { t } = useT("tree");
+
+  return (
+    <Box className={styles["loading-container"]}>
+      <CircularProgress size={32} />
+      <Typography>{t("tree-page.tree.loading-indicator")}</Typography>
+    </Box>
+  );
 };

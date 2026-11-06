@@ -5,12 +5,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { useT } from "next-i18next/client";
-import { ErrorFallback } from "@/app/_components/ErrorFallback/ErrorFallback";
+import { Suspense } from "react";
+import { ReloadableError } from "@/app/_components/ReloadableError/ReloadableError";
+import { ErrorBoundary } from "@/app/_lib/ErrorBoundary";
 import { useTreePage } from "@/app/tree/_lib/TreePageContext";
 import styles from "./ContentPanel.module.scss";
 
 export const ContentPanel = () => {
   const { treeData, selectedNodeId } = useTreePage();
+  const { contentForSelectedNode } = useTreePage();
 
   return (
     <Card className={styles["content-panel"]} elevation={2}>
@@ -28,7 +31,13 @@ export const ContentPanel = () => {
         </>
       )}
       <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <NodeContent />
+        <ErrorBoundary
+          fallback={<ReloadableError reload={() => contentForSelectedNode.mutate()} />}
+        >
+          <Suspense fallback={<LoadingNodeContent />}>
+            <NodeContent />
+          </Suspense>
+        </ErrorBoundary>
       </CardContent>
     </Card>
   );
@@ -38,17 +47,6 @@ const NodeContent = () => {
   const { selectedNodeId, contentForSelectedNode } = useTreePage();
   const { t } = useT("tree");
 
-  if (contentForSelectedNode.isLoading) {
-    return (
-      <output className={styles["loading"]} aria-label="Loading content" aria-live="polite">
-        <CircularProgress size={32} />
-        <span>{t("tree-page.content-panel.loading-indicator")}</span>
-      </output>
-    );
-  }
-  if (contentForSelectedNode.error) {
-    return <ErrorFallback reload={() => contentForSelectedNode.mutate()} />;
-  }
   if (!selectedNodeId || !contentForSelectedNode.data) {
     return (
       <p className={styles["node-not-selected"]}>
@@ -58,4 +56,15 @@ const NodeContent = () => {
   }
 
   return <pre className={styles["content-data"]}>{contentForSelectedNode.data.data}</pre>;
+};
+
+const LoadingNodeContent = () => {
+  const { t } = useT("tree");
+
+  return (
+    <output className={styles["loading"]} aria-label="Loading content" aria-live="polite">
+      <CircularProgress size={32} />
+      <span>{t("tree-page.content-panel.loading-indicator")}</span>
+    </output>
+  );
 };

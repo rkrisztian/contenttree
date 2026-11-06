@@ -26,7 +26,7 @@ describe("AbortContext", () => {
           });
         }),
       );
-      act(() => hooks.current.treePageContext.toggleSelect(2));
+      await act(async () => hooks.current.treePageContext.toggleSelect(2));
       await act(() => vi.waitUntil(() => !!resolveRequest));
 
       server.use(
@@ -37,14 +37,14 @@ describe("AbortContext", () => {
           } as ContentRespDto);
         }),
       );
-      act(() => hooks.current.treePageContext.toggleSelect(3));
+      await act(async () => hooks.current.treePageContext.toggleSelect(3));
       await act(() =>
         vi.waitUntil(() => !hooks.current.treePageContext.contentForSelectedNode.isLoading),
       );
 
       expect(hooks.current.backendApiContext.loading).toBeFalsy();
 
-      act(() => resolveRequest());
+      await act(async () => resolveRequest());
 
       expect(hooks.current.treePageContext.contentForSelectedNode.data).toEqual({
         data: "test content 3",

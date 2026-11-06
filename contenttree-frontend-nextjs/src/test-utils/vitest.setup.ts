@@ -1,5 +1,6 @@
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
+import { mutate } from "swr";
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest";
 
 expect.extend(matchers);
@@ -14,8 +15,10 @@ beforeAll(() => {
   globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 });
 
-afterEach(() => {
+afterEach(async () => {
   cleanup();
+  // Clean SWR cache.
+  await mutate(() => true, undefined, { revalidate: false });
 });
 
 afterAll(() => {

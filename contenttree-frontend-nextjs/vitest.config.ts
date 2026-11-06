@@ -8,6 +8,11 @@ const env = loadEnv("development", process.cwd(), "");
 export default defineConfig({
   plugins: [react()],
   test: {
+    // server: {
+    //   deps: {
+    //     inline: ["next", "swr"], // ← inline BOTH, not just next
+    //   },
+    // },
     include: ["src/**/*.spec.ts?(x)"],
     exclude: ["src/**/*.ct.spec.ts?(x)"],
     setupFiles: ["src/test-utils/vitest.setup.ts"],

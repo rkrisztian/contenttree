@@ -34,7 +34,7 @@ export type TreePageContextType = {
   contentForSelectedNode: SWRResponse<ContentRespDto>;
   searchText: string;
   setSearchText: Dispatch<SetStateAction<TreePageContextType["searchText"]>>;
-  foundNodes: Set<number> | undefined;
+  foundNodes: SWRResponse<Set<number>>;
   createNode: (node: CreateTreeNodeReqDTO) => Promise<void>;
   updateSelectedNode: (data: Omit<UpdateTreeNodeReqDTO, "id">) => Promise<void>;
   deleteSelectedNode: () => Promise<void>;
@@ -48,8 +48,10 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   const treeApiRef = useRef(new TreeApi(backendApiRef));
   const { withAbort } = useAbortContext();
 
-  const rawNodes = useSwrWithAbort("flatNodes", (signal) =>
-    treeApiRef.current.getFlatNodes(signal),
+  const rawNodes = useSwrWithAbort(
+    "flatNodes",
+    (signal) => treeApiRef.current.getFlatNodes(signal),
+    { suspense: true },
   );
   const treeData = useMemo(() => new TreeData(rawNodes.data), [rawNodes.data]);
   const hasRawNodesInitialized = useRef(false);
@@ -60,23 +62,20 @@ export const TreePageContextProvider = ({ children }: { children: ReactNode }) =
   const contentForSelectedNode = useSwrWithAbort(
     selectedNodeId ? ["contentForSelectedNode", selectedNodeId] : null,
     (signal) => treeApiRef.current.getContentForSelectedNode(selectedNodeId!, signal),
+    { suspense: true },
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: treeData is derived
   useEffect(() => {
-    if (!hasRawNodesInitialized.current && rawNodes.data) {
+    if (!hasRawNodesInitialized.current) {
       setSelectedNodeId(treeData.rootNodeId ?? null);
       hasRawNodesInitialized.current = true;
     }
   }, [rawNodes.data]);
 
   const [searchText, setSearchText] = useState("");
-  const _foundNodes = useSwrWithAbort(searchText ? ["foundNodes", searchText] : null, (signal) =>
-    treeApiRef.current.getFoundNodes(searchText, signal),
-  );
-  const foundNodes = useMemo(
-    () => (_foundNodes.data ? new Set(_foundNodes.data) : undefined),
-    [_foundNodes.data],
+  const foundNodes = useSwrWithAbort(searchText ? ["foundNodes", searchText] : null, (signal) =>
+    treeApiRef.current.getFoundNodes(searchText, signal).then((result) => new Set(result)),
   );
 
   const toggleSelect = (newSelectedNodeId: number | null) => {

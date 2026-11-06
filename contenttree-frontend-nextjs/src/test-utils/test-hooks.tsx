@@ -1,7 +1,8 @@
 import { act, renderHook } from "@testing-library/react";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import { vi } from "vitest";
 import { type BackendApiContextType, useBackendApi } from "@/app/_lib/BackendApiContext";
+import { ErrorBoundary } from "@/app/_lib/ErrorBoundary";
 import { type TreePageContextType, useTreePage } from "@/app/tree/_lib/TreePageContext";
 import { WithTreePageContextProvider } from "./test-providers";
 
@@ -30,9 +31,12 @@ const TestTreePage = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <>
       {children}
-
-      {/* Trigger effect for setting default selected node */}
-      {contentForSelectedNode.data && ""}
+      <ErrorBoundary fallback={<p>Error</p>}>
+        <Suspense fallback={<p>Loading...</p>}>
+          {/* Trigger effect for setting default selected node */}
+          {contentForSelectedNode.data && ""}
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 };
