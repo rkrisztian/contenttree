@@ -37,10 +37,13 @@ describe("TreePageContext", () => {
       );
 
       const hooks = await renderTreePageContextHooks();
-      await waitForTreePageContextToLoad(hooks);
+      await act(async () => hooks.current.treePageContext.rawNodes.mutate());
+      hooks.current.treePageContext.contentForSelectedNode.mutate();
+      await act(async () => await waitForTreePageContextToLoad(hooks));
+      console.log(hooks.current.treePageContext.treeData);
 
-      expect(hooks.current.treePageContext.treeData.rootNodeId).toBeNullable();
-      expect(hooks.current.treePageContext.contentForSelectedNode.data).toBeNullable();
+      expect.soft(hooks.current.treePageContext.treeData.rootNodeId).toBeNullable();
+      expect.soft(hooks.current.treePageContext.contentForSelectedNode.data).toBeNullable();
     });
   });
 

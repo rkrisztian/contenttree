@@ -5,18 +5,18 @@ import appMessages from "@/i18n/messages/en/app.json";
 import { it } from "@/test-utils/msw-ct";
 import { t, WithTestI18nProvider } from "@/test-utils/test-i18n";
 import { WithBackendApiContextProvider } from "@/test-utils/test-providers";
-import { ErrorFallback } from "./ErrorFallback";
+import { ReloadableError } from "./ReloadableError";
 
-describe("ErrorFallback", () => {
-  const errorText = () => page.getByText(t("app.error-fallback.error-loading"));
+describe("ReloadableError", () => {
+  const errorText = () => page.getByText(t("app.reloadable-error.error-loading"));
   const reloadButton = () =>
-    page.getByRole("button", { name: t("app.error-fallback.reload-button-label") });
+    page.getByRole("button", { name: t("app.reloadable-error.reload-button-label") });
 
   it("should render error message and reload button", async () => {
     await render(
       <WithTestI18nProvider namespace="app" messages={appMessages}>
         <WithBackendApiContextProvider>
-          <ErrorFallback reload={() => {}} />
+          <ReloadableError reload={() => {}} />
         </WithBackendApiContextProvider>
       </WithTestI18nProvider>,
     );
@@ -31,7 +31,7 @@ describe("ErrorFallback", () => {
     await render(
       <WithTestI18nProvider namespace="app" messages={appMessages}>
         <WithBackendApiContextProvider>
-          <ErrorFallback reload={reloadHandler} />
+          <ReloadableError reload={reloadHandler} />
         </WithBackendApiContextProvider>
       </WithTestI18nProvider>,
     );

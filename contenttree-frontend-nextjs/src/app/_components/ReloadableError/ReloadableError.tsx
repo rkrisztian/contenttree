@@ -6,21 +6,21 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useT } from "next-i18next/client";
-import styles from "./ErrorFallback.module.scss";
+import styles from "./ReloadableError.module.scss";
 
-interface ErrorFallbackProps {
+interface ReloadableErrorProps {
   reload: () => void;
 }
 
-export const ErrorFallback = ({ reload }: Readonly<ErrorFallbackProps>) => {
+export const ReloadableError = ({ reload }: Readonly<ReloadableErrorProps>) => {
   const { t } = useT("app");
 
   return (
     <Box className={styles["error-state"]}>
       <CloudOffIcon className={styles["error-icon"]} />
-      <Typography variant="body1">{t("app.error-fallback.error-loading")}</Typography>
+      <Typography variant="body1">{t("app.reloadable-error.error-loading")}</Typography>
       <Button onClick={reload} startIcon={<RefreshIcon />} variant="contained">
-        {t("app.error-fallback.reload-button-label")}
+        {t("app.reloadable-error.reload-button-label")}
       </Button>
     </Box>
   );

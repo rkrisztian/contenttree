@@ -3,15 +3,15 @@ import { provideTranslateServiceForTest, t } from '@/test-utils/test-i18n';
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-angular';
 import { page } from 'vitest/browser';
-import { ErrorFallback } from './error-fallback';
+import { ReloadableError } from './reloadable-error';
 
-describe('ErrorFallback', () => {
-  const errorText = () => page.getByText(t('app.error-fallback.error-loading'));
+describe('ReloadableError', () => {
+  const errorText = () => page.getByText(t('app.reloadable-error.error-loading'));
   const reloadButton = () =>
-    page.getByRole('button', { name: t('app.error-fallback.reload-button-label') });
+    page.getByRole('button', { name: t('app.reloadable-error.reload-button-label') });
 
   it('should render error message and reload button', async () => {
-    await render(ErrorFallback, {
+    await render(ReloadableError, {
       providers: [provideTranslateServiceForTest(appMessages)],
     });
 
@@ -22,7 +22,7 @@ describe('ErrorFallback', () => {
   it('should emit reload event when button is clicked', async () => {
     const reloadHandler = vi.fn();
 
-    await render(ErrorFallback, {
+    await render(ReloadableError, {
       providers: [provideTranslateServiceForTest(appMessages)],
       outputs: {
         reload: reloadHandler,

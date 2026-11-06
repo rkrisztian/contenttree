@@ -1,4 +1,4 @@
-import { ErrorFallback } from '@/app/core/error-handler/error-fallback/error-fallback';
+import { ReloadableError } from '@/app/core/error-handler/reloadable-error/reloadable-error';
 import { TreePageService } from '@/app/tree-page/tree-page.service';
 import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ import { TranslateBlockDirective } from '@ngx-translate/core';
     MatProgressSpinnerModule,
     MatIconModule,
     TranslateBlockDirective,
-    ErrorFallback,
+    ReloadableError,
   ],
   templateUrl: './content-panel.html',
   styleUrl: './content-panel.scss',

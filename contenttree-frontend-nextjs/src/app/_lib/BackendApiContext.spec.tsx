@@ -82,6 +82,7 @@ describe("BackendApiContext", () => {
     });
 
     it("should set loading state on network connection", async ({ server }) => {
+      // Not very testable with Suspense boundaries: fallback elements do not appear in the DOM.
       const hooks = await renderTreePageContextHooks();
       await waitForTreePageContextToLoad(hooks);
       let resolveRequest!: () => void;
@@ -96,21 +97,20 @@ describe("BackendApiContext", () => {
             }),
         ),
       );
+      await act(async () => {
+        hooks.current.treePageContext.toggleSelect(2);
+      });
+      await act(async () => vi.waitUntil(() => !!resolveRequest));
 
-      act(() => hooks.current.treePageContext.toggleSelect(2));
-      await act(() => vi.waitUntil(() => !!resolveRequest));
-      await act(async () =>
-        vi.waitUntil(() => hooks.current.treePageContext.contentForSelectedNode.isLoading),
+      expect(hooks.current.treePageContext.contentForSelectedNode.data?.data).toBe(
+        "Content for root node",
       );
 
-      expect(hooks.current.backendApiContext.loading).toBeTruthy();
+      await act(async () => {
+        resolveRequest();
+      });
 
-      resolveRequest();
-      await act(async () =>
-        vi.waitUntil(() => !hooks.current.treePageContext.contentForSelectedNode.isLoading),
-      );
-
-      expect(hooks.current.backendApiContext.loading).toBeFalsy();
+      expect(hooks.current.treePageContext.contentForSelectedNode.data?.data).toBe("dummy content");
     });
   });
 
@@ -131,67 +131,67 @@ describe("BackendApiContext", () => {
       expect(hooks.current.backendApiContext.errors).toEqual([]);
     });
 
-    it("should update errors when addAndShowError is called", () => {
+    it("should update errors when addAndShowError is called", async () => {
       const errorData = { error: "Dummy error", message: "Dummy message." };
 
-      addError(errorData);
+      await act(async () => addError(errorData));
 
       expect.soft(hooks.current.backendApiContext.errors).toMatchObject([errorData]);
       expect.soft(hooks.current.backendApiContext.latestError).toMatchObject(errorData);
     });
 
-    it("should store all errors", () => {
+    it("should store all errors", async () => {
       const errorData1 = { error: "Dummy error", message: "Dummy message." };
       const errorData2 = { error: "Dummy error 2", message: "Dummy message 2." };
 
-      addError(errorData1);
-      addError(errorData2);
+      await act(async () => addError(errorData1));
+      await act(async () => addError(errorData2));
 
       expect.soft(hooks.current.backendApiContext.errors).toMatchObject([errorData2, errorData1]);
       expect.soft(hooks.current.backendApiContext.latestError).toMatchObject(errorData2);
     });
 
-    it("should hide latest error", () => {
-      const errorData1 = addError({ error: "Dummy error", message: "Dummy message." });
-      const errorData2 = addError({ error: "Dummy error 2", message: "Dummy message 2." });
+    it("should hide latest error", async () => {
+      const errorData1 = await addError({ error: "Dummy error", message: "Dummy message." });
+      const errorData2 = await addError({ error: "Dummy error 2", message: "Dummy message 2." });
 
-      act(() => hooks.current.backendApiContext.hideLatestError());
+      await act(async () => hooks.current.backendApiContext.hideLatestError());
 
       expect.soft(hooks.current.backendApiContext.errors).toEqual([errorData2, errorData1]);
       expect.soft(hooks.current.backendApiContext.latestError).toBeNull();
     });
 
-    it("should remove errorData from errors when deleted", () => {
-      const errorData1 = addError({ error: "Dummy error", message: "Dummy message." });
-      const errorData2 = addError({ error: "Dummy error 2", message: "Dummy message 2." });
+    it("should remove errorData from errors when deleted", async () => {
+      const errorData1 = await addError({ error: "Dummy error", message: "Dummy message." });
+      const errorData2 = await addError({ error: "Dummy error 2", message: "Dummy message 2." });
 
-      act(() => hooks.current.backendApiContext.removeError(errorData1.id));
+      await act(async () => hooks.current.backendApiContext.removeError(errorData1.id));
 
       expect.soft(hooks.current.backendApiContext.errors).toEqual([errorData2]);
       expect.soft(hooks.current.backendApiContext.latestError).toEqual(errorData2);
     });
 
-    it("should hide latest error when deleted", () => {
-      const errorData1 = addError({ error: "Dummy error", message: "Dummy message." });
-      const errorData2 = addError({ error: "Dummy error 2", message: "Dummy message 2." });
+    it("should hide latest error when deleted", async () => {
+      const errorData1 = await addError({ error: "Dummy error", message: "Dummy message." });
+      const errorData2 = await addError({ error: "Dummy error 2", message: "Dummy message 2." });
 
-      act(() => hooks.current.backendApiContext.removeError(errorData2.id));
+      await act(async () => hooks.current.backendApiContext.removeError(errorData2.id));
 
       expect.soft(hooks.current.backendApiContext.errors).toEqual([errorData1]);
       expect.soft(hooks.current.backendApiContext.latestError).toBeNull();
     });
 
-    it("should reset errors to empty when last error becomes deleted", () => {
-      const errorData1 = addError({ error: "Dummy error", message: "Dummy message." });
+    it("should reset errors to empty when last error becomes deleted", async () => {
+      const errorData1 = await addError({ error: "Dummy error", message: "Dummy message." });
 
-      act(() => hooks.current.backendApiContext.removeError(errorData1.id));
+      await act(async () => hooks.current.backendApiContext.removeError(errorData1.id));
 
       expect.soft(hooks.current.backendApiContext.errors).toEqual([]);
       expect.soft(hooks.current.backendApiContext.latestError).toBeNull();
     });
 
-    const addError = (newErrorData: Omit<ErrorData, "id">): ErrorData => {
-      act(() => hooks.current.backendApiContext.addAndShowError(newErrorData));
+    const addError = async (newErrorData: Omit<ErrorData, "id">) => {
+      await act(async () => hooks.current.backendApiContext.addAndShowError(newErrorData));
       return hooks.current.backendApiContext.latestError!;
     };
   });

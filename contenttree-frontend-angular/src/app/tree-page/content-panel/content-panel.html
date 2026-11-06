@@ -16,7 +16,7 @@
         <span>{{ t('tree-page.content-panel.loading-indicator') }}</span>
       </div>
     } @else if (content.error()) {
-      <app-error-fallback (reload)="content.reload()" />
+      <app-reloadable-error (reload)="content.reload()" />
     } @else if (selectedNode() === null || !content.hasValue()) {
       <p class="node-not-selected">{{ t('tree-page.content-panel.node-not-selected') }}</p>
     } @else {

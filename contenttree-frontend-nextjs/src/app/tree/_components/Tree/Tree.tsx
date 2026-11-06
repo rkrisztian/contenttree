@@ -24,12 +24,14 @@ export const Tree = () => {
     setExpansionState,
     selectedNodeId,
     toggleSelect,
-    foundNodes,
+    foundNodes: rawFoundNodes,
     moveNode,
   } = useTreePage();
   const [draggedNodeId, setDraggedNodeId] = useState<number | null>(null);
   const [dragoverNodeId, setDragoverNodeId] = useState<number | null>(null);
   const { t } = useT("tree");
+  const foundNodes =
+    rawFoundNodes.data && !rawFoundNodes.isLoading ? rawFoundNodes.data : undefined;
 
   const toggleExpanded = (event: MouseEvent | null, nodeId: number) => {
     event?.stopPropagation();

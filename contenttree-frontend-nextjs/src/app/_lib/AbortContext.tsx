@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react";
-import useSWR, { type Key, unstable_serialize } from "swr";
+import useSWR, { type Key, type SWRConfiguration, unstable_serialize } from "swr";
 
 export type AbortContextType = {
   withAbort: <Data>(
@@ -72,10 +72,11 @@ export const useAbortContext = () => {
 export const useSwrWithAbort = <Data,>(
   key: Key,
   fetcher: (signal: AbortSignal) => Promise<Data>,
+  options?: SWRConfiguration<Data, Error>,
 ) => {
   const { withAbort } = useAbortContext();
 
-  return useSWR(key, async () => withAbort(convertToCategory(key), fetcher));
+  return useSWR(key, async () => withAbort(convertToCategory(key), fetcher), options);
 };
 
 const convertToCategory = (key: Key) => unstable_serialize(Array.isArray(key) ? key[0] : key);
