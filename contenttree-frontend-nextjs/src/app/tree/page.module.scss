@@ -49,7 +49,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .page-layout {
     flex-direction: row;
     height: calc(100vh - 6rem);

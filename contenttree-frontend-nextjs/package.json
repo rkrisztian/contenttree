@@ -16,9 +16,12 @@
     "test:ct": "npm run test -- --config vitest.ct.config.ts",
     "test:ct:headless": "npm run test:ct -- --browser.headless",
     "install:chromium": "playwright install chromium",
-    "lint": "biome check",
-    "lint:fix": "biome check --fix",
-    "lint:ci": "biome ci",
+    "lint": "npm run lint:biome && npm run lint:dpdm",
+    "lint:biome": "biome check",
+    "lint:fix": "npm run lint:biome:fix",
+    "lint:biome:fix": "biome check --fix",
+    "lint:ci": "npm run lint:biome:ci && npm run lint:dpdm",
+    "lint:biome:ci": "biome ci",
     "lint:dpdm": "dpdm"
   },
   "dependencies": {
@@ -39,7 +42,7 @@
     "swr": "^2.5.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.4",
+    "@biomejs/biome": "^2.6.6",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",

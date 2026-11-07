@@ -17,7 +17,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .router-container .loading-layout {
     flex-direction: row;
     height: calc(100vh - 6rem);

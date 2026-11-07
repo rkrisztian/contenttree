@@ -16,5 +16,7 @@
     "connectionId": "rkrisztian",
     "projectKey": "contenttree-frontend-angular"
   },
-  "sonarlint.disableTelemetry": true
+  "sonarlint.disableTelemetry": true,
+  "stylelint.lintFiles.glob": "**/*.scss",
+  "stylelint.validate": ["scss"]
 }

@@ -23,6 +23,12 @@
         "noUnusedImports": {
           "fix": "safe",
           "level": "error"
+        },
+        "noUnknownPseudoClass": {
+          "level": "on",
+          "options": {
+            "ignore": ["global"]
+          }
         }
       },
       "complexity": {

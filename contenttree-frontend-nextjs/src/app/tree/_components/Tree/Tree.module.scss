@@ -9,27 +9,33 @@
       background-color: var(--mui-palette-LinearProgress-infoBg);
       color: var(--mui-palette-text-primary);
     }
+
     &[aria-selected="true"] {
       background-color: var(--mui-palette-primary-main);
       color: var(--mui-palette-primary-contrastText);
     }
+
     &.dragging {
       background-color: var(--mui-palette-action-disabled);
       color: var(--mui-palette-text-primary);
     }
+
     &.dragged-over {
       background-color: var(--mui-palette-action-selected);
       color: var(--mui-palette-text-primary);
     }
+
     &.not-found {
       color: var(--mui-palette-text-disabled);
 
       &[aria-selected="true"] {
         color: color-mix(in srgb, var(--mui-palette-primary-contrastText) 50%, transparent);
       }
+
       &.dragging {
         color: color-mix(in srgb, var(--mui-palette-text-primary) 50%, transparent);
       }
+
       &.dragged-over {
         color: color-mix(in srgb, var(--mui-palette-text-primary) 50%, transparent);
       }

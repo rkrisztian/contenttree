@@ -11,18 +11,22 @@
       background-color: var(--mat-sys-secondary-container);
       color: var(--mat-sys-on-secondary-container);
     }
+
     &[aria-selected='true'] {
       background-color: var(--mat-sys-primary-container);
       color: var(--mat-sys-on-primary-container);
     }
+
     &.dragging {
       background-color: var(--mat-sys-surface-container-high);
       color: var(--mat-sys-on-surface-variant);
     }
+
     &.dragged-over {
       background-color: var(--mat-sys-surface-container);
       color: var(--mat-sys-on-surface-variant);
     }
+
     &.not-found {
       // Same as `@extend .mat-text-disabled;` but not reusing it for 2 reasons:
       // 1. separation of concerns, 2. optimizing CSS bundle size.
@@ -31,9 +35,11 @@
       &[aria-selected='true'] {
         color: color-mix(in srgb, var(--mat-sys-on-primary-container) 38%, transparent);
       }
+
       &.dragging {
         color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 50%, transparent);
       }
+
       &.dragged-over {
         color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 50%, transparent);
       }
