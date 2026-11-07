@@ -40,10 +40,10 @@ flowchart LR
 		DB1["PostgreSQL<br/>:5432 (dev only)"]
 		DB2["PostgreSQL<br/>:5432 (dev only)"]
 	end
-	FE1 -->|"API calls"| BE1
-	FE2 -->|"API calls"| BE2
-	BE1 -->|"queries"| DB1
-	BE2 -->|"queries"| DB2
+	FE1 -->|" API calls "| BE1
+	FE2 -->|" API calls "| BE2
+	BE1 -->|" queries "| DB1
+	BE2 -->|" queries "| DB2
 ```
 
 Configurable backend targets per frontend are planned but not yet implemented.
@@ -100,6 +100,7 @@ Configurable backend targets per frontend are planned but not yet implemented.
 		<td>
 			<ul>
 				<li><a href="https://eslint.org/">ESLint</a> (code linting)</li>
+				<li><a href="https://stylelint.io/">Stylelint</a> (code linting)</li>
 			</ul>
 		</td>
 	</tr>
