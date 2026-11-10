@@ -13,6 +13,7 @@ plugins {
 	pmd
 	id("jacoco-report-aggregation")
 	alias(libs.plugins.sonarqube)
+	alias(libs.plugins.versions)
 }
 
 buildscript {
@@ -82,6 +83,11 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
+
+	pmdAux(
+		javaToolchains.launcherFor(java.toolchain)
+			.map { it.metadata.installationPath }
+			.map { it.files("lib/jrt-fs.jar") })
 }
 
 // Temporary vulnerability fixes in non-Spring-Boot-managed transitive dependencies:
@@ -352,6 +358,10 @@ sonar {
 
 tasks.sonar {
 	dependsOn(tasks.build)
+}
+
+tasks.dependencyUpdates {
+	rejectPreReleases = true
 }
 
 listOf(

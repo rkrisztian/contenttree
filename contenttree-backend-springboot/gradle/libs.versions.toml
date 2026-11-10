@@ -1,22 +1,23 @@
 [versions]
 mapstruct = "1.6.3"
-pmd = "7.22.0"
+pmd = "7.29.0"
 jjwt = "0.13.0"
 
 [plugins]
 springframeworkBoot = { id = "org.springframework.boot", version = "4.1.1" }
 springDependencyManagement = { id = "io.spring.dependency-management", version = "1.1.7" }
 openapiGradlePlugin = { id = "org.springdoc.openapi-gradle-plugin", version = "1.9.0" }
-netLtgt-errorprone = { id = "net.ltgt.errorprone", version = "5.1.1" }
-netLtgt-nullaway = { id = "net.ltgt.nullaway", version = "3.2.0" }
+netLtgt-errorprone = { id = "net.ltgt.errorprone", version = "5.2.0" }
+netLtgt-nullaway = { id = "net.ltgt.nullaway", version = "3.3.0" }
 sonarqube = { id = "org.sonarqube", version = "7.5.0.8588" }
+versions = { id = "io.github.ben-manes.versions", version = "0.67.0" }
 
 [libraries]
 springdocOpenapiStarterWebmvcUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "3.1.1" }
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstructProcessor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
-errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.50.0" }
-nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.14.2" }
+errorProneCore = { group = "com.google.errorprone", name = "error_prone_core", version = "2.52.0" }
+nullaway = { group = "com.uber.nullaway", name = "nullaway", version = "0.14.3" }
 jjwtApi = { group = "io.jsonwebtoken", name = "jjwt-api", version = "0.13.0" }
 jjwtImpl = { group = "io.jsonwebtoken", name = "jjwt-impl", version = "0.13.0" }
 jjwtJackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version = "0.13.0" }
