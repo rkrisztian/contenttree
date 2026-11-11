@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, VideoMode } from '@playwright/test';
 
 const BASE_URL_FRONTEND_ANGULAR = 'http://localhost:8080';
 const BASE_URL_FRONTEND_NEXTJS = 'http://localhost:3000';
@@ -19,6 +19,19 @@ export default defineConfig({
       snapshots: { dom: true, aria: true, screen: true },
     },
     screenshot: 'only-on-failure',
+    video: {
+      // Off by default (trace is detailed enough); enable on demand for visual/timing regressions.
+      mode: (process.env.E2E_VIDEO_MODE as VideoMode) ?? 'off',
+      show: {
+        actions: {
+          style: {
+            point: 'width: 20px; height: 20px; border-radius: 50%; background: red',
+            highlight: 'outline: 2px solid #333; background: rgba(0, 128, 255, .15)',
+            title: 'font-size: 16px',
+          },
+        },
+      },
+    },
   },
   projects: [
     {

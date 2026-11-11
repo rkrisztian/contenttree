@@ -13,7 +13,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.65.0",
     "@types/node": "^26.6.6",
     "openapi-typescript-codegen": "^0.31.0",
     "prettier": "^3.9.10"
