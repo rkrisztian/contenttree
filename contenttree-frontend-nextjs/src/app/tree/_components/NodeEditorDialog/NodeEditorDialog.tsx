@@ -88,18 +88,14 @@ export default function NodeEditorDialog({
           <Controller
             name="name"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: t("tree-page.node-editor-dialog.node-name-field-required") }}
             render={({ field, fieldState }) => (
               <TextField
                 label={t("tree-page.node-editor-dialog.node-name-field-label")}
                 fullWidth
                 variant="outlined"
                 error={!!fieldState.error}
-                helperText={
-                  fieldState.error
-                    ? t("tree-page.node-editor-dialog.node-name-field-required")
-                    : null
-                }
+                helperText={fieldState.error?.message}
                 className={styles["text-field"]}
                 placeholder={t("tree-page.node-editor-dialog.node-name-field-placeholder")}
                 {...field}
@@ -110,7 +106,7 @@ export default function NodeEditorDialog({
           <Controller
             name="content"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: t("tree-page.node-editor-dialog.node-content-field-required") }}
             render={({ field, fieldState }) => (
               <TextField
                 label={t("tree-page.node-editor-dialog.node-content-field-label")}
@@ -119,11 +115,7 @@ export default function NodeEditorDialog({
                 rows={10}
                 variant="outlined"
                 error={!!fieldState.error}
-                helperText={
-                  fieldState.error
-                    ? t("tree-page.node-editor-dialog.node-content-field-required")
-                    : null
-                }
+                helperText={fieldState.error?.message}
                 className={styles["text-field"]}
                 placeholder={t("tree-page.node-editor-dialog.node-content-field-placeholder")}
                 {...field}

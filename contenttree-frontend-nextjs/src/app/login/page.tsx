@@ -40,14 +40,14 @@ export default function LoginPage() {
             <Controller
               name="username"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: t("login-page.username-field-required") }}
               render={({ field, fieldState }) => (
                 <TextField
                   label={t("login-page.username-field-label")}
                   fullWidth
                   variant="outlined"
                   error={!!fieldState.error}
-                  helperText={fieldState.error ? t("login-page.username-field-required") : null}
+                  helperText={fieldState.error?.message}
                   className={styles["text-field"]}
                   placeholder={t("login-page.username-field-placeholder")}
                   {...field}
@@ -58,7 +58,7 @@ export default function LoginPage() {
             <Controller
               name="password"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: t("login-page.password-field-required") }}
               render={({ field, fieldState }) => (
                 <TextField
                   label={t("login-page.password-field-label")}
@@ -66,7 +66,7 @@ export default function LoginPage() {
                   type="password"
                   variant="outlined"
                   error={!!fieldState.error}
-                  helperText={fieldState.error ? t("login-page.password-field-required") : null}
+                  helperText={fieldState.error?.message}
                   className={styles["text-field"]}
                   placeholder={t("login-page.password-field-placeholder")}
                   {...field}
