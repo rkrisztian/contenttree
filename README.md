@@ -127,7 +127,7 @@ Configurable backend targets per frontend are planned but not yet implemented.
 				<li><a href="https://github.com/ferdikoomen/openapi-typescript-codegen">OpenAPI
 					Typescript Codegen</a> (type-safe API interactions)
 					(<a href="https://github.com/rkrisztian/contenttree/issues/120">to be migrated
-					to `@hey-api/openapi-ts`</a>)</li>
+					to `openapi-typesafe`</a>)</li>
 			</ul>
 		</td>
 		<td>
