@@ -1,5 +1,5 @@
+import type { CreateTreeNodeReqDTO, UpdateTreeNodeReqDTO } from '@/app/api/schema';
 import { TreeApiService } from '@/app/api/tree-api.service';
-import type { CreateTreeNodeReqDTO, UpdateTreeNodeReqDTO } from '@/app/api/types';
 import { ErrorService } from '@/app/core/error-handler/error.service';
 import { afterNextRender, computed, inject, linkedSignal, Service, signal } from '@angular/core';
 import { tap } from 'rxjs';

@@ -1,5 +1,4 @@
 import { AUTH_API_BASE_PATH } from '@/app/api/auth-api.service';
-import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
 import type {
   ContentRespDto,
   CreateTreeNodeReqDTO,
@@ -7,7 +6,8 @@ import type {
   LoginRespDto,
   TreeNodeRespDTO,
   UpdateTreeNodeReqDTO,
-} from '@/app/api/types';
+} from '@/app/api/schema';
+import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
 import { REMOTE_CONFIG_PATH, RemoteConfig } from '@/app/app-config.service';
 import { environment } from '@/environments/environment.development';
 import { http, HttpHandler, HttpResponse } from 'msw/http';

@@ -1,6 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
-import { LoginReqDto } from './types/models/LoginReqDto.js';
-import { LoginRespDto } from './types/models/LoginRespDto.js';
+import { LoginReqDto, LoginRespDto } from './schema';
 
 export const login = async (request: APIRequestContext, username: string, password: string) => {
   const loginResponse = await request.post<LoginRespDto>('/api/auth/login', {

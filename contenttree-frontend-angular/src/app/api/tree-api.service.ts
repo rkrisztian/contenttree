@@ -6,7 +6,7 @@ import type {
   CreateTreeNodeReqDTO,
   TreeNodeRespDTO,
   UpdateTreeNodeReqDTO,
-} from './types';
+} from './schema';
 
 export const TREE_API_BASE_PATH = '/api/tree';
 

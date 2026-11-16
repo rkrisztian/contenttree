@@ -1,4 +1,4 @@
-import type { TreeNodeRespDTO } from '@/app/api/types';
+import type { TreeNodeRespDTO } from '@/app/api/schema';
 import { describe, expect, it } from 'vitest';
 import { TreeData } from './tree-data';
 

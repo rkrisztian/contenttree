@@ -1,4 +1,4 @@
-import type { TreeNodeRespDTO } from '@/app/api/types';
+import type { TreeNodeRespDTO } from '@/app/api/schema';
 
 export interface TreeNodeData {
   id: number;

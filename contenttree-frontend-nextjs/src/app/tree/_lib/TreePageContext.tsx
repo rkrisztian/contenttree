@@ -18,7 +18,7 @@ import type {
   CreateTreeNodeReqDTO,
   TreeNodeRespDTO,
   UpdateTreeNodeReqDTO,
-} from "@/app/_lib/api/types";
+} from "@/app/_lib/api/schema";
 import { useBackendApi } from "@/app/_lib/BackendApiContext";
 import { TreeApi } from "@/app/tree/_lib/api/tree-api";
 import { TreeData } from "./tree-data";

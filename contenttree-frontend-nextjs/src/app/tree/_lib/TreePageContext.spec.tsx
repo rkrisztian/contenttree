@@ -1,7 +1,7 @@
 import { act } from "@testing-library/react";
 import { HttpResponse, http } from "msw/http";
 import { describe, expect } from "vitest";
-import type { ContentRespDto } from "@/app/_lib/api/types";
+import type { ContentRespDto } from "@/app/_lib/api/schema";
 import { TREE_API_BASE_URL } from "@/test-utils/msw-mocks";
 import { it } from "@/test-utils/msw-test";
 import { renderTreePageContextHooks, waitForTreePageContextToLoad } from "@/test-utils/test-hooks";

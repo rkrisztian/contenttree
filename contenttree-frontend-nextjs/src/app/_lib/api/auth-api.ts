@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { RefObject } from "react";
-import type { LoginReqDto, LoginRespDto } from "./types";
+import type { LoginReqDto, LoginRespDto } from "./schema";
 
 export const AUTH_API_BASE_PATH = "/api/auth";
 

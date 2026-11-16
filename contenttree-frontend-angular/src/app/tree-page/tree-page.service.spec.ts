@@ -1,5 +1,5 @@
+import type { ContentRespDto } from '@/app/api/schema';
 import { TREE_API_BASE_PATH } from '@/app/api/tree-api.service';
-import type { ContentRespDto } from '@/app/api/types';
 import { ErrorService } from '@/app/core/error-handler/error.service';
 import { TreePageService } from '@/app/tree-page/tree-page.service';
 import { TreeScrollService } from '@/app/tree-page/tree/tree-scroll.service';

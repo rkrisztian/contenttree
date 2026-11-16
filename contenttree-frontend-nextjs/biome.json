@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!src/app/_lib/api/types"]
+    "includes": ["**", "!src/app/_lib/api/schema.d.ts"]
   },
   "formatter": {
     "enabled": true,

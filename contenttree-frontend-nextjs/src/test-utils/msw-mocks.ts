@@ -7,7 +7,7 @@ import type {
   LoginRespDto,
   TreeNodeRespDTO,
   UpdateTreeNodeReqDTO,
-} from "@/app/_lib/api/types";
+} from "@/app/_lib/api/schema";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 
 export const TREE_API_BASE_URL = `${process.env["API_BASE_URL"]!}${TREE_API_BASE_PATH}`;

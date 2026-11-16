@@ -5,7 +5,7 @@ import { decodeJwt } from "jose";
 import { useRouter } from "next/navigation";
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { AuthApi } from "@/app/_lib/api/auth-api";
-import type { LoginRespDto } from "@/app/_lib/api/types";
+import type { LoginRespDto } from "@/app/_lib/api/schema";
 import { TREE_API_BASE_PATH } from "@/app/tree/_lib/api/tree-api";
 import { useBackendApi } from "./BackendApiContext";
 
