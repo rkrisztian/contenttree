@@ -1,5 +1,5 @@
 import { AuthApiService } from '@/app/api/auth-api.service';
-import type { LoginRespDto } from '@/app/api/types';
+import type { LoginRespDto } from '@/app/api/schema';
 import { Service, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { decodeJwt } from 'jose';

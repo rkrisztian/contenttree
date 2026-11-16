@@ -1,6 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
-import { CreateTreeNodeReqDTO } from './types/models/CreateTreeNodeReqDTO.js';
-import { TreeNodeRespDTO } from './types/models/TreeNodeRespDTO.js';
+import { CreateTreeNodeReqDTO, TreeNodeRespDTO } from './schema';
 
 type Headers = { [key: string]: string };
 

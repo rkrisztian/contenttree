@@ -24,7 +24,7 @@ export default defineConfig({
       enabled: true,
       reporter: ["lcov"],
       include: ["src/**/*.ts?(x)"],
-      exclude: ["src/app/_lib/api/types/**", "src/test-utils/**"],
+      exclude: ["src/app/_lib/api/schema.d.ts", "src/test-utils/**"],
       reportsDirectory: "coverage",
     },
     alias: {

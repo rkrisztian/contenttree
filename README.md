@@ -124,10 +124,7 @@ Configurable backend targets per frontend are planned but not yet implemented.
 		<td>
 			<ul>
 				<li><a href="https://www.postgresql.org/">PostgreSQL</a> (database)</li>
-				<li><a href="https://github.com/ferdikoomen/openapi-typescript-codegen">OpenAPI
-					Typescript Codegen</a> (type-safe API interactions)
-					(<a href="https://github.com/rkrisztian/contenttree/issues/120">to be migrated
-					to `openapi-typesafe`</a>)</li>
+				<li><a href="https://github.com/openapi-typesafe/openapi-typesafe/tree/main">openapi-typesafe</a> (type-safe API interactions)</li>
 			</ul>
 		</td>
 		<td>

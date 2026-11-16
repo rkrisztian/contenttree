@@ -8,14 +8,14 @@
     "test": "playwright test",
     "test:ui": "npm run test -- --ui",
     "install:chromium": "playwright install chromium",
-    "generate:openapi": "openapi --input ../../contenttree-backend-springboot/build/openapi.json --output api/types --exportCore false --exportServices false",
+    "generate:openapi": "openapi-typesafe ../../contenttree-backend-springboot/build/openapi.json --output api/schema.d.ts --root-types --root-types-no-schema-prefix --root-types-keep-casing",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
     "@types/node": "^26.6.6",
-    "openapi-typescript-codegen": "^0.31.0",
+    "openapi-typesafe": "^1.0.0-rc.14",
     "prettier": "^3.9.10"
   }
 }
