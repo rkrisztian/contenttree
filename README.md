@@ -404,7 +404,7 @@ To generate TypeScript types, run the following commands:
 (cd contenttree-frontend-angular && npm run generate:openapi)
 (cd contenttree-backend-nestjs && npm run generate:openapi)
 (cd contenttree-frontend-nextjs && npm run generate:openapi)
-(cd contenttree-deploy/e2e && npm run generate:openapi)
+(cd contenttree-deploy && npm run generate:openapi)
 ```
 
 **Note:** `generateOpenApiDocs` is a standalone task because it is incompatible with Gradle's
