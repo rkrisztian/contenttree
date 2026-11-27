@@ -1,6 +1,5 @@
 import { test as setup } from '@playwright/test';
 import { login } from '../api/auth-api.js';
-import { CreateTreeNodeReqDTO } from '../api/schema';
 import { createNode } from '../api/tree-api.js';
 import { ADMIN_PASSWORD } from './constants.js';
 
@@ -10,5 +9,5 @@ setup('add root node', async ({ request }) => {
   await createNode(request, headers, {
     name: 'Root node',
     content: 'Root content',
-  } satisfies CreateTreeNodeReqDTO);
+  });
 });

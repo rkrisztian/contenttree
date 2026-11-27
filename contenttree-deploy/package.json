@@ -1,0 +1,15 @@
+{
+  "name": "contenttree-deploy",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "generate:openapi": "openapi-typesafe ../contenttree-backend-springboot/build/openapi.json --output api/schema.d.ts --root-types --root-types-no-schema-prefix --root-types-keep-casing"
+  },
+  "workspaces": [
+    "e2e",
+    "loadtest"
+  ],
+  "devDependencies": {
+    "openapi-typesafe": "^1.0.0-rc.14"
+  }
+}

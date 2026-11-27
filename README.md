@@ -133,6 +133,7 @@ Configurable backend targets per frontend are planned but not yet implemented.
 				<li><a href="https://testcontainers.com/">Testcontainers</a> (integration testing)</li>
 				<li><a href="https://mswjs.io/">Mock Service Worker</a> (API mocking)</li>
 				<li><a href="https://playwright.dev/">Playwright</a> (end-to-end testing)</li>
+				<li><a href="https://k6.io/">k6</a> (load testing)</li>
 				<li><a href="https://prettier.io/">Prettier</a> (code formatting)</li>
 				<li><a href="https://www.sonarsource.com/products/sonarqube/cloud/">SonarQube
 					Cloud</a> (code quality & security analysis)</li>
@@ -343,6 +344,21 @@ cd contenttree-deploy/e2e
 npm ci
 npm run install:chromium
 npm test
+```
+
+### Backend Load Tests
+
+This repository includes backend load tests (using k6) that simulate real-user behavior for mixed
+workloads in the open model, with ramp-up and ramp-down stages. The tests are designed to run in
+a development environment, so each test runs for only 1 minute.
+
+To execute the load tests against all backends, run the following commands:
+
+```shell
+cd contenttree-deploy/loadtest
+npm ci
+npm run test:springboot
+npm run test:nestjs
 ```
 
 ## Contribution

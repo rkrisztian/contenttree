@@ -1,0 +1,24 @@
+{
+  "name": "loadtest",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Load testing",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run vendor",
+    "vendor": "node scripts/fetch-vendor.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:springboot",
+    "test:springboot": "k6 run tests/mixed-scenarios.ts",
+    "test:nestjs": "k6 run -e BASE_URL=http://localhost:3001 tests/mixed-scenarios.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/k6": "^2.3.1",
+    "openapi-typesafe": "^1.0.0-rc.14",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2"
+  }
+}
