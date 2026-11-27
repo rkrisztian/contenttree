@@ -8,7 +8,7 @@ jobs:
     name: Build
     defaults:
       run:
-        working-directory: contenttree-deploy/e2e
+        working-directory: contenttree-deploy
     runs-on: ubuntu-latest
     steps:
       - name: (Harden Runner)
@@ -31,12 +31,12 @@ jobs:
       - name: (Set up Node.js)
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
         with:
-          node-version-file: contenttree-deploy/e2e/.node_version
+          node-version-file: contenttree-deploy/.node_version
           cache: 'npm'
-          cache-dependency-path: contenttree-deploy/e2e/package-lock.json
+          cache-dependency-path: contenttree-deploy/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run Formatting Checks
-        run: npm run format:check
+        run: npm run format:check --workspaces

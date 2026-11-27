@@ -102,7 +102,7 @@ jobs:
       - name: (Set up Node.js with Restore-Only Cache)
         uses: ./.github/actions/set-up-node-with-restore-only-cache
         with:
-          node-version-file: contenttree-deploy/e2e/.node_version
+          node-version-file: contenttree-deploy/.node_version
 
       - name: Install dependencies
         run: npm ci
