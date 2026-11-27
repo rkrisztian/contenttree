@@ -153,6 +153,8 @@ Configurable backend targets per frontend are planned but not yet implemented.
 - **Backend (NestJS) and Frontend (Angular and Next.js):**
 	- [Node.js](https://nodejs.org/en)
 	  and [npm](https://nodejs.org/learn/node-api/getting-started/tools#npm)
+- **Backend Load Testing:**
+    - [asdf](https://asdf-vm.com/) with the [k6 plugin](https://github.com/gr1m0h/asdf-k6)
 
 You can install Java and Node.js using
 [a version manager of your choice](https://github.com/bernardoduarte/awesome-version-managers). This
